@@ -4,12 +4,14 @@ import 'package:in_pocket/features/on_boarding/presentation/views/widgets/page_v
 import 'package:in_pocket/generated/l10n.dart';
 
 class OnBoardingPageView extends StatelessWidget {
-  const OnBoardingPageView({super.key, required this.pageController});
+  const OnBoardingPageView(
+      {super.key, required this.pageController, this.onPageChanged});
   final PageController pageController;
-
+  final void Function(int)? onPageChanged;
   @override
   Widget build(BuildContext context) {
     return PageView(
+      onPageChanged: onPageChanged,
       controller: pageController,
       children: [
         PageViewItem(

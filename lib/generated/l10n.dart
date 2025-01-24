@@ -139,6 +139,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Get Started`
+  String get GetStarted {
+    return Intl.message(
+      'Get Started',
+      name: 'GetStarted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next`
+  String get Next {
+    return Intl.message(
+      'Next',
+      name: 'Next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous`
+  String get Previous {
+    return Intl.message(
+      'Previous',
+      name: 'Previous',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
