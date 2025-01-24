@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:in_pocket/constants.dart';
 import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
+import 'package:in_pocket/features/home/presentation/views/home_view.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -42,7 +43,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
   }
 
   void executeNavigation() {
-    bool isOnBoardingViewSeen = Prefs.getBool(kIsOnBoardingViewSeen);
+    // bool isOnBoardingViewSeen = Prefs.getBool(kIsOnBoardingViewSeen);
 
     Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return; // Ensure the widget is still in the widget tree
@@ -56,7 +57,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
       // } else {
       //   Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
       // }
-      // Navigator.pushReplacementNamed(context, HomeView.routeName);
+      Navigator.pushReplacementNamed(context, HomeView.routeName);
     });
   }
 }

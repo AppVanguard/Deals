@@ -5,7 +5,7 @@ import 'package:in_pocket/core/helper_functions/on_generate_routes.dart';
 import 'package:in_pocket/core/manager/cubit/local_cubit.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/generated/l10n.dart';
-import 'package:in_pocket/features/splash_view/presentation/views/splash_view.dart';
+import 'package:in_pocket/features/splash/presentation/views/splash_view.dart';
 
 void main() {
   runApp(
