@@ -2,6 +2,10 @@
 class AppImages {
   AppImages._();
   
+  /// Assets for assetsImagesA
+  /// assets/images/a.svg
+  static const String assetsImagesA = "assets/images/a.svg";
+
   /// Assets for assetsImagesCash
   /// assets/images/cash.svg
   static const String assetsImagesCash = "assets/images/cash.svg";

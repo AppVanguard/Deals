@@ -1,5 +1,11 @@
 {
       "p1OnBoardingTittle": "Save money with us",
-      "p1OnBoardingSubTittleFirstWord":"Deal with",
-      "p1OnBoardingSubTittle":"more than 200 stores offering great cashback and coupons."
+      "p1OnBoardingSubTittleFirstWord": "Deal with",
+      "p1OnBoardingSubTittle": "more than 200 stores offering great cashback and coupons.",
+      "p2OnBoardingTittle": "Explore cashback & coupons",
+      "p2OnBoardingSubTittleFirstWord": "Explore",
+      "p2OnBoardingSubTittle": "several categories of cashback and coupons.",
+      "p3OnBoardingTittle": "Refer and earn",
+      "p3OnBoardingSubTittleFirstWord": "Refer",
+      "p3OnBoardingSubTittle": "your friends and earn 70$ per everyone registers with your referral code. "
 }

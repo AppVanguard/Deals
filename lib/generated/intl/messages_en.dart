@@ -27,6 +27,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "p1OnBoardingSubTittleFirstWord":
             MessageLookupByLibrary.simpleMessage("Deal with"),
         "p1OnBoardingTittle":
-            MessageLookupByLibrary.simpleMessage("Save money with us")
+            MessageLookupByLibrary.simpleMessage("Save money with us"),
+        "p2OnBoardingSubTittle": MessageLookupByLibrary.simpleMessage(
+            "several categories of cashback and coupons."),
+        "p2OnBoardingSubTittleFirstWord":
+            MessageLookupByLibrary.simpleMessage("Explore"),
+        "p2OnBoardingTittle":
+            MessageLookupByLibrary.simpleMessage("Explore cashback & coupons"),
+        "p3OnBoardingSubTittle": MessageLookupByLibrary.simpleMessage(
+            "your friends and earn 70\$ per everyone registers with your referral code. "),
+        "p3OnBoardingSubTittleFirstWord":
+            MessageLookupByLibrary.simpleMessage("Refer"),
+        "p3OnBoardingTittle":
+            MessageLookupByLibrary.simpleMessage("Refer and earn")
       };
 }

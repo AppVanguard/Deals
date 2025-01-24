@@ -79,6 +79,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Explore cashback & coupons`
+  String get p2OnBoardingTittle {
+    return Intl.message(
+      'Explore cashback & coupons',
+      name: 'p2OnBoardingTittle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Explore`
+  String get p2OnBoardingSubTittleFirstWord {
+    return Intl.message(
+      'Explore',
+      name: 'p2OnBoardingSubTittleFirstWord',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `several categories of cashback and coupons.`
+  String get p2OnBoardingSubTittle {
+    return Intl.message(
+      'several categories of cashback and coupons.',
+      name: 'p2OnBoardingSubTittle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refer and earn`
+  String get p3OnBoardingTittle {
+    return Intl.message(
+      'Refer and earn',
+      name: 'p3OnBoardingTittle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refer`
+  String get p3OnBoardingSubTittleFirstWord {
+    return Intl.message(
+      'Refer',
+      name: 'p3OnBoardingSubTittleFirstWord',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `your friends and earn 70$ per everyone registers with your referral code. `
+  String get p3OnBoardingSubTittle {
+    return Intl.message(
+      'your friends and earn 70\$ per everyone registers with your referral code. ',
+      name: 'p3OnBoardingSubTittle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
