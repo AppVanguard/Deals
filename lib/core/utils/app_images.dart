@@ -19,16 +19,16 @@ class AppImages {
   static const String assetsImagesOTB = "assets/images/OTB.svg";
 
   /// Assets for assetsImagesOnBoardingP1
-  /// assets/images/onBoardingP1.svg
-  static const String assetsImagesOnBoardingP1 = "assets/images/onBoardingP1.svg";
+  /// assets/images/onBoardingP1.png
+  static const String assetsImagesOnBoardingP1 = "assets/images/onBoardingP1.png";
 
   /// Assets for assetsImagesOnBoardingP2
-  /// assets/images/onBoardingP2.svg
-  static const String assetsImagesOnBoardingP2 = "assets/images/onBoardingP2.svg";
+  /// assets/images/onBoardingP2.png
+  static const String assetsImagesOnBoardingP2 = "assets/images/onBoardingP2.png";
 
   /// Assets for assetsImagesOnBoardingP3
-  /// assets/images/onBoardingP3.svg
-  static const String assetsImagesOnBoardingP3 = "assets/images/onBoardingP3.svg";
+  /// assets/images/onBoardingP3.png
+  static const String assetsImagesOnBoardingP3 = "assets/images/onBoardingP3.png";
 
   /// Assets for assetsImagesPrivacy
   /// assets/images/privacy.svg

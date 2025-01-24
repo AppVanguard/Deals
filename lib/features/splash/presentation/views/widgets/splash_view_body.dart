@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:in_pocket/constants.dart';
 import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/features/home/presentation/views/home_view.dart';
+import 'package:in_pocket/features/on_boarding/presentation/views/on_boarding_view.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -57,7 +57,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
       // } else {
       //   Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
       // }
-      Navigator.pushReplacementNamed(context, HomeView.routeName);
+      Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
     });
   }
 }
