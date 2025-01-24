@@ -6,6 +6,14 @@ class AppImages {
   /// assets/images/cash.svg
   static const String assetsImagesCash = "assets/images/cash.svg";
 
+  /// Assets for assetsImagesD
+  /// assets/images/d.svg
+  static const String assetsImagesD = "assets/images/d.svg";
+
+  /// Assets for assetsImagesDesign
+  /// assets/images/Design_.svg
+  static const String assetsImagesDesign = "assets/images/Design_.svg";
+
   /// Assets for assetsImagesEmptyBookmarksPage
   /// assets/images/emptyBookmarksPage.svg
   static const String assetsImagesEmptyBookmarksPage = "assets/images/emptyBookmarksPage.svg";
@@ -13,6 +21,26 @@ class AppImages {
   /// Assets for assetsImagesForgetPassword
   /// assets/images/forgetPassword.svg
   static const String assetsImagesForgetPassword = "assets/images/forgetPassword.svg";
+
+  /// Assets for assetsImagesImage
+  /// assets/images/Image.svg
+  static const String assetsImagesImage = "assets/images/Image.svg";
+
+  /// Assets for assetsImagesIphone
+  /// assets/images/iphone.png
+  static const String assetsImagesIphone = "assets/images/iphone.png";
+
+  /// Assets for assetsImagesIphone1
+  /// assets/images/iphone1.svg
+  static const String assetsImagesIphone1 = "assets/images/iphone1.svg";
+
+  /// Assets for assetsImagesIphone13
+  /// assets/images/iphone13.svg
+  static const String assetsImagesIphone13 = "assets/images/iphone13.svg";
+
+  /// Assets for assetsImagesMaskgroup
+  /// assets/images/Maskgroup.svg
+  static const String assetsImagesMaskgroup = "assets/images/Maskgroup.svg";
 
   /// Assets for assetsImagesOTB
   /// assets/images/OTB.svg
@@ -57,5 +85,9 @@ class AppImages {
   /// Assets for assetsImagesTermsAndConditions
   /// assets/images/TermsAndConditions.svg
   static const String assetsImagesTermsAndConditions = "assets/images/TermsAndConditions.svg";
+
+  /// Assets for assetsImagesTest
+  /// assets/images/test.svg
+  static const String assetsImagesTest = "assets/images/test.svg";
 }
 

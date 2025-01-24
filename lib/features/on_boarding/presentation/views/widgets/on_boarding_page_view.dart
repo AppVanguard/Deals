@@ -14,12 +14,12 @@ class OnBoardingPageView extends StatelessWidget {
         PageViewItem(
           image: AppImages.assetsImagesOnBoardingP1,
         ),
-        PageViewItem(
-          image: AppImages.assetsImagesOnBoardingP2,
-        ),
-        PageViewItem(
-          image: AppImages.assetsImagesOnBoardingP3,
-        ),
+        // PageViewItem(
+        //   image: AppImages.assetsImagesOnBoardingP2,
+        // ),
+        // PageViewItem(
+        //   image: AppImages.assetsImagesOnBoardingP3,
+        // ),
       ],
     );
   }

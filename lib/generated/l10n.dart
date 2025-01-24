@@ -49,6 +49,36 @@ class S {
   static S? maybeOf(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
+
+  /// `Save money with us`
+  String get p1OnBoardingTittle {
+    return Intl.message(
+      'Save money with us',
+      name: 'p1OnBoardingTittle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deal with`
+  String get p1OnBoardingSubTittleFirstWord {
+    return Intl.message(
+      'Deal with',
+      name: 'p1OnBoardingSubTittleFirstWord',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `more than 200 stores offering great cashback and coupons.`
+  String get p1OnBoardingSubTittle {
+    return Intl.message(
+      'more than 200 stores offering great cashback and coupons.',
+      name: 'p1OnBoardingSubTittle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
