@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
@@ -103,9 +101,30 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
                           text: S.of(context).Next)),
                 ],
               ),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: S.of(context).HaveAccount,
+                style: AppTextStyles.regular14.copyWith(
+                  color: AppColors.secondaryText,
+                ),
+              ),
+              TextSpan(
+                text: ' ',
+              ),
+              TextSpan(
+                text: S.of(context).Login,
+                style: AppTextStyles.bold14.copyWith(
+                  color: AppColors.primary,
+                ),
+              ),
+            ],
+          ),
+        ),
         SizedBox(
           height: 50,
-        )
+        ),
       ],
     );
   }

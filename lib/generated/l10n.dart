@@ -169,6 +169,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Already have an account ?`
+  String get HaveAccount {
+    return Intl.message(
+      'Already have an account ?',
+      name: 'HaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login`
+  String get Login {
+    return Intl.message(
+      'Login',
+      name: 'Login',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
