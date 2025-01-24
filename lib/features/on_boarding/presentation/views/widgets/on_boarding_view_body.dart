@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:in_pocket/constants.dart';
@@ -99,10 +101,11 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
                                   duration: Duration(milliseconds: 300),
                                   ++currentPage,
                                 )
-                              : Prefs.setBool(kIsOnBoardingViewSeen, true);
-
-                          Navigator.pushReplacementNamed(
-                              context, SplashView.routeName);
+                              : (
+                                  Prefs.setBool(kIsOnBoardingViewSeen, true),
+                                  Navigator.pushReplacementNamed(
+                                      context, SplashView.routeName)
+                                );
                         },
                         text: S.of(context).Next),
                   ),
@@ -117,7 +120,7 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
           },
         ),
         SizedBox(
-          height: 50,
+          height: 64,
         ),
       ],
     );
