@@ -3,11 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:in_pocket/core/helper_functions/on_generate_routes.dart';
 import 'package:in_pocket/core/manager/cubit/local_cubit.dart';
+import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/generated/l10n.dart';
 import 'package:in_pocket/features/splash/presentation/views/splash_view.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Prefs.init();
+
   runApp(
     BlocProvider(
       create: (context) => LocaleCubit(), // Provide LocaleCubit globally

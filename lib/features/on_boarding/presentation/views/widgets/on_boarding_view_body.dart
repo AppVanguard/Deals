@@ -1,8 +1,12 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:in_pocket/constants.dart';
+import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
+import 'package:in_pocket/core/widgets/have_or_not_account.dart';
+import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
 import 'package:in_pocket/features/on_boarding/presentation/views/widgets/on_boarding_page_view.dart';
 import 'package:in_pocket/features/splash/presentation/views/splash_view.dart';
 import 'package:in_pocket/generated/l10n.dart';
@@ -87,40 +91,30 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
                             .copyWith(color: AppColors.tertiaryText),
                       )),
                   Expanded(
-                      child: CustomButton(
-                          onPressed: () {
-                            currentPage == 1
-                                ? pageController.animateToPage(
-                                    curve: Curves.easeIn,
-                                    duration: Duration(milliseconds: 300),
-                                    ++currentPage,
-                                  )
-                                : Navigator.pushReplacementNamed(
-                                    context, SplashView.routeName);
-                          },
-                          text: S.of(context).Next)),
+                    child: CustomButton(
+                        onPressed: () {
+                          currentPage == 1
+                              ? pageController.animateToPage(
+                                  curve: Curves.easeIn,
+                                  duration: Duration(milliseconds: 300),
+                                  ++currentPage,
+                                )
+                              : Prefs.setBool(kIsOnBoardingViewSeen, true);
+
+                          Navigator.pushReplacementNamed(
+                              context, SplashView.routeName);
+                        },
+                        text: S.of(context).Next),
+                  ),
                 ],
               ),
-        Text.rich(
-          TextSpan(
-            children: [
-              TextSpan(
-                text: S.of(context).HaveAccount,
-                style: AppTextStyles.regular14.copyWith(
-                  color: AppColors.secondaryText,
-                ),
-              ),
-              TextSpan(
-                text: ' ',
-              ),
-              TextSpan(
-                text: S.of(context).Login,
-                style: AppTextStyles.bold14.copyWith(
-                  color: AppColors.primary,
-                ),
-              ),
-            ],
-          ),
+        HaveOrNotAccount(
+          question: S.of(context).HaveAccount,
+          action: S.of(context).Login,
+          onTap: () {
+            Prefs.setBool(kIsOnBoardingViewSeen, true);
+            Navigator.pushNamed(context, SigninView.routeName);
+          },
         ),
         SizedBox(
           height: 50,
