@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
 import 'package:in_pocket/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:in_pocket/features/splash/presentation/views/splash_view.dart';
 
@@ -8,6 +9,8 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const SplashView());
     case OnBoardingView.routeName:
       return MaterialPageRoute(builder: (context) => const OnBoardingView());
+    case SigninView.routeName:
+      return MaterialPageRoute(builder: (context) => const SigninView());
     default:
       return MaterialPageRoute(builder: (context) => const Scaffold());
   }
