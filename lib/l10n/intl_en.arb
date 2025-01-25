@@ -16,5 +16,7 @@
       "SignUp": "Sign Up",
       "Email": "Email",
       "Password": "Password",
-      "EmailOrPhone": "Email or phone"
+      "EmailOrPhone": "Email or phone",
+      "RememberMe": "Remember me",
+      "ForgotPassword": "Forgot password?"
 }

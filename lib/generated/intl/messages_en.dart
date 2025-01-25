@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Email": MessageLookupByLibrary.simpleMessage("Email"),
         "EmailOrPhone": MessageLookupByLibrary.simpleMessage("Email or phone"),
+        "ForgotPassword":
+            MessageLookupByLibrary.simpleMessage("Forgot password?"),
         "GetStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
         "HaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account ?"),
@@ -31,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Next": MessageLookupByLibrary.simpleMessage("Next"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
         "Previous": MessageLookupByLibrary.simpleMessage("Previous"),
+        "RememberMe": MessageLookupByLibrary.simpleMessage("Remember me"),
         "SignUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "p1OnBoardingSubTittle": MessageLookupByLibrary.simpleMessage(
             "more than 200 stores offering great cashback and coupons."),
