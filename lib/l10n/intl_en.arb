@@ -17,6 +17,7 @@
       "Email": "Email",
       "Password": "Password",
       "EmailOrPhone": "Email or phone",
-      "RememberMe": "Remember me",
-      "ForgotPassword": "Forgot password?"
+      "RememberMe": "Remember me?",
+      "ForgotPassword": "Forget the password?",
+      "FieldRequired": "This field is required"
 }

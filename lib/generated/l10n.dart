@@ -230,21 +230,31 @@ class S {
     );
   }
 
-  /// `Remember me`
+  /// `Remember me?`
   String get RememberMe {
     return Intl.message(
-      'Remember me',
+      'Remember me?',
       name: 'RememberMe',
       desc: '',
       args: [],
     );
   }
 
-  /// `Forgot password?`
+  /// `Forget the password?`
   String get ForgotPassword {
     return Intl.message(
-      'Forgot password?',
+      'Forget the password?',
       name: 'ForgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This field is required`
+  String get FieldRequired {
+    return Intl.message(
+      'This field is required',
+      name: 'FieldRequired',
       desc: '',
       args: [],
     );

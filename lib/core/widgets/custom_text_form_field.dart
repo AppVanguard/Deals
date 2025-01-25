@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
+import 'package:in_pocket/generated/l10n.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -35,7 +36,7 @@ class CustomTextFormField extends StatelessWidget {
             onSaved: onSaved,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'هذا الحقل مطلوب';
+                return S.of(context).FieldRequired;
               }
               return null;
             },

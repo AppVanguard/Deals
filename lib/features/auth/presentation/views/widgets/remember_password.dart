@@ -13,31 +13,42 @@ class RememberPassword extends StatefulWidget {
 }
 
 class _RememberPasswordState extends State<RememberPassword> {
-  bool isTermsAccepted = false;
+  bool rememberMe = false;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CustomCheckBox(
-          onChecked: (value) {
-            isTermsAccepted = value;
-            widget.onChecked(value);
-            setState(() {});
-          },
-          isChecked: isTermsAccepted,
-        ),
-        const SizedBox(
-          width: 16,
-        ),
-        Expanded(
-          child: Text(
-            S.of(context).RememberMe,
-            style: AppTextStyles.regular14.copyWith(
-              color: AppColors.text,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        children: [
+          CustomCheckBox(
+            onChecked: (value) {
+              rememberMe = value;
+              widget.onChecked(value);
+              setState(() {});
+            },
+            isChecked: rememberMe,
+          ),
+          const SizedBox(
+            width: 16,
+          ),
+          Expanded(
+            child: Text(
+              S.of(context).RememberMe,
+              style: AppTextStyles.regular14.copyWith(
+                color: AppColors.text,
+              ),
             ),
           ),
-        )
-      ],
+          GestureDetector(
+            child: Text(
+              S.of(context).ForgotPassword,
+              style: AppTextStyles.regular14.copyWith(
+                color: AppColors.primary,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
