@@ -6,8 +6,9 @@ import 'package:in_pocket/features/auth/presentation/views/widgets/custom_check_
 import 'package:in_pocket/generated/l10n.dart';
 
 class RememberPassword extends StatefulWidget {
-  const RememberPassword({super.key, required this.onChecked});
+  const RememberPassword({super.key, required this.onChecked, this.onTap});
   final ValueChanged<bool> onChecked;
+  final void Function()? onTap;
   @override
   State<RememberPassword> createState() => _RememberPasswordState();
 }
@@ -40,6 +41,7 @@ class _RememberPasswordState extends State<RememberPassword> {
             ),
           ),
           GestureDetector(
+            onTap: widget.onTap,
             child: Text(
               S.of(context).ForgotPassword,
               style: AppTextStyles.regular14.copyWith(

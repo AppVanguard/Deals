@@ -259,6 +259,16 @@ class S {
       args: [],
     );
   }
+
+  /// `or login with`
+  String get LoginWith {
+    return Intl.message(
+      'or login with',
+      name: 'LoginWith',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
