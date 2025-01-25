@@ -1,10 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:in_pocket/constants.dart';
+import 'package:in_pocket/core/utils/app_text_styles.dart';
+import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
+import 'package:in_pocket/generated/l10n.dart';
 
-class SigninViewBody extends StatelessWidget {
+class SigninViewBody extends StatefulWidget {
   const SigninViewBody({super.key});
 
   @override
+  State<SigninViewBody> createState() => _SigninViewBodyState();
+}
+
+class _SigninViewBodyState extends State<SigninViewBody> {
+  late String email, password;
+  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  late GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return SingleChildScrollView(
+      child: Form(
+        key: formKey,
+        autovalidateMode: autovalidateMode,
+        child: Column(
+          children: [
+            SizedBox(height: 76),
+            Text(appTittle, style: AppTextStyles.bold46),
+            CustomTextFormField(
+                hintText: S.of(context).EmailOrPhone,
+                textInputType: TextInputType.text,
+                label: S.of(context).Email)
+          ],
+        ),
+      ),
+    );
   }
 }

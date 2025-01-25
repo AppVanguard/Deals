@@ -12,5 +12,9 @@
       "Next": "Next",
       "Previous": "Previous",
       "HaveAccount": "Already have an account ?",
-      "Login": "Login"
+      "Login": "Login",
+      "SignUp": "Sign Up",
+      "Email": "Email",
+      "Password": "Password",
+      "EmailOrPhone": "Email or phone"
 }

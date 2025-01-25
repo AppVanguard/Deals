@@ -189,6 +189,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Sign Up`
+  String get SignUp {
+    return Intl.message(
+      'Sign Up',
+      name: 'SignUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email`
+  String get Email {
+    return Intl.message(
+      'Email',
+      name: 'Email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get Password {
+    return Intl.message(
+      'Password',
+      name: 'Password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email or phone`
+  String get EmailOrPhone {
+    return Intl.message(
+      'Email or phone',
+      name: 'EmailOrPhone',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

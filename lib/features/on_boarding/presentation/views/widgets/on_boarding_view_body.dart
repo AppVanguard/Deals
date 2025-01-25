@@ -1,4 +1,3 @@
-
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:in_pocket/constants.dart';
@@ -9,7 +8,6 @@ import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/have_or_not_account.dart';
 import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
 import 'package:in_pocket/features/on_boarding/presentation/views/widgets/on_boarding_page_view.dart';
-import 'package:in_pocket/features/splash/presentation/views/splash_view.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class OnBoardingViewBody extends StatefulWidget {
@@ -103,7 +101,7 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
                               : (
                                   Prefs.setBool(kIsOnBoardingViewSeen, true),
                                   Navigator.pushReplacementNamed(
-                                      context, SplashView.routeName)
+                                      context, SigninView.routeName)
                                 );
                         },
                         text: S.of(context).Next),
