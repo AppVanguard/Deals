@@ -26,11 +26,11 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
           obscureText = !obscureText;
         }),
         icon: obscureText
-            ? const Icon(Icons.remove_red_eye)
-            : const Icon(Icons.visibility_off),
+            ? const Icon(Icons.remove_red_eye_outlined)
+            : const Icon(Icons.visibility_off_outlined),
         color: const Color(0xffc9cecf),
       ),
-      hintText: 'كلمة المرور',
+      hintText: S.of(context).Password,
       textInputType: TextInputType.visiblePassword,
     );
   }
