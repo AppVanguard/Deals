@@ -190,6 +190,26 @@ class S {
     );
   }
 
+  /// `Don’t have an account?`
+  String get DontHaveAccount {
+    return Intl.message(
+      'Don’t have an account?',
+      name: 'DontHaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create account`
+  String get createAccount {
+    return Intl.message(
+      'Create account',
+      name: 'createAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sign Up`
   String get SignUp {
     return Intl.message(

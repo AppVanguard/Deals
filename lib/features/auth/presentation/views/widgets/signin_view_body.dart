@@ -5,8 +5,10 @@ import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/custom_password_filed.dart';
 import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
+import 'package:in_pocket/core/widgets/have_or_not_account.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/auth_divider.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/remember_password.dart';
+import 'package:in_pocket/features/auth/presentation/views/widgets/third_party_auth.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class SigninViewBody extends StatefulWidget {
@@ -59,6 +61,12 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             AuthDivider(
               text: S.of(context).LoginWith,
             ),
+            ThirdPartyAuth(),
+            HaveOrNotAccount(
+              onTap: () {},
+              question: S.of(context).DontHaveAccount,
+              action: S.of(context).createAccount,
+            )
           ],
         ),
       ),

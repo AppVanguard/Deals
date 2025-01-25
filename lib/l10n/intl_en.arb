@@ -13,6 +13,8 @@
       "Previous": "Previous",
       "HaveAccount": "Already have an account ?",
       "Login": "Login",
+      "DontHaveAccount": "Don’t have an account?",
+      "createAccount": "Create account",
       "SignUp": "Sign Up",
       "Email": "Email",
       "Password": "Password",
