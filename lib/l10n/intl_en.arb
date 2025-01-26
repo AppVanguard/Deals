@@ -26,5 +26,11 @@
       "FieldRequired": "This field is required",
       "LoginWith": "or login with",
       "FullName": "Full Name",
-      "Phone": "Phone"
+      "Phone": "Phone",
+      "EPValidator":"Please enter your email or phone.",
+      "PasswordValidator":"Please enter your password.",
+      "FNValidator":"Please enter your full name.",
+      "PhoneValidator":"Please enter your phone.",
+      "EmailValidator":"Please enter your email.",
+      "PasswordNotMatch":"Password not match."
 }

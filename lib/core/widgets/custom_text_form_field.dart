@@ -12,12 +12,18 @@ class CustomTextFormField extends StatelessWidget {
     this.onSaved,
     this.obscureText = false,
     required this.label,
+    required this.validator,
+    this.onChanged,
+    this.onFieldSubmitted,
   });
   final bool obscureText;
   final String hintText, label;
   final TextInputType textInputType;
   final Widget? suffixIcon;
   final void Function(String?)? onSaved;
+  final String? Function(String?) validator;
+  final void Function(String)? onChanged;
+  final void Function(String)? onFieldSubmitted;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,14 +38,11 @@ class CustomTextFormField extends StatelessWidget {
             style: AppTextStyles.regular14.copyWith(color: AppColors.text),
           ),
           TextFormField(
+            onFieldSubmitted: onFieldSubmitted,
+            onChanged: onChanged,
             obscureText: obscureText,
             onSaved: onSaved,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return S.of(context).FieldRequired;
-              }
-              return null;
-            },
+            validator: validator,
             keyboardType: textInputType,
             decoration: InputDecoration(
               suffixIcon: suffixIcon,

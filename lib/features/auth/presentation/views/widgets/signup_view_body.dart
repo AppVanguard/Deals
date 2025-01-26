@@ -36,20 +36,68 @@ class _SignupViewBodyState extends State<SignupViewBody> {
             ),
             SizedBox(),
             CustomTextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return S.of(context).FNValidator;
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  fullName = value!;
+                },
                 hintText: S.of(context).FullName,
                 textInputType: TextInputType.text,
                 label: S.of(context).FullName),
             CustomTextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return S.of(context).EmailValidator;
+                  }
+                  return null;
+                },
                 hintText: S.of(context).Email,
                 textInputType: TextInputType.emailAddress,
                 label: S.of(context).Email),
             CustomPhoneField(
+              onChanged: (value) {
+                phone = value;
+              },
               label: S.of(context).Phone,
             ),
             CustomPasswordField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return S.of(context).PasswordValidator;
+                }
+                return null;
+              },
+              onChanged: (value) {
+                password = value;
+              },
+              onSaved: (value) {
+                password = value!;
+              },
               label: S.of(context).Password,
             ),
-            CustomPasswordField(label: S.of(context).ConfirmPassword),
+            CustomPasswordField(
+              // Validate confirm password
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return S.of(context).FieldRequired;
+                }
+                if (value != password) {
+                  return S.of(context).PasswordNotMatch;
+                }
+                return null;
+              },
+              onChanged: (value) {
+                confirmPassword = value;
+              },
+              label: S.of(context).ConfirmPassword,
+              onSaved: (value) {
+                confirmPassword = value!;
+              },
+            )
           ],
         ),
       ),

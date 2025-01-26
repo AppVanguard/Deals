@@ -28,8 +28,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Create New Account"),
         "DontHaveAccount":
             MessageLookupByLibrary.simpleMessage("Don’t have an account?"),
+        "EPValidator": MessageLookupByLibrary.simpleMessage(
+            "Please enter your email or phone."),
         "Email": MessageLookupByLibrary.simpleMessage("Email"),
         "EmailOrPhone": MessageLookupByLibrary.simpleMessage("Email or phone"),
+        "EmailValidator":
+            MessageLookupByLibrary.simpleMessage("Please enter your email."),
+        "FNValidator": MessageLookupByLibrary.simpleMessage(
+            "Please enter your full name."),
         "FieldRequired":
             MessageLookupByLibrary.simpleMessage("This field is required"),
         "ForgotPassword":
@@ -42,7 +48,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "LoginWith": MessageLookupByLibrary.simpleMessage("or login with"),
         "Next": MessageLookupByLibrary.simpleMessage("Next"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
+        "PasswordNotMatch":
+            MessageLookupByLibrary.simpleMessage("Password not match."),
+        "PasswordValidator":
+            MessageLookupByLibrary.simpleMessage("Please enter your password."),
         "Phone": MessageLookupByLibrary.simpleMessage("Phone"),
+        "PhoneValidator":
+            MessageLookupByLibrary.simpleMessage("Please enter your phone."),
         "Previous": MessageLookupByLibrary.simpleMessage("Previous"),
         "RememberMe": MessageLookupByLibrary.simpleMessage("Remember me?"),
         "SignUp": MessageLookupByLibrary.simpleMessage("Sign Up"),

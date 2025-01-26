@@ -43,11 +43,23 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             ),
             SizedBox(),
             CustomTextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return S.of(context).EPValidator;
+                }
+                return null;
+              },
               hintText: S.of(context).EmailOrPhone,
               textInputType: TextInputType.text,
               label: S.of(context).Email,
             ),
             CustomPasswordField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return S.of(context).PasswordValidator;
+                }
+                return null;
+              },
               label: S.of(context).Password,
             ),
             RememberPassword(

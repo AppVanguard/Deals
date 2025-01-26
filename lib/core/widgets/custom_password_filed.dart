@@ -7,9 +7,15 @@ class CustomPasswordField extends StatefulWidget {
     super.key,
     this.onSaved,
     required this.label,
+    required this.validator,
+    this.onChanged,
+    this.onFieldSubmitted,
   });
   final void Function(String?)? onSaved;
   final String label;
+  final String? Function(String?) validator;
+  final void Function(String)? onChanged;
+  final void Function(String)? onFieldSubmitted;
   @override
   State<CustomPasswordField> createState() => _CustomPasswordFieldState();
 }
@@ -19,6 +25,9 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   @override
   Widget build(BuildContext context) {
     return CustomTextFormField(
+      onChanged: widget.onChanged,
+      onFieldSubmitted: widget.onFieldSubmitted,
+      validator: widget.validator,
       label: widget.label,
       obscureText: obscureText,
       onSaved: widget.onSaved,

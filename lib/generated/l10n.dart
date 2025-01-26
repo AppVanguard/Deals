@@ -329,6 +329,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Please enter your email or phone.`
+  String get EPValidator {
+    return Intl.message(
+      'Please enter your email or phone.',
+      name: 'EPValidator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your password.`
+  String get PasswordValidator {
+    return Intl.message(
+      'Please enter your password.',
+      name: 'PasswordValidator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your full name.`
+  String get FNValidator {
+    return Intl.message(
+      'Please enter your full name.',
+      name: 'FNValidator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your phone.`
+  String get PhoneValidator {
+    return Intl.message(
+      'Please enter your phone.',
+      name: 'PhoneValidator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your email.`
+  String get EmailValidator {
+    return Intl.message(
+      'Please enter your email.',
+      name: 'EmailValidator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password not match.`
+  String get PasswordNotMatch {
+    return Intl.message(
+      'Password not match.',
+      name: 'PasswordNotMatch',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
