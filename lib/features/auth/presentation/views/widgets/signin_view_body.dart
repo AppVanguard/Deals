@@ -6,6 +6,7 @@ import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/custom_password_filed.dart';
 import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
 import 'package:in_pocket/core/widgets/have_or_not_account.dart';
+import 'package:in_pocket/features/auth/presentation/views/signup_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/auth_divider.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/remember_password.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/third_party_auth.dart';
@@ -63,7 +64,9 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             ),
             ThirdPartyAuth(),
             HaveOrNotAccount(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, SignupView.routeName);
+              },
               question: S.of(context).DontHaveAccount,
               action: S.of(context).createAccount,
             )
