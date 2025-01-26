@@ -8,16 +8,19 @@ class ThirdPartyAuth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      spacing: 20,
       children: [
         SvgPicture.asset(
           AppImages.assetsImagesGoogleIcon,
           width: 40,
           height: 40,
         ),
-        Image.asset(
-          AppImages.assetsImagesFacebook,
-          // width: 40,
-          // height: 40,
+        SvgPicture.asset(
+          AppImages.assetsImagesFacebookIcon,
+          width: 40,
+          height: 40,
         ),
       ],
     );
