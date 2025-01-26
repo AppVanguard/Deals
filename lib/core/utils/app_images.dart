@@ -18,17 +18,17 @@ class AppImages {
   /// assets/images/emptyBookmarksPage.svg
   static const String assetsImagesEmptyBookmarksPage = "assets/images/emptyBookmarksPage.svg";
 
-  /// Assets for assetsImagesFacebook
-  /// assets/images/facebook.png
-  static const String assetsImagesFacebook = "assets/images/facebook.png";
+  /// Assets for assetsImagesFacebookIcon
+  /// assets/images/facebook_icon.svg
+  static const String assetsImagesFacebookIcon = "assets/images/facebook_icon.svg";
 
   /// Assets for assetsImagesForgetPassword
   /// assets/images/forgetPassword.svg
   static const String assetsImagesForgetPassword = "assets/images/forgetPassword.svg";
 
-  /// Assets for assetsImagesGoogle
-  /// assets/images/google.svg
-  static const String assetsImagesGoogle = "assets/images/google.svg";
+  /// Assets for assetsImagesGoogleIcon
+  /// assets/images/google_icon.svg
+  static const String assetsImagesGoogleIcon = "assets/images/google_icon.svg";
 
   /// Assets for assetsImagesIphone1
   /// assets/images/iphone1.svg

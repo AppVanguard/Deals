@@ -10,9 +10,9 @@ class ThirdPartyAuth extends StatelessWidget {
     return Row(
       children: [
         SvgPicture.asset(
-          AppImages.assetsImagesGoogle,
-          // width: 40,
-          // height: 40,
+          AppImages.assetsImagesGoogleIcon,
+          width: 40,
+          height: 40,
         ),
         Image.asset(
           AppImages.assetsImagesFacebook,
