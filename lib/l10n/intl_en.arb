@@ -32,5 +32,8 @@
       "FNValidator":"Please enter your full name.",
       "PhoneValidator":"Please enter your phone.",
       "EmailValidator":"Please enter your email.",
-      "PasswordNotMatch":"Password not match."
+      "PasswordNotMatch":"Password not match.",
+      "Register": "Register",
+      "OrRegisterWith": "or register with",
+      "AlreadyHaveAccount": "Already have an account?"
 }

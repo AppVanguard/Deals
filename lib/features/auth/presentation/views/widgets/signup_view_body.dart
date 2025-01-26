@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
+import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/custom_password_filed.dart';
 import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
+import 'package:in_pocket/core/widgets/have_or_not_account.dart';
+import 'package:in_pocket/features/auth/presentation/views/widgets/auth_divider.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/custom_phone_field.dart';
+import 'package:in_pocket/features/auth/presentation/views/widgets/third_party_auth.dart';
 import 'package:in_pocket/generated/l10n.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
@@ -97,7 +101,22 @@ class _SignupViewBodyState extends State<SignupViewBody> {
               onSaved: (value) {
                 confirmPassword = value!;
               },
-            )
+            ),
+            CustomButton(
+              onPressed: () {},
+              text: S.of(context).Register,
+              width: double.infinity,
+            ),
+            AuthDivider(text: S.of(context).OrRegisterWith),
+            ThirdPartyAuth(),
+            HaveOrNotAccount(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              question: S.of(context).AlreadyHaveAccount,
+              action: S.of(context).Login,
+            ),
+            SizedBox(height: 32),
           ],
         ),
       ),

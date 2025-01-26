@@ -389,6 +389,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Register`
+  String get Register {
+    return Intl.message(
+      'Register',
+      name: 'Register',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `or register with`
+  String get OrRegisterWith {
+    return Intl.message(
+      'or register with',
+      name: 'OrRegisterWith',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already have an account?`
+  String get AlreadyHaveAccount {
+    return Intl.message(
+      'Already have an account?',
+      name: 'AlreadyHaveAccount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
