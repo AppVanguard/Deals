@@ -6,9 +6,10 @@ class CustomPasswordField extends StatefulWidget {
   const CustomPasswordField({
     super.key,
     this.onSaved,
+    required this.label,
   });
   final void Function(String?)? onSaved;
-
+  final String label;
   @override
   State<CustomPasswordField> createState() => _CustomPasswordFieldState();
 }
@@ -18,7 +19,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
   @override
   Widget build(BuildContext context) {
     return CustomTextFormField(
-      label: S.of(context).Password,
+      label: widget.label,
       obscureText: obscureText,
       onSaved: widget.onSaved,
       suffixIcon: IconButton(
@@ -30,7 +31,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
             : const Icon(Icons.visibility_off_outlined),
         color: const Color(0xffc9cecf),
       ),
-      hintText: S.of(context).Password,
+      hintText: widget.label,
       textInputType: TextInputType.visiblePassword,
     );
   }

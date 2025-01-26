@@ -47,7 +47,9 @@ class _SigninViewBodyState extends State<SigninViewBody> {
               textInputType: TextInputType.text,
               label: S.of(context).Email,
             ),
-            CustomPasswordField(),
+            CustomPasswordField(
+              label: S.of(context).Password,
+            ),
             RememberPassword(
               onTap: () {},
               onChecked: (value) {

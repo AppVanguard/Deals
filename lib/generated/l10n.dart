@@ -210,6 +210,16 @@ class S {
     );
   }
 
+  /// `Create New Account`
+  String get CreateNewAccount {
+    return Intl.message(
+      'Create New Account',
+      name: 'CreateNewAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sign Up`
   String get SignUp {
     return Intl.message(
@@ -235,6 +245,16 @@ class S {
     return Intl.message(
       'Password',
       name: 'Password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Password`
+  String get ConfirmPassword {
+    return Intl.message(
+      'Confirm Password',
+      name: 'ConfirmPassword',
       desc: '',
       args: [],
     );
@@ -285,6 +305,26 @@ class S {
     return Intl.message(
       'or login with',
       name: 'LoginWith',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Full Name`
+  String get FullName {
+    return Intl.message(
+      'Full Name',
+      name: 'FullName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone`
+  String get Phone {
+    return Intl.message(
+      'Phone',
+      name: 'Phone',
       desc: '',
       args: [],
     );

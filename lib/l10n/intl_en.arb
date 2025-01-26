@@ -15,12 +15,16 @@
       "Login": "Login",
       "DontHaveAccount": "Don’t have an account?",
       "createAccount": "Create account",
+      "CreateNewAccount": "Create New Account",
       "SignUp": "Sign Up",
       "Email": "Email",
       "Password": "Password",
+      "ConfirmPassword": "Confirm Password",
       "EmailOrPhone": "Email or phone",
       "RememberMe": "Remember me?",
       "ForgotPassword": "Forget the password?",
       "FieldRequired": "This field is required",
-      "LoginWith": "or login with"
+      "LoginWith": "or login with",
+      "FullName": "Full Name",
+      "Phone": "Phone"
 }
