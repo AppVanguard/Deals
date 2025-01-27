@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:in_pocket/core/helper_functions/custom_top_snack_bar.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/custom_password_filed.dart';
@@ -147,11 +146,8 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                     });
                   }
                 } else {
-                  phone.number = "2";
-                  log("$phone");
-                  setState(() {
-                    autovalidateMode = AutovalidateMode.always;
-                  });
+                  customErrorTopSnackBar(
+                      context: context, message: S.of(context).PhoneValidator);
                 }
               },
               text: S.of(context).Register,
