@@ -21,7 +21,7 @@ class SignupViewBody extends StatefulWidget {
 class _SignupViewBodyState extends State<SignupViewBody> {
   late String email, fullName, confirmPassword;
   String? password;
-  late PhoneNumber phone;
+  PhoneNumber? phone;
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   late GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
@@ -129,7 +129,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
             ),
             CustomButton(
               onPressed: () {
-                if (phone.isValidNumber()) {
+                if (phone != null && phone!.isValidNumber()) {
                   final isValid = formKey.currentState!.validate();
 
                   if (isValid) {

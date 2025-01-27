@@ -11,5 +11,5 @@ class Prefs {
   static getBool(String key) => _prefs.getBool(key) ?? false;
   static setString(String key, String value) async =>
       await _prefs.setString(key, value);
-  static getString(String key)  => _prefs.getString(key) ?? '';
+  static getString(String key) => _prefs.getString(key) ?? '';
 }

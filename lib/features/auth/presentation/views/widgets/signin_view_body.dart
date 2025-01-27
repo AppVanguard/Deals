@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_pocket/constants.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
@@ -6,6 +7,7 @@ import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/custom_password_filed.dart';
 import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
 import 'package:in_pocket/core/widgets/have_or_not_account.dart';
+import 'package:in_pocket/features/auth/presentation/cubits/signin_cubit/signin_cubit.dart';
 import 'package:in_pocket/features/auth/presentation/views/signup_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/auth_divider.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/remember_password.dart';
@@ -76,7 +78,14 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             AuthDivider(
               text: S.of(context).LoginWith,
             ),
-            ThirdPartyAuth(),
+            ThirdPartyAuth(
+              googleOnTap: () {
+                context.read<SigninCubit>().signInWithGoogle();
+              },
+              facebookOnTap: () {
+                context.read<SigninCubit>().signInWithFacebook();
+              },
+            ),
             HaveOrNotAccount(
               onTap: () {
                 Navigator.pushNamed(context, SignupView.routeName);

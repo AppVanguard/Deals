@@ -10,31 +10,39 @@ import 'package:in_pocket/core/errors/exception.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
+/// A service class that wraps direct calls to Firebase Auth SDK:
+/// 1. createUserWithEmailAndPassword
+/// 2. signInWithEmailAndPassword
+/// 3. Third-party provider sign in (Google, Facebook, Apple)
 class FirebaseAuthService {
-  Future deleteUser() async =>
-      await FirebaseAuth.instance.currentUser!.delete();
-  // Sign in with email and password
-  Future<User> createUserWithEmailAndPassword(
-      {required String email, required String password}) async {
+  /// Create a user with [email] and [password] using FirebaseAuth.
+  /// Returns the [User] object upon success or throws an exception upon failure.
+  Future<User> createUserWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
     try {
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      log(credential.user!.toString());
+      log('FirebaseAuthService: Created user -> ${credential.user?.uid}');
       return credential.user!;
     } on FirebaseAuthException catch (e) {
       log('Error in FirebaseAuthService.createUserWithEmailAndPassword: ${e.code}');
       throw CustomFirebaseException.getFirbaseAuthException(e.code);
     } catch (e) {
-      log('Error in FirebaseAuthService.createUserWithEmailAndPassword: ${e.toString()}');
+      log('Unknown error in createUserWithEmailAndPassword: $e');
       throw CustomExeption('حدث خطأ ما , يرجى المحاولة مرة أخرى');
     }
   }
 
-  Future<User> signInWithEmailAndPassword(
-      {required String email, required String password}) async {
+  /// Sign in a user with [email] and [password].
+  Future<User> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -45,11 +53,12 @@ class FirebaseAuthService {
       log('Error in FirebaseAuthService.signInWithEmailAndPassword: ${e.code}');
       throw CustomFirebaseException.getFirbaseAuthException(e.code);
     } catch (e) {
-      log('Error in FirebaseAuthService.signInWithEmailAndPassword: ${e.toString()}');
+      log('Unknown error in signInWithEmailAndPassword: $e');
       throw CustomExeption('حدث خطأ ما , يرجى المحاولة مرة أخرى');
     }
   }
 
+  /// Sign in with Google using [GoogleSignIn].
   Future<User> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -65,28 +74,34 @@ class FirebaseAuthService {
       log('Error in FirebaseAuthService.signInWithGoogle: ${e.code}');
       throw CustomFirebaseException.getFirbaseAuthException(e.code);
     } catch (e) {
-      log('Error in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
+    log('Error in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
       throw CustomExeption('حدث خطأ ما , يرجى المحاولة مرة أخرى');
     }
   }
 
+  /// Sign in with Facebook using [FacebookAuth].
   Future<User> signInWithFacebook() async {
     final rawNonce = generateNonce();
     final nonce = sha256ofString(rawNonce);
+
     try {
       final LoginResult loginResult = await FacebookAuth.instance.login(
         nonce: nonce,
       );
 
+      if (loginResult.accessToken == null) {
+        throw CustomExeption('Facebook login failed or was cancelled');
+      }
+
       OAuthCredential facebookAuthCredential;
 
+      // Platform check for iOS limited login vs classic
       if (Platform.isIOS) {
         switch (loginResult.accessToken!.type) {
           case AccessTokenType.classic:
             final token = loginResult.accessToken as ClassicToken;
-            facebookAuthCredential = FacebookAuthProvider.credential(
-              token.authenticationToken!,
-            );
+            facebookAuthCredential =
+                FacebookAuthProvider.credential(token.authenticationToken!);
             break;
           case AccessTokenType.limited:
             final token = loginResult.accessToken as LimitedToken;
@@ -99,43 +114,61 @@ class FirebaseAuthService {
             break;
         }
       } else {
+        // Android or other platforms
         facebookAuthCredential = FacebookAuthProvider.credential(
           loginResult.accessToken!.tokenString,
         );
       }
-      return (await FirebaseAuth.instance
-              .signInWithCredential(facebookAuthCredential))
-          .user!;
+
+      final userCred = await FirebaseAuth.instance
+          .signInWithCredential(facebookAuthCredential);
+      return userCred.user!;
     } on FirebaseAuthException catch (e) {
       log('Error in FirebaseAuthService.signInWithFacebook: ${e.code}');
       throw CustomFirebaseException.getFirbaseAuthException(e.code);
     } catch (e) {
-      log('Error in FirebaseAuthService.signInWithFacebook: ${e.toString()}');
+      log('Unknown error in signInWithFacebook: $e');
       throw CustomExeption('حدث خطأ ما , يرجى المحاولة مرة أخرى');
     }
   }
 
+  /// Sign in with Apple using [SignInWithApple].
   Future<User> signInWithApple() async {
     final rawNonce = generateNonce();
     final nonce = sha256ofString(rawNonce);
 
-    final appleCredential = await SignInWithApple.getAppleIDCredential(
-      scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ],
-      nonce: nonce,
-    );
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
 
-    final oauthCredential = OAuthProvider("apple.com").credential(
-      idToken: appleCredential.identityToken,
-      rawNonce: rawNonce,
-    );
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
 
-    return (await FirebaseAuth.instance.signInWithCredential(oauthCredential))
-        .user!;
+      final userCred =
+          await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+      return userCred.user!;
+    } on FirebaseAuthException catch (e) {
+      log('Error in FirebaseAuthService.signInWithApple: ${e.code}');
+      throw CustomFirebaseException.getFirbaseAuthException(e.code);
+    } catch (e) {
+      log('Unknown error in signInWithApple: $e');
+      throw CustomExeption('حدث خطأ ما , يرجى المحاولة مرة أخرى');
+    }
   }
 
+  /// Deletes the currently signed in user from FirebaseAuth.
+  Future<void> deleteUser() async {
+    await FirebaseAuth.instance.currentUser?.delete();
+  }
+
+  /// Utility function to generate a cryptographically secure nonce.
   String generateNonce([int length = 32]) {
     const charset =
         '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
@@ -151,5 +184,6 @@ class FirebaseAuthService {
     return digest.toString();
   }
 
+  /// Checks if there is currently an authenticated user.
   bool isSignedIn() => FirebaseAuth.instance.currentUser != null;
 }
