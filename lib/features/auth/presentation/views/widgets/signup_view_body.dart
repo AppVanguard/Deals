@@ -66,6 +66,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 textInputType: TextInputType.emailAddress,
                 label: S.of(context).Email),
             CustomPhoneField(
+              autovalidateMode: autovalidateMode,
               onSaved: (value) {
                 phone = value!;
               },
@@ -129,18 +130,25 @@ class _SignupViewBodyState extends State<SignupViewBody> {
             ),
             CustomButton(
               onPressed: () {
-                final isValid = formKey.currentState!.validate();
+                if (phone.isValidNumber()) {
+                  final isValid = formKey.currentState!.validate();
 
-                if (isValid) {
-                  // 3. If valid, save all form fields
-                  formKey.currentState!.save();
+                  if (isValid) {
+                    // 3. If valid, save all form fields
+                    formKey.currentState!.save();
 
-                  // Then proceed with your signup logic...
-                  // e.g., call an API, navigate, etc.
+                    // Then proceed with your signup logic...
+                    // e.g., call an API, navigate, etc.
+                  } else {
+                    // If not valid, you can optionally set autovalidateMode
+                    // so that errors appear immediately next time
+                    setState(() {
+                      autovalidateMode = AutovalidateMode.always;
+                    });
+                  }
                 } else {
-                  // If not valid, you can optionally set autovalidateMode
-                  // so that errors appear immediately next time
-                  log("Error");
+                  phone.number = "2";
+                  log("$phone");
                   setState(() {
                     autovalidateMode = AutovalidateMode.always;
                   });

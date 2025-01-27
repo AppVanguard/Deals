@@ -22,6 +22,7 @@ class CustomPhoneField extends StatelessWidget {
   final void Function(String)? onSubmitted;
   final FutureOr<String?> Function(PhoneNumber?)? validator;
   final AutovalidateMode? autovalidateMode;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
