@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
@@ -18,7 +20,8 @@ class SignupViewBody extends StatefulWidget {
 }
 
 class _SignupViewBodyState extends State<SignupViewBody> {
-  late String email, password, fullName, confirmPassword;
+  late String email, fullName, confirmPassword;
+  String? password;
   late PhoneNumber phone;
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   late GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -63,6 +66,9 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 textInputType: TextInputType.emailAddress,
                 label: S.of(context).Email),
             CustomPhoneField(
+              onSaved: (value) {
+                phone = value!;
+              },
               onChanged: (value) {
                 phone = value;
               },
@@ -94,16 +100,52 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 }
                 return null;
               },
-              onChanged: (value) {
-                confirmPassword = value;
-              },
               label: S.of(context).ConfirmPassword,
               onSaved: (value) {
                 confirmPassword = value!;
               },
+              onChanged: (value) {
+                // 1. Set the confirmPassword right away (optional,
+                //    but helps if you want to re-check it immediately)
+                confirmPassword = value;
+
+                // 2. Trigger validation on the entire form
+                final isValid = formKey.currentState!.validate();
+
+                if (isValid) {
+                  // 3. If valid, save all form fields
+                  formKey.currentState!.save();
+
+                  // Then proceed with your signup logic...
+                  // e.g., call an API, navigate, etc.
+                } else {
+                  // If not valid, you can optionally set autovalidateMode
+                  // so that errors appear immediately next time
+                  setState(() {
+                    autovalidateMode = AutovalidateMode.always;
+                  });
+                }
+              },
             ),
             CustomButton(
-              onPressed: () {},
+              onPressed: () {
+                final isValid = formKey.currentState!.validate();
+
+                if (isValid) {
+                  // 3. If valid, save all form fields
+                  formKey.currentState!.save();
+
+                  // Then proceed with your signup logic...
+                  // e.g., call an API, navigate, etc.
+                } else {
+                  // If not valid, you can optionally set autovalidateMode
+                  // so that errors appear immediately next time
+                  log("Error");
+                  setState(() {
+                    autovalidateMode = AutovalidateMode.always;
+                  });
+                }
+              },
               text: S.of(context).Register,
               width: double.infinity,
             ),

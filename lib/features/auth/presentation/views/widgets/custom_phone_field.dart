@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
+import 'package:in_pocket/generated/l10n.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
@@ -11,11 +14,15 @@ class CustomPhoneField extends StatelessWidget {
     this.onChanged,
     this.onSaved,
     this.onSubmitted,
+    this.validator,
+    this.autovalidateMode,
   });
   final String label;
   final void Function(PhoneNumber)? onChanged;
   final void Function(PhoneNumber?)? onSaved;
   final void Function(String)? onSubmitted;
+  final FutureOr<String?> Function(PhoneNumber?)? validator;
+  final AutovalidateMode? autovalidateMode;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,6 +37,8 @@ class CustomPhoneField extends StatelessWidget {
             style: AppTextStyles.regular14.copyWith(color: AppColors.text),
           ),
           IntlPhoneField(
+            autovalidateMode: autovalidateMode,
+            validator: validator,
             decoration: InputDecoration(
               // labelText: 'Phone Number',
               border: OutlineInputBorder(
