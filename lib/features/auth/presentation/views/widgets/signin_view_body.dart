@@ -72,7 +72,15 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             ),
             CustomButton(
               width: double.infinity,
-              onPressed: () {},
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  formKey.currentState!.save();
+                  context.read<SigninCubit>().signInWithEmailAndPassword(
+                        email: email,
+                        password: password,
+                      );
+                }
+              },
               text: S.of(context).Login,
             ),
             AuthDivider(

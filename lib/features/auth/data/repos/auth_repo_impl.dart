@@ -7,7 +7,7 @@ import 'package:in_pocket/core/errors/exception.dart';
 import 'package:in_pocket/core/errors/faliure.dart';
 import 'package:in_pocket/core/service/database_service.dart';
 import 'package:in_pocket/core/service/firebase_auth_service.dart';
-import 'package:in_pocket/core/service/shared_prefrences_singleton%20copy.dart';
+import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
 import 'package:in_pocket/core/utils/backend_endpoints.dart';
 import 'package:in_pocket/features/auth/data/models/user_model.dart';
 import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
@@ -111,35 +111,26 @@ class AuthRepoImpl extends AuthRepo {
     User? user;
     try {
       user = await firebaseAuthService.signInWithGoogle();
-      UserEntity userEntity = UserModel.fromFirebaseUser(user);
-
-      // Check if user doc exists in Firestore
-      var isUserExist = await databaseService.checkIfDataExists(
-        path: BackendEndpoints.isUserExists,
-        documentId: userEntity.uId,
-      );
-
-      // If not, create a new doc. Phone is defaulted to '' in the model
-      if (!isUserExist) {
-        await addUserData(user: userEntity);
-      } else {
-        // Otherwise fetch the existing user data to ensure we have up-to-date info
-        userEntity = await getUserData(uid: userEntity.uId);
-      }
-
-      // Optionally save user data locally
+      var userEntity = UserModel.fromFirebaseUser(user);
       await saveUserData(user: userEntity);
 
+      var isUserExist = await databaseService.checkIfDataExists(
+          path: BackendEndpoints.isUserExists, documentId: userEntity.uId);
+      if (isUserExist) {
+        await getUserData(uid: userEntity.uId);
+      } else {
+        await addUserData(user: userEntity);
+      }
       return right(userEntity);
     } on CustomExeption catch (e) {
       await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
       await deleteUser(user);
-      log('Error in signInWithGoogle: ${e.toString()}');
+
+      log('Error in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
       return left(
-        ServerFaliure(message: 'حدث خطأ ما يرجى المحاولة مرة أخرى لاحقا!'),
-      );
+          ServerFaliure(message: 'حدث خطأ ما يرجى المحاولة مرة أخرى لاحقا!'));
     }
   }
 
