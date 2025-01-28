@@ -14,7 +14,7 @@ class RememberPassword extends StatefulWidget {
 }
 
 class _RememberPasswordState extends State<RememberPassword> {
-  bool rememberMe = false;
+  static bool rememberMe = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,6 +25,7 @@ class _RememberPasswordState extends State<RememberPassword> {
             onChecked: (value) {
               rememberMe = value;
               widget.onChecked(value);
+              
               setState(() {});
             },
             isChecked: rememberMe,

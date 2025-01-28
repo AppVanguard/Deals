@@ -75,7 +75,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
-                  context.read<SigninCubit>().signInWithEmailAndPassword(
+                  context.read<SigninCubit>().signInWithEmailAndPassword(rememberMe: rememberMe,
                         email: email,
                         password: password,
                       );
@@ -88,10 +88,10 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             ),
             ThirdPartyAuth(
               googleOnTap: () {
-                context.read<SigninCubit>().signInWithGoogle();
+                context.read<SigninCubit>().signInWithGoogle(rememberMe: rememberMe);
               },
               facebookOnTap: () {
-                context.read<SigninCubit>().signInWithFacebook();
+                context.read<SigninCubit>().signInWithFacebook(rememberMe: rememberMe);
               },
             ),
             HaveOrNotAccount(

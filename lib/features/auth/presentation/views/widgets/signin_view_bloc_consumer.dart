@@ -4,6 +4,7 @@ import 'package:in_pocket/core/helper_functions/custom_top_snack_bar.dart';
 import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
 import 'package:in_pocket/features/auth/presentation/cubits/signin_cubit/signin_cubit.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/signin_view_body.dart';
+import 'package:in_pocket/features/home/presentation/views/home_view.dart';
 
 class SigninViewBlocConsumer extends StatelessWidget {
   const SigninViewBlocConsumer({
@@ -18,13 +19,13 @@ class SigninViewBlocConsumer extends StatelessWidget {
           customErrorTopSnackBar(context: context, message: state.message);
         }
         if (state is SigninSuccess) {
-          customSuccessTopSnackBar(
-              context: context,
-              message: state.message,
-              displayDuration: const Duration(milliseconds: 50),
-              animationDuration: const Duration(milliseconds: 1000),
-              reverseAnimationDuration: const Duration(milliseconds: 200));
-          // Navigator.pushReplacementNamed(context, HomeView.routeName);
+          // customSuccessTopSnackBar(
+          //     context: context,
+          //     message: state.message,
+          //     displayDuration: const Duration(milliseconds: 50),
+          //     animationDuration: const Duration(milliseconds: 1000),
+          //     reverseAnimationDuration: const Duration(milliseconds: 200));
+          Navigator.pushReplacementNamed(context, HomeView.routeName);
         }
       },
       builder: (context, state) {
@@ -34,6 +35,5 @@ class SigninViewBlocConsumer extends StatelessWidget {
         );
       },
     );
-    
   }
 }

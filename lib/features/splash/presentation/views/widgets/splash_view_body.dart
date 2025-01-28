@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:in_pocket/constants.dart';
+import 'package:in_pocket/core/service/firebase_auth_service.dart';
 import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
+import 'package:in_pocket/features/home/presentation/views/home_view.dart';
 import 'package:in_pocket/features/on_boarding/presentation/views/on_boarding_view.dart';
 
 class SplashViewBody extends StatefulWidget {
@@ -47,18 +49,18 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     bool isOnBoardingViewSeen = Prefs.getBool(kIsOnBoardingViewSeen);
 
     Future.delayed(const Duration(seconds: 2), () {
-      if (!mounted) return; // Ensure the widget is still in the widget tree
+      if (!mounted) return;
+
       if (isOnBoardingViewSeen) {
-        // var isLoggedIn = FirebaseAuthService().isSignedIn();
-        // if (isLoggedIn) {
-        //   Navigator.pushReplacementNamed(context, HomeView.routeName);
-        // } else {
-        Navigator.pushReplacementNamed(context, SigninView.routeName);
-        // }
+        bool isLoggedIn = FirebaseAuthService().isSignedIn();
+        if (isLoggedIn) {
+          Navigator.pushReplacementNamed(context, HomeView.routeName);
+        } else {
+          Navigator.pushReplacementNamed(context, SigninView.routeName);
+        }
       } else {
         Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
       }
-      // Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
     });
   }
 }

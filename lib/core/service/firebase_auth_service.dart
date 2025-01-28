@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:in_pocket/core/errors/custom_firebase_exception.dart';
 import 'package:in_pocket/core/errors/exception.dart';
+import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
 import 'package:in_pocket/generated/l10n.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -186,5 +187,9 @@ class FirebaseAuthService {
   }
 
   /// Checks if there is currently an authenticated user.
-  bool isSignedIn() => FirebaseAuth.instance.currentUser != null;
+  bool isSignedIn() {
+  // Check the rememberMe preference and FirebaseAuth current user
+  bool rememberMe = Prefs.getBool('rememberMe');
+  return FirebaseAuth.instance.currentUser != null && rememberMe;
+}
 }
