@@ -12,6 +12,7 @@ import 'package:in_pocket/core/utils/backend_endpoints.dart';
 import 'package:in_pocket/features/auth/data/models/user_model.dart';
 import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
+import 'package:in_pocket/generated/l10n.dart';
 
 /// An implementation of [AuthRepo] that handles:
 /// 1. Creating users via Email/Password.
@@ -129,8 +130,7 @@ class AuthRepoImpl extends AuthRepo {
       await deleteUser(user);
 
       log('Error in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
-      return left(
-          ServerFaliure(message: 'حدث خطأ ما يرجى المحاولة مرة أخرى لاحقا!'));
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -163,7 +163,7 @@ class AuthRepoImpl extends AuthRepo {
       await deleteUser(user);
       log('Error in signInWithFacebook: ${e.toString()}');
       return left(
-        ServerFaliure(message: 'حدث خطأ ما يرجى المحاولة مرة أخرى لاحقا!'),
+        ServerFaliure(message: S.current.SomethingWentWrong),
       );
     }
   }
