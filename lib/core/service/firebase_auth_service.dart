@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:in_pocket/core/errors/custom_firebase_exception.dart';
 import 'package:in_pocket/core/errors/exception.dart';
+import 'package:in_pocket/generated/l10n.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
@@ -31,10 +32,10 @@ class FirebaseAuthService {
       return credential.user!;
     } on FirebaseAuthException catch (e) {
       log('Error in FirebaseAuthService.createUserWithEmailAndPassword: ${e.code}');
-      throw CustomFirebaseException.getFirbaseAuthException(e.code);
+      throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
       log('Unknown error in createUserWithEmailAndPassword: $e');
-      throw CustomExeption('حدث خطأ ما , يرجى المحاولة مرة أخرى');
+      throw CustomExeption(S.current.SomethingWentWrong);
     }
   }
 
@@ -51,10 +52,10 @@ class FirebaseAuthService {
       return credential.user!;
     } on FirebaseAuthException catch (e) {
       log('Error in FirebaseAuthService.signInWithEmailAndPassword: ${e.code}');
-      throw CustomFirebaseException.getFirbaseAuthException(e.code);
+      throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
       log('Unknown error in signInWithEmailAndPassword: $e');
-      throw CustomExeption('حدث خطأ ما , يرجى المحاولة مرة أخرى');
+      throw CustomExeption(S.current.SomethingWentWrong);
     }
   }
 
@@ -72,10 +73,10 @@ class FirebaseAuthService {
           .user!;
     } on FirebaseAuthException catch (e) {
       log('Error in FirebaseAuthService.signInWithGoogle: ${e.code}');
-      throw CustomFirebaseException.getFirbaseAuthException(e.code);
+      throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
-    log('Error in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
-      throw CustomExeption('حدث خطأ ما , يرجى المحاولة مرة أخرى');
+      log('Error in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
+      throw CustomExeption(S.current.SomethingWentWrong);
     }
   }
 
@@ -90,7 +91,7 @@ class FirebaseAuthService {
       );
 
       if (loginResult.accessToken == null) {
-        throw CustomExeption('Facebook login failed or was cancelled');
+        throw CustomExeption(S.current.FacebookError);
       }
 
       OAuthCredential facebookAuthCredential;
@@ -125,10 +126,10 @@ class FirebaseAuthService {
       return userCred.user!;
     } on FirebaseAuthException catch (e) {
       log('Error in FirebaseAuthService.signInWithFacebook: ${e.code}');
-      throw CustomFirebaseException.getFirbaseAuthException(e.code);
+      throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
       log('Unknown error in signInWithFacebook: $e');
-      throw CustomExeption('حدث خطأ ما , يرجى المحاولة مرة أخرى');
+      throw CustomExeption(S.current.SomethingWentWrong);
     }
   }
 
@@ -156,10 +157,10 @@ class FirebaseAuthService {
       return userCred.user!;
     } on FirebaseAuthException catch (e) {
       log('Error in FirebaseAuthService.signInWithApple: ${e.code}');
-      throw CustomFirebaseException.getFirbaseAuthException(e.code);
+      throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
       log('Unknown error in signInWithApple: $e');
-      throw CustomExeption('حدث خطأ ما , يرجى المحاولة مرة أخرى');
+      throw CustomExeption(S.current.SomethingWentWrong);
     }
   }
 

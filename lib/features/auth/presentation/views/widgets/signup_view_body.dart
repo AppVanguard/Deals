@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_pocket/core/helper_functions/custom_top_snack_bar.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/custom_password_filed.dart';
 import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
 import 'package:in_pocket/core/widgets/have_or_not_account.dart';
+import 'package:in_pocket/features/auth/presentation/cubits/signup_cubit/signup_cubit.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/auth_divider.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/custom_phone_field.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/third_party_auth.dart';
@@ -60,6 +62,12 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                     return S.of(context).EmailValidator;
                   }
                   return null;
+                },
+                onSaved: (value) {
+                  email = value!;
+                },
+                onChanged: (value) {
+                  email = value;
                 },
                 hintText: S.of(context).Email,
                 textInputType: TextInputType.emailAddress,
@@ -135,7 +143,12 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   if (isValid) {
                     // 3. If valid, save all form fields
                     formKey.currentState!.save();
-
+                    context.read<SignupCubit>().createUserWithEmailAndPassword(
+                          email,
+                          password!,
+                          phone!.completeNumber,
+                          fullName,
+                        );
                     // Then proceed with your signup logic...
                     // e.g., call an API, navigate, etc.
                   } else {

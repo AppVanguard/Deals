@@ -38,12 +38,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter your email."),
         "FNValidator": MessageLookupByLibrary.simpleMessage(
             "Please enter your full name."),
+        "FacebookError": MessageLookupByLibrary.simpleMessage(
+            "Facebook login failed or was cancelled"),
         "FieldRequired":
             MessageLookupByLibrary.simpleMessage("This field is required"),
         "ForgotPassword":
             MessageLookupByLibrary.simpleMessage("Forget the password?"),
         "FullName": MessageLookupByLibrary.simpleMessage("Full Name"),
         "GetStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
+        "GoogleError": MessageLookupByLibrary.simpleMessage(
+            "Google login failed or was cancelled"),
         "HaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account ?"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
@@ -63,7 +67,38 @@ class MessageLookup extends MessageLookupByLibrary {
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "RememberMe": MessageLookupByLibrary.simpleMessage("Remember me?"),
         "SignUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
+        "SomethingWentWrong":
+            MessageLookupByLibrary.simpleMessage("Something went wrong"),
+        "UnknowError": MessageLookupByLibrary.simpleMessage("Unknow error"),
+        "accountExistsWithDifferentCredential":
+            MessageLookupByLibrary.simpleMessage(
+                "The account is registered with a different provider. Please log in with the linked provider"),
+        "authDomainConfigRequired": MessageLookupByLibrary.simpleMessage(
+            "Authentication domain settings are missing"),
+        "cancelledPopupRequest":
+            MessageLookupByLibrary.simpleMessage("The popup was cancelled"),
         "createAccount": MessageLookupByLibrary.simpleMessage("Create account"),
+        "credentialAlreadyInUse": MessageLookupByLibrary.simpleMessage(
+            "Credentials are already in use"),
+        "emailAlreadyInUse":
+            MessageLookupByLibrary.simpleMessage("The account already exists"),
+        "internalError":
+            MessageLookupByLibrary.simpleMessage("Something went wrong"),
+        "invalidCredential":
+            MessageLookupByLibrary.simpleMessage("Invalid account credentials"),
+        "invalidEmail":
+            MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
+        "invalidVerificationCode":
+            MessageLookupByLibrary.simpleMessage("Invalid verification code"),
+        "invalidVerificationId":
+            MessageLookupByLibrary.simpleMessage("Invalid verification ID"),
+        "networkRequestFailed":
+            MessageLookupByLibrary.simpleMessage("No internet connection"),
+        "operationNotAllowed":
+            MessageLookupByLibrary.simpleMessage("Registration is not enabled"),
+        "operationNotSupportedInThisEnvironment":
+            MessageLookupByLibrary.simpleMessage(
+                "Authentication is not supported in this environment"),
         "p1OnBoardingSubTittle": MessageLookupByLibrary.simpleMessage(
             "more than 200 stores offering great cashback and coupons."),
         "p1OnBoardingSubTittleFirstWord":
@@ -81,6 +116,26 @@ class MessageLookup extends MessageLookupByLibrary {
         "p3OnBoardingSubTittleFirstWord":
             MessageLookupByLibrary.simpleMessage("Refer"),
         "p3OnBoardingTittle":
-            MessageLookupByLibrary.simpleMessage("Refer and earn")
+            MessageLookupByLibrary.simpleMessage("Refer and earn"),
+        "popupClosedByUser": MessageLookupByLibrary.simpleMessage(
+            "The popup was closed before completing the operation"),
+        "providerAlreadyLinked": MessageLookupByLibrary.simpleMessage(
+            "The account is already linked with another provider"),
+        "requiresRecentLogin": MessageLookupByLibrary.simpleMessage(
+            "Please log in again to complete the operation"),
+        "tooManyRequests": MessageLookupByLibrary.simpleMessage(
+            "You have exceeded the maximum number of attempts"),
+        "unknownError":
+            MessageLookupByLibrary.simpleMessage("An unknown error occurred"),
+        "userDisabled":
+            MessageLookupByLibrary.simpleMessage("The account is disabled"),
+        "userNotFound":
+            MessageLookupByLibrary.simpleMessage("The account does not exist"),
+        "weakPassword":
+            MessageLookupByLibrary.simpleMessage("The password is too weak"),
+        "webStorageUnsupported": MessageLookupByLibrary.simpleMessage(
+            "Web storage is not supported in the current browser"),
+        "wrongPassword":
+            MessageLookupByLibrary.simpleMessage("Incorrect password")
       };
 }
