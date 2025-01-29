@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_pocket/core/helper_functions/custom_top_snack_bar.dart';
 import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
-import 'package:in_pocket/features/auth/presentation/cubits/signin_cubit/signin_cubit.dart';
+import 'package:in_pocket/features/auth/presentation/manager/cubits/signin_cubit/signin_cubit.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/signin_view_body.dart';
 import 'package:in_pocket/features/home/presentation/views/home_view.dart';
 

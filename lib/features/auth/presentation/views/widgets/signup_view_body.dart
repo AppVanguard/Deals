@@ -6,7 +6,7 @@ import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/custom_password_filed.dart';
 import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
 import 'package:in_pocket/core/widgets/have_or_not_account.dart';
-import 'package:in_pocket/features/auth/presentation/cubits/signup_cubit/signup_cubit.dart';
+import 'package:in_pocket/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/auth_divider.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/custom_phone_field.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/third_party_auth.dart';

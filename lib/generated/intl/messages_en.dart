@@ -72,33 +72,33 @@ class MessageLookup extends MessageLookupByLibrary {
         "UnknowError": MessageLookupByLibrary.simpleMessage("Unknow error"),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
-                "The account is registered with a different provider. Please log in with the linked provider"),
+                "The account is registered with a different provider. Please log in with the linked provider."),
         "authDomainConfigRequired": MessageLookupByLibrary.simpleMessage(
-            "Authentication domain settings are missing"),
-        "cancelledPopupRequest":
-            MessageLookupByLibrary.simpleMessage("The popup was cancelled"),
+            "Authentication domain configuration is missing."),
+        "cancelledPopupRequest": MessageLookupByLibrary.simpleMessage(
+            "The popup request was canceled."),
         "createAccount": MessageLookupByLibrary.simpleMessage("Create account"),
         "credentialAlreadyInUse": MessageLookupByLibrary.simpleMessage(
-            "Credentials are already in use"),
+            "The credential is already in use."),
         "emailAlreadyInUse":
-            MessageLookupByLibrary.simpleMessage("The account already exists"),
+            MessageLookupByLibrary.simpleMessage("The account already exists."),
         "internalError":
-            MessageLookupByLibrary.simpleMessage("Something went wrong"),
-        "invalidCredential":
-            MessageLookupByLibrary.simpleMessage("Invalid account credentials"),
-        "invalidEmail":
-            MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
-        "invalidVerificationCode":
-            MessageLookupByLibrary.simpleMessage("Invalid verification code"),
-        "invalidVerificationId":
-            MessageLookupByLibrary.simpleMessage("Invalid verification ID"),
+            MessageLookupByLibrary.simpleMessage("An error occurred."),
+        "invalidCredential": MessageLookupByLibrary.simpleMessage(
+            "The account credentials are invalid."),
+        "invalidEmail": MessageLookupByLibrary.simpleMessage(
+            "Please enter a valid email address."),
+        "invalidVerificationCode": MessageLookupByLibrary.simpleMessage(
+            "The verification code is invalid."),
+        "invalidVerificationId": MessageLookupByLibrary.simpleMessage(
+            "The verification ID is invalid."),
         "networkRequestFailed":
-            MessageLookupByLibrary.simpleMessage("No internet connection"),
-        "operationNotAllowed":
-            MessageLookupByLibrary.simpleMessage("Registration is not enabled"),
+            MessageLookupByLibrary.simpleMessage("No internet connection."),
+        "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
+            "Registration is not enabled."),
         "operationNotSupportedInThisEnvironment":
             MessageLookupByLibrary.simpleMessage(
-                "Authentication is not supported in this environment"),
+                "Authentication is not supported in this environment."),
         "p1OnBoardingSubTittle": MessageLookupByLibrary.simpleMessage(
             "more than 200 stores offering great cashback and coupons."),
         "p1OnBoardingSubTittleFirstWord":
@@ -118,24 +118,24 @@ class MessageLookup extends MessageLookupByLibrary {
         "p3OnBoardingTittle":
             MessageLookupByLibrary.simpleMessage("Refer and earn"),
         "popupClosedByUser": MessageLookupByLibrary.simpleMessage(
-            "The popup was closed before completing the operation"),
+            "The popup window was closed before completing the operation."),
         "providerAlreadyLinked": MessageLookupByLibrary.simpleMessage(
-            "The account is already linked with another provider"),
+            "The account is already linked to a provider."),
         "requiresRecentLogin": MessageLookupByLibrary.simpleMessage(
-            "Please log in again to complete the operation"),
+            "Please log in again to complete the operation."),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
-            "You have exceeded the maximum number of attempts"),
+            "Too many requests have been made."),
         "unknownError":
-            MessageLookupByLibrary.simpleMessage("An unknown error occurred"),
+            MessageLookupByLibrary.simpleMessage("An unknown error occurred."),
         "userDisabled":
-            MessageLookupByLibrary.simpleMessage("The account is disabled"),
+            MessageLookupByLibrary.simpleMessage("The account is disabled."),
         "userNotFound":
-            MessageLookupByLibrary.simpleMessage("The account does not exist"),
+            MessageLookupByLibrary.simpleMessage("The account does not exist."),
         "weakPassword":
-            MessageLookupByLibrary.simpleMessage("The password is too weak"),
+            MessageLookupByLibrary.simpleMessage("The password is too weak."),
         "webStorageUnsupported": MessageLookupByLibrary.simpleMessage(
-            "Web storage is not supported in the current browser"),
+            "Web storage is not supported in the current browser."),
         "wrongPassword":
-            MessageLookupByLibrary.simpleMessage("Incorrect password")
+            MessageLookupByLibrary.simpleMessage("The password is incorrect.")
       };
 }

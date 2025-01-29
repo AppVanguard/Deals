@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_pocket/core/helper_functions/custom_top_snack_bar.dart';
 import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
-import 'package:in_pocket/features/auth/presentation/cubits/signup_cubit/signup_cubit.dart';
+import 'package:in_pocket/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/signup_view_body.dart';
 
 class SignupBlocConsumer extends StatelessWidget {

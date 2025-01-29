@@ -460,230 +460,230 @@ class S {
     );
   }
 
-  /// `The account already exists`
+  /// `The account already exists.`
   String get emailAlreadyInUse {
     return Intl.message(
-      'The account already exists',
+      'The account already exists.',
       name: 'emailAlreadyInUse',
       desc: '',
       args: [],
     );
   }
 
-  /// `The password is too weak`
+  /// `The password is too weak.`
   String get weakPassword {
     return Intl.message(
-      'The password is too weak',
+      'The password is too weak.',
       name: 'weakPassword',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please enter a valid email`
+  /// `Please enter a valid email address.`
   String get invalidEmail {
     return Intl.message(
-      'Please enter a valid email',
+      'Please enter a valid email address.',
       name: 'invalidEmail',
       desc: '',
       args: [],
     );
   }
 
-  /// `Registration is not enabled`
+  /// `Registration is not enabled.`
   String get operationNotAllowed {
     return Intl.message(
-      'Registration is not enabled',
+      'Registration is not enabled.',
       name: 'operationNotAllowed',
       desc: '',
       args: [],
     );
   }
 
-  /// `No internet connection`
+  /// `No internet connection.`
   String get networkRequestFailed {
     return Intl.message(
-      'No internet connection',
+      'No internet connection.',
       name: 'networkRequestFailed',
       desc: '',
       args: [],
     );
   }
 
-  /// `You have exceeded the maximum number of attempts`
+  /// `Too many requests have been made.`
   String get tooManyRequests {
     return Intl.message(
-      'You have exceeded the maximum number of attempts',
+      'Too many requests have been made.',
       name: 'tooManyRequests',
       desc: '',
       args: [],
     );
   }
 
-  /// `The account is disabled`
+  /// `The account is disabled.`
   String get userDisabled {
     return Intl.message(
-      'The account is disabled',
+      'The account is disabled.',
       name: 'userDisabled',
       desc: '',
       args: [],
     );
   }
 
-  /// `The account does not exist`
+  /// `The account does not exist.`
   String get userNotFound {
     return Intl.message(
-      'The account does not exist',
+      'The account does not exist.',
       name: 'userNotFound',
       desc: '',
       args: [],
     );
   }
 
-  /// `Incorrect password`
+  /// `The password is incorrect.`
   String get wrongPassword {
     return Intl.message(
-      'Incorrect password',
+      'The password is incorrect.',
       name: 'wrongPassword',
       desc: '',
       args: [],
     );
   }
 
-  /// `Something went wrong`
+  /// `An error occurred.`
   String get internalError {
     return Intl.message(
-      'Something went wrong',
+      'An error occurred.',
       name: 'internalError',
       desc: '',
       args: [],
     );
   }
 
-  /// `Invalid account credentials`
+  /// `The account credentials are invalid.`
   String get invalidCredential {
     return Intl.message(
-      'Invalid account credentials',
+      'The account credentials are invalid.',
       name: 'invalidCredential',
       desc: '',
       args: [],
     );
   }
 
-  /// `Invalid verification code`
+  /// `The verification code is invalid.`
   String get invalidVerificationCode {
     return Intl.message(
-      'Invalid verification code',
+      'The verification code is invalid.',
       name: 'invalidVerificationCode',
       desc: '',
       args: [],
     );
   }
 
-  /// `Invalid verification ID`
+  /// `The verification ID is invalid.`
   String get invalidVerificationId {
     return Intl.message(
-      'Invalid verification ID',
+      'The verification ID is invalid.',
       name: 'invalidVerificationId',
       desc: '',
       args: [],
     );
   }
 
-  /// `The account is registered with a different provider. Please log in with the linked provider`
+  /// `The account is registered with a different provider. Please log in with the linked provider.`
   String get accountExistsWithDifferentCredential {
     return Intl.message(
-      'The account is registered with a different provider. Please log in with the linked provider',
+      'The account is registered with a different provider. Please log in with the linked provider.',
       name: 'accountExistsWithDifferentCredential',
       desc: '',
       args: [],
     );
   }
 
-  /// `Credentials are already in use`
+  /// `The credential is already in use.`
   String get credentialAlreadyInUse {
     return Intl.message(
-      'Credentials are already in use',
+      'The credential is already in use.',
       name: 'credentialAlreadyInUse',
       desc: '',
       args: [],
     );
   }
 
-  /// `The popup was closed before completing the operation`
+  /// `The popup window was closed before completing the operation.`
   String get popupClosedByUser {
     return Intl.message(
-      'The popup was closed before completing the operation',
+      'The popup window was closed before completing the operation.',
       name: 'popupClosedByUser',
       desc: '',
       args: [],
     );
   }
 
-  /// `Authentication domain settings are missing`
+  /// `Authentication domain configuration is missing.`
   String get authDomainConfigRequired {
     return Intl.message(
-      'Authentication domain settings are missing',
+      'Authentication domain configuration is missing.',
       name: 'authDomainConfigRequired',
       desc: '',
       args: [],
     );
   }
 
-  /// `The popup was cancelled`
+  /// `The popup request was canceled.`
   String get cancelledPopupRequest {
     return Intl.message(
-      'The popup was cancelled',
+      'The popup request was canceled.',
       name: 'cancelledPopupRequest',
       desc: '',
       args: [],
     );
   }
 
-  /// `Authentication is not supported in this environment`
+  /// `Authentication is not supported in this environment.`
   String get operationNotSupportedInThisEnvironment {
     return Intl.message(
-      'Authentication is not supported in this environment',
+      'Authentication is not supported in this environment.',
       name: 'operationNotSupportedInThisEnvironment',
       desc: '',
       args: [],
     );
   }
 
-  /// `The account is already linked with another provider`
+  /// `The account is already linked to a provider.`
   String get providerAlreadyLinked {
     return Intl.message(
-      'The account is already linked with another provider',
+      'The account is already linked to a provider.',
       name: 'providerAlreadyLinked',
       desc: '',
       args: [],
     );
   }
 
-  /// `Please log in again to complete the operation`
+  /// `Please log in again to complete the operation.`
   String get requiresRecentLogin {
     return Intl.message(
-      'Please log in again to complete the operation',
+      'Please log in again to complete the operation.',
       name: 'requiresRecentLogin',
       desc: '',
       args: [],
     );
   }
 
-  /// `Web storage is not supported in the current browser`
+  /// `Web storage is not supported in the current browser.`
   String get webStorageUnsupported {
     return Intl.message(
-      'Web storage is not supported in the current browser',
+      'Web storage is not supported in the current browser.',
       name: 'webStorageUnsupported',
       desc: '',
       args: [],
     );
   }
 
-  /// `An unknown error occurred`
+  /// `An unknown error occurred.`
   String get unknownError {
     return Intl.message(
-      'An unknown error occurred',
+      'An unknown error occurred.',
       name: 'unknownError',
       desc: '',
       args: [],

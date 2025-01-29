@@ -7,7 +7,7 @@ import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/custom_password_filed.dart';
 import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
 import 'package:in_pocket/core/widgets/have_or_not_account.dart';
-import 'package:in_pocket/features/auth/presentation/cubits/signin_cubit/signin_cubit.dart';
+import 'package:in_pocket/features/auth/presentation/manager/cubits/signin_cubit/signin_cubit.dart';
 import 'package:in_pocket/features/auth/presentation/views/signup_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/auth_divider.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/remember_password.dart';
@@ -45,6 +45,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             ),
             SizedBox(),
             CustomTextFormField(
+              onSaved: (value) => email = value!,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return S.of(context).EPValidator;
@@ -56,6 +57,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
               label: S.of(context).Email,
             ),
             CustomPasswordField(
+              onSaved: (value) => password = value!,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return S.of(context).PasswordValidator;
@@ -75,7 +77,8 @@ class _SigninViewBodyState extends State<SigninViewBody> {
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
-                  context.read<SigninCubit>().signInWithEmailAndPassword(rememberMe: rememberMe,
+                  context.read<SigninCubit>().signInWithEmailAndPassword(
+                        rememberMe: rememberMe,
                         email: email,
                         password: password,
                       );
@@ -88,10 +91,14 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             ),
             ThirdPartyAuth(
               googleOnTap: () {
-                context.read<SigninCubit>().signInWithGoogle(rememberMe: rememberMe);
+                context
+                    .read<SigninCubit>()
+                    .signInWithGoogle(rememberMe: rememberMe);
               },
               facebookOnTap: () {
-                context.read<SigninCubit>().signInWithFacebook(rememberMe: rememberMe);
+                context
+                    .read<SigninCubit>()
+                    .signInWithFacebook(rememberMe: rememberMe);
               },
             ),
             HaveOrNotAccount(
