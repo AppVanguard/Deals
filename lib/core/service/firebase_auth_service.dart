@@ -5,6 +5,7 @@ import 'dart:math' as math;
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:in_pocket/constants.dart';
 import 'package:in_pocket/core/errors/custom_firebase_exception.dart';
 import 'package:in_pocket/core/errors/exception.dart';
 import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
@@ -188,8 +189,8 @@ class FirebaseAuthService {
 
   /// Checks if there is currently an authenticated user.
   bool isSignedIn() {
-    // Check the rememberMe preference and FirebaseAuth current user
-    bool rememberMe = Prefs.getBool('rememberMe');
-    return FirebaseAuth.instance.currentUser != null && rememberMe;
-  }
+  // Check the rememberMe preference and FirebaseAuth current user
+  bool rememberMe = Prefs.getBool(kRememberMe);
+  return FirebaseAuth.instance.currentUser != null && rememberMe;
+}
 }

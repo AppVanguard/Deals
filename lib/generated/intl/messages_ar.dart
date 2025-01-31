@@ -51,6 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "فشل تسجيل الدخول عبر جوجل أو تم إلغاؤه"),
         "HaveAccount":
             MessageLookupByLibrary.simpleMessage("هل لديك حساب بالفعل؟"),
+        "JoinNow": MessageLookupByLibrary.simpleMessage("انضم الان"),
         "Login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "LoginWith":
             MessageLookupByLibrary.simpleMessage("أو سجل الدخول بواسطة"),
