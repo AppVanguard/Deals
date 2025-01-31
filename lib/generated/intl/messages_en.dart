@@ -36,6 +36,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "EmailOrPhone": MessageLookupByLibrary.simpleMessage("Email or phone"),
         "EmailValidator":
             MessageLookupByLibrary.simpleMessage("Please enter your email."),
+        "EnterYourEmail":
+            MessageLookupByLibrary.simpleMessage("Enter your email address"),
         "FNValidator": MessageLookupByLibrary.simpleMessage(
             "Please enter your full name."),
         "FacebookError": MessageLookupByLibrary.simpleMessage(
@@ -44,6 +46,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("This field is required"),
         "ForgotPassword":
             MessageLookupByLibrary.simpleMessage("Forget the password?"),
+        "ForgotPasswordTittle":
+            MessageLookupByLibrary.simpleMessage("Forget password"),
         "FullName": MessageLookupByLibrary.simpleMessage("Full Name"),
         "GetStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
         "GoogleError": MessageLookupByLibrary.simpleMessage(
@@ -54,6 +58,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "LoginWith": MessageLookupByLibrary.simpleMessage("or login with"),
         "Next": MessageLookupByLibrary.simpleMessage("Next"),
+        "OTPVerification":
+            MessageLookupByLibrary.simpleMessage("OTP Verification"),
         "OrRegisterWith":
             MessageLookupByLibrary.simpleMessage("or register with"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
@@ -67,10 +73,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "Previous": MessageLookupByLibrary.simpleMessage("Previous"),
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "RememberMe": MessageLookupByLibrary.simpleMessage("Remember me?"),
+        "SendCode": MessageLookupByLibrary.simpleMessage("Send code"),
         "SignUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "SomethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something went wrong"),
         "UnknowError": MessageLookupByLibrary.simpleMessage("Unknow error"),
+        "Verify": MessageLookupByLibrary.simpleMessage("Verify"),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "The account is registered with a different provider. Please log in with the linked provider."),

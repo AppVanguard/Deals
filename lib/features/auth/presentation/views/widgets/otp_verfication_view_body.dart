@@ -1,0 +1,143 @@
+import 'dart:developer';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:in_pocket/core/utils/app_colors.dart';
+import 'package:in_pocket/core/utils/app_text_styles.dart';
+import 'package:in_pocket/core/widgets/custom_button.dart';
+import 'package:in_pocket/generated/l10n.dart';
+
+class OTPVerificationViewBody extends StatefulWidget {
+  const OTPVerificationViewBody({super.key});
+
+  @override
+  State<OTPVerificationViewBody> createState() =>
+      _OTPVerificationViewBodyState();
+}
+
+class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
+  final List<FocusNode> _focusNodes = List.generate(4, (index) => FocusNode());
+  final List<TextEditingController> _controllers =
+      List.generate(4, (index) => TextEditingController());
+  final List<bool> _hasValue = List.generate(4, (index) => false);
+
+  @override
+  void dispose() {
+    for (var node in _focusNodes) {
+      node.dispose();
+    }
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  void _onChanged(String value, int index) {
+    setState(() {
+      _hasValue[index] = value.isNotEmpty;
+    });
+
+    if (value.isNotEmpty) {
+      if (index < 3) {
+        FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
+      } else {
+        _focusNodes[index].unfocus();
+      }
+    }
+  }
+
+  void _onKey(KeyEvent event, int index) {
+    if (event is KeyDownEvent &&
+        event.logicalKey == LogicalKeyboardKey.backspace &&
+        _controllers[index].text.isEmpty) {
+      if (index > 0) {
+        setState(() {
+          _hasValue[index - 1] = false; // Reset border when cleared
+          _controllers[index - 1].clear();
+        });
+        FocusScope.of(context).requestFocus(_focusNodes[index - 1]);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              S.of(context).OTPVerification,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(4, (index) {
+                return Container(
+                  width: 56, // Smaller size for better UI
+                  height: 56,
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Focus(
+                    onKeyEvent: (node, event) {
+                      _onKey(event, index);
+                      return KeyEventResult.ignored;
+                    },
+                    child: TextField(
+                      controller: _controllers[index],
+                      focusNode: _focusNodes[index],
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      maxLength: 1,
+                      style: const TextStyle(
+                        fontSize: 20, // Adjusted text size
+                        fontWeight: FontWeight.w600,
+                      ),
+                      // cursorWidth: 1.5, // Smaller cursor
+                      // cursorHeight: 18,
+                      decoration: InputDecoration(
+                        counterText: "",
+                        enabledBorder: buildBorder(index),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+
+                            width: 2, // Better visibility
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        border: buildBorder(index),
+                      ),
+                      onChanged: (value) => _onChanged(value, index),
+                    ),
+                  ),
+                );
+              }),
+            ),
+            const SizedBox(height: 20),
+            CustomButton(
+              width: double.infinity,
+              onPressed: () {
+                String otpCode = _controllers.map((e) => e.text).join();
+                log("Entered OTP: $otpCode");
+              },
+              text: S.of(context).Verify,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  OutlineInputBorder buildBorder(int index) {
+    return OutlineInputBorder(
+      borderSide: BorderSide(
+        color: _hasValue[index]
+            ? AppColors.primary // Field with value is colored
+            : Colors.grey.shade400, // Default border
+        width: 2, // Better visibility
+      ),
+      borderRadius: BorderRadius.circular(10),
+    );
+  }
+}

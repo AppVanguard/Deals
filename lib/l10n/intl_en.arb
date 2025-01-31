@@ -24,6 +24,8 @@
       "EmailOrPhone": "Email or phone",
       "RememberMe": "Remember me?",
       "ForgotPassword": "Forget the password?",
+      "ForgotPasswordTittle": "Forget password",
+      "EnterYourEmail": "Enter your email address",
       "FieldRequired": "This field is required",
       "LoginWith": "or login with",
       "FullName": "Full Name",
@@ -63,5 +65,8 @@
       "providerAlreadyLinked": "The account is already linked to a provider.",
       "requiresRecentLogin": "Please log in again to complete the operation.",
       "webStorageUnsupported": "Web storage is not supported in the current browser.",
-      "unknownError": "An unknown error occurred."
+      "unknownError": "An unknown error occurred.",
+      "SendCode": "Send code",
+      "Verify": "Verify",
+      "OTPVerification": "OTP Verification"
 }

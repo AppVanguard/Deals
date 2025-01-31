@@ -300,6 +300,26 @@ class S {
     );
   }
 
+  /// `Forget password`
+  String get ForgotPasswordTittle {
+    return Intl.message(
+      'Forget password',
+      name: 'ForgotPasswordTittle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your email address`
+  String get EnterYourEmail {
+    return Intl.message(
+      'Enter your email address',
+      name: 'EnterYourEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `This field is required`
   String get FieldRequired {
     return Intl.message(
@@ -695,6 +715,36 @@ class S {
     return Intl.message(
       'An unknown error occurred.',
       name: 'unknownError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send code`
+  String get SendCode {
+    return Intl.message(
+      'Send code',
+      name: 'SendCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verify`
+  String get Verify {
+    return Intl.message(
+      'Verify',
+      name: 'Verify',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OTP Verification`
+  String get OTPVerification {
+    return Intl.message(
+      'OTP Verification',
+      name: 'OTPVerification',
       desc: '',
       args: [],
     );

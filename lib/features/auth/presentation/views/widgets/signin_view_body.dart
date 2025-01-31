@@ -8,6 +8,7 @@ import 'package:in_pocket/core/widgets/custom_password_filed.dart';
 import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
 import 'package:in_pocket/core/widgets/have_or_not_account.dart';
 import 'package:in_pocket/features/auth/presentation/manager/cubits/signin_cubit/signin_cubit.dart';
+import 'package:in_pocket/features/auth/presentation/views/forget_password_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/signup_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/auth_divider.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/remember_password.dart';
@@ -67,7 +68,9 @@ class _SigninViewBodyState extends State<SigninViewBody> {
               label: S.of(context).Password,
             ),
             RememberPassword(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, ForgetPasswordView.routeName);
+              },
               onChecked: (value) {
                 rememberMe = value;
               },
