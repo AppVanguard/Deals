@@ -39,87 +39,89 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 34,
-        ),
-        Expanded(
-          child: OnBoardingPageView(
-            onPageChanged: (index) {
-              currentPage = index;
-              // log(currentPage.toString());
-            },
-            pageController: pageController,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 34,
           ),
-        ),
-        DotsIndicator(
-          dotsCount: 3,
-          position: currentPage,
-          decorator: DotsDecorator(
-            activeColor: AppColors.primary,
-            color: AppColors.lightPrimary,
+          Expanded(
+            child: OnBoardingPageView(
+              onPageChanged: (index) {
+                currentPage = index;
+                // log(currentPage.toString());
+              },
+              pageController: pageController,
+            ),
           ),
-        ),
-        currentPage == 0
-            ? CustomButton(
-                width: double.infinity,
-                onPressed: () {
-                  pageController.animateToPage(
-                    curve: Curves.easeIn,
-                    duration: Duration(milliseconds: 300),
-                    ++currentPage,
-                  );
-                },
-                text: S.of(context).GetStarted)
-            : Row(
-                spacing: 10,
-                children: [
-                  SizedBox(width: 10),
-                  TextButton(
-                      onPressed: () {
-                        pageController.animateToPage(
-                          curve: Curves.easeIn,
-                          duration: Duration(milliseconds: 300),
-                          --currentPage,
-                        );
-                      },
-                      child: Text(
-                        S.of(context).Previous,
-                        style: AppTextStyles.bold14
-                            .copyWith(color: AppColors.tertiaryText),
-                      )),
-                  Expanded(
-                    child: CustomButton(
+          DotsIndicator(
+            dotsCount: 3,
+            position: currentPage,
+            decorator: DotsDecorator(
+              activeColor: AppColors.primary,
+              color: AppColors.lightPrimary,
+            ),
+          ),
+          currentPage == 0
+              ? CustomButton(
+                  width: double.infinity,
+                  onPressed: () {
+                    pageController.animateToPage(
+                      curve: Curves.easeIn,
+                      duration: Duration(milliseconds: 300),
+                      ++currentPage,
+                    );
+                  },
+                  text: S.of(context).GetStarted)
+              : Row(
+                  spacing: 10,
+                  children: [
+                    SizedBox(width: 10),
+                    TextButton(
                         onPressed: () {
-                          currentPage == 1
-                              ? pageController.animateToPage(
-                                  curve: Curves.easeIn,
-                                  duration: Duration(milliseconds: 300),
-                                  ++currentPage,
-                                )
-                              : (
-                                  Prefs.setBool(kIsOnBoardingViewSeen, true),
-                                  Navigator.pushReplacementNamed(
-                                      context, SigninView.routeName)
-                                );
+                          pageController.animateToPage(
+                            curve: Curves.easeIn,
+                            duration: Duration(milliseconds: 300),
+                            --currentPage,
+                          );
                         },
-                        text: S.of(context).Next),
-                  ),
-                ],
-              ),
-        HaveOrNotAccount(
-          question: S.of(context).HaveAccount,
-          action: S.of(context).Login,
-          onTap: () {
-            Prefs.setBool(kIsOnBoardingViewSeen, true);
-            Navigator.pushNamed(context, SigninView.routeName);
-          },
-        ),
-        SizedBox(
-          height: 64,
-        ),
-      ],
+                        child: Text(
+                          S.of(context).Previous,
+                          style: AppTextStyles.bold14
+                              .copyWith(color: AppColors.tertiaryText),
+                        )),
+                    Expanded(
+                      child: CustomButton(
+                          onPressed: () {
+                            currentPage == 1
+                                ? pageController.animateToPage(
+                                    curve: Curves.easeIn,
+                                    duration: Duration(milliseconds: 300),
+                                    ++currentPage,
+                                  )
+                                : (
+                                    Prefs.setBool(kIsOnBoardingViewSeen, true),
+                                    Navigator.pushReplacementNamed(
+                                        context, SigninView.routeName)
+                                  );
+                          },
+                          text: S.of(context).Next),
+                    ),
+                  ],
+                ),
+          HaveOrNotAccount(
+            question: S.of(context).HaveAccount,
+            action: S.of(context).Login,
+            onTap: () {
+              Prefs.setBool(kIsOnBoardingViewSeen, true);
+              Navigator.pushNamed(context, SigninView.routeName);
+            },
+          ),
+          SizedBox(
+            height: 64,
+          ),
+        ],
+      ),
     );
   }
 }
