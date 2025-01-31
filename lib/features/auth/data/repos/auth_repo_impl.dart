@@ -45,7 +45,7 @@ class AuthRepoImpl extends AuthRepo {
       );
 
       // Optionally update the displayName in FirebaseAuth (not necessary for Firestore storage).
-      if (user != null && name.isNotEmpty) {
+      if (name.isNotEmpty) {
         await user.updateDisplayName(name);
       }
 
