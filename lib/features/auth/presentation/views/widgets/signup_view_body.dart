@@ -66,9 +66,6 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 onSaved: (value) {
                   email = value!;
                 },
-                onChanged: (value) {
-                  email = value;
-                },
                 hintText: S.of(context).Email,
                 textInputType: TextInputType.emailAddress,
                 label: S.of(context).Email),
@@ -76,9 +73,6 @@ class _SignupViewBodyState extends State<SignupViewBody> {
               autovalidateMode: autovalidateMode,
               onSaved: (value) {
                 phone = value!;
-              },
-              onChanged: (value) {
-                phone = value;
               },
               label: S.of(context).Phone,
             ),
@@ -89,11 +83,11 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 }
                 return null;
               },
-              onChanged: (value) {
-                password = value;
-              },
               onSaved: (value) {
                 password = value!;
+              },
+              onChanged: (value) {
+                password = value;
               },
               label: S.of(context).Password,
             ),
@@ -120,7 +114,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                 // 2. Trigger validation on the entire form
                 final isValid = formKey.currentState!.validate();
 
-                if (isValid) {
+                if (!isValid) {
                   // 3. If valid, save all form fields
                   formKey.currentState!.save();
 
@@ -141,7 +135,6 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   final isValid = formKey.currentState!.validate();
 
                   if (isValid) {
-                    // 3. If valid, save all form fields
                     formKey.currentState!.save();
                     context.read<SignupCubit>().createUserWithEmailAndPassword(
                           email,
@@ -149,11 +142,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                           phone!.completeNumber,
                           fullName,
                         );
-                    // Then proceed with your signup logic...
-                    // e.g., call an API, navigate, etc.
                   } else {
-                    // If not valid, you can optionally set autovalidateMode
-                    // so that errors appear immediately next time
                     setState(() {
                       autovalidateMode = AutovalidateMode.always;
                     });

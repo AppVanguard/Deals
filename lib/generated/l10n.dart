@@ -809,6 +809,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Reset password`
+  String get ResetPassword {
+    return Intl.message(
+      'Reset password',
+      name: 'ResetPassword',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

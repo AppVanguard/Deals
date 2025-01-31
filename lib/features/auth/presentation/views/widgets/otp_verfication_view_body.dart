@@ -7,6 +7,7 @@ import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
+import 'package:in_pocket/features/auth/presentation/views/reset_password_view.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class OTPVerificationViewBody extends StatefulWidget {
@@ -85,7 +86,7 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     if (!hasEmptyFields) {
       String otpCode = _controllers.map((e) => e.text).join();
       log("Entered OTP: $otpCode");
-      Navigator.of(context).pop();
+      Navigator.pushReplacementNamed(context, ResetPasswordView.routeName);
     }
   }
 
@@ -196,6 +197,7 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                           text: S.of(context).NoCode,
                           style: AppTextStyles.regular14
                               .copyWith(color: AppColors.secondaryText)),
+                      TextSpan(text: ' '),
                       TextSpan(
                         recognizer: TapGestureRecognizer()..onTap = () {},
                         text: S.of(context).Resend,

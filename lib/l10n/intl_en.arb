@@ -74,5 +74,6 @@
       "InvalidCode": "Invalid code",
       "NoCode": "Did not receive any code?",
       "Resend": "Resend",
-      "ResendCode": "Resend code"
+      "ResendCode": "Resend code",
+      "ResetPassword": "Reset password"
 }
