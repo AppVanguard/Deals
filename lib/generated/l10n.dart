@@ -60,6 +60,16 @@ class S {
     );
   }
 
+  /// `Join now`
+  String get JoinNow {
+    return Intl.message(
+      'Join now',
+      name: 'JoinNow',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Deal with`
   String get p1OnBoardingSubTittleFirstWord {
     return Intl.message(

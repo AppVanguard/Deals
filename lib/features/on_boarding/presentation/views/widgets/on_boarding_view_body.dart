@@ -1,5 +1,5 @@
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:in_pocket/constants.dart';
 import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
@@ -20,13 +20,14 @@ class OnBoardingViewBody extends StatefulWidget {
 class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
   late PageController pageController;
   var currentPage = 0;
-  @override
+
   @override
   void initState() {
     pageController = PageController();
     pageController.addListener(() {
-      currentPage = pageController.page!.round();
-      setState(() {});
+      setState(() {
+        currentPage = pageController.page!.round();
+      });
     });
     super.initState();
   }
@@ -39,88 +40,109 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 34,
-          ),
-          Expanded(
-            child: OnBoardingPageView(
-              onPageChanged: (index) {
-                currentPage = index;
-                // log(currentPage.toString());
-              },
-              pageController: pageController,
-            ),
-          ),
-          DotsIndicator(
-            dotsCount: 3,
-            position: currentPage,
-            decorator: DotsDecorator(
-              activeColor: AppColors.primary,
-              color: AppColors.lightPrimary,
-            ),
-          ),
-          currentPage == 0
-              ? CustomButton(
-                  width: double.infinity,
-                  onPressed: () {
-                    pageController.animateToPage(
-                      curve: Curves.easeIn,
-                      duration: Duration(milliseconds: 300),
-                      ++currentPage,
-                    );
-                  },
-                  text: S.of(context).GetStarted)
-              : Row(
-                  spacing: 10,
-                  children: [
-                    SizedBox(width: 10),
-                    TextButton(
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(height: 34),
+
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: OnBoardingPageView(
+                    onPageChanged: (index) {
+                      setState(() {
+                        currentPage = index;
+                      });
+                    },
+                    pageController: pageController,
+                  ),
+                ),
+              ),
+              DotsIndicator(
+                dotsCount: 3,
+                position: currentPage,
+                decorator: DotsDecorator(
+                  activeColor: AppColors.primary,
+                  color: AppColors.lightPrimary,
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: currentPage == 0
+                    ? CustomButton(
+                        width: double.infinity,
                         onPressed: () {
                           pageController.animateToPage(
+                            currentPage + 1,
+                            duration: const Duration(milliseconds: 300),
                             curve: Curves.easeIn,
-                            duration: Duration(milliseconds: 300),
-                            --currentPage,
                           );
                         },
-                        child: Text(
-                          S.of(context).Previous,
-                          style: AppTextStyles.bold14
-                              .copyWith(color: AppColors.tertiaryText),
-                        )),
-                    Expanded(
-                      child: CustomButton(
-                          onPressed: () {
-                            currentPage == 1
-                                ? pageController.animateToPage(
-                                    curve: Curves.easeIn,
-                                    duration: Duration(milliseconds: 300),
-                                    ++currentPage,
+                        text: S.of(context).GetStarted,
+                      )
+                    : Row(
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              pageController.animateToPage(
+                                currentPage - 1,
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeIn,
+                              );
+                            },
+                            child: Text(
+                              S.of(context).Previous,
+                              style: AppTextStyles.bold14
+                                  .copyWith(color: AppColors.tertiaryText),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: currentPage == 1
+                                ? CustomButton(
+                                    onPressed: () {
+                                      pageController.animateToPage(
+                                        currentPage + 1,
+                                        duration:
+                                            const Duration(milliseconds: 300),
+                                        curve: Curves.easeIn,
+                                      );
+                                    },
+                                    text: S.of(context).Next,
                                   )
-                                : (
-                                    Prefs.setBool(kIsOnBoardingViewSeen, true),
-                                    Navigator.pushReplacementNamed(
-                                        context, SigninView.routeName)
-                                  );
-                          },
-                          text: S.of(context).Next),
-                    ),
-                  ],
-                ),
-          HaveOrNotAccount(
-            question: S.of(context).HaveAccount,
-            action: S.of(context).Login,
-            onTap: () {
-              Prefs.setBool(kIsOnBoardingViewSeen, true);
-              Navigator.pushNamed(context, SigninView.routeName);
-            },
+                                : currentPage == 2
+                                    ? CustomButton(
+                                        onPressed: () {
+                                          Prefs.setBool(
+                                              kIsOnBoardingViewSeen, true);
+                                          Navigator.pushReplacementNamed(
+                                              context, SigninView.routeName);
+                                        },
+                                        text: S.of(context).JoinNow,
+                                      )
+                                    : SizedBox(),
+                          ),
+                        ],
+                      ),
+              ),
+              SizedBox(height: 10),
+              HaveOrNotAccount(
+                question: S.of(context).HaveAccount,
+                action: S.of(context).Login,
+                onTap: () {
+                  Prefs.setBool(kIsOnBoardingViewSeen, true);
+                  Navigator.pushReplacementNamed(context, SigninView.routeName);
+                },
+              ),
+              SizedBox(height: 20), // Ensure spacing at the bottom
+            ],
           ),
-          SizedBox(
-            height: 64,
-          ),
-        ],
+        ),
       ),
     );
   }
