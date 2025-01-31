@@ -68,5 +68,6 @@
       "unknownError": "An unknown error occurred.",
       "SendCode": "Send code",
       "Verify": "Verify",
-      "OTPVerification": "OTP Verification"
+      "OTPVerification": "OTP Verification",
+      "OTPSent": "A 4-digit code has been sent to "
 }

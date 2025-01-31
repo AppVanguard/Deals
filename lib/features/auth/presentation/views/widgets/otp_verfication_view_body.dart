@@ -7,7 +7,8 @@ import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class OTPVerificationViewBody extends StatefulWidget {
-  const OTPVerificationViewBody({super.key});
+  const OTPVerificationViewBody({super.key, required this.email});
+  final String email;
 
   @override
   State<OTPVerificationViewBody> createState() =>
@@ -64,18 +65,24 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     return Scaffold(
       body: Center(
         child: Column(
+          spacing: 20,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               S.of(context).OTPVerification,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: AppTextStyles.bold32,
             ),
-            const SizedBox(height: 20),
+            Text(
+              "${S.of(context).OTPSent} \n ${widget.email}",
+              style: AppTextStyles.regular14
+                  .copyWith(color: AppColors.secondaryText),
+              textAlign: TextAlign.center,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(4, (index) {
                 return Container(
-                  width: 56, // Smaller size for better UI
+                  width: 56,
                   height: 56,
                   margin: const EdgeInsets.symmetric(horizontal: 5),
                   child: Focus(
@@ -83,29 +90,18 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                       _onKey(event, index);
                       return KeyEventResult.ignored;
                     },
-                    child: TextField(
+                    child: TextField(textAlignVertical: TextAlignVertical.top,
+                      cursorHeight: 30,
                       controller: _controllers[index],
                       focusNode: _focusNodes[index],
                       keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
                       maxLength: 1,
-                      style: const TextStyle(
-                        fontSize: 20, // Adjusted text size
-                        fontWeight: FontWeight.w600,
-                      ),
-                      // cursorWidth: 1.5, // Smaller cursor
-                      // cursorHeight: 18,
+                      style: AppTextStyles.semiBold32,
                       decoration: InputDecoration(
                         counterText: "",
                         enabledBorder: buildBorder(index),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
-
-                            width: 2, // Better visibility
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                        focusedBorder: buildFocusedBorder(),
                         border: buildBorder(index),
                       ),
                       onChanged: (value) => _onChanged(value, index),
@@ -114,7 +110,6 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                 );
               }),
             ),
-            const SizedBox(height: 20),
             CustomButton(
               width: double.infinity,
               onPressed: () {
@@ -129,6 +124,16 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     );
   }
 
+  OutlineInputBorder buildFocusedBorder() {
+    return OutlineInputBorder(
+      borderSide: BorderSide(
+        color: AppColors.primary,
+        width: 2, // Better visibility
+      ),
+      borderRadius: BorderRadius.circular(12),
+    );
+  }
+
   OutlineInputBorder buildBorder(int index) {
     return OutlineInputBorder(
       borderSide: BorderSide(
@@ -137,7 +142,7 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
             : Colors.grey.shade400, // Default border
         width: 2, // Better visibility
       ),
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(12),
     );
   }
 }

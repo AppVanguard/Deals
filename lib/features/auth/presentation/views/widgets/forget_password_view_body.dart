@@ -67,8 +67,11 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
-                  Navigator.pushNamed(context, OtpVerficationView.routeName,
-                      arguments: email);
+                  Navigator.pushNamed(
+                    context,
+                    OtpVerficationView.routeName,
+                    arguments: email, // ✅ Pass email as an argument
+                  );
                 }
               },
               text: S.of(context).SendCode,

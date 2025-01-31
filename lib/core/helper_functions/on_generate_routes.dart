@@ -23,8 +23,13 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (context) => const ForgetPasswordView());
     case OtpVerficationView.routeName:
+      final email =
+          settings.arguments as String?; // Extract email from arguments
+      if (email == null) {
+        return MaterialPageRoute(builder: (context) => const Scaffold());
+      }
       return MaterialPageRoute(
-          builder: (context) => const OtpVerficationView());
+          builder: (context) => OtpVerficationView(email: email));
     default:
       return MaterialPageRoute(builder: (context) => const Scaffold());
   }

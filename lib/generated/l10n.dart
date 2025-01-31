@@ -749,6 +749,16 @@ class S {
       args: [],
     );
   }
+
+  /// `A 4-digit code has been sent to `
+  String get OTPSent {
+    return Intl.message(
+      'A 4-digit code has been sent to ',
+      name: 'OTPSent',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
