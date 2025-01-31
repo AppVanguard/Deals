@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -84,106 +85,131 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     if (!hasEmptyFields) {
       String otpCode = _controllers.map((e) => e.text).join();
       log("Entered OTP: $otpCode");
+      Navigator.of(context).pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-        key: formKey,
-        autovalidateMode: autovalidateMode,
-        child: Center(
-          child: Column(
-            spacing: 20,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(AppImages.assetsImagesOTB),
-              Text(
-                S.of(context).OTPVerification,
-                style: AppTextStyles.bold32,
-              ),
-              Text(
-                "${S.of(context).OTPSent} \n ${widget.email}",
-                style: AppTextStyles.regular14
-                    .copyWith(color: AppColors.secondaryText),
-                textAlign: TextAlign.center,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(4, (index) {
-                  return Container(
-                    width: 56,
-                    height: 56,
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Focus(
-                      onKeyEvent: (node, event) {
-                        _onKey(event, index);
-                        return KeyEventResult.ignored;
-                      },
-                      child: TextFormField(
-                        validator: (value) {
-                          return value!.isNotEmpty
-                              ? null
-                              : S.of(context).OTPValidator;
-                        },
-                        cursorHeight: 30,
-                        controller: _controllers[index],
-                        focusNode: _focusNodes[index],
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        textAlignVertical: TextAlignVertical.top,
-                        maxLength: 1,
-                        style: AppTextStyles.semiBold32,
-                        decoration: InputDecoration(
-                          counterText: "",
-                          enabledBorder: buildBorder(index),
-                          focusedBorder: buildFocusedBorder(index),
-                          border: buildBorder(index),
-                        ),
-                        onChanged: (value) => _onChanged(value, index),
-                      ),
-                    ),
-                  );
-                }),
-              ),
-              if (_showErrorMessage)
-                // Container(
-                //   width: 122,
-                //   height: 36,
-                //   decoration: ShapeDecoration(
-                //     color: Color(0xFFFFEBEB),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(12),
-                //     ),
-                //   ),
-                //   child: Row(
-                //     spacing: 8,
-                //     // mainAxisSize: MainAxisSize.min,
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     children: [
-                //       SvgPicture.asset(
-                //         AppImages.assetsImagesWarning,
-                //       ),
-                //       Text(
-                //         S.of(context).InvalidCode,
-                //         style: AppTextStyles.regular13
-                //             .copyWith(color: AppColors.accent),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                Text(
-                  S.of(context).OTPValidator,
-                  style: AppTextStyles.regular14.copyWith(color: Colors.red),
+      body: SingleChildScrollView(
+        child: Form(
+          key: formKey,
+          autovalidateMode: autovalidateMode,
+          child: Center(
+            child: Column(
+              spacing: 20,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 1,
                 ),
-              CustomButton(
-                width: double.infinity,
-                onPressed: _validateFields,
-                text: S.of(context).Verify,
-              ),
-            ],
+                SvgPicture.asset(AppImages.assetsImagesOTB),
+                Text(
+                  S.of(context).OTPVerification,
+                  style: AppTextStyles.bold32,
+                ),
+                Text(
+                  "${S.of(context).OTPSent} \n ${widget.email}",
+                  style: AppTextStyles.regular14
+                      .copyWith(color: AppColors.secondaryText),
+                  textAlign: TextAlign.center,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(4, (index) {
+                    return Container(
+                      width: 56,
+                      height: 56,
+                      margin: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Focus(
+                        onKeyEvent: (node, event) {
+                          _onKey(event, index);
+                          return KeyEventResult.ignored;
+                        },
+                        child: TextFormField(
+                          validator: (value) {
+                            return value!.isNotEmpty
+                                ? null
+                                : S.of(context).OTPValidator;
+                          },
+                          cursorHeight: 30,
+                          controller: _controllers[index],
+                          focusNode: _focusNodes[index],
+                          keyboardType: TextInputType.number,
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.top,
+                          maxLength: 1,
+                          style: AppTextStyles.semiBold32,
+                          decoration: InputDecoration(
+                            counterText: "",
+                            enabledBorder: buildBorder(index),
+                            focusedBorder: buildFocusedBorder(index),
+                            border: buildBorder(index),
+                          ),
+                          onChanged: (value) => _onChanged(value, index),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+                if (_showErrorMessage)
+                  // Container(
+                  //   width: 122,
+                  //   height: 36,
+                  //   decoration: ShapeDecoration(
+                  //     color: Color(0xFFFFEBEB),
+                  //     shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(12),
+                  //     ),
+                  //   ),
+                  //   child: Row(
+                  //     spacing: 8,
+                  //     // mainAxisSize: MainAxisSize.min,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     crossAxisAlignment: CrossAxisAlignment.center,
+                  //     children: [
+                  //       SvgPicture.asset(
+                  //         AppImages.assetsImagesWarning,
+                  //       ),
+                  //       Text(
+                  //         S.of(context).InvalidCode,
+                  //         style: AppTextStyles.regular13
+                  //             .copyWith(color: AppColors.accent),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  Text(
+                    S.of(context).OTPValidator,
+                    style: AppTextStyles.regular14.copyWith(color: Colors.red),
+                  ),
+                CustomButton(
+                  width: double.infinity,
+                  onPressed: _validateFields,
+                  text: S.of(context).Verify,
+                ),
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                          text: S.of(context).NoCode,
+                          style: AppTextStyles.regular14
+                              .copyWith(color: AppColors.secondaryText)),
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()..onTap = () {},
+                        text: S.of(context).Resend,
+                        style: AppTextStyles.bold14
+                            .copyWith(color: AppColors.primary),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
           ),
         ),
       ),

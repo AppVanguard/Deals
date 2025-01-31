@@ -779,6 +779,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Did not receive any code?`
+  String get NoCode {
+    return Intl.message(
+      'Did not receive any code?',
+      name: 'NoCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resend`
+  String get Resend {
+    return Intl.message(
+      'Resend',
+      name: 'Resend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resend code`
+  String get ResendCode {
+    return Intl.message(
+      'Resend code',
+      name: 'ResendCode',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -59,6 +59,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "LoginWith": MessageLookupByLibrary.simpleMessage("or login with"),
         "Next": MessageLookupByLibrary.simpleMessage("Next"),
+        "NoCode":
+            MessageLookupByLibrary.simpleMessage("Did not receive any code?"),
         "OTPSent": MessageLookupByLibrary.simpleMessage(
             "A 4-digit code has been sent to "),
         "OTPValidator": MessageLookupByLibrary.simpleMessage(
@@ -78,6 +80,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Previous": MessageLookupByLibrary.simpleMessage("Previous"),
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "RememberMe": MessageLookupByLibrary.simpleMessage("Remember me?"),
+        "Resend": MessageLookupByLibrary.simpleMessage("Resend"),
+        "ResendCode": MessageLookupByLibrary.simpleMessage("Resend code"),
         "SendCode": MessageLookupByLibrary.simpleMessage("Send code"),
         "SignUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "SomethingWentWrong":

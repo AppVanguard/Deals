@@ -71,5 +71,8 @@
       "OTPVerification": "OTP Verification",
       "OTPSent": "A 4-digit code has been sent to ",
       "OTPValidator": "Please enter the 4-digit code.",
-      "InvalidCode": "Invalid code"
+      "InvalidCode": "Invalid code",
+      "NoCode": "Did not receive any code?",
+      "Resend": "Resend",
+      "ResendCode": "Resend code"
 }
