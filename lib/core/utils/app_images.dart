@@ -89,5 +89,9 @@ class AppImages {
   /// Assets for assetsImagesTest
   /// assets/images/test.svg
   static const String assetsImagesTest = "assets/images/test.svg";
+
+  /// Assets for assetsImagesWarning
+  /// assets/images/warning.svg
+  static const String assetsImagesWarning = "assets/images/warning.svg";
 }
 

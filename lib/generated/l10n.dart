@@ -759,6 +759,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please enter the 4-digit code.`
+  String get OTPValidator {
+    return Intl.message(
+      'Please enter the 4-digit code.',
+      name: 'OTPValidator',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

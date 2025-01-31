@@ -60,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Next": MessageLookupByLibrary.simpleMessage("Next"),
         "OTPSent": MessageLookupByLibrary.simpleMessage(
             "A 4-digit code has been sent to "),
+        "OTPValidator": MessageLookupByLibrary.simpleMessage(
+            "Please enter the 4-digit code."),
         "OTPVerification":
             MessageLookupByLibrary.simpleMessage("OTP Verification"),
         "OrRegisterWith":
