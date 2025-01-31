@@ -51,7 +51,7 @@ class AuthRepoImpl extends AuthRepo {
 
       // Construct your entity (including phone)
       var userEntity = UserEntity(
-        uId: user!.uid,
+        uId: user.uid,
         email: email,
         name: name,
         phone: phone,

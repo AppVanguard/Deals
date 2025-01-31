@@ -139,13 +139,15 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                     context.read<SignupCubit>().createUserWithEmailAndPassword(
                           email,
                           password!,
-                          phone!.completeNumber,
                           fullName,
+                          phone!.completeNumber,
                         );
                   } else {
-                    setState(() {
-                      autovalidateMode = AutovalidateMode.always;
-                    });
+                    setState(
+                      () {
+                        autovalidateMode = AutovalidateMode.always;
+                      },
+                    );
                   }
                 } else {
                   customErrorTopSnackBar(
