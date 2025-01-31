@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
+import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/generated/l10n.dart';
@@ -68,6 +70,8 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
           spacing: 20,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 1,),
+            SvgPicture.asset(AppImages.assetsImagesOTB),
             Text(
               S.of(context).OTPVerification,
               style: AppTextStyles.bold32,
