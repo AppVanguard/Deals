@@ -769,6 +769,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Invalid code`
+  String get InvalidCode {
+    return Intl.message(
+      'Invalid code',
+      name: 'InvalidCode',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

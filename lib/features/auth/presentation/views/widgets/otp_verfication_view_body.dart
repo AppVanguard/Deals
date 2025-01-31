@@ -148,42 +148,36 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                 }),
               ),
               if (_showErrorMessage)
-                Container(
-                  width: 122,
-                  height: 36,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFFFFEBEB),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Expanded(
-                    child: Row(
-                      spacing: 8,
-                      // mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          AppImages.assetsImagesWarning,
-                        ),
-                        Text(
-                          'Invalid code',
-                          style: TextStyle(
-                            color: Color(0xFFE50300),
-                            fontSize: 13,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                // Container(
+                //   width: 122,
+                //   height: 36,
+                //   decoration: ShapeDecoration(
+                //     color: Color(0xFFFFEBEB),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(12),
+                //     ),
+                //   ),
+                //   child: Row(
+                //     spacing: 8,
+                //     // mainAxisSize: MainAxisSize.min,
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       SvgPicture.asset(
+                //         AppImages.assetsImagesWarning,
+                //       ),
+                //       Text(
+                //         S.of(context).InvalidCode,
+                //         style: AppTextStyles.regular13
+                //             .copyWith(color: AppColors.accent),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                Text(
+                  S.of(context).OTPValidator,
+                  style: AppTextStyles.regular14.copyWith(color: Colors.red),
                 ),
-              // Text(
-              //   S.of(context).OTPValidator,
-              //   style: AppTextStyles.regular14.copyWith(color: Colors.red),
-              // ),
               CustomButton(
                 width: double.infinity,
                 onPressed: _validateFields,

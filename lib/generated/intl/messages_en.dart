@@ -54,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Google login failed or was cancelled"),
         "HaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account ?"),
+        "InvalidCode": MessageLookupByLibrary.simpleMessage("Invalid code"),
         "JoinNow": MessageLookupByLibrary.simpleMessage("Join now"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "LoginWith": MessageLookupByLibrary.simpleMessage("or login with"),
