@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/reset_password_view.dart';
@@ -29,15 +31,20 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           settings: settings, builder: (context) => const ForgetPasswordView());
     case OtpVerficationView.routeName:
-      final email =
-          settings.arguments as String?; // Extract email from arguments
+      final args = settings.arguments as List<String?>;
+      final email = args[0];
+      final image = args[1];
+      log(image.toString());
       if (email == null) {
         return MaterialPageRoute(
             settings: settings, builder: (context) => const Scaffold());
       }
       return MaterialPageRoute(
           settings: settings,
-          builder: (context) => OtpVerficationView(email: email));
+          builder: (context) => OtpVerficationView(
+                email: email,
+                image: image,
+              ));
     case ResetPasswordView.routeName:
       return MaterialPageRoute(
           settings: settings, builder: (context) => const ResetPasswordView());

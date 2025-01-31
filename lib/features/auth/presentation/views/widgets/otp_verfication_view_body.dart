@@ -4,16 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/features/auth/presentation/views/reset_password_view.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class OTPVerificationViewBody extends StatefulWidget {
-  const OTPVerificationViewBody({super.key, required this.email});
+  const OTPVerificationViewBody({super.key, required this.email, this.image});
   final String email;
-
+  final String? image;
   @override
   State<OTPVerificationViewBody> createState() =>
       _OTPVerificationViewBodyState();
@@ -86,132 +85,139 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     if (!hasEmptyFields) {
       String otpCode = _controllers.map((e) => e.text).join();
       log("Entered OTP: $otpCode");
-      Navigator.pushReplacementNamed(context, ResetPasswordView.routeName);
+      widget.image != null
+          ? Navigator.pushReplacementNamed(context, ResetPasswordView.routeName)
+          : null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          autovalidateMode: autovalidateMode,
-          child: Center(
-            child: Column(
-              spacing: 20,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 1,
-                ),
-                SvgPicture.asset(AppImages.assetsImagesOTB),
-                Text(
-                  S.of(context).OTPVerification,
-                  style: AppTextStyles.bold32,
-                ),
-                Text(
-                  "${S.of(context).OTPSent} \n ${widget.email}",
-                  style: AppTextStyles.regular14
-                      .copyWith(color: AppColors.secondaryText),
-                  textAlign: TextAlign.center,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(4, (index) {
-                    return Container(
-                      width: 56,
-                      height: 56,
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Focus(
-                        onKeyEvent: (node, event) {
-                          _onKey(event, index);
-                          return KeyEventResult.ignored;
+    return SingleChildScrollView(
+      child: Form(
+        key: formKey,
+        autovalidateMode: autovalidateMode,
+        child: Center(
+          child: Column(
+            spacing: 20,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 1,
+              ),
+              widget.image != null
+                  ? SvgPicture.asset(widget.image!)
+                  : SizedBox(),
+              widget.image != null
+                  ? Text(
+                      S.of(context).OTPVerification,
+                      style: AppTextStyles.bold32,
+                    )
+                  : Text(
+                      S.of(context).EnterCode,
+                      style: AppTextStyles.bold32,
+                    ),
+              Text(
+                "${S.of(context).OTPSent} \n ${widget.email}",
+                style: AppTextStyles.regular14
+                    .copyWith(color: AppColors.secondaryText),
+                textAlign: TextAlign.center,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(4, (index) {
+                  return Container(
+                    width: 56,
+                    height: 56,
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Focus(
+                      onKeyEvent: (node, event) {
+                        _onKey(event, index);
+                        return KeyEventResult.ignored;
+                      },
+                      child: TextFormField(
+                        validator: (value) {
+                          return value!.isNotEmpty
+                              ? null
+                              : S.of(context).OTPValidator;
                         },
-                        child: TextFormField(
-                          validator: (value) {
-                            return value!.isNotEmpty
-                                ? null
-                                : S.of(context).OTPValidator;
-                          },
-                          cursorHeight: 30,
-                          controller: _controllers[index],
-                          focusNode: _focusNodes[index],
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
-                          textAlignVertical: TextAlignVertical.top,
-                          maxLength: 1,
-                          style: AppTextStyles.semiBold32,
-                          decoration: InputDecoration(
-                            counterText: "",
-                            enabledBorder: buildBorder(index),
-                            focusedBorder: buildFocusedBorder(index),
-                            border: buildBorder(index),
-                          ),
-                          onChanged: (value) => _onChanged(value, index),
+                        cursorHeight: 30,
+                        controller: _controllers[index],
+                        focusNode: _focusNodes[index],
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        textAlignVertical: TextAlignVertical.top,
+                        maxLength: 1,
+                        style: AppTextStyles.semiBold32,
+                        decoration: InputDecoration(
+                          counterText: "",
+                          enabledBorder: buildBorder(index),
+                          focusedBorder: buildFocusedBorder(index),
+                          border: buildBorder(index),
                         ),
+                        onChanged: (value) => _onChanged(value, index),
                       ),
-                    );
-                  }),
+                    ),
+                  );
+                }),
+              ),
+              if (_showErrorMessage)
+                // Container(
+                //   width: 122,
+                //   height: 36,
+                //   decoration: ShapeDecoration(
+                //     color: Color(0xFFFFEBEB),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(12),
+                //     ),
+                //   ),
+                //   child: Row(
+                //     spacing: 8,
+                //     // mainAxisSize: MainAxisSize.min,
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       SvgPicture.asset(
+                //         AppImages.assetsImagesWarning,
+                //       ),
+                //       Text(
+                //         S.of(context).InvalidCode,
+                //         style: AppTextStyles.regular13
+                //             .copyWith(color: AppColors.accent),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                Text(
+                  S.of(context).OTPValidator,
+                  style: AppTextStyles.regular14.copyWith(color: Colors.red),
                 ),
-                if (_showErrorMessage)
-                  // Container(
-                  //   width: 122,
-                  //   height: 36,
-                  //   decoration: ShapeDecoration(
-                  //     color: Color(0xFFFFEBEB),
-                  //     shape: RoundedRectangleBorder(
-                  //       borderRadius: BorderRadius.circular(12),
-                  //     ),
-                  //   ),
-                  //   child: Row(
-                  //     spacing: 8,
-                  //     // mainAxisSize: MainAxisSize.min,
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     children: [
-                  //       SvgPicture.asset(
-                  //         AppImages.assetsImagesWarning,
-                  //       ),
-                  //       Text(
-                  //         S.of(context).InvalidCode,
-                  //         style: AppTextStyles.regular13
-                  //             .copyWith(color: AppColors.accent),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  Text(
-                    S.of(context).OTPValidator,
-                    style: AppTextStyles.regular14.copyWith(color: Colors.red),
-                  ),
-                CustomButton(
-                  width: double.infinity,
-                  onPressed: _validateFields,
-                  text: S.of(context).Verify,
+              CustomButton(
+                width: double.infinity,
+                onPressed: _validateFields,
+                text: S.of(context).Verify,
+              ),
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                        text: S.of(context).NoCode,
+                        style: AppTextStyles.regular14
+                            .copyWith(color: AppColors.secondaryText)),
+                    TextSpan(text: ' '),
+                    TextSpan(
+                      recognizer: TapGestureRecognizer()..onTap = () {},
+                      text: S.of(context).Resend,
+                      style: AppTextStyles.bold14
+                          .copyWith(color: AppColors.primary),
+                    ),
+                  ],
                 ),
-                Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                          text: S.of(context).NoCode,
-                          style: AppTextStyles.regular14
-                              .copyWith(color: AppColors.secondaryText)),
-                      TextSpan(text: ' '),
-                      TextSpan(
-                        recognizer: TapGestureRecognizer()..onTap = () {},
-                        text: S.of(context).Resend,
-                        style: AppTextStyles.bold14
-                            .copyWith(color: AppColors.primary),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                )
-              ],
-            ),
+              ),
+              SizedBox(
+                height: 20,
+              )
+            ],
           ),
         ),
       ),

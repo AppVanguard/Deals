@@ -68,7 +68,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                   Navigator.pushNamed(
                     context,
                     OtpVerficationView.routeName,
-                    arguments: email, // ✅ Pass email as an argument
+                    arguments: [email, AppImages.assetsImagesOTB],
                   );
                 }
               },

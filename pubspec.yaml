@@ -13,6 +13,7 @@ environment:
 dependencies:
   animated_snack_bar: ^0.4.0
   cloud_firestore: ^5.6.2
+  country_picker: ^2.0.27
   crypto: ^3.0.6
   cupertino_icons: ^1.0.8
   dartz: ^0.10.1
@@ -22,6 +23,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.0.0
+  flutter_datetime_picker_plus: ^2.2.0
   flutter_facebook_auth: ^7.1.1
   flutter_localizations:
     sdk: flutter

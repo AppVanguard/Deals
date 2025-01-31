@@ -770,6 +770,16 @@ class S {
     );
   }
 
+  /// `Enter the 4-digit code`
+  String get EnterCode {
+    return Intl.message(
+      'Enter the 4-digit code',
+      name: 'EnterCode',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Invalid code`
   String get InvalidCode {
     return Intl.message(
