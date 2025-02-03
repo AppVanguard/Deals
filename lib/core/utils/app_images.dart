@@ -82,6 +82,10 @@ class AppImages {
   /// assets/images/ResetPasswword.svg
   static const String assetsImagesResetPasswword = "assets/images/ResetPasswword.svg";
 
+  /// Assets for assetsImagesSuccess
+  /// assets/images/success.svg
+  static const String assetsImagesSuccess = "assets/images/success.svg";
+
   /// Assets for assetsImagesTermsAndConditions
   /// assets/images/TermsAndConditions.svg
   static const String assetsImagesTermsAndConditions = "assets/images/TermsAndConditions.svg";

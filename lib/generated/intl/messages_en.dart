@@ -36,6 +36,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "EmailOrPhone": MessageLookupByLibrary.simpleMessage("Email or phone"),
         "EmailValidator":
             MessageLookupByLibrary.simpleMessage("Please enter your email."),
+        "EmailVerified": MessageLookupByLibrary.simpleMessage(
+            "Your email has been verified successfully."),
         "EnterCode":
             MessageLookupByLibrary.simpleMessage("Enter the 4-digit code"),
         "EnterYourEmail":

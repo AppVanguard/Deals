@@ -4,10 +4,15 @@ import 'package:in_pocket/core/utils/app_text_styles.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton(
-      {super.key, required this.onPressed, required this.text, this.width});
+      {super.key,
+      required this.onPressed,
+      required this.text,
+      this.width,
+      this.buttonRadius = 16});
   final VoidCallback onPressed;
   final String text;
   final double? width;
+  final double? buttonRadius;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +22,7 @@ class CustomButton extends StatelessWidget {
         style: TextButton.styleFrom(
             backgroundColor: AppColors.primary,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16))),
+                borderRadius: BorderRadius.circular(buttonRadius!))),
         onPressed: onPressed,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),

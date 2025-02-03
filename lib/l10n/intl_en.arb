@@ -76,5 +76,6 @@
       "NoCode": "Did not receive any code?",
       "Resend": "Resend",
       "ResendCode": "Resend code",
-      "ResetPassword": "Reset password"
+      "ResetPassword": "Reset password",
+      "EmailVerified": "Your email has been verified successfully."
 }
