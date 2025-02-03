@@ -6,6 +6,7 @@ import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/widgets/custom_modal_sheet.dart';
 import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
 import 'package:in_pocket/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
+import 'package:in_pocket/features/auth/presentation/views/personal_data_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/signup_view_body.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
@@ -26,8 +27,9 @@ class SignupBlocConsumer extends StatelessWidget {
               buttonText: S.of(context).Next,
               enableDrag: false,
               svgPicture: SvgPicture.asset(AppImages.assetsImagesSuccess),
-              onTap: () {},
-              message: S.of(context).EmailVerified);
+              onTap: () {
+            Navigator.pushReplacementNamed(context, PersonalDataView.routeName);
+          }, message: S.of(context).EmailVerified);
         }
       },
       builder: (context, state) {

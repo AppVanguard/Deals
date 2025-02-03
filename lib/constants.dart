@@ -1,4 +1,4 @@
-const appTittle = "InPocket";
+const appTittle = "DEALS";
 const splashSubTittle = 'KEEP IT IN POCKET';
 const kIsOnBoardingViewSeen = 'isOnBoardingViewSeen';
 const kSpacing = 16.0;

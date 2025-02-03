@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
+import 'package:in_pocket/features/auth/presentation/views/personal_data_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/reset_password_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/signup_view.dart';
@@ -48,6 +49,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case ResetPasswordView.routeName:
       return MaterialPageRoute(
           settings: settings, builder: (context) => const ResetPasswordView());
+    case PersonalDataView.routeName:
+      return MaterialPageRoute(
+          settings: settings, builder: (context) => const PersonalDataView());
     default:
       return MaterialPageRoute(
           settings: settings, builder: (context) => const Scaffold());
