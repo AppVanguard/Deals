@@ -27,52 +27,18 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         value: _selectedDate ?? now,
       ),
       hideHeader: true,
-      height: 250,
+      height: 230,
       backgroundColor: Colors.white,
       containerColor: Colors.white,
       textStyle: const TextStyle(fontSize: 20, color: Colors.black),
       selectedTextStyle: const TextStyle(
           fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
-      title: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _headerLabel("Month"),
-                _headerLabel("Year"),
-                _headerLabel("Day"),
-              ],
-            ),
-          ),
-          const SizedBox(height: 8),
-        ],
-      ),
+      title: _buildStyledHeader(),
       headerDecoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(12),
       ),
-      confirm: Container(
-        margin: const EdgeInsets.only(top: 10),
-        width: double.infinity,
-        height: 45,
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: const Center(
-          child: Text(
-            "Save",
-            style: TextStyle(
-                color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
+      confirm: _buildSaveButton(),
       onConfirm: (Picker picker, List<int> selected) {
         final DateTime pickedDate =
             (picker.adapter as DateTimePickerAdapter).value!;
@@ -82,6 +48,34 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         widget.onDateSelected(pickedDate);
       },
     ).showDialog(context);
+  }
+
+  Widget _buildStyledHeader() {
+    return Container(
+      width: 361,
+      height: 230,
+      padding: const EdgeInsets.all(16),
+      decoration: ShapeDecoration(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _headerLabel("Day"),
+              _headerLabel("Month"),
+              _headerLabel("Year"),
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    );
   }
 
   Widget _headerLabel(String text) {
@@ -97,6 +91,25 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
           color: Color(0xFF00AD37),
           fontSize: 14,
           fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSaveButton() {
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      width: double.infinity,
+      height: 45,
+      decoration: BoxDecoration(
+        color: Colors.green,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: const Center(
+        child: Text(
+          "Save",
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
     );
