@@ -86,6 +86,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
+  circle_flags:
+    dependency: transitive
+    description:
+      name: circle_flags
+      sha256: "875cd64e607b46838ce429e2f7cc88c615f8514181d2d0f9e73de37ba3fb2f52"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
   clock:
     dependency: transitive
     description:
@@ -142,6 +150,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.27"
+  country_picker_flutter:
+    dependency: "direct main"
+    description:
+      name: country_picker_flutter
+      sha256: "1824255a0955658ad7b606fffde14b046c71590b5b8ddac24d85aa79453a14b3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   crypto:
     dependency: "direct main"
     description:
@@ -174,6 +190,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.10.1"
+  diacritic:
+    dependency: transitive
+    description:
+      name: diacritic
+      sha256: "12981945ec38931748836cd76f2b38773118d0baef3c68404bdfde9566147876"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.6"
   dots_indicator:
     dependency: "direct main"
     description:
@@ -275,6 +299,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.0.0"
+  flutter_country_selector:
+    dependency: "direct main"
+    description:
+      name: flutter_country_selector
+      sha256: "354ec3913e6858f32e70a795d2f2451a741beb51bedc5a566b309890ecc49814"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.14"
   flutter_datetime_picker_plus:
     dependency: "direct main"
     description:
@@ -320,6 +352,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_picker_plus:
+    dependency: "direct main"
+    description:
+      name: flutter_picker_plus
+      sha256: "4233cdfe1156e394ef8b0faec6a9457b74b397439099bd822ffb01cb9e7ba799"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.0"
   flutter_secure_storage:
     dependency: transitive
     description:
@@ -658,6 +698,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.2"
+  phone_numbers_parser:
+    dependency: transitive
+    description:
+      name: phone_numbers_parser
+      sha256: "8aaa49708c9314d450d80767753c6512402e848138e5a91bf59ed3e0d3ac5d9b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.0.3"
   platform:
     dependency: transitive
     description:

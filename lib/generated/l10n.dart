@@ -839,6 +839,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Country`
+  String get Country {
+    return Intl.message(
+      'Country',
+      name: 'Country',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Country`
+  String get SelectCountry {
+    return Intl.message(
+      'Select Country',
+      name: 'SelectCountry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get Search {
+    return Intl.message(
+      'Search',
+      name: 'Search',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start typing to search`
+  String get SearchHint {
+    return Intl.message(
+      'Start typing to search',
+      name: 'SearchHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `City/Town`
+  String get City {
+    return Intl.message(
+      'City/Town',
+      name: 'City',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

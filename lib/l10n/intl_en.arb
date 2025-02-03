@@ -77,5 +77,10 @@
       "Resend": "Resend",
       "ResendCode": "Resend code",
       "ResetPassword": "Reset password",
-      "EmailVerified": "Your email has been verified successfully."
+      "EmailVerified": "Your email has been verified successfully.",
+      "Country": "Country",
+      "SelectCountry": "Select Country",
+      "Search": "Search",
+      "SearchHint": "Start typing to search",
+      "City": "City/Town"
 }
