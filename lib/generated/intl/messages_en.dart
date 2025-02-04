@@ -24,10 +24,17 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "AlreadyHaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account?"),
+        "BirthDate": MessageLookupByLibrary.simpleMessage("Birth date"),
+        "BirthdayValidator":
+            MessageLookupByLibrary.simpleMessage("Please enter your birthday."),
         "City": MessageLookupByLibrary.simpleMessage("City/Town"),
+        "CityValidator":
+            MessageLookupByLibrary.simpleMessage("Please enter your city."),
         "ConfirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
         "Country": MessageLookupByLibrary.simpleMessage("Country"),
+        "CountryValidator":
+            MessageLookupByLibrary.simpleMessage("Please enter your country."),
         "CreateNewAccount":
             MessageLookupByLibrary.simpleMessage("Create New Account"),
         "DontHaveAccount":
@@ -48,6 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter your full name."),
         "FacebookError": MessageLookupByLibrary.simpleMessage(
             "Facebook login failed or was cancelled"),
+        "Female": MessageLookupByLibrary.simpleMessage("Female"),
         "FieldRequired":
             MessageLookupByLibrary.simpleMessage("This field is required"),
         "ForgotPassword":
@@ -55,6 +63,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ForgotPasswordTittle":
             MessageLookupByLibrary.simpleMessage("Forget password"),
         "FullName": MessageLookupByLibrary.simpleMessage("Full Name"),
+        "Gender": MessageLookupByLibrary.simpleMessage("Gender"),
         "GetStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
         "GoogleError": MessageLookupByLibrary.simpleMessage(
             "Google login failed or was cancelled"),
@@ -62,8 +71,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Already have an account ?"),
         "InvalidCode": MessageLookupByLibrary.simpleMessage("Invalid code"),
         "JoinNow": MessageLookupByLibrary.simpleMessage("Join now"),
+        "Later": MessageLookupByLibrary.simpleMessage("I’d do later"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "LoginWith": MessageLookupByLibrary.simpleMessage("or login with"),
+        "Male": MessageLookupByLibrary.simpleMessage("Male"),
         "Next": MessageLookupByLibrary.simpleMessage("Next"),
         "NoCode":
             MessageLookupByLibrary.simpleMessage("Did not receive any code?"),
@@ -75,6 +86,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("OTP Verification"),
         "OrRegisterWith":
             MessageLookupByLibrary.simpleMessage("or register with"),
+        "Other": MessageLookupByLibrary.simpleMessage("Other"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
         "PasswordNotMatch":
             MessageLookupByLibrary.simpleMessage("Password not match."),
@@ -89,10 +101,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "Resend": MessageLookupByLibrary.simpleMessage("Resend"),
         "ResendCode": MessageLookupByLibrary.simpleMessage("Resend code"),
         "ResetPassword": MessageLookupByLibrary.simpleMessage("Reset password"),
+        "Save": MessageLookupByLibrary.simpleMessage("Save"),
         "Search": MessageLookupByLibrary.simpleMessage("Search"),
         "SearchHint":
             MessageLookupByLibrary.simpleMessage("Start typing to search"),
         "SelectCountry": MessageLookupByLibrary.simpleMessage("Select Country"),
+        "SelectDate": MessageLookupByLibrary.simpleMessage("Select Date"),
+        "SelectGender": MessageLookupByLibrary.simpleMessage("Select Gender"),
         "SendCode": MessageLookupByLibrary.simpleMessage("Send code"),
         "SignUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "SomethingWentWrong":

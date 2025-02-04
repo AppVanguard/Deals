@@ -82,5 +82,17 @@
       "SelectCountry": "Select Country",
       "Search": "Search",
       "SearchHint": "Start typing to search",
-      "City": "City/Town"
+      "City": "City/Town",
+      "SelectDate": "Select Date",
+      "BirthDate": "Birth date",
+      "BirthdayValidator": "Please enter your birthday.",
+      "CityValidator": "Please enter your city.",
+      "CountryValidator": "Please enter your country.",
+      "Save": "Save",
+      "Later": "I’d do later",
+      "Gender": "Gender",
+      "SelectGender": "Select Gender",
+      "Male": "Male",
+      "Female": "Female",
+      "Other": "Other"
 }

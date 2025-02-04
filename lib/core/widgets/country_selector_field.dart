@@ -7,8 +7,14 @@ import 'package:in_pocket/generated/l10n.dart';
 class CountrySelectorField extends StatefulWidget {
   final ValueChanged<Country> onCountrySelected;
   final String label;
-  const CountrySelectorField(
-      {super.key, required this.onCountrySelected, required this.label});
+  final String? Function(Country?)? validator;
+
+  const CountrySelectorField({
+    super.key,
+    required this.onCountrySelected,
+    required this.label,
+    this.validator,
+  });
 
   @override
   State<CountrySelectorField> createState() => _CountrySelectorFieldState();
@@ -16,6 +22,7 @@ class CountrySelectorField extends StatefulWidget {
 
 class _CountrySelectorFieldState extends State<CountrySelectorField> {
   Country? _selectedCountry;
+  String? _errorText;
 
   void _openCountryPicker() {
     showCountryPicker(
@@ -24,6 +31,7 @@ class _CountrySelectorFieldState extends State<CountrySelectorField> {
       onSelect: (Country country) {
         setState(() {
           _selectedCountry = country;
+          _errorText = widget.validator?.call(_selectedCountry);
         });
         widget.onCountrySelected(country);
       },
@@ -69,6 +77,7 @@ class _CountrySelectorFieldState extends State<CountrySelectorField> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 suffixIcon: const Icon(Icons.arrow_drop_down),
+                errorText: _errorText, // Display validation error
               ),
               child: Row(
                 children: [

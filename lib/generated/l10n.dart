@@ -889,6 +889,126 @@ class S {
       args: [],
     );
   }
+
+  /// `Select Date`
+  String get SelectDate {
+    return Intl.message(
+      'Select Date',
+      name: 'SelectDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Birth date`
+  String get BirthDate {
+    return Intl.message(
+      'Birth date',
+      name: 'BirthDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your birthday.`
+  String get BirthdayValidator {
+    return Intl.message(
+      'Please enter your birthday.',
+      name: 'BirthdayValidator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your city.`
+  String get CityValidator {
+    return Intl.message(
+      'Please enter your city.',
+      name: 'CityValidator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your country.`
+  String get CountryValidator {
+    return Intl.message(
+      'Please enter your country.',
+      name: 'CountryValidator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get Save {
+    return Intl.message(
+      'Save',
+      name: 'Save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I’d do later`
+  String get Later {
+    return Intl.message(
+      'I’d do later',
+      name: 'Later',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gender`
+  String get Gender {
+    return Intl.message(
+      'Gender',
+      name: 'Gender',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Gender`
+  String get SelectGender {
+    return Intl.message(
+      'Select Gender',
+      name: 'SelectGender',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Male`
+  String get Male {
+    return Intl.message(
+      'Male',
+      name: 'Male',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Female`
+  String get Female {
+    return Intl.message(
+      'Female',
+      name: 'Female',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get Other {
+    return Intl.message(
+      'Other',
+      name: 'Other',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

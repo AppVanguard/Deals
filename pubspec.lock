@@ -842,6 +842,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  simple_date_picker:
+    dependency: "direct main"
+    description:
+      name: simple_date_picker
+      sha256: b6d352dcd92592a3b151213ea3486f9942d02feb98e64ba0b734aac09f04ec65
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
