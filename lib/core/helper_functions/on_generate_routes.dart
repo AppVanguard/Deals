@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/personal_data_view.dart';

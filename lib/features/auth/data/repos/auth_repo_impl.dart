@@ -7,9 +7,6 @@ import 'package:in_pocket/core/errors/exception.dart';
 import 'package:in_pocket/core/errors/faliure.dart';
 import 'package:in_pocket/core/service/database_service.dart';
 import 'package:in_pocket/core/service/firebase_auth_service.dart';
-import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
-import 'package:in_pocket/core/utils/backend_endpoints.dart';
-import 'package:in_pocket/features/auth/data/models/user_model.dart';
 import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
 import 'package:in_pocket/generated/l10n.dart';
@@ -17,18 +14,15 @@ import 'package:in_pocket/generated/l10n.dart';
 /// An implementation of [AuthRepo] that handles:
 /// 1. Creating users via Email/Password.
 /// 2. Signing in users with multiple providers (Google, Facebook, Apple).
-/// 3. Storing/fetching user data in Firestore.
-/// 4. Saving user data locally (SharedPreferences).
 class AuthRepoImpl extends AuthRepo {
   final FirebaseAuthService firebaseAuthService;
-  final DatabaseService databaseService;
 
   AuthRepoImpl({
-    required this.databaseService,
     required this.firebaseAuthService,
+    required DatabaseService databaseService,
   });
 
-  /// Create a new user with email & password, store [name] & [phone] in Firestore.
+  /// Create a new user with email & password.
   @override
   Future<Either<Failure, UserEntity>> createUserWithEmailAndPassword({
     required String email,
@@ -44,12 +38,12 @@ class AuthRepoImpl extends AuthRepo {
         email: email,
       );
 
-      // Optionally update the displayName in FirebaseAuth (not necessary for Firestore storage).
+      // Optionally update the displayName in FirebaseAuth.
       if (name.isNotEmpty) {
         await user.updateDisplayName(name);
       }
 
-      // Construct your entity (including phone)
+      // Construct user entity
       var userEntity = UserEntity(
         uId: user.uid,
         email: email,
@@ -57,15 +51,8 @@ class AuthRepoImpl extends AuthRepo {
         phone: phone,
       );
 
-      // Store user doc in Firestore
-      await addUserData(user: userEntity);
-
-      // You may optionally store user data locally
-      await saveUserData(user: userEntity);
-
       return right(userEntity);
     } on CustomExeption catch (e) {
-      // If there's an issue, ensure you delete the partially created user
       await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
@@ -77,7 +64,7 @@ class AuthRepoImpl extends AuthRepo {
     }
   }
 
-  /// Sign in an existing user with email & password, returning data from Firestore.
+  /// Sign in an existing user with email & password.
   @override
   Future<Either<Failure, UserEntity>> signInWithEmailAndPassword({
     required String email,
@@ -89,11 +76,13 @@ class AuthRepoImpl extends AuthRepo {
         email: email,
         password: password,
       );
-      // Retrieve user data from Firestore
-      var userEntity = await getUserData(uid: user.uid);
 
-      // Save user data locally
-      await saveUserData(user: userEntity);
+      var userEntity = UserEntity(
+        uId: user.uid,
+        email: user.email ?? '',
+        name: user.displayName ?? '',
+        phone: '',
+      );
 
       return right(userEntity);
     } on CustomExeption catch (e) {
@@ -106,54 +95,42 @@ class AuthRepoImpl extends AuthRepo {
     }
   }
 
-  /// Sign in with Google OAuth; store new user data if they don't exist in Firestore.
+  /// Sign in with Google OAuth.
   @override
   Future<Either<Failure, UserEntity>> signInWithGoogle() async {
     User? user;
     try {
       user = await firebaseAuthService.signInWithGoogle();
-      var userEntity = UserModel.fromFirebaseUser(user);
-      await saveUserData(user: userEntity);
+      var userEntity = UserEntity(
+        uId: user.uid,
+        email: user.email ?? '',
+        name: user.displayName ?? '',
+        phone: '',
+      );
 
-      var isUserExist = await databaseService.checkIfDataExists(
-          path: BackendEndpoints.isUserExists, documentId: userEntity.uId);
-      if (isUserExist) {
-        await getUserData(uid: userEntity.uId);
-      } else {
-        await addUserData(user: userEntity);
-      }
       return right(userEntity);
     } on CustomExeption catch (e) {
       await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
       await deleteUser(user);
-
       log('Error in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
-  /// Sign in with Facebook OAuth; store new user data if they don't exist in Firestore.
+  /// Sign in with Facebook OAuth.
   @override
   Future<Either<Failure, UserEntity>> signInWithFacebook() async {
     User? user;
     try {
       user = await firebaseAuthService.signInWithFacebook();
-      UserEntity userEntity = UserModel.fromFirebaseUser(user);
-
-      var isUserExist = await databaseService.checkIfDataExists(
-        path: BackendEndpoints.isUserExists,
-        documentId: userEntity.uId,
+      var userEntity = UserEntity(
+        uId: user.uid,
+        email: user.email ?? '',
+        name: user.displayName ?? '',
+        phone: '',
       );
-
-      if (!isUserExist) {
-        await addUserData(user: userEntity);
-      } else {
-        userEntity = await getUserData(uid: userEntity.uId);
-      }
-
-      await saveUserData(user: userEntity);
 
       return right(userEntity);
     } on CustomExeption catch (e) {
@@ -168,26 +145,18 @@ class AuthRepoImpl extends AuthRepo {
     }
   }
 
-  /// Sign in with Apple OAuth; store new user data if they don't exist in Firestore.
+  /// Sign in with Apple OAuth.
   @override
   Future<Either<Failure, UserEntity>> signInWithApple() async {
     User? user;
     try {
       user = await firebaseAuthService.signInWithApple();
-      UserEntity userEntity = UserModel.fromFirebaseUser(user);
-
-      var isUserExist = await databaseService.checkIfDataExists(
-        path: BackendEndpoints.isUserExists,
-        documentId: userEntity.uId,
+      var userEntity = UserEntity(
+        uId: user.uid,
+        email: user.email ?? '',
+        name: user.displayName ?? '',
+        phone: '',
       );
-
-      if (!isUserExist) {
-        await addUserData(user: userEntity);
-      } else {
-        userEntity = await getUserData(uid: userEntity.uId);
-      }
-
-      await saveUserData(user: userEntity);
 
       return right(userEntity);
     } on CustomExeption catch (e) {
@@ -202,16 +171,6 @@ class AuthRepoImpl extends AuthRepo {
     }
   }
 
-  /// Create/Update a user document in Firestore with [user].
-  @override
-  Future<void> addUserData({required UserEntity user}) async {
-    await databaseService.addData(
-      path: BackendEndpoints.addUserData,
-      data: UserModel.fromEntity(user).toMap(),
-      documentId: user.uId,
-    );
-  }
-
   /// Helper method to delete a partially created user if an exception occurs.
   Future<void> deleteUser(User? user) async {
     if (user != null) {
@@ -219,20 +178,21 @@ class AuthRepoImpl extends AuthRepo {
     }
   }
 
-  /// Fetch user data from Firestore for a given UID.
   @override
-  Future<UserEntity> getUserData({required String uid}) async {
-    var userData = await databaseService.getData(
-      path: BackendEndpoints.getUserData,
-      documentId: uid,
-    );
-    return UserModel.fromJson(userData);
+  Future<void> addUserData({required UserEntity user}) {
+    // TODO: implement addUserData
+    throw UnimplementedError();
   }
 
-  /// Save user data locally (e.g., shared preferences).
   @override
-  Future<void> saveUserData({required UserEntity user}) async {
-    var jsonData = jsonEncode(UserModel.fromEntity(user).toMap());
-    await Prefs.setString(kUserData, jsonData);
+  Future<UserEntity> getUserData({required String uid}) {
+    // TODO: implement getUserData
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> saveUserData({required UserEntity user}) {
+    // TODO: implement saveUserData
+    throw UnimplementedError();
   }
 }
