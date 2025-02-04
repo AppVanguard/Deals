@@ -38,11 +38,7 @@ class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
               label: S.of(context).City,
               validator: (value) {}),
           CustomDatePicker(
-            onDateSelected: (DateTime date) {
-              setState(() {
-                birthday = date;
-              });
-            },
+            onDateSelected: (value) {},
           ),
         ],
       ),

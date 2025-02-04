@@ -5,6 +5,7 @@ import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/custom_password_filed.dart';
 import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
+import 'package:in_pocket/core/widgets/date_picker_field.dart';
 import 'package:in_pocket/core/widgets/have_or_not_account.dart';
 import 'package:in_pocket/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/auth_divider.dart';
@@ -167,6 +168,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
               action: S.of(context).Login,
             ),
             SizedBox(height: 32),
+            CustomDatePicker(onDateSelected: (DateTime date) {},)
           ],
         ),
       ),
