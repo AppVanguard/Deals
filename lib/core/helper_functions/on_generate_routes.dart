@@ -35,7 +35,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       final args = settings.arguments as List<String?>;
       final email = args[0];
       final image = args[1];
-      log(image.toString());
+      final route = args[2];
       if (email == null) {
         return MaterialPageRoute(
             settings: settings, builder: (context) => const Scaffold());
@@ -45,6 +45,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
           builder: (context) => OtpVerficationView(
                 email: email,
                 image: image,
+                path: route!,
               ));
     case ResetPasswordView.routeName:
       return MaterialPageRoute(

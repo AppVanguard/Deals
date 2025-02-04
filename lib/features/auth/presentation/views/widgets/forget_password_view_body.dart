@@ -5,6 +5,7 @@ import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
 import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
+import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class ForgetPasswordViewBody extends StatefulWidget {
@@ -68,7 +69,11 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                   Navigator.pushNamed(
                     context,
                     OtpVerficationView.routeName,
-                    arguments: [email, AppImages.assetsImagesOTB],
+                    arguments: [
+                      email,
+                      AppImages.assetsImagesOTB,
+                      SigninView.routeName
+                    ],
                   );
                 }
               },

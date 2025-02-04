@@ -10,9 +10,11 @@ import 'package:in_pocket/features/auth/presentation/views/reset_password_view.d
 import 'package:in_pocket/generated/l10n.dart';
 
 class OTPVerificationViewBody extends StatefulWidget {
-  const OTPVerificationViewBody({super.key, required this.email, this.image});
+  const OTPVerificationViewBody(
+      {super.key, required this.email, this.image, required this.routeName});
   final String email;
   final String? image;
+  final String routeName;
   @override
   State<OTPVerificationViewBody> createState() =>
       _OTPVerificationViewBodyState();
@@ -86,7 +88,7 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
       String otpCode = _controllers.map((e) => e.text).join();
       log("Entered OTP: $otpCode");
       widget.image != null
-          ? Navigator.pushReplacementNamed(context, ResetPasswordView.routeName)
+          ? Navigator.pushReplacementNamed(context, widget.routeName)
           : null;
     }
   }

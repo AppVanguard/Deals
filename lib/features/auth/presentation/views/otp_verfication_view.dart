@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/otp_verfication_view_body.dart';
 
 class OtpVerficationView extends StatelessWidget {
-  const OtpVerficationView({super.key, required this.email, this.image});
+  const OtpVerficationView(
+      {super.key, required this.email, this.image, required this.path});
   final String email;
   final String? image;
+  final String path;
   static const routeName = 'otp_verfication_view';
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,7 @@ class OtpVerficationView extends StatelessWidget {
         body: OTPVerificationViewBody(
           image: image,
           email: email,
+          routeName: path,
         ));
   }
 }

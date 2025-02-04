@@ -6,6 +6,7 @@ import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/widgets/custom_modal_sheet.dart';
 import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
 import 'package:in_pocket/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
+import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/personal_data_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/signup_view_body.dart';
 import 'package:in_pocket/generated/l10n.dart';
@@ -23,13 +24,20 @@ class SignupBlocConsumer extends StatelessWidget {
           customErrorTopSnackBar(context: context, message: state.message);
         }
         if (state is SignupSuccess) {
-          CustomModalSheet.show(context,
-              buttonText: S.of(context).Next,
-              enableDrag: false,
-              svgPicture: SvgPicture.asset(AppImages.assetsImagesSuccess),
-              onTap: () {
-            Navigator.pushReplacementNamed(context, PersonalDataView.routeName);
-          }, message: S.of(context).EmailVerified);
+          // CustomModalSheet.show(context,
+          //     buttonText: S.of(context).Next,
+          //     enableDrag: false,
+          //     svgPicture: SvgPicture.asset(AppImages.assetsImagesSuccess),
+          //     onTap: () {
+          //   Navigator.pushReplacementNamed(
+          //       context, OtpVerficationView.routeName);
+          // }, message: S.of(context).EmailVerified);
+          Navigator.pushReplacementNamed(context, OtpVerficationView.routeName,
+              arguments: [
+                state.userEntity.email,
+                AppImages.assetsImagesOTB,
+                PersonalDataView.routeName
+              ]);
         }
       },
       builder: (context, state) {
