@@ -158,7 +158,16 @@ class _SignupViewBodyState extends State<SignupViewBody> {
               width: double.infinity,
             ),
             AuthDivider(text: S.of(context).OrRegisterWith),
-            ThirdPartyAuth(),
+            ThirdPartyAuth(
+              googleOnTap: () {
+                context.read<SignupCubit>().signInWithGoogle(rememberMe: false);
+              },
+              facebookOnTap: () {
+                context
+                    .read<SignupCubit>()
+                    .signInWithFacebook(rememberMe: false);
+              },
+            ),
             HaveOrNotAccount(
               onTap: () {
                 Navigator.pop(context);
