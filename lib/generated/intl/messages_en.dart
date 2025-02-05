@@ -87,6 +87,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "OrRegisterWith":
             MessageLookupByLibrary.simpleMessage("or register with"),
         "Other": MessageLookupByLibrary.simpleMessage("Other"),
+        "OtpVerfiedFailed":
+            MessageLookupByLibrary.simpleMessage("OTP verification failed"),
+        "OtpVerfiedSuccess":
+            MessageLookupByLibrary.simpleMessage("OTP verified successfully"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
         "PasswordNotMatch":
             MessageLookupByLibrary.simpleMessage("Password not match."),

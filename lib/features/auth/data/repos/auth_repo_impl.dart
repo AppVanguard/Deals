@@ -75,8 +75,7 @@ class AuthRepoImpl extends AuthRepo {
     } catch (e) {
       await deleteUser(user);
       log('Error in createUserWithEmailAndPassword: ${e.toString()}');
-      return left(
-          ServerFaliure(message: 'حدث خطأ ما يرجى المحاولة مرة أخرى لاحقا!'));
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -110,8 +109,7 @@ class AuthRepoImpl extends AuthRepo {
       return left(ServerFaliure(message: e.message));
     } catch (e) {
       log('Error in signInWithEmailAndPassword: ${e.toString()}');
-      return left(
-          ServerFaliure(message: 'حدث خطأ ما يرجى المحاولة مرة أخرى لاحقا!'));
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -204,48 +202,16 @@ class AuthRepoImpl extends AuthRepo {
     }
   }
 
-
   @override
-  Future<void> addUserData({required UserEntity user}) async {
+  Future<Either<Failure, String>> sendOtp(
+      {required String email, required String otp}) async {
     try {
-      final userMap = UserModel.fromEntity(user).toMap();
-      await backendStoreService.addData(
-        path: 'users',
-        documentId: user.uId,
-        data: userMap,
-      );
-    } catch (e) {
-      log('Error in addUserData: ${e.toString()}');
-      rethrow;
+      await authApiService.sendOtp(email: email, otp: otp);
+      return right(S.current.OtpVerfiedSuccess);
+    } on Exception catch (e) {
+      return left(ServerFaliure(message: S.current.OtpVerfiedFailed));
     }
   }
 
-  @override
-  Future<UserEntity> getUserData({required String uid}) async {
-    try {
-      final data = await backendStoreService.getData(
-        path: 'users',
-        documentId: uid,
-      );
-      return UserModel.fromJson(data);
-    } catch (e) {
-      log('Error in getUserData: ${e.toString()}');
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> saveUserData({required UserEntity user}) async {
-    try {
-      final userMap = UserModel.fromEntity(user).toMap();
-      await backendStoreService.updateData(
-        path: 'users',
-        documentId: user.uId,
-        data: userMap,
-      );
-    } catch (e) {
-      log('Error in saveUserData: ${e.toString()}');
-      rethrow;
-    }
-  }
+  //
 }

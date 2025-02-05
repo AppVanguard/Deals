@@ -1009,6 +1009,26 @@ class S {
       args: [],
     );
   }
+
+  /// `OTP verified successfully`
+  String get OtpVerfiedSuccess {
+    return Intl.message(
+      'OTP verified successfully',
+      name: 'OtpVerfiedSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OTP verification failed`
+  String get OtpVerfiedFailed {
+    return Intl.message(
+      'OTP verification failed',
+      name: 'OtpVerfiedFailed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -94,5 +94,7 @@
       "SelectGender": "Select Gender",
       "Male": "Male",
       "Female": "Female",
-      "Other": "Other"
+      "Other": "Other",
+      "OtpVerfiedSuccess": "OTP verified successfully",
+      "OtpVerfiedFailed": "OTP verification failed"
 }

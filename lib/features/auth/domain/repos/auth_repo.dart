@@ -26,14 +26,15 @@ abstract class AuthRepo {
 
   /// Signs in with Apple; creates a record in Firestore if user doesn't exist.
   Future<Either<Failure, UserEntity>> signInWithApple();
+  Future<Either<Failure, String>> sendOtp(
+      {required String email, required String otp});
 
-  /// Adds a new user document to Firestore.
-  Future<void> addUserData({required UserEntity user});
+  // /// Adds a new user document to Firestore.
+  // Future<void> addUserData({required UserEntity user});
 
-  /// Saves user data locally (e.g., in SharedPreferences).
-  Future<void> saveUserData({required UserEntity user});
+  // /// Saves user data locally (e.g., in SharedPreferences).
+  // Future<void> saveUserData({required UserEntity user});
 
-  /// Fetches user data from Firestore given a UID.
-  Future<UserEntity> getUserData({required String uid});
-  
+  // /// Fetches user data from Firestore given a UID.
+  // Future<UserEntity> getUserData({required String uid});
 }
