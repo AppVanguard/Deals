@@ -2,19 +2,28 @@ import 'dart:developer';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
+import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
-import 'package:in_pocket/features/auth/presentation/views/reset_password_view.dart';
+import 'package:in_pocket/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class OTPVerificationViewBody extends StatefulWidget {
-  const OTPVerificationViewBody(
-      {super.key, required this.email, this.image, required this.routeName});
+  const OTPVerificationViewBody({
+    super.key,
+    required this.email,
+    this.image,
+    required this.routeName,
+    this.errorMessage, // error message coming from cubit failure
+  });
   final String email;
   final String? image;
   final String routeName;
+  final String? errorMessage;
+
   @override
   State<OTPVerificationViewBody> createState() =>
       _OTPVerificationViewBodyState();
@@ -28,8 +37,8 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
   final List<bool> _isError = List.generate(4, (index) => false);
 
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  late GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  bool _showErrorMessage = false;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool _showFieldError = false;
 
   @override
   void dispose() {
@@ -81,16 +90,50 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
           hasEmptyFields = true;
         }
       }
-      _showErrorMessage = hasEmptyFields;
+      _showFieldError = hasEmptyFields;
     });
 
     if (!hasEmptyFields) {
       String otpCode = _controllers.map((e) => e.text).join();
       log("Entered OTP: $otpCode");
-      widget.image != null
-          ? Navigator.pushReplacementNamed(context, widget.routeName)
-          : null;
+      // Trigger OTP verification via your cubit.
+      // For example:
+      context
+          .read<OtpVerifyCubit>()
+          .verifyOtp(email: widget.email, otp: otpCode);
     }
+  }
+
+  /// Returns a border with red color if the cubit error is present.
+  OutlineInputBorder buildBorder(int index) {
+    Color borderColor;
+    if (widget.errorMessage != null) {
+      borderColor = Colors.red;
+    } else {
+      borderColor = _isError[index]
+          ? Colors.red
+          : (_hasValue[index] ? AppColors.primary : Colors.grey.shade400);
+    }
+    return OutlineInputBorder(
+      borderSide: BorderSide(
+        color: borderColor,
+        width: 2,
+      ),
+      borderRadius: BorderRadius.circular(12),
+    );
+  }
+
+  /// Returns a focused border with red color if the cubit error is present.
+  OutlineInputBorder buildFocusedBorder(int index) {
+    Color borderColor =
+        widget.errorMessage != null ? Colors.red : AppColors.primary;
+    return OutlineInputBorder(
+      borderSide: BorderSide(
+        color: _isError[index] ? Colors.red : borderColor,
+        width: 2,
+      ),
+      borderRadius: BorderRadius.circular(12),
+    );
   }
 
   @override
@@ -101,15 +144,13 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
         autovalidateMode: autovalidateMode,
         child: Center(
           child: Column(
-            spacing: 20,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                height: 1,
-              ),
-              widget.image != null
-                  ? SvgPicture.asset(widget.image!)
-                  : SizedBox(),
+              const SizedBox(height: 1),
+              if (widget.image != null)
+                SvgPicture.asset(widget.image!)
+              else
+                const SizedBox(),
               widget.image != null
                   ? Text(
                       S.of(context).OTPVerification,
@@ -163,36 +204,37 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                   );
                 }),
               ),
-              if (_showErrorMessage)
-                // Container(
-                //   width: 122,
-                //   height: 36,
-                //   decoration: ShapeDecoration(
-                //     color: Color(0xFFFFEBEB),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(12),
-                //     ),
-                //   ),
-                //   child: Row(
-                //     spacing: 8,
-                //     // mainAxisSize: MainAxisSize.min,
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     children: [
-                //       SvgPicture.asset(
-                //         AppImages.assetsImagesWarning,
-                //       ),
-                //       Text(
-                //         S.of(context).InvalidCode,
-                //         style: AppTextStyles.regular13
-                //             .copyWith(color: AppColors.accent),
-                //       ),
-                //     ],
-                //   ),
-                // ),
+              // Show local field error if applicable (fields empty).
+              if (_showFieldError)
                 Text(
                   S.of(context).OTPValidator,
                   style: AppTextStyles.regular14.copyWith(color: Colors.red),
+                ),
+              // Show backend error container if an errorMessage is provided from cubit.
+              if (widget.errorMessage != null)
+                Container(
+                  width: 122,
+                  height: 36,
+                  margin: const EdgeInsets.only(top: 8),
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFFFEBEB),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(AppImages.assetsImagesWarning),
+                      const SizedBox(width: 8),
+                      Text(
+                        widget.errorMessage!,
+                        style: AppTextStyles.regular13
+                            .copyWith(color: AppColors.accent),
+                      ),
+                    ],
+                  ),
                 ),
               CustomButton(
                 width: double.infinity,
@@ -206,7 +248,7 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                         text: S.of(context).NoCode,
                         style: AppTextStyles.regular14
                             .copyWith(color: AppColors.secondaryText)),
-                    TextSpan(text: ' '),
+                    const TextSpan(text: ' '),
                     TextSpan(
                       recognizer: TapGestureRecognizer()..onTap = () {},
                       text: S.of(context).Resend,
@@ -216,39 +258,11 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 20,
-              )
+              const SizedBox(height: 20),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  /// Border when field is empty
-  OutlineInputBorder buildBorder(int index) {
-    return OutlineInputBorder(
-      borderSide: BorderSide(
-        color: _isError[index]
-            ? Colors.red // Field border turns red if empty
-            : (_hasValue[index] ? AppColors.primary : Colors.grey.shade400),
-        width: 2,
-      ),
-      borderRadius: BorderRadius.circular(12),
-    );
-  }
-
-  /// Border when field is focused
-  OutlineInputBorder buildFocusedBorder(int index) {
-    return OutlineInputBorder(
-      borderSide: BorderSide(
-        color: _isError[index]
-            ? Colors.red // Keep red border even when focused if empty
-            : AppColors.primary,
-        width: 2,
-      ),
-      borderRadius: BorderRadius.circular(12),
     );
   }
 }

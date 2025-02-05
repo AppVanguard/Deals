@@ -5,7 +5,7 @@ class BackendEndpoints {
 
   // Auth endpoints.
   static const String registerUser = "$apiPath/auth/register";
-  static const String verifyEmail = "$baseUrl/auth/verify-email";
+  static const String verifyEmail = "$apiPath/auth/verify-email";
   static const String oauth = "$baseUrl/auth/oauth";
 
   // Collection names.
@@ -17,6 +17,7 @@ class BackendEndpoints {
   static const String keyFullName = "full_name";
   static const String keyPhone = "phone";
   static const String keyPassword = "password";
+  static const String kId = "id";
 
   // JSON keys for response payloads.
   static const String keyUserId = "userId";

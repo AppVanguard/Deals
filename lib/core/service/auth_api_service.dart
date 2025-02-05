@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:in_pocket/core/utils/backend_endpoints.dart';
+import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 
 class AuthApiService {
   Future<Map<String, dynamic>> registerUser({
@@ -16,7 +17,7 @@ class AuthApiService {
     try {
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
+        headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({
           BackendEndpoints.keyUid:
               "", // Optionally leave empty if backend creates uid.
@@ -41,22 +42,36 @@ class AuthApiService {
     }
   }
 
-  Future<void> sendOtp({required String email, String? otp}) async {
+  Future<UserEntity> sendOtp({required String email, String? otp}) async {
     final url = Uri.parse(BackendEndpoints.verifyEmail);
     try {
-      // If an OTP value is needed in the request payload, include it.
+      // Include the OTP in the payload if provided.
       final body =
           otp != null ? {'email': email, 'otp': otp} : {'email': email};
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
+        headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode(body),
       );
+
       if (response.statusCode != 200) {
         log('Error in sendOtp: ${response.statusCode} ${response.body}');
         throw Exception(
             'Error sending OTP: ${response.statusCode} ${response.body}');
       }
+
+      // Parse the response body to create a UserEntity.
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+
+      // Map the "id" field from the response to the UserEntity's uId,
+      // and "full_name" to the name.
+      return UserEntity(
+        uId: responseData[
+            BackendEndpoints.kId], // using "id" instead of "userId"
+        email: responseData[BackendEndpoints.keyEmail],
+        name: responseData[BackendEndpoints.keyFullName],
+        phone: responseData[BackendEndpoints.keyPhone],
+      );
     } catch (e) {
       log('Exception in sendOtp: ${e.toString()}');
       rethrow;

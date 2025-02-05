@@ -174,11 +174,23 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
-  Future<Either<Failure, String>> sendOtp(
-      {required String email, required String otp}) async {
+  Future<Either<Failure, UserEntity>> sendOtp({
+    required String email,
+    required String otp,
+  }) async {
     try {
-      await authApiService.sendOtp(email: email, otp: otp);
-      return right(S.current.OtpVerfiedSuccess);
+      // Call the API service to send OTP and capture the response.
+      final response = await authApiService.sendOtp(email: email, otp: otp);
+
+      // Parse the response into a UserEntity.
+      final userEntity = UserEntity(
+        uId: response.uId,
+        email: response.email,
+        name: response.name,
+        phone: response.phone,
+      );
+
+      return right(userEntity);
     } on Exception catch (e) {
       return left(ServerFaliure(message: S.current.OtpVerfiedFailed));
     }
