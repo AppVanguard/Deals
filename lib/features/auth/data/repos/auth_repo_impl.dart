@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
 import 'package:in_pocket/core/errors/exception.dart';
 import 'package:in_pocket/core/errors/faliure.dart';
 import 'package:in_pocket/core/service/auth_api_service.dart';
@@ -34,39 +32,39 @@ class AuthRepoImpl extends AuthRepo {
     User? user;
     try {
       // Create user with Firebase.
-      user = await firebaseAuthService.createUserWithEmailAndPassword(
-        password: password,
-        email: email,
-      );
+      // user = await firebaseAuthService.createUserWithEmailAndPassword(
+      //   password: password,
+      //   email: email,
+      // );
 
       // Update the display name if provided.
-      if (name.isNotEmpty) {
-        await user.updateDisplayName(name);
-      }
+      // if (name.isNotEmpty) {
+      //   await user.updateDisplayName(name);
+      // }
 
       // Construct the UserEntity.
-      final userEntity = UserEntity(
-        uId: user.uid,
-        email: email,
-        name: name,
-        phone: phone,
-      );
 
       // --- Call the Auth API to register the user and send OTP ---
-      await authApiService.registerUser(
-        uid: user.uid,
+      var user = await authApiService.registerUser(
+        // uid: user.uid,
         email: email,
         name: name,
         phone: phone,
         password: password,
       );
-      await authApiService.sendOtp(email: email);
+      final userEntity = UserEntity(
+        uId: user['userId'], // Extract the userId from the response.
+        email: user['email'] ??
+            email, // Use the returned email, or fallback to the provided one.
+        name: name,
+        phone: phone,
+      );
 
       // --- Persist user data to the backend database ---
       final userMap = UserModel.fromEntity(userEntity).toMap();
       await backendStoreService.addData(
         path: 'users',
-        documentId: user.uid,
+        documentId: '',
         data: userMap,
       );
 
@@ -88,23 +86,25 @@ class AuthRepoImpl extends AuthRepo {
     required String password,
   }) async {
     try {
-      // Sign in using Firebase.
-      final user = await firebaseAuthService.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      log('$email $password');
 
+      // Sign in using Firebase.
+      // final user = await firebaseAuthService.signInWithEmailAndPassword(
+      //   email: email,
+      //   password: password,
+      // );
+
+      // // --- Send the OAuth token to the backend ---
+      // final token = await user.getIdToken();
+      // log(token!);
+      // await authApiService.sendOAuthToken(token: token!);
+      await authApiService.signinUser(email: email, password: password);
       final userEntity = UserEntity(
-        uId: user.uid,
-        email: user.email ?? '',
-        name: user.displayName ?? '',
+        uId: '',
+        email: '',
+        name: '',
         phone: '',
       );
-
-      // --- Send the OAuth token to the backend ---
-      final token = await user.getIdToken();
-      await authApiService.sendOAuthToken(token: token!);
-
       return right(userEntity);
     } on CustomExeption catch (e) {
       return left(ServerFaliure(message: e.message));
@@ -127,8 +127,8 @@ class AuthRepoImpl extends AuthRepo {
         phone: '',
       );
 
-      // --- Send the OAuth token ---
       final token = await user.getIdToken();
+
       await authApiService.sendOAuthToken(token: token!);
 
       return right(userEntity);
@@ -204,7 +204,6 @@ class AuthRepoImpl extends AuthRepo {
     }
   }
 
-  /// --- Additional backend data operations ---
 
   @override
   Future<void> addUserData({required UserEntity user}) async {

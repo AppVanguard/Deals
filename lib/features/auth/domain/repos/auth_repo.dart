@@ -35,4 +35,5 @@ abstract class AuthRepo {
 
   /// Fetches user data from Firestore given a UID.
   Future<UserEntity> getUserData({required String uid});
+  
 }
