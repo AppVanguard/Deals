@@ -4,21 +4,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:in_pocket/core/errors/exception.dart';
 import 'package:in_pocket/core/errors/faliure.dart';
 import 'package:in_pocket/core/service/auth_api_service.dart';
-import 'package:in_pocket/core/service/database_service.dart';
 import 'package:in_pocket/core/service/firebase_auth_service.dart';
-import 'package:in_pocket/features/auth/data/models/user_model.dart';
+import 'package:in_pocket/core/utils/backend_endpoints.dart';
 import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class AuthRepoImpl extends AuthRepo {
   final FirebaseAuthService firebaseAuthService;
-  final DatabaseService backendStoreService;
+  // final DatabaseService backendStoreService;
   final AuthApiService authApiService;
 
   AuthRepoImpl({
     required this.firebaseAuthService,
-    required this.backendStoreService,
     required this.authApiService,
   });
 
@@ -29,51 +27,25 @@ class AuthRepoImpl extends AuthRepo {
     required String name,
     required String phone,
   }) async {
-    User? user;
     try {
-      // Create user with Firebase.
-      // user = await firebaseAuthService.createUserWithEmailAndPassword(
-      //   password: password,
-      //   email: email,
-      // );
-
-      // Update the display name if provided.
-      // if (name.isNotEmpty) {
-      //   await user.updateDisplayName(name);
-      // }
-
-      // Construct the UserEntity.
-
-      // --- Call the Auth API to register the user and send OTP ---
-      var user = await authApiService.registerUser(
-        // uid: user.uid,
+      // Call the Auth API to register the user.
+      final userResponse = await authApiService.registerUser(
         email: email,
         name: name,
         phone: phone,
         password: password,
       );
       final userEntity = UserEntity(
-        uId: user['userId'], // Extract the userId from the response.
-        email: user['email'] ??
-            email, // Use the returned email, or fallback to the provided one.
+        uId: userResponse[
+            BackendEndpoints.keyUserId], // e.g., "userId" from response
+        email: userResponse[BackendEndpoints.keyEmail] ?? email,
         name: name,
         phone: phone,
       );
-
-      // --- Persist user data to the backend database ---
-      final userMap = UserModel.fromEntity(userEntity).toMap();
-      await backendStoreService.addData(
-        path: 'users',
-        documentId: '',
-        data: userMap,
-      );
-
       return right(userEntity);
     } on CustomExeption catch (e) {
-      await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      await deleteUser(user);
       log('Error in createUserWithEmailAndPassword: ${e.toString()}');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
@@ -190,8 +162,7 @@ class AuthRepoImpl extends AuthRepo {
     } catch (e) {
       await deleteUser(user);
       log('Error in signInWithApple: ${e.toString()}');
-      return left(
-          ServerFaliure(message: 'حدث خطأ ما يرجى المحاولة مرة أخرى لاحقا!'));
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 

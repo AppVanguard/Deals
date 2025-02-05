@@ -13,7 +13,6 @@ void setupGetit() {
   getIt.registerSingleton<AuthApiService>(AuthApiService());
   getIt.registerSingleton<AuthRepo>(AuthRepoImpl(
     authApiService: getIt<AuthApiService>(),
-    backendStoreService: getIt<DatabaseService>(),
     firebaseAuthService: getIt<FirebaseAuthService>(),
   ));
 }
