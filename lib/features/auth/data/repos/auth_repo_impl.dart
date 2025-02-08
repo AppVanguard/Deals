@@ -69,7 +69,7 @@ class AuthRepoImpl extends AuthRepo {
       // final token = await user.getIdToken();
       // log(token!);
       // await authApiService.sendOAuthToken(token: token!);
-      await authApiService.signinUser(email: email, password: password);
+      await authApiService.loginUser(email: email, password: password);
       final userEntity = UserEntity(
         uId: '',
         email: '',

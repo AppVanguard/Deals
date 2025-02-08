@@ -7,7 +7,8 @@ class BackendEndpoints {
   static const String registerUser = "$apiPath/auth/register";
   static const String verifyEmail = "$apiPath/auth/verify-email";
   static const String oauth = "$baseUrl/auth/oauth";
-
+  static const String loginUser = "$apiPath/auth/login";
+  static const String resendOtp = "$apiPath/auth/resend-otp";
   // Collection names.
   static const String usersCollection = "users";
 

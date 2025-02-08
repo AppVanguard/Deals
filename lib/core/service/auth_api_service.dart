@@ -5,9 +5,8 @@ import 'package:in_pocket/core/utils/backend_endpoints.dart';
 import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 
 class AuthApiService {
+  /// Registers a new user.
   Future<Map<String, dynamic>> registerUser({
-    // Note: uid is not passed if you let your backend generate it,
-    // but if needed, include it as a parameter.
     required String email,
     required String name,
     required String phone,
@@ -19,18 +18,17 @@ class AuthApiService {
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({
-          BackendEndpoints.keyUid:
-              "", // Optionally leave empty if backend creates uid.
+          BackendEndpoints.keyUid: "", // backend may generate uid
           BackendEndpoints.keyEmail: email,
           BackendEndpoints.keyFullName: name,
           BackendEndpoints.keyPhone: phone,
           BackendEndpoints.keyPassword: password,
         }),
       );
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         log('User registered successfully: ${response.statusCode} ${response.body}');
-        final userInfo = jsonDecode(response.body) as Map<String, dynamic>;
-        return userInfo;
+        return jsonDecode(response.body) as Map<String, dynamic>;
       } else {
         log('Error in registerUser: ${response.statusCode} ${response.body}');
         throw Exception(
@@ -42,10 +40,10 @@ class AuthApiService {
     }
   }
 
+  /// Sends an OTP to verify the email.
   Future<UserEntity> sendOtp({required String email, String? otp}) async {
     final url = Uri.parse(BackendEndpoints.verifyEmail);
     try {
-      // Include the OTP in the payload if provided.
       final body =
           otp != null ? {'email': email, 'otp': otp} : {'email': email};
       final response = await http.post(
@@ -60,14 +58,9 @@ class AuthApiService {
             'Error sending OTP: ${response.statusCode} ${response.body}');
       }
 
-      // Parse the response body to create a UserEntity.
       final Map<String, dynamic> responseData = jsonDecode(response.body);
-
-      // Map the "id" field from the response to the UserEntity's uId,
-      // and "full_name" to the name.
       return UserEntity(
-        uId: responseData[
-            BackendEndpoints.kId], // using "id" instead of "userId"
+        uId: responseData[BackendEndpoints.kId],
         email: responseData[BackendEndpoints.keyEmail],
         name: responseData[BackendEndpoints.keyFullName],
         phone: responseData[BackendEndpoints.keyPhone],
@@ -78,12 +71,13 @@ class AuthApiService {
     }
   }
 
+  /// Sends an OAuth token to the backend.
   Future<void> sendOAuthToken({required String token}) async {
     final url = Uri.parse(BackendEndpoints.oauth);
     try {
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
+        headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({'token': token}),
       );
       if (response.statusCode != 200) {
@@ -97,14 +91,76 @@ class AuthApiService {
     }
   }
 
-  Future<void> signinUser({
+  /// Logs in the user via /auth/login.
+  ///
+  /// If the response status is 200, login is successful.
+  /// If a 401 is returned with the message "Email not verified",
+  /// it automatically triggers the OTP resend and throws an exception.
+  Future<Map<String, dynamic>> loginUser({
     required String email,
     required String password,
   }) async {
-    // Implement sign in API if your backend requires it.
-    // For example, you can call an endpoint like: "$BackendEndpoints.apiPath/auth/signin"
-    // Here we leave it as a placeholder.
-    // final url = Uri.parse('$_baseUrl/api/auth/signin');
-    // ...
+    final url = Uri.parse(BackendEndpoints.loginUser); // e.g., "/auth/login"
+    try {
+      final response = await http.post(
+        url,
+        headers: BackendEndpoints.jsonHeaders,
+        body: jsonEncode({
+          BackendEndpoints.keyEmail: email,
+          BackendEndpoints.keyPassword: password,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        log('Login successful: ${response.body}');
+        return jsonDecode(response.body) as Map<String, dynamic>;
+      } else if (response.statusCode == 401) {
+        final responseData = jsonDecode(response.body);
+        if (responseData['message'] == "Email not verified") {
+          log('Email not verified, triggering OTP resend.');
+          await resendOtp(email: email);
+          throw Exception("Email not verified. OTP has been resent.");
+        } else {
+          log('Login error: ${response.statusCode} ${response.body}');
+          throw Exception(
+              "Error logging in: ${response.statusCode} ${response.body}");
+        }
+      } else {
+        log('Login error: ${response.statusCode} ${response.body}');
+        throw Exception(
+            "Error logging in: ${response.statusCode} ${response.body}");
+      }
+    } catch (e) {
+      log('Exception in loginUser: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  /// Resends the OTP via /auth/resend-otp.
+  ///
+  /// This method sends only the email in the payload.
+  Future<void> resendOtp({required String email}) async {
+    final url =
+        Uri.parse(BackendEndpoints.resendOtp); // e.g., "/auth/resend-otp"
+    try {
+      final response = await http.post(
+        url,
+        headers: BackendEndpoints.jsonHeaders,
+        body: jsonEncode({
+          BackendEndpoints.keyEmail: email,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        log('OTP resent successfully: ${response.body}');
+      } else {
+        log('Error resending OTP: ${response.statusCode} ${response.body}');
+        throw Exception(
+            "Error resending OTP: ${response.statusCode} ${response.body}");
+      }
+    } catch (e) {
+      log('Exception in resendOtp: ${e.toString()}');
+      rethrow;
+    }
   }
 }
