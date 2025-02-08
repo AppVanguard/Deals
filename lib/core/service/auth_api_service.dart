@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:in_pocket/core/errors/exception.dart';
 import 'package:in_pocket/core/utils/backend_endpoints.dart';
 import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 
@@ -31,7 +32,7 @@ class AuthApiService {
         return jsonDecode(response.body) as Map<String, dynamic>;
       } else {
         log('Error in registerUser: ${response.statusCode} ${response.body}');
-        throw Exception(
+        throw CustomExeption(
             'Error registering user: ${response.statusCode} ${response.body}');
       }
     } catch (e) {
@@ -44,8 +45,9 @@ class AuthApiService {
   Future<UserEntity> sendOtp({required String email, String? otp}) async {
     final url = Uri.parse(BackendEndpoints.verifyEmail);
     try {
-      final body =
-          otp != null ? {'email': email, 'otp': otp} : {'email': email};
+      final body = otp != null
+          ? {BackendEndpoints.keyEmail: email, BackendEndpoints.kOtp: otp}
+          : {BackendEndpoints.keyEmail: email};
       final response = await http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
@@ -54,7 +56,7 @@ class AuthApiService {
 
       if (response.statusCode != 200) {
         log('Error in sendOtp: ${response.statusCode} ${response.body}');
-        throw Exception(
+        throw CustomExeption(
             'Error sending OTP: ${response.statusCode} ${response.body}');
       }
 
@@ -78,11 +80,11 @@ class AuthApiService {
       final response = await http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
-        body: jsonEncode({'token': token}),
+        body: jsonEncode({BackendEndpoints.kToken: token}),
       );
       if (response.statusCode != 200) {
         log('Error in sendOAuthToken: ${response.statusCode} ${response.body}');
-        throw Exception(
+        throw CustomExeption(
             'Error sending OAuth token: ${response.statusCode} ${response.body}');
       }
     } catch (e) {
@@ -116,18 +118,18 @@ class AuthApiService {
         return jsonDecode(response.body) as Map<String, dynamic>;
       } else if (response.statusCode == 401) {
         final responseData = jsonDecode(response.body);
-        if (responseData['message'] == "Email not verified") {
+        if (responseData[BackendEndpoints.kMessage] == "Email not verified") {
           log('Email not verified, triggering OTP resend.');
           await resendOtp(email: email);
-          throw Exception("Email not verified. OTP has been resent.");
+          throw CustomExeption("Email not verified. OTP has been resent.");
         } else {
           log('Login error: ${response.statusCode} ${response.body}');
-          throw Exception(
+          throw CustomExeption(
               "Error logging in: ${response.statusCode} ${response.body}");
         }
       } else {
         log('Login error: ${response.statusCode} ${response.body}');
-        throw Exception(
+        throw CustomExeption(
             "Error logging in: ${response.statusCode} ${response.body}");
       }
     } catch (e) {
@@ -139,9 +141,8 @@ class AuthApiService {
   /// Resends the OTP via /auth/resend-otp.
   ///
   /// This method sends only the email in the payload.
-  Future<void> resendOtp({required String email}) async {
-    final url =
-        Uri.parse(BackendEndpoints.resendOtp); // e.g., "/auth/resend-otp"
+  Future<String> resendOtp({required String email}) async {
+    final url = Uri.parse(BackendEndpoints.resendOtp);
     try {
       final response = await http.post(
         url,
@@ -151,12 +152,15 @@ class AuthApiService {
         }),
       );
 
+      final responseJson = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        log('OTP resent successfully: ${response.body}');
+        log('OTP sent successfully: ${response.body}');
+        // Return the success message from the response.
+        return responseJson['message'] as String;
       } else {
         log('Error resending OTP: ${response.statusCode} ${response.body}');
-        throw Exception(
-            "Error resending OTP: ${response.statusCode} ${response.body}");
+        // Throw a CustomExeption with the error message from the response.
+        throw CustomExeption(responseJson['message'] as String);
       }
     } catch (e) {
       log('Exception in resendOtp: ${e.toString()}');

@@ -26,15 +26,18 @@ abstract class AuthRepo {
 
   /// Signs in with Apple; creates a record in Firestore if user doesn't exist.
   Future<Either<Failure, UserEntity>> signInWithApple();
-  Future<Either<Failure, UserEntity>> sendOtp(
-      {required String email, required String otp});
 
-  // /// Adds a new user document to Firestore.
-  // Future<void> addUserData({required UserEntity user});
+  /// Sends an OTP along with the provided code.
+  Future<Either<Failure, UserEntity>> sendOtp({
+    required String email,
+    required String otp,
+  });
 
-  // /// Saves user data locally (e.g., in SharedPreferences).
-  // Future<void> saveUserData({required UserEntity user});
-
-  // /// Fetches user data from Firestore given a UID.
-  // Future<UserEntity> getUserData({required String uid});
+  /// Resends the OTP to the provided email.
+  ///
+  /// On success, the backend returns:
+  ///   { "message": "OTP sent successfully" }
+  /// This method returns that message internally and wraps success as Unit.
+  /// On failure (non-200), it throws a CustomExeption with the error message.
+  Future<Either<Failure, Unit>> resendOtp({required String email});
 }

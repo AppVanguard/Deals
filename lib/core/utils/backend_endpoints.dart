@@ -19,7 +19,9 @@ class BackendEndpoints {
   static const String keyPhone = "phone";
   static const String keyPassword = "password";
   static const String kId = "id";
-
+  static const String kOtp = "otp";
+  static const String kToken = "token";
+  static const String kMessage = "message";
   // JSON keys for response payloads.
   static const String keyUserId = "userId";
 

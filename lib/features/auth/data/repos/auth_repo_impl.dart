@@ -12,7 +12,6 @@ import 'package:in_pocket/generated/l10n.dart';
 
 class AuthRepoImpl extends AuthRepo {
   final FirebaseAuthService firebaseAuthService;
-  // final DatabaseService backendStoreService;
   final AuthApiService authApiService;
 
   AuthRepoImpl({
@@ -28,7 +27,6 @@ class AuthRepoImpl extends AuthRepo {
     required String phone,
   }) async {
     try {
-      // Call the Auth API to register the user.
       final userResponse = await authApiService.registerUser(
         email: email,
         name: name,
@@ -36,8 +34,7 @@ class AuthRepoImpl extends AuthRepo {
         password: password,
       );
       final userEntity = UserEntity(
-        uId: userResponse[
-            BackendEndpoints.keyUserId], // e.g., "userId" from response
+        uId: userResponse[BackendEndpoints.keyUserId],
         email: userResponse[BackendEndpoints.keyEmail] ?? email,
         name: name,
         phone: phone,
@@ -57,24 +54,18 @@ class AuthRepoImpl extends AuthRepo {
     required String password,
   }) async {
     try {
-      log('$email $password');
-
-      // Sign in using Firebase.
-      // final user = await firebaseAuthService.signInWithEmailAndPassword(
-      //   email: email,
-      //   password: password,
-      // );
-
-      // // --- Send the OAuth token to the backend ---
-      // final token = await user.getIdToken();
-      // log(token!);
-      // await authApiService.sendOAuthToken(token: token!);
-      await authApiService.loginUser(email: email, password: password);
+      log('Attempting login for: $email');
+      // Call the backend login service.
+      // If email is not verified, the API triggers OTP resend and throws a CustomExeption.
+      final loginResponse = await authApiService.loginUser(
+        email: email,
+        password: password,
+      );
       final userEntity = UserEntity(
-        uId: '',
-        email: '',
-        name: '',
-        phone: '',
+        uId: loginResponse[BackendEndpoints.kId] as String? ?? '',
+        email: loginResponse[BackendEndpoints.keyEmail] as String? ?? email,
+        name: loginResponse[BackendEndpoints.keyFullName] as String? ?? '',
+        phone: loginResponse[BackendEndpoints.keyPhone] as String? ?? '',
       );
       return right(userEntity);
     } on CustomExeption catch (e) {
@@ -96,11 +87,8 @@ class AuthRepoImpl extends AuthRepo {
         name: user.displayName ?? '',
         phone: '',
       );
-
       final token = await user.getIdToken();
-
       await authApiService.sendOAuthToken(token: token!);
-
       return right(userEntity);
     } on CustomExeption catch (e) {
       await deleteUser(user);
@@ -123,11 +111,8 @@ class AuthRepoImpl extends AuthRepo {
         name: user.displayName ?? '',
         phone: '',
       );
-
-      // --- Send the OAuth token ---
       final token = await user.getIdToken();
       await authApiService.sendOAuthToken(token: token!);
-
       return right(userEntity);
     } on CustomExeption catch (e) {
       await deleteUser(user);
@@ -150,11 +135,8 @@ class AuthRepoImpl extends AuthRepo {
         name: user.displayName ?? '',
         phone: '',
       );
-
-      // --- Send the OAuth token ---
       final token = await user.getIdToken();
       await authApiService.sendOAuthToken(token: token!);
-
       return right(userEntity);
     } on CustomExeption catch (e) {
       await deleteUser(user);
@@ -166,35 +148,45 @@ class AuthRepoImpl extends AuthRepo {
     }
   }
 
-  /// Helper method to delete a partially created Firebase user if an error occurs.
-  Future<void> deleteUser(User? user) async {
-    if (user != null) {
-      await firebaseAuthService.deleteUser();
-    }
-  }
-
   @override
   Future<Either<Failure, UserEntity>> sendOtp({
     required String email,
     required String otp,
   }) async {
     try {
-      // Call the API service to send OTP and capture the response.
       final response = await authApiService.sendOtp(email: email, otp: otp);
-
-      // Parse the response into a UserEntity.
       final userEntity = UserEntity(
         uId: response.uId,
         email: response.email,
         name: response.name,
         phone: response.phone,
       );
-
       return right(userEntity);
     } on Exception catch (e) {
+      log('Error in sendOtp: ${e.toString()}');
       return left(ServerFaliure(message: S.current.OtpVerfiedFailed));
     }
   }
 
-  //
+  @override
+  Future<Either<Failure, Unit>> resendOtp({required String email}) async {
+    try {
+      // The API returns a message on success; we log it and return unit.
+      final message = await authApiService.resendOtp(email: email);
+      log('Resend OTP success: $message');
+      return right(unit);
+    } on CustomExeption catch (e) {
+      return left(ServerFaliure(message: e.message));
+    } catch (e) {
+      log('Error in resendOtp: ${e.toString()}');
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+    }
+  }
+
+  /// Helper method to delete a partially created Firebase user if an error occurs.
+  Future<void> deleteUser(User? user) async {
+    if (user != null) {
+      await firebaseAuthService.deleteUser();
+    }
+  }
 }
