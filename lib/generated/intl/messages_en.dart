@@ -99,6 +99,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Phone": MessageLookupByLibrary.simpleMessage("Phone"),
         "PhoneValidator":
             MessageLookupByLibrary.simpleMessage("Please enter your phone."),
+        "PleaseSelectGender":
+            MessageLookupByLibrary.simpleMessage("Please select your gender."),
         "Previous": MessageLookupByLibrary.simpleMessage("Previous"),
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "RememberMe": MessageLookupByLibrary.simpleMessage("Remember me?"),

@@ -12,8 +12,6 @@ class UserUpdateCubit extends Cubit<UserUpdateState> {
 
   Future<void> updateUser({
     required String id,
-    required String fullName,
-    required String phone,
     String? country,
     String? city,
     String? dateOfBirth,
@@ -22,8 +20,6 @@ class UserUpdateCubit extends Cubit<UserUpdateState> {
     emit(UserUpdateLoading());
     final result = await userRepo.updateUserData(
       id: id,
-      fullName: fullName,
-      phone: phone,
       country: country,
       city: city,
       dateOfBirth: dateOfBirth,

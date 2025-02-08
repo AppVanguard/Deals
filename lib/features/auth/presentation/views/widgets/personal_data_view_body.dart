@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/widgets/country_selector_field.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
 import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
 import 'package:in_pocket/core/widgets/date_picker_field.dart';
 import 'package:in_pocket/core/widgets/gender_selector.dart';
-import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
+import 'package:in_pocket/features/auth/presentation/manager/cubits/user_update_cubit/user_update_cubit.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class PersonalDataViewBody extends StatefulWidget {
-  const PersonalDataViewBody({super.key});
+  final String id;
+  // fullName and phone are not needed for the update now.
+  const PersonalDataViewBody({
+    super.key,
+    required this.id,
+  });
 
   @override
   State<PersonalDataViewBody> createState() => _PersonalDataViewBodyState();
@@ -18,11 +25,14 @@ class PersonalDataViewBody extends StatefulWidget {
 
 class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  late GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  late Country selectedCountry;
-  late String city;
-  late DateTime birthday;
-  late Gender selectedGender;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  // These fields will be set via the form.
+  Country? selectedCountry;
+  String? city;
+  DateTime? birthday;
+  String? selectedGender; // Now store as a string
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -41,26 +51,25 @@ class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
               },
               label: S.of(context).Country,
               onCountrySelected: (Country country) {
-                setState(
-                  () {
-                    selectedCountry = country;
-                  },
-                );
+                setState(() {
+                  selectedCountry = country;
+                });
               },
             ),
             CustomTextFormField(
-                onSaved: (value) {
-                  city = value!;
-                },
-                hintText: S.of(context).City,
-                textInputType: TextInputType.text,
-                label: S.of(context).City,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return S.of(context).CityValidator;
-                  }
-                  return null;
-                }),
+              onSaved: (value) {
+                city = value;
+              },
+              hintText: S.of(context).City,
+              textInputType: TextInputType.text,
+              label: S.of(context).City,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return S.of(context).CityValidator;
+                }
+                return null;
+              },
+            ),
             CustomDatePicker(
               validator: (value) {
                 if (value == null) {
@@ -73,18 +82,39 @@ class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
               },
             ),
             GenderSelector(
-                onGenderSelected: (value) {
-                  selectedGender = value;
-                },
-                label: S.of(context).Gender),
+              onGenderSelected: (value) {
+                setState(() {
+                  selectedGender =
+                      value; // value is "male", "female", or "other"
+                });
+              },
+              label: S.of(context).Gender,
+              // Example validator function that returns a message if gender is not selected:
+              validator: (gender) {
+                if (gender == null) {
+                  return S.of(context).PleaseSelectGender;
+                }
+                return null;
+              },
+            ),
             CustomButton(
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
-                  Navigator.popUntil(
-                    context,
-                    (route) => route.settings.name == SigninView.routeName,
-                  );
+                  final formattedBirthday = birthday != null
+                      ? DateFormat('yyyy-MM-dd').format(birthday!)
+                      : null;
+                  context.read<UserUpdateCubit>().updateUser(
+                        id: widget.id,
+                        country: selectedCountry?.name,
+                        city: city,
+                        dateOfBirth: formattedBirthday,
+                        gender: selectedGender, // pass directly
+                      );
+                } else {
+                  setState(() {
+                    autovalidateMode = AutovalidateMode.always;
+                  });
                 }
               },
               width: double.infinity,
@@ -92,16 +122,19 @@ class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
             ),
             CustomButton(
               onPressed: () {
-                Navigator.popUntil(
-                  context,
-                  (route) => route.settings.name == SigninView.routeName,
-                );
+                context.read<UserUpdateCubit>().updateUser(
+                      id: widget.id,
+                      city: city,
+                      country: selectedGender,
+                      dateOfBirth: birthday!.toIso8601String(),
+                      gender: selectedGender,
+                    );
               },
               width: double.infinity,
               text: S.of(context).Later,
               textColor: AppColors.text,
               buttonColor: AppColors.lightGray,
-            )
+            ),
           ],
         ),
       ),

@@ -1029,6 +1029,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please select your gender.`
+  String get PleaseSelectGender {
+    return Intl.message(
+      'Please select your gender.',
+      name: 'PleaseSelectGender',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

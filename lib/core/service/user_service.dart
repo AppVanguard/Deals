@@ -47,28 +47,20 @@ class UserService {
   }
 
   /// Updates user data using a PATCH request to /users/:id.
-  ///
-  /// The required fields are [fullName] and [phone]. Optional fields
-  /// ([country], [city], [dateOfBirth], [gender]) are included only if provided.
+  /// Only the optional fields (country, city, date_of_birth, gender) will be updated.
   Future<UserEntity> updateUserData({
     required String id,
-    required String fullName,
-    required String phone,
     String? country,
     String? city,
     String? dateOfBirth,
     String? gender,
   }) async {
     final url = Uri.parse('${BackendEndpoints.users}/$id');
-    final Map<String, dynamic> body = {
-      BackendEndpoints.keyFullName: fullName,
-      BackendEndpoints.keyPhone: phone,
-    };
-
-    if (country != null) body[BackendEndpoints.kCountry] = country;
-    if (city != null) body[BackendEndpoints.kCity] = city;
-    if (dateOfBirth != null) body[BackendEndpoints.kDateOfBirth] = dateOfBirth;
-    if (gender != null) body[BackendEndpoints.kGender] = gender;
+    final Map<String, dynamic> body = {};
+    if (country != null) body["country"] = country;
+    if (city != null) body["city"] = city;
+    if (dateOfBirth != null) body["date_of_birth"] = dateOfBirth;
+    if (gender != null) body["gender"] = gender;
 
     try {
       final response = await http.patch(

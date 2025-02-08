@@ -7,8 +7,6 @@ abstract class UserRepo {
   Future<Either<Failure, UserEntity>> getUserById(String id);
   Future<Either<Failure, UserEntity>> updateUserData({
     required String id,
-    required String fullName,
-    required String phone,
     String? country,
     String? city,
     String? dateOfBirth,

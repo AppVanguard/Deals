@@ -17,7 +17,7 @@ class UserRepoImpl extends UserRepo {
       return right(users);
     } catch (e) {
       log('Error in UserRepoImpl.getAllUsers: $e');
-      return left(ServerFaliure(message:  e.toString()));
+      return left(ServerFaliure(message: e.toString()));
     }
   }
 
@@ -35,8 +35,6 @@ class UserRepoImpl extends UserRepo {
   @override
   Future<Either<Failure, UserEntity>> updateUserData({
     required String id,
-    required String fullName,
-    required String phone,
     String? country,
     String? city,
     String? dateOfBirth,
@@ -45,8 +43,6 @@ class UserRepoImpl extends UserRepo {
     try {
       final updatedUser = await userService.updateUserData(
         id: id,
-        fullName: fullName,
-        phone: phone,
         country: country,
         city: city,
         dateOfBirth: dateOfBirth,

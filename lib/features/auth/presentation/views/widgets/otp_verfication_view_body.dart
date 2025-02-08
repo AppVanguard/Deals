@@ -17,9 +17,10 @@ class OTPVerificationViewBody extends StatefulWidget {
     required this.email,
     this.image,
     required this.routeName,
-    this.errorMessage, // error message coming from cubit failure
+    this.errorMessage,
+    required this.id, // error message coming from cubit failure
   });
-  final String email;
+  final String email, id;
   final String? image;
   final String routeName;
   final String? errorMessage;

@@ -11,29 +11,30 @@ import 'package:in_pocket/features/auth/presentation/views/widgets/otp_verficati
 import 'package:in_pocket/generated/l10n.dart';
 
 class OTPVeficationBlocConsumer extends StatelessWidget {
+  final String email;
+  final String? image;
+  final String path;
+  final String id;
   const OTPVeficationBlocConsumer({
     super.key,
-    required this.image,
     required this.email,
+    this.image,
     required this.path,
+    required this.id,
   });
-
-  final String? image;
-  final String email;
-  final String path;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<OtpVerifyCubit, OtpVerifyState>(
       listener: (context, state) {
-        log("$state");
+        log(id);
         if (state is OtpVerifySuccess) {
           CustomModalSheet.show(context,
               buttonText: S.of(context).Next,
               enableDrag: false,
               svgPicture: SvgPicture.asset(AppImages.assetsImagesSuccess),
               onTap: () {
-            Navigator.pushReplacementNamed(context, path);
+            Navigator.pushReplacementNamed(context, path, arguments: id);
           }, message: S.of(context).EmailVerified);
         }
       },
@@ -45,6 +46,7 @@ class OTPVeficationBlocConsumer extends StatelessWidget {
         return CustomProgressHud(
           isLoading: state is OtpVerifyLoading,
           child: OTPVerificationViewBody(
+            id: id,
             image: image,
             email: email,
             routeName: path,

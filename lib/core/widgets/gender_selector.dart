@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum Gender { male, female, other }
 
 class GenderSelector extends StatefulWidget {
-  final ValueChanged<Gender> onGenderSelected;
+  final ValueChanged<String> onGenderSelected;
   final String label;
   final String? Function(Gender?)? validator;
 
@@ -25,9 +25,24 @@ class _GenderSelectorState extends State<GenderSelector> {
   void _handleGenderChange(Gender? gender) {
     setState(() {
       _selectedGender = gender;
+      // Call the validator with the selected Gender. It must return a String (or null).
       _errorText = widget.validator?.call(_selectedGender);
     });
-    widget.onGenderSelected(gender!);
+    if (gender != null) {
+      String genderStr;
+      switch (gender) {
+        case Gender.male:
+          genderStr = 'male';
+          break;
+        case Gender.female:
+          genderStr = 'female';
+          break;
+        case Gender.other:
+          genderStr = 'other';
+          break;
+      }
+      widget.onGenderSelected(genderStr);
+    }
   }
 
   @override
@@ -49,7 +64,7 @@ class _GenderSelectorState extends State<GenderSelector> {
               _buildRadio(Gender.other, "Other"),
             ],
           ),
-          if (_errorText != null) // Show error message if validation fails
+          if (_errorText != null)
             Padding(
               padding: const EdgeInsets.only(top: 4),
               child: Text(
@@ -69,7 +84,7 @@ class _GenderSelectorState extends State<GenderSelector> {
           value: gender,
           groupValue: _selectedGender,
           onChanged: _handleGenderChange,
-          activeColor: Colors.green, // Green selection color
+          activeColor: Colors.green,
         ),
         Text(label, style: const TextStyle(fontSize: 16)),
       ],

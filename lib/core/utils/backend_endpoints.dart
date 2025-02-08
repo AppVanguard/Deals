@@ -9,6 +9,8 @@ class BackendEndpoints {
   static const String oauth = "$baseUrl/auth/oauth";
   static const String loginUser = "$apiPath/auth/login";
   static const String resendOtp = "$apiPath/auth/resend-otp";
+  static const String users = "$apiPath/users";
+
   // Collection names.
   static const String usersCollection = "users";
 
@@ -22,7 +24,6 @@ class BackendEndpoints {
   static const String kOtp = "otp";
   static const String kToken = "token";
   static const String kMessage = "message";
-  static const String users = "users";
   static const String kCountry = "country";
   static const String kCity = "city";
   static const String kDateOfBirth = "date_of_birth";
