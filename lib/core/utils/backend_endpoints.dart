@@ -23,6 +23,10 @@ class BackendEndpoints {
   static const String kToken = "token";
   static const String kMessage = "message";
   static const String users = "users";
+  static const String kCountry = "country";
+  static const String kCity = "city";
+  static const String kDateOfBirth = "date_of_birth";
+  static const String kGender = "gender";
   // JSON keys for response payloads.
   static const String keyUserId = "userId";
 

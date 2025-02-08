@@ -13,12 +13,10 @@ class UserService {
       final response =
           await http.get(url, headers: BackendEndpoints.jsonHeaders);
       if (response.statusCode == 200) {
-        // Expecting the API returns a JSON array of user objects.
         final List<dynamic> jsonList = jsonDecode(response.body);
-        final List<UserEntity> users = jsonList
+        return jsonList
             .map((json) => UserModel.fromJson(json as Map<String, dynamic>))
             .toList();
-        return users;
       } else {
         log('Error fetching all users: ${response.statusCode} ${response.body}');
         throw Exception('Failed to fetch users: ${response.body}');
@@ -29,7 +27,7 @@ class UserService {
     }
   }
 
-  /// Retrieves a single user by their id from /users/:id endpoint.
+  /// Retrieves a single user by id from /users/:id.
   Future<UserEntity> getUserById(String id) async {
     final url = Uri.parse('${BackendEndpoints.users}/$id');
     try {
@@ -50,14 +48,8 @@ class UserService {
 
   /// Updates user data using a PATCH request to /users/:id.
   ///
-  /// Required fields:
-  /// - [fullName] (mapped to "full_name" in the request body)
-  /// - [phone]
-  ///
-  /// Optional fields:
-  /// - [country], [city], [dateOfBirth], [gender]
-  ///
-  /// Only provided optional fields will be sent.
+  /// The required fields are [fullName] and [phone]. Optional fields
+  /// ([country], [city], [dateOfBirth], [gender]) are included only if provided.
   Future<UserEntity> updateUserData({
     required String id,
     required String fullName,
@@ -69,15 +61,14 @@ class UserService {
   }) async {
     final url = Uri.parse('${BackendEndpoints.users}/$id');
     final Map<String, dynamic> body = {
-      "full_name": fullName,
-      "phone": phone,
+      BackendEndpoints.keyFullName: fullName,
+      BackendEndpoints.keyPhone: phone,
     };
 
-    // Include optional fields if provided.
-    if (country != null) body["country"] = country;
-    if (city != null) body["city"] = city;
-    if (dateOfBirth != null) body["date_of_birth"] = dateOfBirth;
-    if (gender != null) body["gender"] = gender;
+    if (country != null) body[BackendEndpoints.kCountry] = country;
+    if (city != null) body[BackendEndpoints.kCity] = city;
+    if (dateOfBirth != null) body[BackendEndpoints.kDateOfBirth] = dateOfBirth;
+    if (gender != null) body[BackendEndpoints.kGender] = gender;
 
     try {
       final response = await http.patch(
@@ -89,7 +80,7 @@ class UserService {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return UserModel.fromJson(jsonMap);
       } else {
-        log('Error updating user data: ${response.statusCode} ${response.body}');
+        log('Error updating user: ${response.statusCode} ${response.body}');
         throw Exception('Failed to update user: ${response.body}');
       }
     } catch (e) {
