@@ -12,15 +12,33 @@ class SigninCubit extends Cubit<SigninState> {
 
   final AuthRepo authRepo;
 
-  Future<void> signInWithEmailAndPassword(
-      {required String email,
-      required String password,
-      required bool rememberMe}) async {
+  Future<void> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+    required bool rememberMe,
+  }) async {
     emit(SigninLoading());
     final result = await authRepo.signInWithEmailAndPassword(
-        email: email, password: password);
+      email: email,
+      password: password,
+    );
     result.fold(
-      (failure) => emit(SigninFailure(message: failure.message)),
+      (failure) {
+        // Check if the failure message indicates that the email is not verified.
+        if (failure.message.contains("Email not verified")) {
+          // Optionally, you might construct a minimal UserEntity if you only have the email.
+          final userEntity = UserEntity(
+            uId: '',
+            email: email,
+            name: '',
+            phone: '',
+          );
+          emit(SigninOtpRequired(
+              userEntity: userEntity, message: failure.message));
+        } else {
+          emit(SigninFailure(message: failure.message));
+        }
+      },
       (user) {
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
@@ -35,7 +53,6 @@ class SigninCubit extends Cubit<SigninState> {
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) {
         Prefs.setBool(kRememberMe, rememberMe);
-
         emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
       },
     );
@@ -48,7 +65,6 @@ class SigninCubit extends Cubit<SigninState> {
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) {
         Prefs.setBool(kRememberMe, rememberMe);
-
         emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
       },
     );
@@ -61,7 +77,6 @@ class SigninCubit extends Cubit<SigninState> {
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) {
         Prefs.setBool(kRememberMe, rememberMe);
-
         emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
       },
     );

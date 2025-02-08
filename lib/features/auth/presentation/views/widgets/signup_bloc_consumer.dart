@@ -24,14 +24,7 @@ class SignupBlocConsumer extends StatelessWidget {
           customErrorTopSnackBar(context: context, message: state.message);
         }
         if (state is SignupSuccess) {
-          // CustomModalSheet.show(context,
-          //     buttonText: S.of(context).Next,
-          //     enableDrag: false,
-          //     svgPicture: SvgPicture.asset(AppImages.assetsImagesSuccess),
-          //     onTap: () {
-          //   Navigator.pushReplacementNamed(
-          //       context, OtpVerficationView.routeName);
-          // }, message: S.of(context).EmailVerified);
+         
           Navigator.pushReplacementNamed(context, OtpVerficationView.routeName,
               arguments: [
                 state.userEntity.email,

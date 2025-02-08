@@ -22,6 +22,7 @@ class BackendEndpoints {
   static const String kOtp = "otp";
   static const String kToken = "token";
   static const String kMessage = "message";
+  static const String users = "users";
   // JSON keys for response payloads.
   static const String keyUserId = "userId";
 

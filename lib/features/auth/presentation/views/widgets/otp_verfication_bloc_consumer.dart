@@ -2,8 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:in_pocket/core/utils/app_images.dart';
+import 'package:in_pocket/core/widgets/custom_modal_sheet.dart';
 import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
 import 'package:in_pocket/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
+import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/personal_data_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/otp_verfication_view_body.dart';
 import 'package:in_pocket/generated/l10n.dart';
@@ -25,14 +29,17 @@ class OTPVeficationBlocConsumer extends StatelessWidget {
     return BlocConsumer<OtpVerifyCubit, OtpVerifyState>(
       listener: (context, state) {
         log("$state");
-
         if (state is OtpVerifySuccess) {
-          Navigator.pushReplacementNamed(context, PersonalDataView.routeName);
+          CustomModalSheet.show(context,
+              buttonText: S.of(context).Next,
+              enableDrag: false,
+              svgPicture: SvgPicture.asset(AppImages.assetsImagesSuccess),
+              onTap: () {
+            Navigator.pushReplacementNamed(context, path);
+          }, message: S.of(context).EmailVerified);
         }
-        // Optionally, you can also perform side effects for other states.
       },
       builder: (context, state) {
-        // Pass the errorMessage from cubit if it exists.
         String? errorMessage;
         if (state is OtpVerifyFailure) {
           errorMessage = S.of(context).InvalidCode;

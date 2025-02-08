@@ -22,3 +22,12 @@ class SigninFailure extends SigninState {
     required this.message,
   });
 }
+
+class SigninOtpRequired extends SigninState {
+  final UserEntity userEntity;
+  final String message;
+  SigninOtpRequired({
+    required this.userEntity,
+    required this.message,
+  });
+}

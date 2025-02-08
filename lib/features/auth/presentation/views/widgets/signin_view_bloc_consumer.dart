@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_pocket/core/helper_functions/custom_top_snack_bar.dart';
+import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
 import 'package:in_pocket/features/auth/presentation/manager/cubits/signin_cubit/signin_cubit.dart';
+import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
+import 'package:in_pocket/features/auth/presentation/views/personal_data_view.dart';
+import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/signin_view_body.dart';
 import 'package:in_pocket/features/home/presentation/views/home_view.dart';
+// Import your OTP verification view and any assets/constants needed:
+import 'package:in_pocket/constants.dart';
 
 class SigninViewBlocConsumer extends StatelessWidget {
   const SigninViewBlocConsumer({
@@ -18,19 +24,24 @@ class SigninViewBlocConsumer extends StatelessWidget {
         if (state is SigninFailure) {
           customErrorTopSnackBar(context: context, message: state.message);
         }
+        if (state is SigninOtpRequired) {
+          Navigator.pushReplacementNamed(
+            context,
+            OtpVerficationView.routeName,
+            arguments: [
+              state.userEntity.email,
+              AppImages.assetsImagesOTB,
+              SigninView.routeName,
+            ],
+          );
+        }
         if (state is SigninSuccess) {
-          // customSuccessTopSnackBar(
-          //     context: context,
-          //     message: state.message,
-          //     displayDuration: const Duration(milliseconds: 50),
-          //     animationDuration: const Duration(milliseconds: 1000),
-          //     reverseAnimationDuration: const Duration(milliseconds: 200));
           Navigator.pushReplacementNamed(context, HomeView.routeName);
         }
       },
       builder: (context, state) {
         return CustomProgressHud(
-          isLoading: state is SigninLoading ? true : false,
+          isLoading: state is SigninLoading,
           child: const SigninViewBody(),
         );
       },
