@@ -3,11 +3,15 @@ import 'package:in_pocket/core/service/auth_api_service.dart';
 import 'package:in_pocket/core/service/database_service.dart';
 import 'package:in_pocket/core/service/firebase_auth_service.dart';
 import 'package:in_pocket/core/service/firestore_services.dart';
+import 'package:in_pocket/core/service/user_service.dart';
 import 'package:in_pocket/features/auth/data/repos/auth_repo_impl.dart';
 import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
+import 'package:in_pocket/features/auth/data/repos/user_repo_impl.dart';
+import 'package:in_pocket/features/auth/domain/repos/user_repo.dart';
 
 final getIt = GetIt.instance;
 void setupGetit() {
+  // Existing registrations.
   getIt.registerSingleton<FirebaseAuthService>(FirebaseAuthService());
   getIt.registerSingleton<DatabaseService>(FirestoreServices());
   getIt.registerSingleton<AuthApiService>(AuthApiService());
@@ -15,4 +19,9 @@ void setupGetit() {
     authApiService: getIt<AuthApiService>(),
     firebaseAuthService: getIt<FirebaseAuthService>(),
   ));
+
+  // Register user service and repository.
+  getIt.registerSingleton<UserService>(UserService());
+  getIt.registerSingleton<UserRepo>(
+      UserRepoImpl(userService: getIt<UserService>()));
 }
