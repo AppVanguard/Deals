@@ -5,12 +5,9 @@ import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
 import 'package:in_pocket/features/auth/presentation/manager/cubits/signin_cubit/signin_cubit.dart';
 import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/personal_data_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/signin_view_body.dart';
 import 'package:in_pocket/features/home/presentation/views/home_view.dart';
-// Import your OTP verification view and any assets/constants needed:
-import 'package:in_pocket/constants.dart';
 
 class SigninViewBlocConsumer extends StatelessWidget {
   const SigninViewBlocConsumer({

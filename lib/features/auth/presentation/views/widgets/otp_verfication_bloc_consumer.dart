@@ -7,8 +7,6 @@ import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/widgets/custom_modal_sheet.dart';
 import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
 import 'package:in_pocket/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
-import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/personal_data_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/widgets/otp_verfication_view_body.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
