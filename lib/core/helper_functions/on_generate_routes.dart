@@ -43,7 +43,9 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         builder: (context) => const ForgetPasswordView(),
       );
     case OtpVerficationView.routeName:
+      log("args are :  ${settings.arguments}");
       final args = settings.arguments as Map<String, dynamic>?;
+      log("args in map are :  ${args}");
       if (args == null) {
         return MaterialPageRoute(
           settings: settings,
@@ -76,7 +78,6 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         builder: (context) => const ResetPasswordView(),
       );
     case PersonalDataView.routeName:
-      log("args are :  ${settings.arguments}");
       // Now we expect only the id to be passed in the arguments.
       final id = settings.arguments as String;
       return MaterialPageRoute(

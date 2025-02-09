@@ -28,10 +28,10 @@ class SignupBlocConsumer extends StatelessWidget {
             context,
             OtpVerficationView.routeName,
             arguments: {
-              'email': state.userEntity.email,
-              'image': AppImages.assetsImagesOTB,
-              'nextRoute': PersonalDataView.routeName,
-              'id': state.userEntity.uId
+              kEmail: state.userEntity.email,
+              kImage: AppImages.assetsImagesOTB,
+              kNextRoute: PersonalDataView.routeName,
+              kId: state.userEntity.uId
             },
           );
         }

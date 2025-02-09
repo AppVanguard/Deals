@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:in_pocket/constants.dart';
 import 'package:in_pocket/core/helper_functions/custom_top_snack_bar.dart';
 import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
@@ -22,15 +23,14 @@ class SigninViewBlocConsumer extends StatelessWidget {
           customErrorTopSnackBar(context: context, message: state.message);
         }
         if (state is SigninOtpRequired) {
-          Navigator.pushReplacementNamed(
-            context,
-            OtpVerficationView.routeName,
-            arguments: [
-              state.userEntity.email,
-              AppImages.assetsImagesOTB,
-              SigninView.routeName,
-            ],
-          );
+          customErrorTopSnackBar(context: context, message: state.message);
+          Navigator.pushReplacementNamed(context, OtpVerficationView.routeName,
+              arguments: {
+                kEmail: state.userEntity.email,
+                kImage: AppImages.assetsImagesOTB,
+                kNextRoute: SigninView.routeName,
+                kId: ''
+              });
         }
         if (state is SigninSuccess) {
           Navigator.pushReplacementNamed(context, HomeView.routeName);
