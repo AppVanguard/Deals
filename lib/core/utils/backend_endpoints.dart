@@ -6,7 +6,7 @@ class BackendEndpoints {
   // Auth endpoints.
   static const String registerUser = "$apiPath/auth/register";
   static const String verifyEmail = "$apiPath/auth/verify-email";
-  static const String oauth = "$baseUrl/auth/oauth";
+  static const String oauth = "$apiPath/auth/oauth";
   static const String loginUser = "$apiPath/auth/login";
   static const String resendOtp = "$apiPath/auth/resend-otp";
   static const String users = "$apiPath/users";
