@@ -113,6 +113,8 @@ class AuthRepoImpl extends AuthRepo {
         phone: '',
       );
       final token = await user.getIdToken();
+      log("$token");
+
       await authApiService.sendOAuthToken(token: token!);
       return right(userEntity);
     } on CustomExeption catch (e) {
