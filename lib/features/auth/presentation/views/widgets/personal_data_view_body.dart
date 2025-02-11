@@ -126,7 +126,7 @@ class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
                       id: widget.id,
                       city: city,
                       country: selectedGender,
-                      dateOfBirth: birthday!.toIso8601String(),
+                      dateOfBirth: birthday?.toIso8601String() ?? "",
                       gender: selectedGender,
                     );
               },

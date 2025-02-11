@@ -8,6 +8,7 @@ import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/custom_button.dart';
+import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
 import 'package:in_pocket/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
@@ -15,15 +16,16 @@ class OTPVerificationViewBody extends StatefulWidget {
   const OTPVerificationViewBody({
     super.key,
     required this.email,
+    required this.id,
     this.image,
     required this.routeName,
     this.errorMessage,
-    required this.id, // error message coming from cubit failure
   });
+
   final String email, id;
   final String? image;
   final String routeName;
-  final String? errorMessage;
+  final String? errorMessage; // Error from cubit if OTP is invalid
 
   @override
   State<OTPVerificationViewBody> createState() =>
@@ -40,6 +42,15 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool _showFieldError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Start the 60-second timer as soon as the screen appears.
+    // If you prefer to start the timer only after the first OTP request,
+    // move this logic accordingly.
+    context.read<OtpVerifyCubit>().resendOtp(widget.email);
+  }
 
   @override
   void dispose() {
@@ -97,8 +108,6 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     if (!hasEmptyFields) {
       String otpCode = _controllers.map((e) => e.text).join();
       log("Entered OTP: $otpCode");
-      // Trigger OTP verification via your cubit.
-      // For example:
       context
           .read<OtpVerifyCubit>()
           .verifyOtp(email: widget.email, otp: otpCode);
@@ -126,7 +135,7 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
 
   /// Returns a focused border with red color if the cubit error is present.
   OutlineInputBorder buildFocusedBorder(int index) {
-    Color borderColor =
+    final borderColor =
         widget.errorMessage != null ? Colors.red : AppColors.primary;
     return OutlineInputBorder(
       borderSide: BorderSide(
@@ -139,34 +148,49 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
 
   @override
   Widget build(BuildContext context) {
+    /// Listen for timer updates.
+    final otpState = context.watch<OtpVerifyCubit>().state;
+    bool timerIsRunning = false;
+    int secondsLeft = 0;
+
+    if (otpState is OtpTimerRunning) {
+      timerIsRunning = true;
+      secondsLeft = otpState.timeLeft;
+    } else if (otpState is OtpTimerFinished) {
+      timerIsRunning = false;
+    }
+
     return SingleChildScrollView(
       child: Form(
         key: formKey,
         autovalidateMode: autovalidateMode,
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 1),
+              const SizedBox(height: 16),
+              // Optional image
               if (widget.image != null)
                 SvgPicture.asset(widget.image!)
               else
                 const SizedBox(),
-              widget.image != null
-                  ? Text(
-                      S.of(context).OTPVerification,
-                      style: AppTextStyles.bold32,
-                    )
-                  : Text(
-                      S.of(context).EnterCode,
-                      style: AppTextStyles.bold32,
-                    ),
+              // Header text
+              if (widget.image != null)
+                Text(
+                  S.of(context).OTPVerification,
+                  style: AppTextStyles.bold32,
+                )
+              else
+                Text(
+                  S.of(context).EnterCode,
+                  style: AppTextStyles.bold32,
+                ),
               Text(
                 "${S.of(context).OTPSent} \n ${widget.email}",
                 style: AppTextStyles.regular14
                     .copyWith(color: AppColors.secondaryText),
                 textAlign: TextAlign.center,
               ),
+              // OTP Fields
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(4, (index) {
@@ -180,11 +204,6 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                         return KeyEventResult.ignored;
                       },
                       child: TextFormField(
-                        validator: (value) {
-                          return value!.isNotEmpty
-                              ? null
-                              : S.of(context).OTPValidator;
-                        },
                         cursorHeight: 30,
                         controller: _controllers[index],
                         focusNode: _focusNodes[index],
@@ -205,13 +224,13 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                   );
                 }),
               ),
-              // Show local field error if applicable (fields empty).
+              // Local validation error (e.g. if any field is empty)
               if (_showFieldError)
                 Text(
                   S.of(context).OTPValidator,
                   style: AppTextStyles.regular14.copyWith(color: Colors.red),
                 ),
-              // Show backend error container if an errorMessage is provided from cubit.
+              // Server-side error from cubit
               if (widget.errorMessage != null)
                 Container(
                   width: 122,
@@ -225,7 +244,6 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SvgPicture.asset(AppImages.assetsImagesWarning),
                       const SizedBox(width: 8),
@@ -237,27 +255,47 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                     ],
                   ),
                 ),
+              // Verify Button
               CustomButton(
                 width: double.infinity,
                 onPressed: _validateFields,
                 text: S.of(context).Verify,
               ),
+              // Resend Section
+              const SizedBox(height: 12),
               Text.rich(
                 TextSpan(
                   children: [
                     TextSpan(
-                        text: S.of(context).NoCode,
-                        style: AppTextStyles.regular14
-                            .copyWith(color: AppColors.secondaryText)),
-                    const TextSpan(text: ' '),
-                    TextSpan(
-                      recognizer: TapGestureRecognizer()..onTap = () {},
-                      text: S.of(context).Resend,
-                      style: AppTextStyles.bold14
-                          .copyWith(color: AppColors.primary),
+                      text: S.of(context).NoCode,
+                      style: AppTextStyles.regular14
+                          .copyWith(color: AppColors.secondaryText),
                     ),
+                    const TextSpan(text: ' '),
+                    if (timerIsRunning) ...[
+                      // Show the countdown, e.g. "Resend in 45s"
+                      TextSpan(
+                        text: '${S.of(context).Resend} $secondsLeft s',
+                        style: AppTextStyles.regular14
+                            .copyWith(color: AppColors.primary),
+                      ),
+                    ] else ...[
+                      // Timer finished, user can tap to resend
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context
+                                .read<OtpVerifyCubit>()
+                                .resendOtp(widget.email);
+                          },
+                        text: S.of(context).Resend,
+                        style: AppTextStyles.bold14
+                            .copyWith(color: AppColors.primary),
+                      ),
+                    ],
                   ],
                 ),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 20),
             ],

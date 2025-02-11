@@ -5,6 +5,8 @@ sealed class OtpVerifyState {}
 
 final class OtpVerifyInitial extends OtpVerifyState {}
 
+final class OtpVerifyLoading extends OtpVerifyState {}
+
 final class OtpVerifySuccess extends OtpVerifyState {
   final String message;
   final UserEntity userEntity;
@@ -18,4 +20,12 @@ final class OtpVerifyFailure extends OtpVerifyState {
   OtpVerifyFailure({required this.message});
 }
 
-final class OtpVerifyLoading extends OtpVerifyState {}
+/// Emitted while the 60-second resend timer is running.
+final class OtpTimerRunning extends OtpVerifyState {
+  final int timeLeft;
+  OtpTimerRunning({required this.timeLeft});
+}
+
+/// Emitted when the 60-second timer finishes,
+/// meaning the user can resend again.
+final class OtpTimerFinished extends OtpVerifyState {}
