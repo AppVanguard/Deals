@@ -123,15 +123,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "The account is registered with a different provider. Please log in with the linked provider."),
+        "appVersion": MessageLookupByLibrary.simpleMessage("InPocket version"),
         "authDomainConfigRequired": MessageLookupByLibrary.simpleMessage(
             "Authentication domain configuration is missing."),
         "cancelledPopupRequest": MessageLookupByLibrary.simpleMessage(
             "The popup request was canceled."),
+        "contactUs": MessageLookupByLibrary.simpleMessage("Contact us"),
         "createAccount": MessageLookupByLibrary.simpleMessage("Create account"),
         "credentialAlreadyInUse": MessageLookupByLibrary.simpleMessage(
             "The credential is already in use."),
+        "earnings": MessageLookupByLibrary.simpleMessage("Earnings"),
         "emailAlreadyInUse":
             MessageLookupByLibrary.simpleMessage("The account already exists."),
+        "help": MessageLookupByLibrary.simpleMessage("Help"),
         "internalError":
             MessageLookupByLibrary.simpleMessage("An error occurred."),
         "invalidCredential": MessageLookupByLibrary.simpleMessage(
@@ -142,6 +146,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "The verification code is invalid."),
         "invalidVerificationId": MessageLookupByLibrary.simpleMessage(
             "The verification ID is invalid."),
+        "logOut": MessageLookupByLibrary.simpleMessage("Log out"),
         "networkRequestFailed":
             MessageLookupByLibrary.simpleMessage("No internet connection."),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
@@ -167,12 +172,17 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Refer"),
         "p3OnBoardingTittle":
             MessageLookupByLibrary.simpleMessage("Refer and earn"),
+        "personalData": MessageLookupByLibrary.simpleMessage("Personal data"),
         "popupClosedByUser": MessageLookupByLibrary.simpleMessage(
             "The popup window was closed before completing the operation."),
+        "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy policy"),
         "providerAlreadyLinked": MessageLookupByLibrary.simpleMessage(
             "The account is already linked to a provider."),
         "requiresRecentLogin": MessageLookupByLibrary.simpleMessage(
             "Please log in again to complete the operation."),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "termsAndConditions":
+            MessageLookupByLibrary.simpleMessage("Terms & Conditions"),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
             "Too many requests have been made."),
         "unknownError":

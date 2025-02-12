@@ -97,5 +97,14 @@
       "Other": "Other",
       "OtpVerfiedSuccess": "OTP verified successfully",
       "OtpVerfiedFailed": "OTP verification failed",
-      "PleaseSelectGender": "Please select your gender."
+      "PleaseSelectGender": "Please select your gender.",
+      "earnings": "Earnings",
+      "personalData": "Personal data",
+      "termsAndConditions": "Terms & Conditions",
+      "privacyPolicy": "Privacy policy",
+      "settings": "Settings",
+      "help": "Help",
+      "contactUs": "Contact us",
+      "logOut": "Log out",
+      "appVersion": "InPocket version"
 }
