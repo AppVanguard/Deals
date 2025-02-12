@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:in_pocket/constants.dart';
+import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 import 'package:in_pocket/features/auth/presentation/views/personal_data_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/forget_password_view.dart';
@@ -34,9 +35,14 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         builder: (context) => const SignupView(),
       );
     case HomeView.routeName:
+      log("args are :  ${settings.arguments}");
+      final args = settings.arguments as UserEntity?;
+
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const HomeView(),
+        builder: (context) => HomeView(
+          userData: args!,
+        ),
       );
     case ForgetPasswordView.routeName:
       return MaterialPageRoute(
@@ -56,14 +62,6 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         );
       }
       // Convert the basicData map to Map<String, String>
-      final dynamic rawBasicData = args[kBasicData];
-      Map<String, String> basicData = {};
-      if (rawBasicData is Map) {
-        basicData = rawBasicData.map((key, value) => MapEntry(
-              key.toString(),
-              value.toString(),
-            ));
-      }
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => OtpVerficationView(

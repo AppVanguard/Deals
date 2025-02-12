@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
+import 'package:in_pocket/core/utils/app_images.dart';
+import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/app_version_text.dart';
+import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class CustomAppDrawer extends StatelessWidget {
-  const CustomAppDrawer({super.key});
+  const CustomAppDrawer({super.key, required this.userData});
+  final UserEntity userData;
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context); // Localized strings
+    final s = S.of(context); // For localized strings
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Align(
       alignment: Alignment.topLeft,
       child: SizedBox(
-        // Limit the drawer to 70% height and 80% width
+        // Drawer takes 80% width & 80% height
         height: screenHeight * 0.80,
         width: screenWidth * 0.80,
         child: Drawer(
-          // Let Drawer handle its shape & background
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(16),
@@ -28,87 +32,51 @@ class CustomAppDrawer extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
           child: Column(
-            // Outer column that holds header, body (expanded), and footer
             children: [
-              // 1) Header (Green background)
-              Container(
-                color: AppColors.darkPrimary,
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 40,
-                  horizontal: 16,
-                ),
-                child: Column(
-                  // Use spacing here to avoid extra SizedBox
-                  spacing: 4,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Mahmoud Gabal',
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(color: Colors.white),
-                    ),
-                    Text(
-                      'mgabal903@gmail.com',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(color: Colors.white70),
-                    ),
-                  ],
-                ),
-              ),
+              // 1) Header
+              _buildDrawerHeader(context),
 
-              // 2) Body: scrollable list of ListTiles
+              // 2) Body (Scrollable list of ListTiles)
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    // If you want space between each ListTile, set a spacing value here:
-                    spacing: 10,
+                    spacing: 10, // vertical spacing between children
                     children: [
-                      ListTile(
-                        leading: const Icon(Icons.attach_money),
-                        title: Text(s.earnings),
+                      _buildDrawerTile(
+                        iconPath: AppImages.assetsImagesIconsEarning,
+                        text: s.earnings,
                         onTap: () {},
                       ),
-                      ListTile(
-                        leading: const Icon(Icons.person),
-                        title: Text(s.personalData),
+                      _buildDrawerTile(
+                        iconPath: AppImages.assetsImagesIconsPersonalData,
+                        text: s.personalData,
                         onTap: () {},
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Divider(),
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.description),
-                        title: Text(s.termsAndConditions),
+                      _buildDivider(),
+                      _buildDrawerTile(
+                        iconPath: AppImages.assetsImagesIconsTermsConditions,
+                        text: s.termsAndConditions,
                         onTap: () {},
                       ),
-                      ListTile(
-                        leading: const Icon(Icons.privacy_tip),
-                        title: Text(s.privacyPolicy),
+                      _buildDrawerTile(
+                        iconPath: AppImages.assetsImagesIconsPrivacy,
+                        text: s.privacyPolicy,
                         onTap: () {},
                       ),
-                      ListTile(
-                        leading: const Icon(Icons.settings),
-                        title: Text(s.settings),
+                      _buildDrawerTile(
+                        iconPath: AppImages.assetsImagesIconsSettings,
+                        text: s.settings,
                         onTap: () {},
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Divider(),
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.help_outline),
-                        title: Text(s.help),
+                      _buildDivider(),
+                      _buildDrawerTile(
+                        iconPath: AppImages.assetsImagesIconsHelp,
+                        text: s.help,
                         onTap: () {},
                       ),
-                      ListTile(
-                        leading: const Icon(Icons.mail_outline),
-                        title: Text(s.contactUs),
+                      _buildDrawerTile(
+                        iconPath: AppImages.assetsImagesIconsContact,
+                        text: s.contactUs,
                         onTap: () {},
                       ),
                     ],
@@ -116,24 +84,78 @@ class CustomAppDrawer extends StatelessWidget {
                 ),
               ),
 
-              ListTile(
-                leading: const Icon(Icons.exit_to_app, color: Colors.red),
-                title: Text(
-                  s.logOut,
-                  style: const TextStyle(color: Colors.red),
-                ),
+              // 3) Footer (Log Out + App Version)
+              _buildDrawerTile(
+                iconPath: AppImages.assetsImagesIconsLogOut,
+                text: s.logOut,
+                textStyle:
+                    AppTextStyles.bold14.copyWith(color: AppColors.accent),
                 onTap: () {},
               ),
-              // Extra spacing before the version text
               const SizedBox(height: 10),
               const Padding(
                 padding: EdgeInsets.only(bottom: 10),
-                child: AppVersionText(),
+                child: AppVersionText(), // dynamically shows the app version
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  /// Builds the green header portion of the drawer
+  Widget _buildDrawerHeader(BuildContext context) {
+    return Container(
+      color: AppColors.darkPrimary,
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+      child: Column(
+        spacing: 4, // Space between name & email
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            userData.name,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(color: Colors.white),
+          ),
+          Text(
+            userData.email,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: Colors.white70),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Reusable ListTile builder for drawer items
+  Widget _buildDrawerTile({
+    required String iconPath,
+    required String text,
+    TextStyle? textStyle,
+    VoidCallback? onTap,
+  }) {
+    return ListTile(
+      leading: SizedBox(
+        height: 24,
+        width: 24,
+        child: SvgPicture.asset(iconPath),
+      ),
+      title: Text(text, style: textStyle),
+      onTap: onTap,
+    );
+  }
+
+  /// Thin divider with horizontal padding
+  Widget _buildDivider() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: Divider(),
     );
   }
 }

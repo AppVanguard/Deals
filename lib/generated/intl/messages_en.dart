@@ -123,7 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "The account is registered with a different provider. Please log in with the linked provider."),
-        "appVersion": MessageLookupByLibrary.simpleMessage("InPocket version"),
+        "appVersion": MessageLookupByLibrary.simpleMessage("DEALS version"),
         "authDomainConfigRequired": MessageLookupByLibrary.simpleMessage(
             "Authentication domain configuration is missing."),
         "cancelledPopupRequest": MessageLookupByLibrary.simpleMessage(

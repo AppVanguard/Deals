@@ -33,7 +33,8 @@ class SigninViewBlocConsumer extends StatelessWidget {
               });
         }
         if (state is SigninSuccess) {
-          Navigator.pushReplacementNamed(context, HomeView.routeName);
+          Navigator.pushReplacementNamed(context, HomeView.routeName,
+              arguments: state.userEntity);
         }
       },
       builder: (context, state) {

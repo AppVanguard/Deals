@@ -1120,10 +1120,10 @@ class S {
     );
   }
 
-  /// `InPocket version`
+  /// `DEALS version`
   String get appVersion {
     return Intl.message(
-      'InPocket version',
+      'DEALS version',
       name: 'appVersion',
       desc: '',
       args: [],

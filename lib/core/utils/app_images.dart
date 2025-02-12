@@ -30,6 +30,38 @@ class AppImages {
   /// assets/images/google_icon.svg
   static const String assetsImagesGoogleIcon = "assets/images/google_icon.svg";
 
+  /// Assets for assetsImagesIconsContact
+  /// assets/images/icons/contact.svg
+  static const String assetsImagesIconsContact = "assets/images/icons/contact.svg";
+
+  /// Assets for assetsImagesIconsEarning
+  /// assets/images/icons/earning.svg
+  static const String assetsImagesIconsEarning = "assets/images/icons/earning.svg";
+
+  /// Assets for assetsImagesIconsHelp
+  /// assets/images/icons/help.svg
+  static const String assetsImagesIconsHelp = "assets/images/icons/help.svg";
+
+  /// Assets for assetsImagesIconsLogOut
+  /// assets/images/icons/log_out.svg
+  static const String assetsImagesIconsLogOut = "assets/images/icons/log_out.svg";
+
+  /// Assets for assetsImagesIconsPersonalData
+  /// assets/images/icons/personal_data.svg
+  static const String assetsImagesIconsPersonalData = "assets/images/icons/personal_data.svg";
+
+  /// Assets for assetsImagesIconsPrivacy
+  /// assets/images/icons/privacy.svg
+  static const String assetsImagesIconsPrivacy = "assets/images/icons/privacy.svg";
+
+  /// Assets for assetsImagesIconsSettings
+  /// assets/images/icons/settings.svg
+  static const String assetsImagesIconsSettings = "assets/images/icons/settings.svg";
+
+  /// Assets for assetsImagesIconsTermsConditions
+  /// assets/images/icons/terms_conditions.svg
+  static const String assetsImagesIconsTermsConditions = "assets/images/icons/terms_conditions.svg";
+
   /// Assets for assetsImagesIphone1
   /// assets/images/iphone1.svg
   static const String assetsImagesIphone1 = "assets/images/iphone1.svg";
@@ -62,6 +94,10 @@ class AppImages {
   /// assets/images/privacy.svg
   static const String assetsImagesPrivacy = "assets/images/privacy.svg";
 
+  /// Assets for assetsImagesRefer
+  /// assets/images/refer.svg
+  static const String assetsImagesRefer = "assets/images/refer.svg";
+
   /// Assets for assetsImagesRefferFriend
   /// assets/images/RefferFriend.svg
   static const String assetsImagesRefferFriend = "assets/images/RefferFriend.svg";
@@ -81,6 +117,10 @@ class AppImages {
   /// Assets for assetsImagesResetPasswword
   /// assets/images/ResetPasswword.svg
   static const String assetsImagesResetPasswword = "assets/images/ResetPasswword.svg";
+
+  /// Assets for assetsImagesSearch
+  /// assets/images/search.svg
+  static const String assetsImagesSearch = "assets/images/search.svg";
 
   /// Assets for assetsImagesSuccess
   /// assets/images/success.svg
