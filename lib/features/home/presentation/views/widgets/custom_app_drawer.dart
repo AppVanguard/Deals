@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/widgets/app_version_text.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
@@ -7,114 +8,129 @@ class CustomAppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deviceHeight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
-    final s = S.of(context); // For easier referencing
+    final s = S.of(context); // Localized strings
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return Align(
       alignment: Alignment.topLeft,
-      child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(16),
-          bottomRight: Radius.circular(16),
-        ),
-        child: Container(
-          height: deviceHeight * 0.70,
-          width: deviceWidth * 0.80,
-          color: Colors.white,
-          child: Drawer(
-            child: Column(
-              children: [
-                // Header (Green background)
-                Container(
-                  color: Colors.green,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 40,
-                    horizontal: 16,
-                  ),
-                  width: double.infinity,
+      child: SizedBox(
+        // Limit the drawer to 70% height and 80% width
+        height: screenHeight * 0.80,
+        width: screenWidth * 0.80,
+        child: Drawer(
+          // Let Drawer handle its shape & background
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(16),
+              bottomRight: Radius.circular(16),
+            ),
+          ),
+          backgroundColor: Colors.white,
+          child: Column(
+            // Outer column that holds header, body (expanded), and footer
+            children: [
+              // 1) Header (Green background)
+              Container(
+                color: AppColors.darkPrimary,
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 40,
+                  horizontal: 16,
+                ),
+                child: Column(
+                  // Use spacing here to avoid extra SizedBox
+                  spacing: 4,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Mahmoud Gabal',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(color: Colors.white),
+                    ),
+                    Text(
+                      'mgabal903@gmail.com',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Colors.white70),
+                    ),
+                  ],
+                ),
+              ),
+
+              // 2) Body: scrollable list of ListTiles
+              Expanded(
+                child: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // If you want space between each ListTile, set a spacing value here:
+                    spacing: 10,
                     children: [
-                      Text(
-                        'Mahmoud Gabal',
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  color: Colors.white,
-                                ),
+                      ListTile(
+                        leading: const Icon(Icons.attach_money),
+                        title: Text(s.earnings),
+                        onTap: () {},
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'mgabal903@gmail.com',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Colors.white70,
-                            ),
+                      ListTile(
+                        leading: const Icon(Icons.person),
+                        title: Text(s.personalData),
+                        onTap: () {},
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Divider(),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.description),
+                        title: Text(s.termsAndConditions),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.privacy_tip),
+                        title: Text(s.privacyPolicy),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.settings),
+                        title: Text(s.settings),
+                        onTap: () {},
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Divider(),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.help_outline),
+                        title: Text(s.help),
+                        onTap: () {},
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.mail_outline),
+                        title: Text(s.contactUs),
+                        onTap: () {},
                       ),
                     ],
                   ),
                 ),
+              ),
 
-                // Body with ListTiles
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        ListTile(
-                          leading: const Icon(Icons.trending_up),
-                          title: Text(s.earnings),
-                          onTap: () {},
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.person),
-                          title: Text(s.personalData),
-                          onTap: () {},
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.description),
-                          title: Text(s.termsAndConditions),
-                          onTap: () {},
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.privacy_tip),
-                          title: Text(s.privacyPolicy),
-                          onTap: () {},
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.settings),
-                          title: Text(s.settings),
-                          onTap: () {},
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.help_outline),
-                          title: Text(s.help),
-                          onTap: () {},
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.mail_outline),
-                          title: Text(s.contactUs),
-                          onTap: () {},
-                        ),
-                      ],
-                    ),
-                  ),
+              ListTile(
+                leading: const Icon(Icons.exit_to_app, color: Colors.red),
+                title: Text(
+                  s.logOut,
+                  style: const TextStyle(color: Colors.red),
                 ),
-
-                // Footer
-                const Divider(height: 1),
-                ListTile(
-                  leading: const Icon(Icons.exit_to_app, color: Colors.red),
-                  title: Text(
-                    s.logOut,
-                    style: const TextStyle(color: Colors.red),
-                  ),
-                  onTap: () {},
-                ),
-                const SizedBox(height: 10),
-                Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: AppVersionText()),
-              ],
-            ),
+                onTap: () {},
+              ),
+              // Extra spacing before the version text
+              const SizedBox(height: 10),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 10),
+                child: AppVersionText(),
+              ),
+            ],
           ),
         ),
       ),
