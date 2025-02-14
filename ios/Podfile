@@ -1,22 +1,18 @@
-# This is the Podfile for your Flutter iOS project
-platform :ios, '13.0'
+platform :ios, '11.0'
 
 # CocoaPods analytics disabled
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
-project 'Runner', {
-  'Debug' => :debug,
-  'Profile' => :release,
-  'Release' => :release,
-}
+# Explicitly define the Flutter root path
+flutter_root = File.expand_path('..', File.dirname(__FILE__)) + '/Flutter'
 
-# Flutter installation
-flutter_root = File.expand_path('../flutter', __dir__)
-load File.join(flutter_root, 'packages', 'flutter_tools', 'bin', 'pod_helper.rb')
+# Load Flutter
+load File.join(flutter_root, 'generated.xcconfig') if File.exist?(File.join(flutter_root, 'generated.xcconfig'))
 
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+  # Include all Flutter plugins
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
