@@ -37,11 +37,12 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
     case HomeView.routeName:
       log("args are :  ${settings.arguments}");
       final args = settings.arguments as UserEntity?;
+      log("args are :  ${args!.uId}");
 
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => HomeView(
-          userData: args!,
+          userData: args,
         ),
       );
     case ForgetPasswordView.routeName:
