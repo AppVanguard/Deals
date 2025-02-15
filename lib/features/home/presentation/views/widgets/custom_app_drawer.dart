@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:in_pocket/core/helper_functions/custom_top_snack_bar.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/core/widgets/app_version_text.dart';
 import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
+import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
+import 'package:in_pocket/features/home/presentation/manager/cubits/menu_cubit/menu_cubit.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class CustomAppDrawer extends StatelessWidget {
@@ -85,12 +89,27 @@ class CustomAppDrawer extends StatelessWidget {
               ),
 
               // 3) Footer (Log Out + App Version)
-              _buildDrawerTile(
-                iconPath: AppImages.assetsImagesIconsLogOut,
-                text: s.logOut,
-                textStyle:
-                    AppTextStyles.bold14.copyWith(color: AppColors.accent),
-                onTap: () {},
+              BlocListener<MenuCubit, MenuState>(
+                listener: (context, state) {
+                  if (state is MenuLogoutFailure) {
+                    customErrorTopSnackBar(
+                        context: context, message: state.message);
+                  }
+                  if (state is MenuLogoutSuccess) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        SigninView.routeName, (route) => false);
+                  }
+                },
+                child: _buildDrawerTile(
+                  iconPath: AppImages.assetsImagesIconsLogOut,
+                  text: s.logOut,
+                  textStyle:
+                      AppTextStyles.bold14.copyWith(color: AppColors.accent),
+                  onTap: () {
+                    context.read<MenuCubit>().logout(firebaseUid: userData.uId);
+                    ();
+                  },
+                ),
               ),
               const SizedBox(height: 10),
               const Padding(

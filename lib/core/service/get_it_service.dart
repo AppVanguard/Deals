@@ -8,6 +8,8 @@ import 'package:in_pocket/features/auth/data/repos/auth_repo_impl.dart';
 import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
 import 'package:in_pocket/features/auth/data/repos/user_repo_impl.dart';
 import 'package:in_pocket/features/auth/domain/repos/user_repo.dart';
+import 'package:in_pocket/features/home/data/repos/menu_repo_impl.dart';
+import 'package:in_pocket/features/home/domain/repos/menu_repo.dart';
 
 final getIt = GetIt.instance;
 void setupGetit() {
@@ -24,4 +26,6 @@ void setupGetit() {
   getIt.registerSingleton<UserService>(UserService());
   getIt.registerSingleton<UserRepo>(
       UserRepoImpl(userService: getIt<UserService>()));
+  getIt.registerSingleton<MenuRepo>(
+      MenuRepoImpl(authApiService: getIt<AuthApiService>()));
 }
