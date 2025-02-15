@@ -19,14 +19,13 @@ class AuthApiService {
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({
-          BackendEndpoints.keyUid: "", // backend may generate uid
+          BackendEndpoints.keyUid: "", // Backend may generate uid.
           BackendEndpoints.keyEmail: email,
           BackendEndpoints.keyFullName: name,
           BackendEndpoints.keyPhone: phone,
           BackendEndpoints.keyPassword: password,
         }),
       );
-
       if (response.statusCode == 200 || response.statusCode == 201) {
         log('User registered successfully: ${response.statusCode} ${response.body}');
         return jsonDecode(response.body) as Map<String, dynamic>;
@@ -53,13 +52,11 @@ class AuthApiService {
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode(body),
       );
-
       if (response.statusCode != 200) {
         log('Error in sendOtp: ${response.statusCode} ${response.body}');
         throw CustomExeption(
             'Error sending OTP: ${response.statusCode} ${response.body}');
       }
-
       final Map<String, dynamic> responseData = jsonDecode(response.body);
       return UserEntity(
         uId: responseData[BackendEndpoints.kId],
@@ -93,16 +90,12 @@ class AuthApiService {
     }
   }
 
-  /// Logs in the user via /auth/login.
-  ///
-  /// If the response status is 200, login is successful.
-  /// If a 401 is returned with the message "Email not verified",
-  /// it automatically triggers the OTP resend and throws an exception.
+  /// Logs in the user.
   Future<Map<String, dynamic>> loginUser({
     required String email,
     required String password,
   }) async {
-    final url = Uri.parse(BackendEndpoints.loginUser); // e.g., "/auth/login"
+    final url = Uri.parse(BackendEndpoints.loginUser);
     try {
       final response = await http.post(
         url,
@@ -112,7 +105,6 @@ class AuthApiService {
           BackendEndpoints.keyPassword: password,
         }),
       );
-
       if (response.statusCode == 200) {
         log('Login successful: ${response.body}');
         return jsonDecode(response.body) as Map<String, dynamic>;
@@ -138,32 +130,110 @@ class AuthApiService {
     }
   }
 
-  /// Resends the OTP via /auth/resend-otp.
-  ///
-  /// This method sends only the email in the payload.
+  /// Resends the OTP.
   Future<String> resendOtp({required String email}) async {
     final url = Uri.parse(BackendEndpoints.resendOtp);
     try {
       final response = await http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
-        body: jsonEncode({
-          BackendEndpoints.keyEmail: email,
-        }),
+        body: jsonEncode({BackendEndpoints.keyEmail: email}),
       );
-
       final responseJson = jsonDecode(response.body);
       if (response.statusCode == 200) {
         log('OTP sent successfully: ${response.body}');
-        // Return the success message from the response.
         return responseJson['message'] as String;
       } else {
         log('Error resending OTP: ${response.statusCode} ${response.body}');
-        // Throw a CustomExeption with the error message from the response.
         throw CustomExeption(responseJson['message'] as String);
       }
     } catch (e) {
       log('Exception in resendOtp: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  /// Sends a forgot password request.
+  Future<String> forgotPassword({required String email}) async {
+    final url = Uri.parse(BackendEndpoints.forgotPassword);
+    try {
+      final response = await http.post(
+        url,
+        headers: BackendEndpoints.jsonHeaders,
+        body: jsonEncode({BackendEndpoints.keyEmail: email}),
+      );
+      final responseJson = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        log('Forgot password request successful: ${response.body}');
+        return responseJson['message'] as String;
+      } else {
+        log('Error in forgotPassword: ${response.statusCode} ${response.body}');
+        throw CustomExeption(
+            'Error in forgotPassword: ${response.statusCode} ${response.body}');
+      }
+    } catch (e) {
+      log('Exception in forgotPassword: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  /// Sends a reset password request.
+  Future<String> resetPassword({
+    required String email,
+    required String otp,
+    required String newPassword,
+  }) async {
+    log("In Service:  email: $email, otp: $otp, newPassword: $newPassword");
+    final url = Uri.parse(BackendEndpoints.resetPassword);
+    try {
+      final response = await http.post(
+        url,
+        headers: BackendEndpoints.jsonHeaders,
+        body: jsonEncode({
+          BackendEndpoints.keyEmail: email,
+          BackendEndpoints.kOtp: otp,
+          BackendEndpoints.newPassword: newPassword,
+        }),
+      );
+      log("The encoded body: ${jsonEncode({
+            BackendEndpoints.keyEmail: email,
+            BackendEndpoints.kOtp: otp,
+            BackendEndpoints.newPassword: newPassword,
+          })}");
+      final responseJson = jsonDecode(response.body);
+      log("the response :  ${response.statusCode}");
+      if (response.statusCode == 200) {
+        log('Reset password successful: ${response.body}');
+        return responseJson['message'] as String;
+      } else {
+        log('Error in resetPassword: ${response.statusCode} ${response.body}');
+        throw CustomExeption(
+            'Error in resetPassword: ${response.statusCode} ${response.body}');
+      }
+    } catch (e) {
+      log('Exception in resetPassword: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  /// Logs out the user.
+  Future<void> logout({required String firebaseUid}) async {
+    final url = Uri.parse(BackendEndpoints.logout);
+    try {
+      final response = await http.post(
+        url,
+        headers: BackendEndpoints.jsonHeaders,
+        body: jsonEncode({'firebase_uid': firebaseUid}),
+      );
+      if (response.statusCode == 200) {
+        log('Logout successful: ${response.body}');
+      } else {
+        log('Error in logout: ${response.statusCode} ${response.body}');
+        throw CustomExeption(
+            'Error in logout: ${response.statusCode} ${response.body}');
+      }
+    } catch (e) {
+      log('Exception in logout: ${e.toString()}');
       rethrow;
     }
   }

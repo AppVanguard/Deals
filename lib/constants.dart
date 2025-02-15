@@ -11,3 +11,4 @@ const kId = 'id';
 const kFullName = 'fullName';
 const kPhone = 'phone';
 const kBasicData = 'basicData';
+const kOtp = 'otp';

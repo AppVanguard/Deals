@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'otp_verify_state.dart';
 import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
@@ -12,12 +14,14 @@ class OtpVerifyCubit extends Cubit<OtpVerifyState> {
   Future<void> verifyOtp({required String email, required String otp}) async {
     emit(OtpVerifyLoading());
     final result = await authRepo.sendOtp(email: email, otp: otp);
+    log("in otp email: $email, otp: $otp");
     result.fold(
       (failure) => emit(OtpVerifyFailure(message: failure.message)),
       (userEntity) => emit(
         OtpVerifySuccess(
           message: "OTP Verified Successfully",
           userEntity: userEntity,
+          otp: otp,
         ),
       ),
     );

@@ -11,7 +11,12 @@ final class OtpVerifyLoading extends OtpVerifyState {}
 final class OtpVerifySuccess extends OtpVerifyState {
   final String message;
   final UserEntity userEntity;
-  OtpVerifySuccess({required this.message, required this.userEntity});
+  final String otp; // New field to store the typed OTP.
+  OtpVerifySuccess({
+    required this.message,
+    required this.userEntity,
+    required this.otp,
+  });
 }
 
 final class OtpVerifyFailure extends OtpVerifyState {

@@ -38,7 +38,6 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       log("args are :  ${settings.arguments}");
       final args = settings.arguments as UserEntity?;
       log("args are :  ${args!.uId}");
-
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => HomeView(
@@ -62,7 +61,6 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
           ),
         );
       }
-      // Convert the basicData map to Map<String, String>
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => OtpVerficationView(
@@ -73,12 +71,25 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         ),
       );
     case ResetPasswordView.routeName:
+      final args = settings.arguments as Map<String, dynamic>?;
+      if (args == null) {
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) => const Scaffold(
+            body: Center(child: Text('Missing route arguments')),
+          ),
+        );
+      }
+      final email = args[kEmail] as String;
+      final otp = args[kOtp] as String;
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const ResetPasswordView(),
+        builder: (context) => ResetPasswordView(
+          email: email,
+          otp: otp,
+        ),
       );
     case PersonalDataView.routeName:
-      // Now we expect only the id to be passed in the arguments.
       final id = settings.arguments as String;
       return MaterialPageRoute(
         settings: settings,

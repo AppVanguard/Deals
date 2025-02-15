@@ -8,12 +8,12 @@ import 'package:in_pocket/features/auth/presentation/views/widgets/otp_verficati
 
 class OtpVerficationView extends StatelessWidget {
   const OtpVerficationView({
-    Key? key,
+    super.key,
     required this.email,
     this.image,
     required this.nextRoute,
     required this.id,
-  }) : super(key: key);
+  });
 
   final String email;
   final String? image;

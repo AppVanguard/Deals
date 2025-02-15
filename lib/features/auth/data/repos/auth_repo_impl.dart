@@ -55,8 +55,6 @@ class AuthRepoImpl extends AuthRepo {
   }) async {
     try {
       log('Attempting login for: $email');
-      // Call the backend login service.
-      // If email is not verified, the API triggers OTP resend and throws a CustomExeption.
       final loginResponse = await authApiService.loginUser(
         email: email,
         password: password,
@@ -88,7 +86,6 @@ class AuthRepoImpl extends AuthRepo {
         phone: '',
       );
       final token = await user.getIdToken();
-      log("$token");
       await authApiService.sendOAuthToken(token: token!);
       return right(userEntity);
     } on CustomExeption catch (e) {
@@ -113,8 +110,6 @@ class AuthRepoImpl extends AuthRepo {
         phone: '',
       );
       final token = await user.getIdToken();
-      log("$token");
-
       await authApiService.sendOAuthToken(token: token!);
       return right(userEntity);
     } on CustomExeption catch (e) {
@@ -174,7 +169,6 @@ class AuthRepoImpl extends AuthRepo {
   @override
   Future<Either<Failure, Unit>> resendOtp({required String email}) async {
     try {
-      // The API returns a message on success; we log it and return unit.
       final message = await authApiService.resendOtp(email: email);
       log('Resend OTP success: $message');
       return right(unit);
@@ -182,6 +176,56 @@ class AuthRepoImpl extends AuthRepo {
       return left(ServerFaliure(message: e.message));
     } catch (e) {
       log('Error in resendOtp: ${e.toString()}');
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> forgotPassword({required String email}) async {
+    try {
+      final message = await authApiService.forgotPassword(email: email);
+      log('Forgot password message: $message');
+      return right(message);
+    } on CustomExeption catch (e) {
+      return left(ServerFaliure(message: e.message));
+    } catch (e) {
+      log('Error in forgotPassword: ${e.toString()}');
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> resetPassword({
+    required String email,
+    required String otp,
+    required String newPassword,
+  }) async {
+    try {
+      final message = await authApiService.resetPassword(
+        email: email,
+        otp: otp,
+        newPassword: newPassword,
+      );
+      log('Reset password message: $message');
+      return right(message);
+    } on CustomExeption catch (e) {
+      return left(ServerFaliure(message: e.message));
+    } catch (e) {
+      log('Error in resetPassword: ${e.toString()}');
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> logout({required String firebaseUid}) async {
+    try {
+      await authApiService.logout(firebaseUid: firebaseUid);
+      log('Logout completed successfully.');
+      return right(unit);
+    } on CustomExeption catch (e) {
+      return left(ServerFaliure(message: e.message));
+    } catch (e) {
+      log('Error in logout: ${e.toString()}');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
