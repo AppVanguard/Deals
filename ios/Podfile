@@ -24,12 +24,23 @@ def flutter_root
   raise "FLUTTER_ROOT not found in #{generated_xcconfig}."
 end
 
-# Load Flutter's pod helper
-load File.join(flutter_root, 'packages', 'flutter_tools', 'bin', 'pod_helper.rb')
-
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
+
+  # Define the pod helper path by checking both possible file names.
+  pod_helper_path = File.join(flutter_root, 'packages', 'flutter_tools', 'bin', 'pod_helper.rb')
+  unless File.exist?(pod_helper_path)
+    pod_helper_path = File.join(flutter_root, 'packages', 'flutter_tools', 'bin', 'podhelper.rb')
+  end
+
+  # If the file still isn't found, raise an error.
+  unless File.exist?(pod_helper_path)
+    raise "Flutter pod helper not found. Expected at #{pod_helper_path}"
+  end
+
+  # Load Flutter's pod helper
+  load pod_helper_path
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
