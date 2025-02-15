@@ -35,14 +35,12 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         builder: (context) => const SignupView(),
       );
     case HomeView.routeName:
-      log("args are :  ${settings.arguments}");
+      log("args are: ${settings.arguments}");
       final args = settings.arguments as UserEntity?;
-      log("args are :  ${args!.uId}");
+      log("User ID: ${args!.uId}");
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => HomeView(
-          userData: args,
-        ),
+        builder: (context) => HomeView(userData: args),
       );
     case ForgetPasswordView.routeName:
       return MaterialPageRoute(
@@ -50,15 +48,13 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         builder: (context) => const ForgetPasswordView(),
       );
     case OtpVerficationView.routeName:
-      log("args are :  ${settings.arguments}");
+      log("args are: ${settings.arguments}");
       final args = settings.arguments as Map<String, dynamic>?;
-      log("args in map are :  ${args}");
       if (args == null) {
         return MaterialPageRoute(
           settings: settings,
           builder: (context) => const Scaffold(
-            body: Center(child: Text('Missing route arguments')),
-          ),
+              body: Center(child: Text('Missing route arguments'))),
         );
       }
       return MaterialPageRoute(
@@ -76,8 +72,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         return MaterialPageRoute(
           settings: settings,
           builder: (context) => const Scaffold(
-            body: Center(child: Text('Missing route arguments')),
-          ),
+              body: Center(child: Text('Missing route arguments'))),
         );
       }
       final email = args[kEmail] as String;
@@ -93,9 +88,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       final id = settings.arguments as String;
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => PersonalDataView(
-          id: id,
-        ),
+        builder: (context) => PersonalDataView(id: id),
       );
     default:
       return MaterialPageRoute(

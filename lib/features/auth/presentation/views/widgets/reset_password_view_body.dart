@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -48,9 +47,7 @@ class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
             autovalidateMode: autovalidateMode,
             child: Column(
               children: [
-                SvgPicture.asset(
-                  AppImages.assetsImagesResetPasswword,
-                ),
+                SvgPicture.asset(AppImages.assetsImagesResetPasswword),
                 CustomPasswordField(
                   label: S.of(context).Password,
                   validator: (value) {
@@ -93,7 +90,7 @@ class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
                 CustomButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      log("The args sent now email : ${widget.email} , password : $password , otp : ${widget.otp}");
+                      log("The args sent now email: ${widget.email}, password: $password, otp: ${widget.otp}");
                       formKey.currentState!.save();
                       context.read<ResetPasswordCubit>().resetPassword(
                             email: widget.email,

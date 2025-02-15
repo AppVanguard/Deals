@@ -37,4 +37,10 @@ abstract class AuthRepo {
   });
 
   Future<Either<Failure, Unit>> logout({required String firebaseUid});
+
+  // Dedicated method for verifying OTP (for reset password flow).
+  Future<Either<Failure, String>> verifyOtp({
+    required String email,
+    required String otp,
+  });
 }

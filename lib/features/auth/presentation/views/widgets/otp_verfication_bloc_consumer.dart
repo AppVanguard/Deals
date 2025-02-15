@@ -16,8 +16,7 @@ class OTPVeficationBlocConsumer extends StatelessWidget {
   final String email;
   final String? image;
   final String path;
-
-  /// The legacy id parameter is still accepted but will no longer be used for OTP.
+  // The legacy id is still passed but not used for OTP in reset flow.
   final String id;
   const OTPVeficationBlocConsumer({
     super.key,
@@ -46,7 +45,7 @@ class OTPVeficationBlocConsumer extends StatelessWidget {
                 });
               } else {
                 Navigator.pushReplacementNamed(context, path,
-                    arguments: state.userEntity.uId);
+                    arguments: state.otp);
               }
             },
             message: S.of(context).EmailVerified,

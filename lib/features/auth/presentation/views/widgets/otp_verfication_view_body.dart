@@ -27,8 +27,6 @@ class OTPVerificationViewBody extends StatefulWidget {
   final String id;
   final String? image;
   final String routeName;
-
-  /// Server-side error (e.g. invalid OTP)
   final String? errorMessage;
 
   @override
@@ -96,9 +94,10 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     if (!hasEmptyFields) {
       final otpCode = _controllers.map((e) => e.text).join();
       log('Entered OTP: $otpCode');
+      // Here, for reset password flow, call verifyOtpForReset.
       context
           .read<OtpVerifyCubit>()
-          .verifyOtp(email: widget.email, otp: otpCode);
+          .verifyOtpForReset(email: widget.email, otp: otpCode);
     }
   }
 
@@ -136,7 +135,6 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    // Watch the timer cubit for updates.
     final timerState = context.watch<OtpResendTimerCubit>().state;
     bool timerIsRunning = false;
     int secondsLeft = 0;
@@ -144,7 +142,6 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
       timerIsRunning = true;
       secondsLeft = timerState.timeLeft;
     }
-
     return SingleChildScrollView(
       child: Center(
         child: Column(

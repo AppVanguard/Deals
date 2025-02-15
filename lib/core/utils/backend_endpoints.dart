@@ -13,6 +13,7 @@ class BackendEndpoints {
   static const String resetPassword = "$apiPath/auth/reset-password";
   static const String forgotPassword = "$apiPath/auth/forgot-password";
   static const String logout = "$apiPath/auth/logout";
+  static const String verifyOtp = "$apiPath/auth/verify-otp";
 
   // Collection names.
   static const String usersCollection = "users";

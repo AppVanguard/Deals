@@ -19,7 +19,7 @@ class AuthApiService {
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({
-          BackendEndpoints.keyUid: "", // Backend may generate uid.
+          BackendEndpoints.keyUid: "",
           BackendEndpoints.keyEmail: email,
           BackendEndpoints.keyFullName: name,
           BackendEndpoints.keyPhone: phone,
@@ -40,7 +40,7 @@ class AuthApiService {
     }
   }
 
-  /// Sends an OTP to verify the email.
+  /// Sends an OTP (for registration flow).
   Future<UserEntity> sendOtp({required String email, String? otp}) async {
     final url = Uri.parse(BackendEndpoints.verifyEmail);
     try {
@@ -58,6 +58,7 @@ class AuthApiService {
             'Error sending OTP: ${response.statusCode} ${response.body}');
       }
       final Map<String, dynamic> responseData = jsonDecode(response.body);
+      log("sendOtp response: $responseData");
       return UserEntity(
         uId: responseData[BackendEndpoints.kId],
         email: responseData[BackendEndpoints.keyEmail],
@@ -66,6 +67,40 @@ class AuthApiService {
       );
     } catch (e) {
       log('Exception in sendOtp: ${e.toString()}');
+      rethrow;
+    }
+  }
+
+  /// Verifies the OTP using the dedicated /auth/verify-otp endpoint (for reset flow).
+  Future<String> verifyOtp({
+    required String email,
+    required String otp,
+  }) async {
+    log("in service verifyOtp $otp, $email");
+    final url = Uri.parse(BackendEndpoints.verifyOtp);
+    try {
+      final response = await http.post(
+        url,
+        headers: BackendEndpoints.jsonHeaders,
+        body: jsonEncode({
+          BackendEndpoints.keyEmail: email,
+          BackendEndpoints.kOtp: otp,
+        }),
+      );
+      log(jsonEncode({
+        BackendEndpoints.keyEmail: email,
+        BackendEndpoints.kOtp: otp,
+      }));
+      if (response.statusCode != 200) {
+        log('Error in verifyOtp: ${response.statusCode} ${response.body}');
+        throw CustomExeption(
+            'Error verifying OTP: ${response.statusCode} ${response.body}');
+      }
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      log("verifyOtp response: $responseData");
+      return responseData['message'] as String;
+    } catch (e) {
+      log('Exception in verifyOtp: ${e.toString()}');
       rethrow;
     }
   }
@@ -183,7 +218,7 @@ class AuthApiService {
     required String otp,
     required String newPassword,
   }) async {
-    log("In Service:  email: $email, otp: $otp, newPassword: $newPassword");
+    log("In Service: email: $email, otp: $otp, newPassword: $newPassword");
     final url = Uri.parse(BackendEndpoints.resetPassword);
     try {
       final response = await http.post(
@@ -201,7 +236,7 @@ class AuthApiService {
             BackendEndpoints.newPassword: newPassword,
           })}");
       final responseJson = jsonDecode(response.body);
-      log("the response :  ${response.statusCode}");
+      log("Response status: ${response.statusCode}");
       if (response.statusCode == 200) {
         log('Reset password successful: ${response.body}');
         return responseJson['message'] as String;

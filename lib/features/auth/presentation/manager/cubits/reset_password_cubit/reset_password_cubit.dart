@@ -1,8 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
 import 'package:meta/meta.dart';
+
 part 'reset_password_state.dart';
 
 class ResetPasswordCubit extends Cubit<ResetPasswordState> {
@@ -26,7 +26,7 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     required String otp,
     required String newPassword,
   }) async {
-    log("In cubit:  email: $email, otp: $otp, newPassword: $newPassword");
+    log("In Cubit: email: $email, otp: $otp, newPassword: $newPassword");
     emit(ResetPasswordLoading());
     final result = await authRepo.resetPassword(
       email: email,

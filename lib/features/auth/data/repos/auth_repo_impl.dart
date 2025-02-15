@@ -181,7 +181,8 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
-  Future<Either<Failure, String>> forgotPassword({required String email}) async {
+  Future<Either<Failure, String>> forgotPassword(
+      {required String email}) async {
     try {
       final message = await authApiService.forgotPassword(email: email);
       log('Forgot password message: $message');
@@ -230,10 +231,26 @@ class AuthRepoImpl extends AuthRepo {
     }
   }
 
-  /// Helper method to delete a partially created Firebase user if an error occurs.
   Future<void> deleteUser(User? user) async {
     if (user != null) {
       await firebaseAuthService.deleteUser();
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> verifyOtp({
+    required String email,
+    required String otp,
+  }) async {
+    try {
+      log("in repo verifyOtp $otp, $email");
+      final message = await authApiService.verifyOtp(email: email, otp: otp);
+      return right(message);
+    } on CustomExeption catch (e) {
+      return left(ServerFaliure(message: e.message));
+    } catch (e) {
+      log('Error in verifyOtp: ${e.toString()}');
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 }
