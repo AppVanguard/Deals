@@ -12,3 +12,4 @@ const kFullName = 'fullName';
 const kPhone = 'phone';
 const kBasicData = 'basicData';
 const kOtp = 'otp';
+const kIsRegister = 'isRegister';

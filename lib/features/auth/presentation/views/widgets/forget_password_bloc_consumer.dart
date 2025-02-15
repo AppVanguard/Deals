@@ -36,6 +36,7 @@ class _ForgetPasswordBlocConsumerState
                 kNextRoute: ResetPasswordView.routeName,
                 // Passing the API's returned message (or OTP) as kId.
                 kId: state.message,
+                kIsRegister: false
               },
             );
           }

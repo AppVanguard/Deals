@@ -21,6 +21,7 @@ class OTPVerificationViewBody extends StatefulWidget {
     this.image,
     required this.routeName,
     this.errorMessage,
+    required this.isRegister,
   });
 
   final String email;
@@ -28,7 +29,7 @@ class OTPVerificationViewBody extends StatefulWidget {
   final String? image;
   final String routeName;
   final String? errorMessage;
-
+  final bool isRegister;
   @override
   State<OTPVerificationViewBody> createState() =>
       _OTPVerificationViewBodyState();
@@ -95,9 +96,13 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
       final otpCode = _controllers.map((e) => e.text).join();
       log('Entered OTP: $otpCode');
       // Here, for reset password flow, call verifyOtpForReset.
-      context
-          .read<OtpVerifyCubit>()
-          .verifyOtpForReset(email: widget.email, otp: otpCode);
+      widget.isRegister
+          ? context
+              .read<OtpVerifyCubit>()
+              .verifyOtpForRegister(email: widget.email, otp: otpCode)
+          : context
+              .read<OtpVerifyCubit>()
+              .verifyOtpForReset(email: widget.email, otp: otpCode);
     }
   }
 

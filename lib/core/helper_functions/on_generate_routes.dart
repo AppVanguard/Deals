@@ -64,6 +64,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
           image: args[kImage] as String?,
           nextRoute: args[kNextRoute] as String,
           id: args[kId] as String,
+          isRegister: args[kIsRegister] as bool,
         ),
       );
     case ResetPasswordView.routeName:

@@ -13,13 +13,14 @@ class OtpVerficationView extends StatelessWidget {
     this.image,
     required this.nextRoute,
     required this.id,
+    required this.isRegister,
   });
 
   final String email;
   final String? image;
   final String nextRoute;
   final String id;
-
+  final bool isRegister;
   static const routeName = 'otp_verfication_view';
 
   @override
@@ -40,6 +41,7 @@ class OtpVerficationView extends StatelessWidget {
           image: image,
           email: email,
           path: nextRoute,
+          isRegister: isRegister,
         ),
       ),
     );

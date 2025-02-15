@@ -12,6 +12,7 @@ class OtpVerifyCubit extends Cubit<OtpVerifyState> {
   /// For the registration flow: uses sendOtp.
   Future<void> verifyOtpForRegister(
       {required String email, required String otp}) async {
+    log("in reg otp verify $email, $otp");
     emit(OtpVerifyLoading());
     final result = await authRepo.sendOtp(email: email, otp: otp);
     result.fold(

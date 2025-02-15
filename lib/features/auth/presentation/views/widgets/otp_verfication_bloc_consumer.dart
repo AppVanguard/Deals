@@ -16,6 +16,7 @@ class OTPVeficationBlocConsumer extends StatelessWidget {
   final String email;
   final String? image;
   final String path;
+  final bool isRegister;
   // The legacy id is still passed but not used for OTP in reset flow.
   final String id;
   const OTPVeficationBlocConsumer({
@@ -24,6 +25,7 @@ class OTPVeficationBlocConsumer extends StatelessWidget {
     this.image,
     required this.path,
     required this.id,
+    required this.isRegister,
   });
 
   @override
@@ -45,7 +47,7 @@ class OTPVeficationBlocConsumer extends StatelessWidget {
                 });
               } else {
                 Navigator.pushReplacementNamed(context, path,
-                    arguments: state.otp);
+                    arguments: state.userEntity!.uId);
               }
             },
             message: S.of(context).EmailVerified,
@@ -64,6 +66,7 @@ class OTPVeficationBlocConsumer extends StatelessWidget {
           return CustomProgressHud(
             isLoading: isLoading,
             child: OTPVerificationViewBody(
+              isRegister: isRegister,
               id: id,
               image: image,
               email: email,

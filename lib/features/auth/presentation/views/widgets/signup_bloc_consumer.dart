@@ -31,7 +31,8 @@ class SignupBlocConsumer extends StatelessWidget {
               kEmail: state.userEntity.email,
               kImage: AppImages.assetsImagesOTB,
               kNextRoute: PersonalDataView.routeName,
-              kId: state.userEntity.uId
+              kId: state.userEntity.uId,
+              kIsRegister: true
             },
           );
         }

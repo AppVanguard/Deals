@@ -29,7 +29,8 @@ class SigninViewBlocConsumer extends StatelessWidget {
                 kEmail: state.userEntity.email,
                 kImage: AppImages.assetsImagesOTB,
                 kNextRoute: SigninView.routeName,
-                kId: ''
+                kId: '',
+                kIsRegister: true
               });
         }
         if (state is SigninSuccess) {
