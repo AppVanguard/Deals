@@ -13,7 +13,7 @@ class ActiveItem extends StatelessWidget {
       children: [
         Container(
           width: 90,
-          height: 30,
+          height: 70,
           padding: const EdgeInsets.only(top: 8, bottom: 6),
           child: Column(
             mainAxisSize: MainAxisSize.min,
