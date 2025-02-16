@@ -72,41 +72,5 @@ class ActiveItem extends StatelessWidget {
         ),
       ],
     );
-
-    Center(
-      child: Container(
-        padding: const EdgeInsets.only(left: 16),
-        decoration: ShapeDecoration(
-          color: const Color(0xFFEEEEEE),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 64,
-              height: 32,
-              decoration: ShapeDecoration(
-                color: AppColors.lightPrimary,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30)),
-              ),
-              child: Center(child: SvgPicture.asset(image)),
-            ),
-            const SizedBox(
-              width: 4,
-            ),
-            Text(
-              title,
-              style: AppTextStyles.semiBold12.copyWith(
-                color: AppColors.primary,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 }
