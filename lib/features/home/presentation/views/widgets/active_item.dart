@@ -20,52 +20,48 @@ class ActiveItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 64,
-                      height: 32,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: ShapeDecoration(
-                        color: Color(0xFFE0FFEA),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 20,
-                            height: 20,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Center(child: SvgPicture.asset(image))
-                              ],
-                            ),
-                          ),
-                        ],
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 64,
+                    height: 32,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFFE0FFEA),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    const SizedBox(height: 2),
-                    Text(title,
-                        textAlign: TextAlign.center,
-                        style: AppTextStyles.semiBold12.copyWith(
-                          color: AppColors.primary,
-                        )),
-                  ],
-                ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 20,
+                          height: 20,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [Center(child: SvgPicture.asset(image))],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(title,
+                      textAlign: TextAlign.center,
+                      style: AppTextStyles.semiBold12.copyWith(
+                        color: AppColors.primary,
+                      )),
+                ],
               ),
             ],
           ),
