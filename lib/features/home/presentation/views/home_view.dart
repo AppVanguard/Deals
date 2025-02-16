@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:in_pocket/constants.dart';
@@ -7,8 +5,8 @@ import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/custom_app_drawer.dart';
 import 'package:in_pocket/features/home/presentation/views/widgets/custom_app_drawer_bloc_provider.dart';
+import 'package:in_pocket/features/home/presentation/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:in_pocket/features/home/presentation/views/widgets/home_view_body.dart';
 
 class HomeView extends StatelessWidget {
@@ -19,7 +17,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomAppBar(),
+      bottomNavigationBar: CustomBottomNavigationBar(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: Builder(

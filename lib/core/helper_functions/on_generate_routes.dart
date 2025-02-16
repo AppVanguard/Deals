@@ -35,7 +35,7 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         builder: (context) => const SignupView(),
       );
     case HomeView.routeName:
-      log("args are: ${settings.arguments}");
+      log("args are Entity: ${settings.arguments}");
       final args = settings.arguments as UserEntity?;
       log("User ID: ${args!.uId}");
       return MaterialPageRoute(

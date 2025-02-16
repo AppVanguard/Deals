@@ -1129,6 +1129,126 @@ class S {
       args: [],
     );
   }
+
+  /// `Home`
+  String get Home {
+    return Intl.message(
+      'Home',
+      name: 'Home',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Categories`
+  String get Categories {
+    return Intl.message(
+      'Categories',
+      name: 'Categories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get Profile {
+    return Intl.message(
+      'Profile',
+      name: 'Profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deals`
+  String get Deals {
+    return Intl.message(
+      'Deals',
+      name: 'Deals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Deals`
+  String get MyDeals {
+    return Intl.message(
+      'My Deals',
+      name: 'MyDeals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Coupons`
+  String get MyCoupons {
+    return Intl.message(
+      'My Coupons',
+      name: 'MyCoupons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category`
+  String get Category {
+    return Intl.message(
+      'Category',
+      name: 'Category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bookmarks`
+  String get Bookmarks {
+    return Intl.message(
+      'Bookmarks',
+      name: 'Bookmarks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupons`
+  String get Copouns {
+    return Intl.message(
+      'Coupons',
+      name: 'Copouns',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success signing in`
+  String get SuccessSigningIn {
+    return Intl.message(
+      'Success signing in',
+      name: 'SuccessSigningIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success signing up`
+  String get SuccessSigningUp {
+    return Intl.message(
+      'Success signing up',
+      name: 'SuccessSigningUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success signing out`
+  String get SuccessSigningOut {
+    return Intl.message(
+      'Success signing out',
+      name: 'SuccessSigningOut',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -6,6 +6,7 @@ import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
 import 'package:in_pocket/features/home/presentation/views/home_view.dart';
 import 'package:in_pocket/features/on_boarding/presentation/views/on_boarding_view.dart';
+import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -54,7 +55,21 @@ class _SplashViewBodyState extends State<SplashViewBody> {
       if (isOnBoardingViewSeen) {
         bool isLoggedIn = FirebaseAuthService().isSignedIn();
         if (isLoggedIn) {
-          Navigator.pushReplacementNamed(context, HomeView.routeName);
+          // Get the user entity from SharedPreferences
+          final userJson = Prefs.getString(kUserEntity);
+          if (userJson.isNotEmpty) {
+            final userEntity = UserEntity.fromJson(
+                userJson); // Convert JSON back to UserEntity
+            // Pass the user entity as arguments to the HomeView
+            Navigator.pushReplacementNamed(
+              context,
+              HomeView.routeName,
+              arguments: userEntity,
+            );
+          } else {
+            // If user data is not found in SharedPreferences, navigate to SigninView
+            Navigator.pushReplacementNamed(context, SigninView.routeName);
+          }
         } else {
           Navigator.pushReplacementNamed(context, SigninView.routeName);
         }

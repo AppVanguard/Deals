@@ -3,6 +3,7 @@ import 'package:in_pocket/constants.dart';
 import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
 import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
+import 'package:in_pocket/generated/l10n.dart';
 import 'package:meta/meta.dart';
 
 part 'signin_state.dart';
@@ -24,9 +25,7 @@ class SigninCubit extends Cubit<SigninState> {
     );
     result.fold(
       (failure) {
-        // Check if the failure message indicates that the email is not verified.
         if (failure.message.contains("Email not verified")) {
-          // Optionally, you might construct a minimal UserEntity if you only have the email.
           final userEntity = UserEntity(
             uId: '',
             email: email,
@@ -40,8 +39,13 @@ class SigninCubit extends Cubit<SigninState> {
         }
       },
       (user) {
+        if (rememberMe) {
+          // Save the userEntity as JSON in SharedPreferences
+          Prefs.setString(kUserEntity, user.toJson());
+        }
         Prefs.setBool(kRememberMe, rememberMe);
-        emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
+        emit(SigninSuccess(
+            userEntity: user, message: S.current.SuccessSigningIn));
       },
     );
   }
@@ -52,6 +56,10 @@ class SigninCubit extends Cubit<SigninState> {
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) {
+        if (rememberMe) {
+          // Save the userEntity as JSON in SharedPreferences
+          Prefs.setString(kUserEntity, user.toJson());
+        }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
       },
@@ -64,6 +72,10 @@ class SigninCubit extends Cubit<SigninState> {
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) {
+        if (rememberMe) {
+          // Save the userEntity as JSON in SharedPreferences
+          Prefs.setString(kUserEntity, user.toJson());
+        }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
       },
@@ -76,6 +88,10 @@ class SigninCubit extends Cubit<SigninState> {
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) {
+        if (rememberMe) {
+          // Save the userEntity as JSON in SharedPreferences
+          Prefs.setString(kUserEntity, user.toJson());
+        }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
       },

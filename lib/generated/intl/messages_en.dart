@@ -27,16 +27,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "BirthDate": MessageLookupByLibrary.simpleMessage("Birth date"),
         "BirthdayValidator":
             MessageLookupByLibrary.simpleMessage("Please enter your birthday."),
+        "Bookmarks": MessageLookupByLibrary.simpleMessage("Bookmarks"),
+        "Categories": MessageLookupByLibrary.simpleMessage("Categories"),
+        "Category": MessageLookupByLibrary.simpleMessage("Category"),
         "City": MessageLookupByLibrary.simpleMessage("City/Town"),
         "CityValidator":
             MessageLookupByLibrary.simpleMessage("Please enter your city."),
         "ConfirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "Copouns": MessageLookupByLibrary.simpleMessage("Coupons"),
         "Country": MessageLookupByLibrary.simpleMessage("Country"),
         "CountryValidator":
             MessageLookupByLibrary.simpleMessage("Please enter your country."),
         "CreateNewAccount":
             MessageLookupByLibrary.simpleMessage("Create New Account"),
+        "Deals": MessageLookupByLibrary.simpleMessage("Deals"),
         "DontHaveAccount":
             MessageLookupByLibrary.simpleMessage("Don’t have an account?"),
         "EPValidator": MessageLookupByLibrary.simpleMessage(
@@ -69,12 +74,15 @@ class MessageLookup extends MessageLookupByLibrary {
             "Google login failed or was cancelled"),
         "HaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account ?"),
+        "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "InvalidCode": MessageLookupByLibrary.simpleMessage("Invalid code"),
         "JoinNow": MessageLookupByLibrary.simpleMessage("Join now"),
         "Later": MessageLookupByLibrary.simpleMessage("I’d do later"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "LoginWith": MessageLookupByLibrary.simpleMessage("or login with"),
         "Male": MessageLookupByLibrary.simpleMessage("Male"),
+        "MyCoupons": MessageLookupByLibrary.simpleMessage("My Coupons"),
+        "MyDeals": MessageLookupByLibrary.simpleMessage("My Deals"),
         "Next": MessageLookupByLibrary.simpleMessage("Next"),
         "NoCode":
             MessageLookupByLibrary.simpleMessage("Did not receive any code?"),
@@ -102,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "PleaseSelectGender":
             MessageLookupByLibrary.simpleMessage("Please select your gender."),
         "Previous": MessageLookupByLibrary.simpleMessage("Previous"),
+        "Profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "RememberMe": MessageLookupByLibrary.simpleMessage("Remember me?"),
         "Resend": MessageLookupByLibrary.simpleMessage("Resend"),
@@ -118,6 +127,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "SignUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "SomethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something went wrong"),
+        "SuccessSigningIn":
+            MessageLookupByLibrary.simpleMessage("Success signing in"),
+        "SuccessSigningOut":
+            MessageLookupByLibrary.simpleMessage("Success signing out"),
+        "SuccessSigningUp":
+            MessageLookupByLibrary.simpleMessage("Success signing up"),
         "UnknowError": MessageLookupByLibrary.simpleMessage("Unknow error"),
         "Verify": MessageLookupByLibrary.simpleMessage("Verify"),
         "accountExistsWithDifferentCredential":

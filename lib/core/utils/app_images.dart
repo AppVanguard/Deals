@@ -30,9 +30,33 @@ class AppImages {
   /// assets/images/google_icon.svg
   static const String assetsImagesGoogleIcon = "assets/images/google_icon.svg";
 
+  /// Assets for assetsImagesIconsBookmarkActive
+  /// assets/images/icons/bookmarkActive.svg
+  static const String assetsImagesIconsBookmarkActive = "assets/images/icons/bookmarkActive.svg";
+
+  /// Assets for assetsImagesIconsBookmarkInActive
+  /// assets/images/icons/bookmarkInActive.svg
+  static const String assetsImagesIconsBookmarkInActive = "assets/images/icons/bookmarkInActive.svg";
+
+  /// Assets for assetsImagesIconsCategoriesActive
+  /// assets/images/icons/categoriesActive.svg
+  static const String assetsImagesIconsCategoriesActive = "assets/images/icons/categoriesActive.svg";
+
+  /// Assets for assetsImagesIconsCategoriesInActive
+  /// assets/images/icons/categoriesInActive.svg
+  static const String assetsImagesIconsCategoriesInActive = "assets/images/icons/categoriesInActive.svg";
+
   /// Assets for assetsImagesIconsContact
   /// assets/images/icons/contact.svg
   static const String assetsImagesIconsContact = "assets/images/icons/contact.svg";
+
+  /// Assets for assetsImagesIconsCouponActive
+  /// assets/images/icons/couponActive.svg
+  static const String assetsImagesIconsCouponActive = "assets/images/icons/couponActive.svg";
+
+  /// Assets for assetsImagesIconsCouponInActive
+  /// assets/images/icons/couponInActive.svg
+  static const String assetsImagesIconsCouponInActive = "assets/images/icons/couponInActive.svg";
 
   /// Assets for assetsImagesIconsEarning
   /// assets/images/icons/earning.svg
@@ -41,6 +65,14 @@ class AppImages {
   /// Assets for assetsImagesIconsHelp
   /// assets/images/icons/help.svg
   static const String assetsImagesIconsHelp = "assets/images/icons/help.svg";
+
+  /// Assets for assetsImagesIconsHomeActive
+  /// assets/images/icons/HomeActive.svg
+  static const String assetsImagesIconsHomeActive = "assets/images/icons/HomeActive.svg";
+
+  /// Assets for assetsImagesIconsHomeInActive
+  /// assets/images/icons/HomeInActive.svg
+  static const String assetsImagesIconsHomeInActive = "assets/images/icons/HomeInActive.svg";
 
   /// Assets for assetsImagesIconsLogOut
   /// assets/images/icons/log_out.svg

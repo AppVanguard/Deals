@@ -106,5 +106,17 @@
       "help": "Help",
       "contactUs": "Contact us",
       "logOut": "Log out",
-      "appVersion": "DEALS version"
+      "appVersion": "DEALS version",
+      "Home": "Home",
+      "Categories": "Categories",
+      "Profile": "Profile",
+      "Deals": "Deals",
+      "MyDeals": "My Deals",
+      "MyCoupons": "My Coupons",
+      "Category": "Category",
+      "Bookmarks": "Bookmarks",
+      "Copouns": "Coupons",
+      "SuccessSigningIn": "Success signing in",
+      "SuccessSigningUp": "Success signing up",
+      "SuccessSigningOut": "Success signing out"
 }
