@@ -80,6 +80,7 @@ class HomeViewBody extends StatelessWidget {
             ),
           ),
         ),
+        TopCashBacks(cashbackItems: cashbackItems),
       ],
     );
   }
