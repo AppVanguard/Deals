@@ -122,6 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Search": MessageLookupByLibrary.simpleMessage("Search"),
         "SearchHint":
             MessageLookupByLibrary.simpleMessage("Start typing to search"),
+        "See_All": MessageLookupByLibrary.simpleMessage("See All"),
         "SelectCountry": MessageLookupByLibrary.simpleMessage("Select Country"),
         "SelectDate": MessageLookupByLibrary.simpleMessage("Select Date"),
         "SelectGender": MessageLookupByLibrary.simpleMessage("Select Gender"),
@@ -135,6 +136,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Success signing out"),
         "SuccessSigningUp":
             MessageLookupByLibrary.simpleMessage("Success signing up"),
+        "Top_cashbacks": MessageLookupByLibrary.simpleMessage("Top cashbacks"),
+        "Top_coupons": MessageLookupByLibrary.simpleMessage("Top coupons"),
+        "Top_deals": MessageLookupByLibrary.simpleMessage("Top deals"),
         "UnknowError": MessageLookupByLibrary.simpleMessage("Unknow error"),
         "Verify": MessageLookupByLibrary.simpleMessage("Verify"),
         "accountExistsWithDifferentCredential":

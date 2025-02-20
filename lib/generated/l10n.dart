@@ -1259,6 +1259,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Top cashbacks`
+  String get Top_cashbacks {
+    return Intl.message(
+      'Top cashbacks',
+      name: 'Top_cashbacks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top coupons`
+  String get Top_coupons {
+    return Intl.message(
+      'Top coupons',
+      name: 'Top_coupons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top deals`
+  String get Top_deals {
+    return Intl.message(
+      'Top deals',
+      name: 'Top_deals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See All`
+  String get See_All {
+    return Intl.message(
+      'See All',
+      name: 'See_All',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
