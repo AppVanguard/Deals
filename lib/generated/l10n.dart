@@ -1249,6 +1249,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Save money with us`
+  String get Save_money_with_us {
+    return Intl.message(
+      'Save money with us',
+      name: 'Save_money_with_us',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

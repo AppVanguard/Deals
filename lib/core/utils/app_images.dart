@@ -166,6 +166,18 @@ class AppImages {
   /// assets/images/test.svg
   static const String assetsImagesTest = "assets/images/test.svg";
 
+  /// Assets for assetsImagesTest1
+  /// assets/images/test1.png
+  static const String assetsImagesTest1 = "assets/images/test1.png";
+
+  /// Assets for assetsImagesTest2
+  /// assets/images/test2.jpeg
+  static const String assetsImagesTest2 = "assets/images/test2.jpeg";
+
+  /// Assets for assetsImagesTest3
+  /// assets/images/test3.jpeg
+  static const String assetsImagesTest3 = "assets/images/test3.jpeg";
+
   /// Assets for assetsImagesWarning
   /// assets/images/warning.svg
   static const String assetsImagesWarning = "assets/images/warning.svg";

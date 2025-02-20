@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_pocket/constants.dart';
 import 'package:in_pocket/core/service/secure_storage_service.dart';

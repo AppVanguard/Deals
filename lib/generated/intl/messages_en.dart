@@ -117,6 +117,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ResendCode": MessageLookupByLibrary.simpleMessage("Resend code"),
         "ResetPassword": MessageLookupByLibrary.simpleMessage("Reset password"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
+        "Save_money_with_us":
+            MessageLookupByLibrary.simpleMessage("Save money with us"),
         "Search": MessageLookupByLibrary.simpleMessage("Search"),
         "SearchHint":
             MessageLookupByLibrary.simpleMessage("Start typing to search"),
