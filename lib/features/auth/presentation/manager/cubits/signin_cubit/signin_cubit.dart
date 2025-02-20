@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_pocket/constants.dart';
+import 'package:in_pocket/core/service/secure_storage_service.dart';
 import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
 import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
@@ -38,10 +40,10 @@ class SigninCubit extends Cubit<SigninState> {
           emit(SigninFailure(message: failure.message));
         }
       },
-      (user) {
+      (user) async {
         if (rememberMe) {
-          // Save the userEntity as JSON in SharedPreferences
-          Prefs.setString(kUserEntity, user.toJson());
+          // Save user data securely
+          await SecureStorageService.saveUserEntity(user.toJson());
         }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(
@@ -55,10 +57,9 @@ class SigninCubit extends Cubit<SigninState> {
     final result = await authRepo.signInWithGoogle();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
-      (user) {
+      (user) async {
         if (rememberMe) {
-          // Save the userEntity as JSON in SharedPreferences
-          Prefs.setString(kUserEntity, user.toJson());
+          await SecureStorageService.saveUserEntity(user.toJson());
         }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
@@ -71,10 +72,9 @@ class SigninCubit extends Cubit<SigninState> {
     final result = await authRepo.signInWithFacebook();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
-      (user) {
+      (user) async {
         if (rememberMe) {
-          // Save the userEntity as JSON in SharedPreferences
-          Prefs.setString(kUserEntity, user.toJson());
+          await SecureStorageService.saveUserEntity(user.toJson());
         }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
@@ -87,10 +87,9 @@ class SigninCubit extends Cubit<SigninState> {
     final result = await authRepo.signInWithApple();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
-      (user) {
+      (user) async {
         if (rememberMe) {
-          // Save the userEntity as JSON in SharedPreferences
-          Prefs.setString(kUserEntity, user.toJson());
+          await SecureStorageService.saveUserEntity(user.toJson());
         }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));

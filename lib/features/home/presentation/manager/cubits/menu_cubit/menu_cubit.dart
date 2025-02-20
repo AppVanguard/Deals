@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:in_pocket/core/service/secure_storage_service.dart';
 import 'package:in_pocket/features/home/domain/repos/menu_repo.dart';
 import 'package:meta/meta.dart';
 part 'menu_state.dart';
@@ -19,6 +20,7 @@ class MenuCubit extends Cubit<MenuState> {
         emit(MenuLogoutFailure(message: failure.message));
       },
       (message) {
+        SecureStorageService.deleteUserEntity();
         log("Logout succeeded: $message");
         emit(MenuLogoutSuccess(message: message));
       },
