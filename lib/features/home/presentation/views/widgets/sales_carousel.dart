@@ -40,7 +40,7 @@ class _SalesCarouselState extends State<SalesCarousel> {
 
   // Start the auto-scroll timer
   void _startAutoScroll() {
-    _timer = Timer.periodic(const Duration(seconds: 4), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       if (_currentIndex == images.length - 1) {
         _controller.jumpToPage(0);
         _currentIndex = 0;

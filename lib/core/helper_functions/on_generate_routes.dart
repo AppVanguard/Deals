@@ -10,6 +10,7 @@ import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
 import 'package:in_pocket/features/auth/presentation/views/signup_view.dart';
 import 'package:in_pocket/features/home/presentation/views/home_view.dart';
 import 'package:in_pocket/features/on_boarding/presentation/views/on_boarding_view.dart';
+import 'package:in_pocket/features/search/presentation/views/search_view.dart';
 import 'package:in_pocket/features/splash/presentation/views/splash_view.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -90,6 +91,11 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => PersonalDataView(id: id),
+      );
+    case SearchView.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) => const SearchView(),
       );
     default:
       return MaterialPageRoute(
