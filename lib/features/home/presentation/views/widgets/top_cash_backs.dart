@@ -20,7 +20,8 @@ class TopCashBacks extends StatelessWidget {
             children: [
               // First Row
               Row(
-                children: List.generate(4, (index) {
+                children:
+                    List.generate((cashbackItems.length / 2).toInt(), (index) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 16.0),
                     child: Column(
@@ -61,9 +62,10 @@ class TopCashBacks extends StatelessWidget {
               SizedBox(height: 16),
               // Second Row
               Row(
-                children: List.generate(4, (index) {
+                children:
+                    List.generate((cashbackItems.length / 2).toInt(), (index) {
                   int adjustedIndex =
-                      index + 4; // Start from the 5th item for the second row
+                      index + (cashbackItems.length / 2).toInt();
                   return Padding(
                     padding: const EdgeInsets.only(right: 16.0),
                     child: Column(

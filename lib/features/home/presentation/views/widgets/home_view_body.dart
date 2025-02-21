@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/image_carousel.dart';
+import 'package:in_pocket/features/home/presentation/views/widgets/sales_carousel.dart';
 import 'package:in_pocket/features/home/presentation/views/widgets/top_cash_backs.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
@@ -42,7 +42,7 @@ class HomeViewBody extends StatelessWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: ImageCarousel(),
+            child: SalesCarousel(),
           ),
         ),
         // Top Cashbacks section

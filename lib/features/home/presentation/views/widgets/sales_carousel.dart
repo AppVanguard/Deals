@@ -5,14 +5,14 @@ import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class ImageCarousel extends StatefulWidget {
-  const ImageCarousel({super.key});
+class SalesCarousel extends StatefulWidget {
+  const SalesCarousel({super.key});
 
   @override
-  State<ImageCarousel> createState() => _ImageCarouselState();
+  State<SalesCarousel> createState() => _SalesCarouselState();
 }
 
-class _ImageCarouselState extends State<ImageCarousel> {
+class _SalesCarouselState extends State<SalesCarousel> {
   final PageController _controller =
       PageController(viewportFraction: 0.8); // Set viewportFraction here
   final List<String> images = [
