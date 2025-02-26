@@ -1299,6 +1299,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Top stores`
+  String get Top_stores {
+    return Intl.message(
+      'Top stores',
+      name: 'Top_stores',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top categories`
+  String get Top_categories {
+    return Intl.message(
+      'Top categories',
+      name: 'Top_categories',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

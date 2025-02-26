@@ -3,7 +3,8 @@ import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/features/home/presentation/views/widgets/sales_carousel.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/top_cash_backs.dart';
+import 'package:in_pocket/features/home/presentation/views/widgets/top_coupons.dart';
+import 'package:in_pocket/features/home/presentation/views/widgets/top_stores.dart';
 import 'package:in_pocket/generated/l10n.dart';
 
 class HomeViewBody extends StatelessWidget {
@@ -52,7 +53,7 @@ class HomeViewBody extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(S.of(context).Top_cashbacks, style: AppTextStyles.bold18),
+                Text(S.of(context).Top_stores, style: AppTextStyles.bold18),
                 Text(
                   S.of(context).See_All,
                   style: AppTextStyles.regular14
@@ -63,7 +64,7 @@ class HomeViewBody extends StatelessWidget {
           ),
         ),
         // Cashback Grid (Two rows scrolling horizontally)
-        TopCashBacks(cashbackItems: cashbackItems),
+        TopStores(cashbackItems: cashbackItems),
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -80,7 +81,7 @@ class HomeViewBody extends StatelessWidget {
             ),
           ),
         ),
-        TopCashBacks(cashbackItems: cashbackItems),
+        TopCoupons(cashbackItems: cashbackItems),
       ],
     );
   }

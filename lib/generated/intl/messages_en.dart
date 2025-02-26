@@ -137,8 +137,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "SuccessSigningUp":
             MessageLookupByLibrary.simpleMessage("Success signing up"),
         "Top_cashbacks": MessageLookupByLibrary.simpleMessage("Top cashbacks"),
+        "Top_categories":
+            MessageLookupByLibrary.simpleMessage("Top categories"),
         "Top_coupons": MessageLookupByLibrary.simpleMessage("Top coupons"),
         "Top_deals": MessageLookupByLibrary.simpleMessage("Top deals"),
+        "Top_stores": MessageLookupByLibrary.simpleMessage("Top stores"),
         "UnknowError": MessageLookupByLibrary.simpleMessage("Unknow error"),
         "Verify": MessageLookupByLibrary.simpleMessage("Verify"),
         "accountExistsWithDifferentCredential":

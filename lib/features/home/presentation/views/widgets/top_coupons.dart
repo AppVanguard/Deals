@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 
-class TopCashBacks extends StatelessWidget {
-  const TopCashBacks({
+class TopCoupons extends StatelessWidget {
+  const TopCoupons({
     super.key,
     required this.cashbackItems,
   });
