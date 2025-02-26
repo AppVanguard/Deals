@@ -1,8 +1,9 @@
 // home_state.dart (part of 'home_cubit.dart')
+part of 'home_cubit.dart';
 
 enum HomeStatus { initial, loading, success, error }
 
-class HomeState extends Equatable {
+class HomeState {
   final HomeStatus status;
   final HomeEntity? homeEntity;
   final String? errorMessage;

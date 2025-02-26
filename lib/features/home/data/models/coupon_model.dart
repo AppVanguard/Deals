@@ -1,4 +1,3 @@
-
 import 'package:in_pocket/features/home/domain/entities/coupon_entity.dart';
 
 class CouponModel extends CouponEntity {
@@ -7,6 +6,7 @@ class CouponModel extends CouponEntity {
     required super.code,
     required super.title,
     required super.isActive,
+    required super.status,
   });
 
   factory CouponModel.fromJson(Map<String, dynamic> json) {
@@ -15,6 +15,7 @@ class CouponModel extends CouponEntity {
       code: json['code'] ?? '',
       title: json['title'] ?? '',
       isActive: json['is_active'] ?? false,
+      status: json['status'] ?? '',
     );
   }
 }

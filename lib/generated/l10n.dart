@@ -1319,6 +1319,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Coupon Active`
+  String get Coupon_Active {
+    return Intl.message(
+      'Coupon Active',
+      name: 'Coupon_Active',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupon Expired`
+  String get Coupon_Expired {
+    return Intl.message(
+      'Coupon Expired',
+      name: 'Coupon_Expired',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

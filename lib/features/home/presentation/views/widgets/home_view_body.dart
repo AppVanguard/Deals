@@ -1,88 +1,42 @@
+// home_view_body.dart
+
 import 'package:flutter/material.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
-import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/sales_carousel.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/top_coupons.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/top_stores.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:in_pocket/features/home/presentation/manager/cubits/home_cubit/home_cubit.dart';
+import 'package:in_pocket/features/home/presentation/views/widgets/home_content.dart';
+import 'package:in_pocket/features/home/presentation/views/widgets/home_skelton.dart';
 
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Sample data for the grid
-    List<Map<String, String>> cashbackItems = [
-      {"name": "H&M", "image": AppImages.assetsImagesOnBoardingP1},
-      {"name": "AWS", "image": AppImages.assetsImagesOnBoardingP2},
-      {"name": "SHEIN", "image": AppImages.assetsImagesOnBoardingP3},
-      {"name": "Kroger", "image": AppImages.assetsImagesTest1},
-      {"name": "H&M", "image": AppImages.assetsImagesOnBoardingP1},
-      {"name": "AWS", "image": AppImages.assetsImagesTest2},
-      {"name": "SHEIN", "image": AppImages.assetsImagesTest3},
-      {"name": "Kroger", "image": AppImages.assetsImagesTest1},
-      // Add more items as needed
-    ];
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        switch (state.status) {
+          case HomeStatus.initial:
+            return const SizedBox.shrink();
 
-    return CustomScrollView(
-      slivers: [
-        // Header Text
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              S
-                  .of(context)
-                  .Save_money_with_us, // Assuming this is your localized string
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-        // Image Carousel (using the extracted widget)
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: SalesCarousel(),
-          ),
-        ),
-        // Top Cashbacks section
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(S.of(context).Top_stores, style: AppTextStyles.bold18),
-                Text(
-                  S.of(context).See_All,
-                  style: AppTextStyles.regular14
-                      .copyWith(color: AppColors.primary),
-                )
-              ],
-            ),
-          ),
-        ),
-        // Cashback Grid (Two rows scrolling horizontally)
-        TopStores(cashbackItems: cashbackItems),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(S.of(context).Top_coupons, style: AppTextStyles.bold18),
-                Text(
-                  S.of(context).See_All,
-                  style: AppTextStyles.regular14
-                      .copyWith(color: AppColors.primary),
-                )
-              ],
-            ),
-          ),
-        ),
-        TopCoupons(cashbackItems: cashbackItems),
-      ],
+          case HomeStatus.loading:
+            // Show a shimmer placeholder layout
+            return const HomeLoadingShimmer();
+
+          case HomeStatus.error:
+            return Center(
+              child: Text(
+                'Error: ${state.errorMessage}',
+                style: const TextStyle(color: Colors.red),
+              ),
+            );
+
+          case HomeStatus.success:
+            if (state.homeEntity == null) {
+              return const Center(child: Text('No data found'));
+            } else {
+              return HomeContent(homeEntity: state.homeEntity!);
+            }
+        }
+      },
     );
   }
 }
