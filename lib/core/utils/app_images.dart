@@ -62,6 +62,10 @@ class AppImages {
   /// assets/images/icons/earning.svg
   static const String assetsImagesIconsEarning = "assets/images/icons/earning.svg";
 
+  /// Assets for assetsImagesIconsFilter
+  /// assets/images/icons/filter.svg
+  static const String assetsImagesIconsFilter = "assets/images/icons/filter.svg";
+
   /// Assets for assetsImagesIconsHelp
   /// assets/images/icons/help.svg
   static const String assetsImagesIconsHelp = "assets/images/icons/help.svg";

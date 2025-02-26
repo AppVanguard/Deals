@@ -4,8 +4,9 @@ import 'package:in_pocket/constants.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
+import 'package:in_pocket/features/search/presentation/views/search_view.dart';
 
-AppBar buildHomeAppBar() {
+AppBar buildHomeAppBar(BuildContext context) {
   return AppBar(
     backgroundColor: Colors.transparent,
     leading: Builder(
@@ -28,7 +29,12 @@ AppBar buildHomeAppBar() {
           style: AppTextStyles.bold24.copyWith(color: AppColors.primary),
         ),
         SvgPicture.asset(AppImages.assetsImagesRefer),
-        SvgPicture.asset(AppImages.assetsImagesSearch),
+        GestureDetector(
+          child: SvgPicture.asset(AppImages.assetsImagesSearch),
+          onTap: () {
+            Navigator.pushNamed(context, SearchView.routeName);
+          },
+        ),
         Icon(
           Icons.notifications_none_outlined,
           size: 32,
