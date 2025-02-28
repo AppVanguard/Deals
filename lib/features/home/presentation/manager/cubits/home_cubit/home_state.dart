@@ -14,7 +14,6 @@ class HomeState {
     this.errorMessage,
   });
 
-  /// Initial state
   factory HomeState.initial() {
     return const HomeState(
       status: HomeStatus.initial,
@@ -23,7 +22,6 @@ class HomeState {
     );
   }
 
-  /// Helper to create new copies of the state
   HomeState copyWith({
     HomeStatus? status,
     HomeEntity? homeEntity,
@@ -35,7 +33,4 @@ class HomeState {
       errorMessage: errorMessage,
     );
   }
-
-  @override
-  List<Object?> get props => [status, homeEntity, errorMessage];
 }

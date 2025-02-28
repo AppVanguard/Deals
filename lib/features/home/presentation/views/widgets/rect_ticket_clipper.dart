@@ -7,42 +7,26 @@ class RectTicketClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
-    final w = size.width;
-    final h = size.height;
-    final centerY = h / 2;
-    final topHoleY = centerY - holeRadius;
-    final bottomHoleY = centerY + holeRadius;
+    // Full rectangle covering the entire widget
+    final rect = Rect.fromLTWH(0, 0, size.width, size.height);
+    final rectPath = Path()..addRect(rect);
 
-    final path = Path();
+    // Define the left and right holes as ovals (circles)
+    final centerY = size.height / 2;
+    final leftHoleRect =
+        Rect.fromCircle(center: Offset(0, centerY), radius: holeRadius);
+    final rightHoleRect = Rect.fromCircle(
+        center: Offset(size.width, centerY), radius: holeRadius);
 
-    // Move across top edge
-    path.moveTo(0, 0);
-    path.lineTo(w, 0);
+    final holesPath = Path()
+      ..addOval(leftHoleRect)
+      ..addOval(rightHoleRect);
 
-    // Right side hole => arcs inward
-    path.lineTo(w, topHoleY);
-    path.arcToPoint(
-      Offset(w, bottomHoleY),
-      radius: Radius.circular(holeRadius),
-      clockwise: true,
-    );
-    path.lineTo(w, h);
-
-    // bottom edge left
-    path.lineTo(0, h);
-
-    // left side hole => arcs inward
-    path.lineTo(0, bottomHoleY);
-    path.arcToPoint(
-      Offset(0, topHoleY),
-      radius: Radius.circular(holeRadius),
-      clockwise: true,
-    );
-    path.close();
-    return path;
+    // Subtract the holes from the full rectangle
+    return Path.combine(PathOperation.difference, rectPath, holesPath);
   }
 
   @override
-  bool shouldReclip(RectTicketClipper oldClipper) =>
+  bool shouldReclip(covariant RectTicketClipper oldClipper) =>
       holeRadius != oldClipper.holeRadius;
 }

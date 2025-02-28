@@ -12,21 +12,21 @@ class HomeContent extends StatelessWidget {
   final bool isLoading;
 
   const HomeContent({
-    super.key,
+    Key? key,
     required this.homeEntity,
     required this.isLoading,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // If we have real data, extract it; else keep empty lists
+    // If homeEntity is null, we pass empty lists
     final announcements = homeEntity?.announcements ?? [];
     final stores = homeEntity?.stores ?? [];
     final coupons = homeEntity?.coupons ?? [];
 
     return CustomScrollView(
       slivers: [
-        // Header
+        // Some header text
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -36,7 +36,7 @@ class HomeContent extends StatelessWidget {
             ),
           ),
         ),
-        // Carousel
+        // Sales carousel for announcements
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -46,14 +46,17 @@ class HomeContent extends StatelessWidget {
             ),
           ),
         ),
-        // Top Stores Section
+        // Top Stores section
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(S.of(context).Top_stores, style: AppTextStyles.bold18),
+                Text(
+                  S.of(context).Top_stores,
+                  style: AppTextStyles.bold18,
+                ),
                 Text(
                   S.of(context).See_All,
                   style: AppTextStyles.regular14.copyWith(
@@ -64,18 +67,22 @@ class HomeContent extends StatelessWidget {
             ),
           ),
         ),
+        // Our custom widget for stores
         TopStores(
           stores: stores,
           isLoading: isLoading,
         ),
-        // Top Coupons Section
+        // Top Coupons section
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(S.of(context).Top_coupons, style: AppTextStyles.bold18),
+                Text(
+                  S.of(context).Top_coupons,
+                  style: AppTextStyles.bold18,
+                ),
                 Text(
                   S.of(context).See_All,
                   style: AppTextStyles.regular14.copyWith(

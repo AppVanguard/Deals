@@ -8,17 +8,15 @@ class TopStores extends StatelessWidget {
   final bool isLoading;
 
   const TopStores({
-    super.key,
+    Key? key,
     required this.stores,
     required this.isLoading,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // If no data
     if (stores.isEmpty) {
       if (!isLoading) {
-        // Not loading => no data
         return const SliverToBoxAdapter(
           child: SizedBox(
             height: 100,
@@ -26,7 +24,6 @@ class TopStores extends StatelessWidget {
           ),
         );
       }
-      // If loading => show 4 placeholders
       return _buildPlaceholderRows();
     }
 
@@ -38,7 +35,7 @@ class TopStores extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Column(
                 children: [
                   // First row
@@ -83,7 +80,6 @@ class TopStores extends StatelessWidget {
     );
   }
 
-  /// 4 placeholders => 2 items in first row, 2 items in second row
   Widget _buildPlaceholderRows() {
     return SliverToBoxAdapter(
       child: Padding(
@@ -92,7 +88,7 @@ class TopStores extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Column(
             children: [
-              // First row (2 placeholders)
+              // First row
               Row(
                 children: List.generate(2, (index) {
                   return const Padding(
@@ -102,7 +98,7 @@ class TopStores extends StatelessWidget {
                 }),
               ),
               const SizedBox(height: 16),
-              // Second row (2 placeholders)
+              // Second row
               Row(
                 children: List.generate(2, (index) {
                   return const Padding(
@@ -119,7 +115,6 @@ class TopStores extends StatelessWidget {
   }
 }
 
-// The real store card
 class _StoreCard extends StatelessWidget {
   final StoreEntity store;
   final bool isLoading;
@@ -135,7 +130,6 @@ class _StoreCard extends StatelessWidget {
       enabled: isLoading,
       child: Column(
         children: [
-          // Image Card
           Container(
             width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
@@ -145,15 +139,14 @@ class _StoreCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
-                store.imageUrl,
+                store.imageUrl!,
                 fit: BoxFit.fill,
-                height: 80, // Set a fixed height
+                height: 80,
                 errorBuilder: (context, error, stackTrace) =>
                     const Icon(Icons.error),
               ),
             ),
           ),
-          // Text under the image
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -171,7 +164,6 @@ class _StoreCard extends StatelessWidget {
   }
 }
 
-// A placeholder card (while loading, no data yet)
 class _StorePlaceholderCard extends StatelessWidget {
   const _StorePlaceholderCard();
 

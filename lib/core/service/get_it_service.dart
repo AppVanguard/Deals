@@ -12,7 +12,7 @@ import 'package:in_pocket/features/home/data/repos/home_repo_impl.dart';
 import 'package:in_pocket/features/home/data/repos/menu_repo_impl.dart';
 import 'package:in_pocket/features/home/domain/repos/home_repo.dart';
 import 'package:in_pocket/features/home/domain/repos/menu_repo.dart';
-import 'package:in_pocket/features/home/services/home_api_service.dart';
+import 'package:in_pocket/core/service/home_api_service.dart';
 
 final getIt = GetIt.instance;
 void setupGetit() {

@@ -25,7 +25,7 @@ class _RememberPasswordState extends State<RememberPassword> {
             onChecked: (value) {
               rememberMe = value;
               widget.onChecked(value);
-              
+
               setState(() {});
             },
             isChecked: rememberMe,

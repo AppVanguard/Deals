@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:in_pocket/features/home/presentation/views/widgets/coupon_placeholder_ticket.dart';
 import 'package:in_pocket/features/home/presentation/views/widgets/coupon_ticket.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:in_pocket/features/home/domain/entities/coupon_entity.dart';
 
 /// The main widget that displays coupons in two horizontal rows:

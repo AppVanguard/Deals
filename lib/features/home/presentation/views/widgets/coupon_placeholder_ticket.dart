@@ -1,9 +1,10 @@
+// coupon_placeholder_ticket.dart
 import 'package:flutter/material.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/rect_ticket_clipper.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:in_pocket/features/home/presentation/views/widgets/rect_ticket_clipper.dart';
 
 class CouponPlaceholderTicket extends StatelessWidget {
-  const CouponPlaceholderTicket({super.key});
+  const CouponPlaceholderTicket({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

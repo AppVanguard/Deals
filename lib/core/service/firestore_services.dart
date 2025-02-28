@@ -40,15 +40,18 @@ class FirestoreServices implements DatabaseService {
     var doc = await firestore.collection(path).doc(documentId).get();
     return doc.exists;
   }
-  
+
   @override
   Future<void> deleteData({required String path, required String documentId}) {
     // TODO: implement deleteData
     throw UnimplementedError();
   }
-  
+
   @override
-  Future<void> updateData({required String path, required String documentId, required Map<String, dynamic> data}) {
+  Future<void> updateData(
+      {required String path,
+      required String documentId,
+      required Map<String, dynamic> data}) {
     // TODO: implement updateData
     throw UnimplementedError();
   }

@@ -107,7 +107,6 @@ class CustomAppDrawer extends StatelessWidget {
                       AppTextStyles.bold14.copyWith(color: AppColors.accent),
                   onTap: () {
                     context.read<MenuCubit>().logout(firebaseUid: userData.uId);
-                    
                   },
                 ),
               ),

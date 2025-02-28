@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
     measurementId: 'G-B1TNFH1PGX',
   );
-
 }
