@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeLoadingShimmer extends StatelessWidget {
@@ -54,12 +55,12 @@ class HomeLoadingShimmer extends StatelessWidget {
   /// A helper to build a simple shimmer box
   Widget _buildShimmerBox({required double height, required double width}) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: AppColors.lightGray,
+      highlightColor: AppColors.lightGray,
       child: Container(
         height: height,
         width: width,
-        color: Colors.grey.shade300,
+        color: AppColors.lightGray,
       ),
     );
   }
@@ -67,12 +68,12 @@ class HomeLoadingShimmer extends StatelessWidget {
   /// A helper to mimic a "store card" shape
   Widget _buildStorePlaceholder(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: AppColors.lightGray,
+      highlightColor: AppColors.lightGray,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.6,
         decoration: BoxDecoration(
-          color: Colors.grey.shade300,
+          color: AppColors.lightGray,
           borderRadius: BorderRadius.circular(10),
         ),
       ),
@@ -82,12 +83,12 @@ class HomeLoadingShimmer extends StatelessWidget {
   /// A helper to mimic a "coupon card" shape
   Widget _buildCouponPlaceholder(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: AppColors.lightGray,
+      highlightColor: AppColors.lightGray,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.6,
         decoration: BoxDecoration(
-          color: Colors.grey.shade300,
+          color: AppColors.lightGray,
           borderRadius: BorderRadius.circular(10),
         ),
       ),

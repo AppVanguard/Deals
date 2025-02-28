@@ -8,10 +8,10 @@ class TopStores extends StatelessWidget {
   final bool isLoading;
 
   const TopStores({
-    Key? key,
+    super.key,
     required this.stores,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -147,13 +147,13 @@ class _StoreCard extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              store.title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Text(
+          //     store.title,
+          //     style: const TextStyle(fontWeight: FontWeight.bold),
+          //   ),
+          // ),
           const Text(
             "Up to 10% Cashback",
             style: TextStyle(color: AppColors.accent),
@@ -182,14 +182,14 @@ class _StorePlaceholderCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Container(
-            width: 100,
-            height: 16,
-            color: AppColors.tertiaryText,
-          ),
+          // Container(
+          //   width: 100,
+          //   height: 16,
+          //   color: AppColors.tertiaryText,
+          // ),
           const SizedBox(height: 4),
           Container(
-            width: 80,
+            width: 150,
             height: 16,
             color: AppColors.tertiaryText,
           ),
