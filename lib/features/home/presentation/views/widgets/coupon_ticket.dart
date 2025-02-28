@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:in_pocket/generated/l10n.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:in_pocket/features/home/domain/entities/coupon_entity.dart';
@@ -84,14 +85,19 @@ class CouponTicket extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      const Text(
-                        'New users discount 30% off',
+                      Text(
+                        // 'New users discount 30% off',
+                        coupon.validForExisting!
+                            ? S.of(context).existing_customers_discount
+                            : coupon.validForNew!
+                                ? S.of(context).new_customers_discount
+                                : S.of(context).specific_items_discount,
                         style: TextStyle(color: Colors.red),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         formattedDate.isNotEmpty
-                            ? 'valid until $formattedDate'
+                            ? '${S.of(context).valid_until} $formattedDate'
                             : 'valid until ...',
                         style: TextStyle(
                             fontSize: 12, color: Colors.grey.shade700),

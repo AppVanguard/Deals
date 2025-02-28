@@ -162,6 +162,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "earnings": MessageLookupByLibrary.simpleMessage("Earnings"),
         "emailAlreadyInUse":
             MessageLookupByLibrary.simpleMessage("The account already exists."),
+        "existing_customers_discount":
+            MessageLookupByLibrary.simpleMessage("Existing customers discount"),
         "help": MessageLookupByLibrary.simpleMessage("Help"),
         "internalError":
             MessageLookupByLibrary.simpleMessage("An error occurred."),
@@ -176,6 +178,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "logOut": MessageLookupByLibrary.simpleMessage("Log out"),
         "networkRequestFailed":
             MessageLookupByLibrary.simpleMessage("No internet connection."),
+        "new_customers_discount":
+            MessageLookupByLibrary.simpleMessage("New customers discount"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Registration is not enabled."),
         "operationNotSupportedInThisEnvironment":
@@ -208,6 +212,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "requiresRecentLogin": MessageLookupByLibrary.simpleMessage(
             "Please log in again to complete the operation."),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "specific_items_discount":
+            MessageLookupByLibrary.simpleMessage("Specific items discount"),
         "termsAndConditions":
             MessageLookupByLibrary.simpleMessage("Terms & Conditions"),
         "tooManyRequests": MessageLookupByLibrary.simpleMessage(
@@ -218,6 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("The account is disabled."),
         "userNotFound":
             MessageLookupByLibrary.simpleMessage("The account does not exist."),
+        "valid_until": MessageLookupByLibrary.simpleMessage("valid until"),
         "weakPassword":
             MessageLookupByLibrary.simpleMessage("The password is too weak."),
         "webStorageUnsupported": MessageLookupByLibrary.simpleMessage(

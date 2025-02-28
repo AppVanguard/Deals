@@ -5,9 +5,14 @@ class CouponEntity {
   final DateTime? startDate;
   final String? expiryDate;
   final bool isActive;
+  final bool? validForExisting;
+  final bool? validForNew;
+
   // etc. Add discountValue, usageCount, successRate, etc. if needed
 
   const CouponEntity({
+    this.validForNew,
+    this.validForExisting,
     required this.id,
     required this.code,
     required this.title,

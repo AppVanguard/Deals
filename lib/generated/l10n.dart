@@ -1339,6 +1339,46 @@ class S {
       args: [],
     );
   }
+
+  /// `valid until`
+  String get valid_until {
+    return Intl.message(
+      'valid until',
+      name: 'valid_until',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Existing customers discount`
+  String get existing_customers_discount {
+    return Intl.message(
+      'Existing customers discount',
+      name: 'existing_customers_discount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New customers discount`
+  String get new_customers_discount {
+    return Intl.message(
+      'New customers discount',
+      name: 'new_customers_discount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Specific items discount`
+  String get specific_items_discount {
+    return Intl.message(
+      'Specific items discount',
+      name: 'specific_items_discount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

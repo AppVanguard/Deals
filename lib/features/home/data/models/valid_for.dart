@@ -12,10 +12,14 @@ class ValidFor {
   });
 
   factory ValidFor.fromJson(Map<String, dynamic> json) => ValidFor(
-        newCustomers: json['new_customers'] as bool?,
-        existingCustomers: json['existing_customers'] as bool?,
-        specificItems: json['specific_items'] as List<dynamic>?,
-        specificCategories: json['specific_categories'] as List<dynamic>?,
+        newCustomers: json['new_customers'] == true,
+        existingCustomers: json['existing_customers'] == true,
+        specificItems: json['specific_items'] is List
+            ? json['specific_items'] as List<dynamic>
+            : [],
+        specificCategories: json['specific_categories'] is List
+            ? json['specific_categories'] as List<dynamic>
+            : [],
       );
 
   Map<String, dynamic> toJson() => {

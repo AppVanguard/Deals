@@ -76,6 +76,8 @@ class HomeRepoImpl implements HomeRepo {
 
   CouponEntity _mapCouponToEntity(Coupon couponModel) {
     return CouponEntity(
+      validForExisting: couponModel.validFor?.existingCustomers ?? false,
+      validForNew: couponModel.validFor?.newCustomers ?? false,
       id: couponModel.id ?? '',
       code: couponModel.code ?? '',
       title: couponModel.title ?? '',
