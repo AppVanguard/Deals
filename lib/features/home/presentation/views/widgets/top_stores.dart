@@ -1,10 +1,7 @@
-// top_stores.dart
-
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/features/home/domain/entities/store_entity.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:in_pocket/features/home/domain/entities/home_entity.dart';
 
 class TopStores extends StatelessWidget {
   final List<StoreEntity> stores;

@@ -1,10 +1,7 @@
-// top_coupons.dart
-
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/features/home/domain/entities/coupon_entity.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:in_pocket/features/home/domain/entities/home_entity.dart';
 
 class TopCoupons extends StatelessWidget {
   final List<CouponEntity> coupons;

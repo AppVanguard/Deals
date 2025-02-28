@@ -1,5 +1,3 @@
-// home_content.dart
-
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/core/utils/app_text_styles.dart';
