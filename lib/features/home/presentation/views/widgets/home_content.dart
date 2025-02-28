@@ -1,20 +1,23 @@
 // home_content.dart
 
 import 'package:flutter/material.dart';
+import 'package:in_pocket/core/utils/app_colors.dart';
+import 'package:in_pocket/core/utils/app_text_styles.dart';
 import 'package:in_pocket/features/home/domain/entities/home_entity.dart';
 import 'package:in_pocket/features/home/presentation/views/widgets/sales_carousel.dart';
 import 'package:in_pocket/features/home/presentation/views/widgets/top_coupons.dart';
 import 'package:in_pocket/features/home/presentation/views/widgets/top_stores.dart';
+import 'package:in_pocket/generated/l10n.dart';
 
 class HomeContent extends StatelessWidget {
   final HomeEntity? homeEntity;
   final bool isLoading;
 
   const HomeContent({
-    Key? key,
+    super.key,
     required this.homeEntity,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +33,8 @@ class HomeContent extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Save money with us',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              S.of(context).Save_money_with_us,
+              style: AppTextStyles.bold20,
             ),
           ),
         ),
@@ -51,11 +54,14 @@ class HomeContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text('Top stores',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                Text('See All', style: TextStyle(color: Colors.blue)),
+              children: [
+                Text(S.of(context).Top_stores, style: AppTextStyles.bold18),
+                Text(
+                  S.of(context).See_All,
+                  style: AppTextStyles.regular14.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
               ],
             ),
           ),
@@ -70,11 +76,14 @@ class HomeContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text('Top coupons',
-                    style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                Text('See All', style: TextStyle(color: Colors.blue)),
+              children: [
+                Text(S.of(context).Top_coupons, style: AppTextStyles.bold18),
+                Text(
+                  S.of(context).See_All,
+                  style: AppTextStyles.regular14.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
               ],
             ),
           ),

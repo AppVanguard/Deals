@@ -6,7 +6,7 @@ import 'package:in_pocket/features/home/presentation/manager/cubits/home_cubit/h
 import 'package:in_pocket/features/home/presentation/views/widgets/home_content.dart';
 
 class HomeViewBody extends StatelessWidget {
-  const HomeViewBody({Key? key}) : super(key: key);
+  const HomeViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class HomeViewBody extends StatelessWidget {
             // Show the same layout but pass isLoading = true
             return HomeContent(
               homeEntity: null,
-              isLoading: true,
+              isLoading: isLoading,
             );
 
           case HomeStatus.error:
@@ -39,7 +39,7 @@ class HomeViewBody extends StatelessWidget {
             } else {
               return HomeContent(
                 homeEntity: state.homeEntity!,
-                isLoading: false,
+                isLoading: isLoading,
               );
             }
         }
