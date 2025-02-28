@@ -11,10 +11,10 @@ class TopStores extends StatelessWidget {
   final bool isLoading;
 
   const TopStores({
-    Key? key,
+    super.key,
     required this.stores,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -123,10 +123,10 @@ class _StoreCard extends StatelessWidget {
   final bool isLoading;
 
   const _StoreCard({
-    Key? key,
+    super.key,
     required this.store,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

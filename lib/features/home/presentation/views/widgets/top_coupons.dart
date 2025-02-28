@@ -11,10 +11,10 @@ class TopCoupons extends StatelessWidget {
   final bool isLoading;
 
   const TopCoupons({
-    Key? key,
+    super.key,
     required this.coupons,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -120,10 +120,9 @@ class _CouponCard extends StatelessWidget {
   final bool isLoading;
 
   const _CouponCard({
-    Key? key,
     required this.coupon,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
