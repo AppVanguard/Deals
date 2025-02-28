@@ -36,40 +36,45 @@ class TopStores extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Column(
+          child: Row(
             children: [
-              // First row
-              Row(
-                children: List.generate(
-                  (stores.length / 2).ceil(),
-                  (index) => Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: _StoreCard(
-                      store: stores[index],
-                      isLoading: isLoading,
+              SizedBox(width: 16),
+              Column(
+                children: [
+                  // First row
+                  Row(
+                    children: List.generate(
+                      (stores.length / 2).ceil(),
+                      (index) => Padding(
+                        padding: const EdgeInsets.only(right: 16.0),
+                        child: _StoreCard(
+                          store: stores[index],
+                          isLoading: isLoading,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Second row
-              Row(
-                children: List.generate(
-                  (stores.length / 2).floor(),
-                  (idx) {
-                    final adjustedIndex = idx + (stores.length / 2).ceil();
-                    if (adjustedIndex >= stores.length) {
-                      return const SizedBox();
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 16.0),
-                      child: _StoreCard(
-                        store: stores[adjustedIndex],
-                        isLoading: isLoading,
-                      ),
-                    );
-                  },
-                ),
+                  const SizedBox(height: 16),
+                  // Second row
+                  Row(
+                    children: List.generate(
+                      (stores.length / 2).floor(),
+                      (idx) {
+                        final adjustedIndex = idx + (stores.length / 2).ceil();
+                        if (adjustedIndex >= stores.length) {
+                          return const SizedBox();
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: _StoreCard(
+                            store: stores[adjustedIndex],
+                            isLoading: isLoading,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

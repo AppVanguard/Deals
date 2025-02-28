@@ -18,7 +18,6 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       bottomNavigationBar: CustomBottomNavigationBar(),
       appBar: buildHomeAppBar(context),
       drawer: CustomAppDrawerBlocProvider(
