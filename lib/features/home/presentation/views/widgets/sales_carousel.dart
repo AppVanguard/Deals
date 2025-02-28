@@ -1,110 +1,163 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/features/home/domain/entities/announcement_entity.dart';
-import 'package:in_pocket/features/home/domain/entities/home_entity.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:in_pocket/features/home/domain/entities/announcement_entity.dart';
 
 class SalesCarousel extends StatefulWidget {
-  /// The dynamic list of announcements from your backend.
   final List<AnnouncementEntity> announcements;
-
-  /// Auto-scroll interval in seconds.
-  final int autoScrollSeconds;
-
-  /// Transition animation duration between pages.
-  final Duration transitionDuration;
-
-  /// Fraction of the viewport each page should occupy (0.8 = 80%).
-  final double viewportFraction;
+  final bool isLoading;
 
   const SalesCarousel({
-    Key? key,
+    super.key,
     required this.announcements,
-    this.autoScrollSeconds = 2,
-    this.transitionDuration = const Duration(milliseconds: 300),
-    this.viewportFraction = 0.8,
-  }) : super(key: key);
+    required this.isLoading,
+  });
 
   @override
   State<SalesCarousel> createState() => _SalesCarouselState();
 }
 
 class _SalesCarouselState extends State<SalesCarousel> {
-  late final PageController _controller;
-  late Timer _timer;
-  late int _currentIndex;
-  late List<AnnouncementEntity> _data; // The actual list we'll show
+  // Real data controller/timer
+  final PageController _controller = PageController(viewportFraction: 0.8);
+  Timer? _timer;
+  int _currentIndex = 0;
+
+  // Placeholder controller/timer when no data but still loading
+  PageController? _placeholderController;
+  Timer? _placeholderTimer;
+  int _placeholderIndex = 0;
+  bool _isPlaceholderMode = false;
 
   @override
   void initState() {
     super.initState();
-    _currentIndex = 0;
 
-    // If no announcements found, build 4 placeholders
-    _data = widget.announcements.isNotEmpty
-        ? widget.announcements
-        : _buildPlaceholderAnnouncements();
-
-    _controller = PageController(viewportFraction: widget.viewportFraction);
-
-    // Start the timer only if there's at least 1 item
-    if (_data.isNotEmpty) {
+    // Decide if we’re in placeholder mode:
+    // i.e., no announcements + isLoading = show 4 placeholders w/ auto-scroll
+    if (widget.announcements.isEmpty && widget.isLoading) {
+      _isPlaceholderMode = true;
+      _initPlaceholderAutoScroll();
+    }
+    // If we have real data, start real auto-scroll
+    else if (widget.announcements.isNotEmpty) {
       _startAutoScroll();
     }
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    // Dispose real data scroll
+    _timer?.cancel();
     _controller.dispose();
+
+    // Dispose placeholder scroll if used
+    _placeholderTimer?.cancel();
+    _placeholderController?.dispose();
+
     super.dispose();
   }
 
+  //======================= REAL ANNOUNCEMENTS AUTO-SCROLL =======================
   void _startAutoScroll() {
-    _timer = Timer.periodic(
-      Duration(seconds: widget.autoScrollSeconds),
-      (timer) {
-        if (_currentIndex == _data.length - 1) {
-          _controller.jumpToPage(0);
-          _currentIndex = 0;
-        } else {
-          _controller.nextPage(
-            duration: widget.transitionDuration,
-            curve: Curves.easeInOut,
-          );
-          _currentIndex++;
-        }
-      },
-    );
+    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
+      final lastIndex = widget.announcements.length - 1;
+      if (_currentIndex == lastIndex) {
+        _controller.jumpToPage(0);
+        _currentIndex = 0;
+      } else {
+        _controller.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+        _currentIndex++;
+      }
+    });
   }
 
   void _pauseAutoScroll() {
-    if (_timer.isActive) {
-      _timer.cancel();
+    if (_timer?.isActive ?? false) {
+      _timer?.cancel();
     }
   }
 
   void _resumeAutoScroll() {
-    Future.delayed(Duration(seconds: widget.autoScrollSeconds), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return;
-      // If timer isn't active, start it again
-      if (!_timer.isActive && _data.isNotEmpty) {
+      if (!(_timer?.isActive ?? false) && widget.announcements.isNotEmpty) {
         _startAutoScroll();
+      }
+    });
+  }
+
+  //======================= PLACEHOLDER AUTO-SCROLL ==============================
+  void _initPlaceholderAutoScroll() {
+    // Create a separate PageController for placeholders
+    _placeholderController = PageController(viewportFraction: 0.8);
+    _startPlaceholderAutoScroll();
+  }
+
+  void _startPlaceholderAutoScroll() {
+    _placeholderTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
+      if (_placeholderIndex == 3) {
+        // Jump from the last placeholder back to the first
+        _placeholderController?.jumpToPage(0);
+        _placeholderIndex = 0;
+      } else {
+        _placeholderController?.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+        _placeholderIndex++;
+      }
+    });
+  }
+
+  void _pausePlaceholderAutoScroll() {
+    if (_placeholderTimer?.isActive ?? false) {
+      _placeholderTimer?.cancel();
+    }
+  }
+
+  void _resumePlaceholderAutoScroll() {
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) return;
+      if (!(_placeholderTimer?.isActive ?? false)) {
+        _startPlaceholderAutoScroll();
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // If for some reason _data is empty, fallback to a single message
-    if (_data.isEmpty) {
+    final announcements = widget.announcements;
+
+    // 1) If we are in placeholder mode => show placeholder carousel
+    if (_isPlaceholderMode) {
+      return _buildPlaceholderCarousel();
+    }
+    // 2) If real announcements are empty but not loading => show a message
+    if (announcements.isEmpty && !widget.isLoading) {
       return const SizedBox(
         height: 146,
-        child: Center(child: Text('No announcements available')),
+        child: Center(child: Text('No announcements found')),
       );
     }
+    // 3) If we have real announcements, show them with real auto-scroll
+    if (announcements.isNotEmpty) {
+      return _buildRealCarousel(announcements);
+    }
 
+    // 4) Fallback: empty container (this theoretically shouldn't happen if logic is correct)
+    return const SizedBox(height: 146);
+  }
+
+  //============================================================================
+  // The REAL carousel with actual announcements
+  //============================================================================
+  Widget _buildRealCarousel(List<AnnouncementEntity> announcements) {
     return Column(
       children: [
         SizedBox(
@@ -114,27 +167,23 @@ class _SalesCarouselState extends State<SalesCarousel> {
             onPanEnd: (_) => _resumeAutoScroll(),
             child: PageView.builder(
               controller: _controller,
-              itemCount: _data.length,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
+              itemCount: announcements.length,
+              onPageChanged: (index) => setState(() => _currentIndex = index),
               itemBuilder: (context, index) {
-                final ann = _data[index];
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.asset(
-                      ann.imageUrl,
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width *
-                          widget.viewportFraction,
-                      errorBuilder: (ctx, obj, stack) =>
-                          const Icon(Icons.error),
+                final ann = announcements[index];
+                return Skeletonizer(
+                  enabled: widget.isLoading, // if still loading partially
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Image.network(
+                        ann.imageUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (ctx, obj, st) => const Icon(Icons.error),
+                      ),
                     ),
                   ),
                 );
@@ -142,17 +191,16 @@ class _SalesCarouselState extends State<SalesCarousel> {
             ),
           ),
         ),
-        // Dots Indicator
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: SmoothPageIndicator(
             controller: _controller,
-            count: _data.length,
-            effect: WormEffect(
-              activeDotColor: AppColors.primary,
-              dotColor: AppColors.placeholder,
-              dotHeight: 8.0,
+            count: announcements.length,
+            effect: const WormEffect(
               dotWidth: 8.0,
+              dotHeight: 8.0,
+              activeDotColor:AppColors.primary,
+              dotColor: Colors.grey,
             ),
           ),
         ),
@@ -160,14 +208,51 @@ class _SalesCarouselState extends State<SalesCarousel> {
     );
   }
 
-  /// Build 4 placeholder announcements with a local asset or fallback image
-  List<AnnouncementEntity> _buildPlaceholderAnnouncements() {
-    return List.generate(4, (index) {
-      return AnnouncementEntity(
-        id: 'placeholder-$index',
-        title: 'Placeholder ${index + 1}',
-        imageUrl: 'assets/images/placeholder.png', // Change as needed
-      );
-    });
+  //============================================================================
+  // The PLACEHOLDER carousel (4 empty cards), same design & transitions
+  //============================================================================
+  Widget _buildPlaceholderCarousel() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 146,
+          child: GestureDetector(
+            onPanStart: (_) => _pausePlaceholderAutoScroll(),
+            onPanEnd: (_) => _resumePlaceholderAutoScroll(),
+            child: PageView.builder(
+              controller: _placeholderController,
+              itemCount: 4, // 4 placeholders
+              onPageChanged: (index) =>
+                  setState(() => _placeholderIndex = index),
+              itemBuilder: (context, index) {
+                return Skeletonizer(
+                  enabled: true,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: const SizedBox(
+                      width: double.infinity,
+                      // Same shape as real item, just empty
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        SmoothPageIndicator(
+          controller: _placeholderController ?? PageController(),
+          count: 4,
+          effect: const WormEffect(
+            dotWidth: 8.0,
+            dotHeight: 8.0,
+            activeDotColor: AppColors.primary,
+            dotColor: Colors.grey,
+          ),
+        ),
+      ],
+    );
   }
 }

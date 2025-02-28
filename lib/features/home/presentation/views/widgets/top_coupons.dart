@@ -1,16 +1,38 @@
+// top_coupons.dart
+
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/features/home/domain/entities/coupon_entity.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:in_pocket/features/home/domain/entities/home_entity.dart';
 
 class TopCoupons extends StatelessWidget {
-  const TopCoupons({super.key, required this.coupons});
-
-  /// List of coupons from your HomeEntity
   final List<CouponEntity> coupons;
+  final bool isLoading;
+
+  const TopCoupons({
+    Key? key,
+    required this.coupons,
+    required this.isLoading,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // If no coupons
+    if (coupons.isEmpty) {
+      if (!isLoading) {
+        return const SliverToBoxAdapter(
+          child: SizedBox(
+            height: 100,
+            child: Center(child: Text('No coupons found')),
+          ),
+        );
+      }
+      // If still loading, show placeholders
+      return _buildPlaceholderRows();
+    }
+
+    // If real data
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -18,24 +40,71 @@ class TopCoupons extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Column(
             children: [
-              // First row (half the list, rounded up)
+              // First row
               Row(
-                children: List.generate((coupons.length / 2).ceil(), (index) {
-                  final coupon = coupons[index];
-                  return _CouponCard(coupon: coupon);
+                children: List.generate(
+                  (coupons.length / 2).ceil(),
+                  (index) => Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: _CouponCard(
+                      coupon: coupons[index],
+                      isLoading: isLoading,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              // Second row
+              Row(
+                children: List.generate(
+                  (coupons.length / 2).floor(),
+                  (idx) {
+                    final adjustedIndex = idx + (coupons.length / 2).ceil();
+                    if (adjustedIndex >= coupons.length) {
+                      return const SizedBox();
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 16.0),
+                      child: _CouponCard(
+                        coupon: coupons[adjustedIndex],
+                        isLoading: isLoading,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPlaceholderRows() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Column(
+            children: [
+              // First row
+              Row(
+                children: List.generate(2, (index) {
+                  return const Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: _CouponPlaceholderCard(),
+                  );
                 }),
               ),
               const SizedBox(height: 16),
-              // Second row (remaining half, rounded down)
+              // Second row
               Row(
-                children: List.generate((coupons.length / 2).floor(), (index) {
-                  final adjustedIndex = index + (coupons.length / 2).ceil();
-                  if (adjustedIndex >= coupons.length) {
-                    // if there's an odd number of coupons, we avoid errors
-                    return const SizedBox();
-                  }
-                  final coupon = coupons[adjustedIndex];
-                  return _CouponCard(coupon: coupon);
+                children: List.generate(2, (index) {
+                  return const Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: _CouponPlaceholderCard(),
+                  );
                 }),
               ),
             ],
@@ -47,50 +116,93 @@ class TopCoupons extends StatelessWidget {
 }
 
 class _CouponCard extends StatelessWidget {
-  const _CouponCard({required this.coupon});
-
   final CouponEntity coupon;
+  final bool isLoading;
+
+  const _CouponCard({
+    Key? key,
+    required this.coupon,
+    required this.isLoading,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 16.0),
+    return Skeletonizer(
+      enabled: isLoading,
       child: Column(
         children: [
           Container(
             width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
-              color: Colors.grey[200], // or your preferred background
+              color: AppColors.tertiaryText,
               borderRadius: BorderRadius.circular(10),
             ),
-            // If you have a coupon image in your backend, you can load it here:
-            // e.g. Image.network(...) or a local asset if not
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: const Icon(
-                Icons.card_giftcard,
-                size: 80,
-                color: Colors.grey,
+            child: const ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              child: SizedBox(
+                height: 80,
+                child: Icon(
+                  Icons.card_giftcard,
+                  size: 50,
+                  color: AppColors.tertiaryText,
+                ),
               ),
             ),
           ),
-          // The coupon’s title
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              coupon.title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+          const SizedBox(height: 8),
+          Text(
+            coupon.title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            coupon.isActive ? 'Coupon Active' : 'Coupon Inactive',
+            style: const TextStyle(color: AppColors.primary),
+          ),
+          const SizedBox(height: 4),
+          Text('Code: ${coupon.code}'),
+        ],
+      ),
+    );
+  }
+}
+
+// Placeholder card
+class _CouponPlaceholderCard extends StatelessWidget {
+  const _CouponPlaceholderCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Skeletonizer(
+      enabled: true,
+      child: Column(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: 80,
+            decoration: BoxDecoration(
+              color: AppColors.tertiaryText,
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
-          // Example: show whether the coupon is active
-          Text(
-            coupon.isActive
-                ? S.of(context).Coupon_Active
-                : S.of(context).Coupon_Expired,
-            style: const TextStyle(color: AppColors.accent),
+          const SizedBox(height: 8),
+          Container(
+            width: 100,
+            height: 16,
+            color: AppColors.tertiaryText,
           ),
-          // If you have discount values or codes, display them as well:
-          Text('Code: ${coupon.code}'),
+          const SizedBox(height: 4),
+          Container(
+            width: 80,
+            height: 16,
+            color: AppColors.tertiaryText,
+          ),
+          const SizedBox(height: 4),
+          Container(
+            width: 120,
+            height: 16,
+            color: AppColors.tertiaryText,
+          ),
         ],
       ),
     );
