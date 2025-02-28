@@ -120,7 +120,6 @@ class _StoreCard extends StatelessWidget {
   final bool isLoading;
 
   const _StoreCard({
-    super.key,
     required this.store,
     required this.isLoading,
   });
