@@ -39,6 +39,7 @@ class TopCoupons extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: SingleChildScrollView(
+          clipBehavior: Clip.none,
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [

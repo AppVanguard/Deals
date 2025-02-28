@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/generated/l10n.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart'; // for DateFormat
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:in_pocket/features/home/domain/entities/coupon_entity.dart';
 import 'package:in_pocket/features/home/presentation/views/widgets/dashed_line_painter.dart';
@@ -11,10 +12,10 @@ class CouponTicket extends StatelessWidget {
   final bool isLoading;
 
   const CouponTicket({
-    Key? key,
+    super.key,
     required this.coupon,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +34,12 @@ class CouponTicket extends StatelessWidget {
     return Skeletonizer(
       enabled: isLoading,
       child: PhysicalShape(
-        elevation: 4,
-        shadowColor: Colors.black54,
+        clipBehavior:
+            Clip.antiAlias, // ensure full anti-aliased shadow around shape
+        elevation: 5,
+        shadowColor: Colors.black,
         color: Colors.white,
-        clipper: const RectTicketClipper(holeRadius: 14),
+        clipper: const RectTicketClipper(holeRadius: 16),
         child: SizedBox(
           width: cardWidth,
           height: cardHeight,
@@ -49,7 +52,7 @@ class CouponTicket extends StatelessWidget {
                   width: 50,
                   height: 50,
                   child: Image.network(
-                    coupon.id ?? '',
+                    coupon.id,
                     fit: BoxFit.contain,
                     errorBuilder: (ctx, error, stack) =>
                         const Icon(Icons.error),
@@ -61,7 +64,7 @@ class CouponTicket extends StatelessWidget {
                 height: cardHeight * 0.8,
                 child: CustomPaint(
                   painter: DashedLinePainter(
-                    color: Colors.grey.shade600,
+                    color: AppColors.secondaryText,
                     dashHeight: 5,
                     dashSpace: 3,
                     strokeWidth: 1,
@@ -78,7 +81,7 @@ class CouponTicket extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        coupon.title ?? 'H&M',
+                        coupon.title,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -86,13 +89,12 @@ class CouponTicket extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        // 'New users discount 30% off',
-                        coupon.validForExisting!
+                        (coupon.validForExisting ?? false)
                             ? S.of(context).existing_customers_discount
-                            : coupon.validForNew!
+                            : (coupon.validForNew ?? false)
                                 ? S.of(context).new_customers_discount
                                 : S.of(context).specific_items_discount,
-                        style: TextStyle(color: Colors.red),
+                        style: const TextStyle(color: Colors.red),
                       ),
                       const SizedBox(height: 4),
                       Text(

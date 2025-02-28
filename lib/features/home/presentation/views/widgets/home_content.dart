@@ -12,10 +12,10 @@ class HomeContent extends StatelessWidget {
   final bool isLoading;
 
   const HomeContent({
-    Key? key,
+    super.key,
     required this.homeEntity,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +96,9 @@ class HomeContent extends StatelessWidget {
         TopCoupons(
           coupons: coupons,
           isLoading: isLoading,
+        ),
+        SliverToBoxAdapter(
+          child: const SizedBox(height: 24),
         ),
       ],
     );
