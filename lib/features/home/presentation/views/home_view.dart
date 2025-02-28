@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_pocket/core/service/get_it_service.dart';
+import 'package:in_pocket/core/utils/app_colors.dart';
 import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
 import 'package:in_pocket/features/home/domain/repos/home_repo.dart';
 import 'package:in_pocket/features/home/presentation/manager/cubits/home_cubit/home_cubit.dart';
@@ -17,6 +18,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       bottomNavigationBar: CustomBottomNavigationBar(),
       appBar: buildHomeAppBar(context),
       drawer: CustomAppDrawerBlocProvider(

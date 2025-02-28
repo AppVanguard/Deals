@@ -35,7 +35,7 @@ class InPocket extends StatelessWidget {
       builder: (context, locale) {
         return MaterialApp(
           theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
+            scaffoldBackgroundColor: AppColors.background,
             colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
             fontFamily: 'Roboto',
           ),
