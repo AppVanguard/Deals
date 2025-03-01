@@ -1,12 +1,12 @@
 // home_mapper.dart
 import 'dart:developer';
 
-import 'package:in_pocket/features/home/data/models/home_model.dart';
-import 'package:in_pocket/features/home/data/models/store.dart';
-import 'package:in_pocket/features/home/data/models/coupon.dart';
-import 'package:in_pocket/features/home/domain/entities/home_entity.dart';
-import 'package:in_pocket/features/home/domain/entities/store_entity.dart';
-import 'package:in_pocket/features/home/domain/entities/coupon_entity.dart';
+import 'package:deals/features/home/data/models/home_model.dart';
+import 'package:deals/features/home/data/models/store.dart';
+import 'package:deals/features/home/data/models/coupon.dart';
+import 'package:deals/features/home/domain/entities/home_entity.dart';
+import 'package:deals/features/home/domain/entities/store_entity.dart';
+import 'package:deals/features/home/domain/entities/coupon_entity.dart';
 
 class HomeMapper {
   static HomeEntity mapToEntity(HomeModel model) {

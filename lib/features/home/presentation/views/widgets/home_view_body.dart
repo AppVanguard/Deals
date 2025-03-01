@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/features/home/presentation/manager/cubits/home_cubit/home_cubit.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/home_content.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/features/home/presentation/manager/cubits/home_cubit/home_cubit.dart';
+import 'package:deals/features/home/presentation/views/widgets/home_content.dart';
 
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key});

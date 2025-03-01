@@ -1,14 +1,14 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:in_pocket/constants.dart';
-import 'package:in_pocket/core/service/firebase_auth_service.dart';
-import 'package:in_pocket/core/service/secure_storage_service.dart';
-import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
-import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
-import 'package:in_pocket/features/home/presentation/views/home_view.dart';
-import 'package:in_pocket/features/on_boarding/presentation/views/on_boarding_view.dart';
-import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/core/service/firebase_auth_service.dart';
+import 'package:deals/core/service/secure_storage_service.dart';
+import 'package:deals/core/service/shared_prefrences_singleton.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/features/auth/presentation/views/signin_view.dart';
+import 'package:deals/features/home/presentation/views/home_view.dart';
+import 'package:deals/features/on_boarding/presentation/views/on_boarding_view.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});

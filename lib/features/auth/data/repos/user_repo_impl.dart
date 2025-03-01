@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
-import 'package:in_pocket/core/errors/faliure.dart';
-import 'package:in_pocket/core/service/user_service.dart';
-import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
-import 'package:in_pocket/features/auth/domain/repos/user_repo.dart';
+import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/service/user_service.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/features/auth/domain/repos/user_repo.dart';
 
 class UserRepoImpl extends UserRepo {
   final UserService userService;

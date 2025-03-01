@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/core/service/get_it_service.dart';
-import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
-import 'package:in_pocket/features/auth/presentation/views/widgets/signup_bloc_consumer.dart';
+import 'package:deals/core/service/get_it_service.dart';
+import 'package:deals/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
+import 'package:deals/features/auth/presentation/views/widgets/signup_bloc_consumer.dart';
 
 class SignupView extends StatelessWidget {
   const SignupView({super.key});

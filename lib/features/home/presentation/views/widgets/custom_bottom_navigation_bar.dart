@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/features/home/domain/entities/bottom_navigation_bar_entity.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/navigation_bar_item.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/features/home/domain/entities/bottom_navigation_bar_entity.dart';
+import 'package:deals/features/home/presentation/views/widgets/navigation_bar_item.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({super.key});

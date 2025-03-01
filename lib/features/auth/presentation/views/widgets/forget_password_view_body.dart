@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
-import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/core/widgets/custom_button.dart';
-import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/custom_button.dart';
+import 'package:deals/core/widgets/custom_text_form_field.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
+import 'package:deals/generated/l10n.dart';
 
 class ForgetPasswordViewBody extends StatefulWidget {
   final ValueChanged<String> onEmailSaved;

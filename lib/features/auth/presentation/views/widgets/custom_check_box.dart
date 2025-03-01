@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_images.dart';
 
 /// A custom checkbox widget that uses an SVG image for the check mark.
 ///

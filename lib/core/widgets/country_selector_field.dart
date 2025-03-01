@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/generated/l10n.dart';
 
 class CountrySelectorField extends StatefulWidget {
   final ValueChanged<Country> onCountrySelected;

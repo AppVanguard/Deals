@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:intl/intl.dart'; // for DateFormat
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:in_pocket/features/home/domain/entities/coupon_entity.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/dashed_line_painter.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/rect_ticket_clipper.dart';
+import 'package:deals/features/home/domain/entities/coupon_entity.dart';
+import 'package:deals/features/home/presentation/views/widgets/dashed_line_painter.dart';
+import 'package:deals/features/home/presentation/views/widgets/rect_ticket_clipper.dart';
 
 class CouponTicket extends StatelessWidget {
   final CouponEntity coupon;

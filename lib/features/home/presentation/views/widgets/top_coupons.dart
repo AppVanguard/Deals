@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:in_pocket/features/home/domain/entities/coupon_entity.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/coupon_ticket.dart';
+import 'package:deals/features/home/domain/entities/coupon_entity.dart';
+import 'package:deals/features/home/presentation/views/widgets/coupon_ticket.dart';
 
 /// The main widget that displays coupons in two horizontal rows:
 /// - If no data and not loading => "No coupons found"

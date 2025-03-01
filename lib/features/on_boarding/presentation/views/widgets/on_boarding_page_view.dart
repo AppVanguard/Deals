@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
-import 'package:in_pocket/features/on_boarding/presentation/views/widgets/page_view_item.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/features/on_boarding/presentation/views/widgets/page_view_item.dart';
+import 'package:deals/generated/l10n.dart';
 
 class OnBoardingPageView extends StatelessWidget {
   const OnBoardingPageView(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/utils/app_text_styles.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
 
-import 'package:in_pocket/features/auth/presentation/views/widgets/custom_check_box.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/features/auth/presentation/views/widgets/custom_check_box.dart';
+import 'package:deals/generated/l10n.dart';
 
 class RememberPassword extends StatefulWidget {
   const RememberPassword({super.key, required this.onChecked, this.onTap});

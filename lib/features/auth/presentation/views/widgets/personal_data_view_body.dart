@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/widgets/country_selector_field.dart';
-import 'package:in_pocket/core/widgets/custom_button.dart';
-import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
-import 'package:in_pocket/core/widgets/date_picker_field.dart';
-import 'package:in_pocket/core/widgets/gender_selector.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/user_update_cubit/user_update_cubit.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/widgets/country_selector_field.dart';
+import 'package:deals/core/widgets/custom_button.dart';
+import 'package:deals/core/widgets/custom_text_form_field.dart';
+import 'package:deals/core/widgets/date_picker_field.dart';
+import 'package:deals/core/widgets/gender_selector.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/user_update_cubit/user_update_cubit.dart';
+import 'package:deals/generated/l10n.dart';
 
 class PersonalDataViewBody extends StatefulWidget {
   final String id;

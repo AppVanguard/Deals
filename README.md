@@ -1,4 +1,4 @@
-# in_pocket
+# Deals
 
 A new Flutter project.
 

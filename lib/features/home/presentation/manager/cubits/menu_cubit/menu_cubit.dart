@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/core/service/secure_storage_service.dart';
-import 'package:in_pocket/features/home/domain/repos/menu_repo.dart';
+import 'package:deals/core/service/secure_storage_service.dart';
+import 'package:deals/features/home/domain/repos/menu_repo.dart';
 import 'package:meta/meta.dart';
 part 'menu_state.dart';
 

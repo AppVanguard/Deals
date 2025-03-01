@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeLoadingShimmer extends StatelessWidget {

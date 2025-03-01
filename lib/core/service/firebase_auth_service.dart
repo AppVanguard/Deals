@@ -5,11 +5,11 @@ import 'dart:math' as math;
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:in_pocket/constants.dart';
-import 'package:in_pocket/core/errors/custom_firebase_exception.dart';
-import 'package:in_pocket/core/errors/exception.dart';
-import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/core/errors/custom_firebase_exception.dart';
+import 'package:deals/core/errors/exception.dart';
+import 'package:deals/core/service/shared_prefrences_singleton.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 

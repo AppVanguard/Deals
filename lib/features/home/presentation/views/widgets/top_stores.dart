@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
-import 'package:in_pocket/features/home/domain/entities/store_entity.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/features/home/domain/entities/store_entity.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class TopStores extends StatefulWidget {

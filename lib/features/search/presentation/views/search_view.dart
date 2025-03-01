@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
+import 'package:deals/core/utils/app_images.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({super.key});

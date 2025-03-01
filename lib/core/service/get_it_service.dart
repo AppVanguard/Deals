@@ -1,18 +1,18 @@
 import 'package:get_it/get_it.dart';
-import 'package:in_pocket/core/service/auth_api_service.dart';
-import 'package:in_pocket/core/service/database_service.dart';
-import 'package:in_pocket/core/service/firebase_auth_service.dart';
-import 'package:in_pocket/core/service/firestore_services.dart';
-import 'package:in_pocket/core/service/user_service.dart';
-import 'package:in_pocket/features/auth/data/repos/auth_repo_impl.dart';
-import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
-import 'package:in_pocket/features/auth/data/repos/user_repo_impl.dart';
-import 'package:in_pocket/features/auth/domain/repos/user_repo.dart';
-import 'package:in_pocket/features/home/data/repos/home_repo_impl.dart';
-import 'package:in_pocket/features/home/data/repos/menu_repo_impl.dart';
-import 'package:in_pocket/features/home/domain/repos/home_repo.dart';
-import 'package:in_pocket/features/home/domain/repos/menu_repo.dart';
-import 'package:in_pocket/core/service/home_api_service.dart';
+import 'package:deals/core/service/auth_api_service.dart';
+import 'package:deals/core/service/database_service.dart';
+import 'package:deals/core/service/firebase_auth_service.dart';
+import 'package:deals/core/service/firestore_services.dart';
+import 'package:deals/core/service/user_service.dart';
+import 'package:deals/features/auth/data/repos/auth_repo_impl.dart';
+import 'package:deals/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/features/auth/data/repos/user_repo_impl.dart';
+import 'package:deals/features/auth/domain/repos/user_repo.dart';
+import 'package:deals/features/home/data/repos/home_repo_impl.dart';
+import 'package:deals/features/home/data/repos/menu_repo_impl.dart';
+import 'package:deals/features/home/domain/repos/home_repo.dart';
+import 'package:deals/features/home/domain/repos/menu_repo.dart';
+import 'package:deals/core/service/home_api_service.dart';
 
 final getIt = GetIt.instance;
 void setupGetit() {

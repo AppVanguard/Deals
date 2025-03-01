@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:in_pocket/core/service/database_service.dart';
+import 'package:deals/core/service/database_service.dart';
 
 /// An implementation of [DatabaseService] using Cloud Firestore.
 /// Provides general-purpose CRUD operations.

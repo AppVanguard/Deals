@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:in_pocket/core/service/database_service.dart';
-import 'package:in_pocket/core/utils/backend_endpoints.dart';
+import 'package:deals/core/service/database_service.dart';
+import 'package:deals/core/utils/backend_endpoints.dart';
 
 class BackendStoreService implements DatabaseService {
   @override

@@ -1,14 +1,14 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:in_pocket/core/errors/exception.dart';
-import 'package:in_pocket/core/errors/faliure.dart';
-import 'package:in_pocket/core/service/auth_api_service.dart';
-import 'package:in_pocket/core/service/firebase_auth_service.dart';
-import 'package:in_pocket/core/utils/backend_endpoints.dart';
-import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
-import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/errors/exception.dart';
+import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/service/auth_api_service.dart';
+import 'package:deals/core/service/firebase_auth_service.dart';
+import 'package:deals/core/utils/backend_endpoints.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/generated/l10n.dart';
 
 class AuthRepoImpl extends AuthRepo {
   final FirebaseAuthService firebaseAuthService;

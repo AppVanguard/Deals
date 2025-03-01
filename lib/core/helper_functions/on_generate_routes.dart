@@ -1,17 +1,17 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:in_pocket/constants.dart';
-import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
-import 'package:in_pocket/features/auth/presentation/views/personal_data_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/forget_password_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/reset_password_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/signup_view.dart';
-import 'package:in_pocket/features/home/presentation/views/home_view.dart';
-import 'package:in_pocket/features/on_boarding/presentation/views/on_boarding_view.dart';
-import 'package:in_pocket/features/search/presentation/views/search_view.dart';
-import 'package:in_pocket/features/splash/presentation/views/splash_view.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/features/auth/presentation/views/personal_data_view.dart';
+import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart';
+import 'package:deals/features/auth/presentation/views/forget_password_view.dart';
+import 'package:deals/features/auth/presentation/views/reset_password_view.dart';
+import 'package:deals/features/auth/presentation/views/signin_view.dart';
+import 'package:deals/features/auth/presentation/views/signup_view.dart';
+import 'package:deals/features/home/presentation/views/home_view.dart';
+import 'package:deals/features/on_boarding/presentation/views/on_boarding_view.dart';
+import 'package:deals/features/search/presentation/views/search_view.dart';
+import 'package:deals/features/splash/presentation/views/splash_view.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings settings) {
   switch (settings.name) {

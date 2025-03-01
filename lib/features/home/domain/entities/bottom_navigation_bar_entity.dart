@@ -1,5 +1,5 @@
-import 'package:in_pocket/core/utils/app_images.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/generated/l10n.dart';
 
 class BottomNavicationBarEntity {
   final String activeImage, inActiveImage, name;

@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
 
 @immutable
 sealed class OtpVerifyState {}

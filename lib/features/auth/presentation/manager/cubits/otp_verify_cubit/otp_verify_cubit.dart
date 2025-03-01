@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'otp_verify_state.dart';
-import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 
 class OtpVerifyCubit extends Cubit<OtpVerifyState> {
   final AuthRepo authRepo;

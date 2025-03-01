@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/constants.dart';
-import 'package:in_pocket/core/service/secure_storage_service.dart';
-import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
-import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
-import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/core/service/secure_storage_service.dart';
+import 'package:deals/core/service/shared_prefrences_singleton.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:meta/meta.dart';
 
 part 'signin_state.dart';

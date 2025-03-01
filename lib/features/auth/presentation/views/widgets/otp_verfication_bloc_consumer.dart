@@ -2,15 +2,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:in_pocket/constants.dart';
-import 'package:in_pocket/core/widgets/custom_modal_sheet.dart';
-import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_state.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/core/widgets/custom_modal_sheet.dart';
+import 'package:deals/core/widgets/custom_progress_hud.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_state.dart';
 import 'otp_verfication_view_body.dart';
-import 'package:in_pocket/generated/l10n.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
-import 'package:in_pocket/features/auth/presentation/views/reset_password_view.dart';
+import 'package:deals/generated/l10n.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/features/auth/presentation/views/reset_password_view.dart';
 
 class OTPVeficationBlocConsumer extends StatelessWidget {
   final String email;

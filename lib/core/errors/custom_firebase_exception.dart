@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:in_pocket/core/errors/exception.dart';
-import 'package:in_pocket/generated/l10n.dart'; // Assuming generated localization file
+import 'package:deals/core/errors/exception.dart';
+import 'package:deals/generated/l10n.dart'; // Assuming generated localization file
 
 abstract class CustomFirebaseException extends FirebaseAuthException {
   CustomFirebaseException({required super.code});

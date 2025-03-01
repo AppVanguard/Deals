@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 import 'package:meta/meta.dart';
 
 part 'reset_password_state.dart';

@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:in_pocket/core/errors/faliure.dart';
-import 'package:in_pocket/core/service/auth_api_service.dart';
-import 'package:in_pocket/features/home/domain/repos/menu_repo.dart';
+import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/service/auth_api_service.dart';
+import 'package:deals/features/home/domain/repos/menu_repo.dart';
 
 class MenuRepoImpl implements MenuRepo {
   final AuthApiService authApiService;

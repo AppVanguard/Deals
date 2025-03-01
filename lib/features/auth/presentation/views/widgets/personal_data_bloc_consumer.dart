@@ -2,11 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/core/helper_functions/custom_top_snack_bar.dart';
-import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/user_update_cubit/user_update_cubit.dart';
-import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/widgets/personal_data_view_body.dart';
+import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';
+import 'package:deals/core/widgets/custom_progress_hud.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/user_update_cubit/user_update_cubit.dart';
+import 'package:deals/features/auth/presentation/views/signin_view.dart';
+import 'package:deals/features/auth/presentation/views/widgets/personal_data_view_body.dart';
 
 class PersonalDataBlocConsumer extends StatelessWidget {
   const PersonalDataBlocConsumer({super.key, required this.id});

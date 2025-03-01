@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/features/home/domain/entities/home_entity.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/sales_carousel.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/top_coupons.dart';
-import 'package:in_pocket/features/home/presentation/views/widgets/top_stores.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/features/home/domain/entities/home_entity.dart';
+import 'package:deals/features/home/presentation/views/widgets/sales_carousel.dart';
+import 'package:deals/features/home/presentation/views/widgets/top_coupons.dart';
+import 'package:deals/features/home/presentation/views/widgets/top_stores.dart';
+import 'package:deals/generated/l10n.dart';
 
 class HomeContent extends StatelessWidget {
   final HomeEntity? homeEntity;

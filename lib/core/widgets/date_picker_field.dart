@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:intl/intl.dart';
 
 class CustomDatePicker extends StatefulWidget {

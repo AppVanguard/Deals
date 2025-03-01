@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/core/helper_functions/custom_top_snack_bar.dart';
-import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/core/widgets/custom_button.dart';
-import 'package:in_pocket/core/widgets/custom_password_filed.dart';
-import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
-import 'package:in_pocket/core/widgets/have_or_not_account.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
-import 'package:in_pocket/features/auth/presentation/views/widgets/auth_divider.dart';
-import 'package:in_pocket/features/auth/presentation/views/widgets/custom_phone_field.dart';
-import 'package:in_pocket/features/auth/presentation/views/widgets/third_party_auth.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/custom_button.dart';
+import 'package:deals/core/widgets/custom_password_filed.dart';
+import 'package:deals/core/widgets/custom_text_form_field.dart';
+import 'package:deals/core/widgets/have_or_not_account.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
+import 'package:deals/features/auth/presentation/views/widgets/auth_divider.dart';
+import 'package:deals/features/auth/presentation/views/widgets/custom_phone_field.dart';
+import 'package:deals/features/auth/presentation/views/widgets/third_party_auth.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
 class SignupViewBody extends StatefulWidget {

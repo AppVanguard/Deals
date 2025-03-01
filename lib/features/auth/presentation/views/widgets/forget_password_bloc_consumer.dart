@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/constants.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
-import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
-import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/reset_password_view.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
-import 'package:in_pocket/features/auth/presentation/views/widgets/forget_password_view_body.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/widgets/custom_progress_hud.dart';
+import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart';
+import 'package:deals/features/auth/presentation/views/reset_password_view.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
+import 'package:deals/features/auth/presentation/views/widgets/forget_password_view_body.dart';
 
 class ForgetPasswordBlocConsumer extends StatefulWidget {
   const ForgetPasswordBlocConsumer({super.key});
