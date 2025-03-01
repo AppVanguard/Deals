@@ -28,6 +28,7 @@ AppBar buildHomeAppBar(BuildContext context) {
           appTittle,
           style: AppTextStyles.bold24.copyWith(color: AppColors.primary),
         ),
+        Spacer(),
         SvgPicture.asset(AppImages.assetsImagesRefer),
         GestureDetector(
           child: SvgPicture.asset(AppImages.assetsImagesSearch),
