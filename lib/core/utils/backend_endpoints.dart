@@ -1,6 +1,6 @@
 class BackendEndpoints {
   // Base URLs and API paths.
-  static const String baseUrl = "https://deals-backend.onrender.com";
+  static const String baseUrl = "https://inpocket-backend.onrender.com";
   static const String apiPath = "$baseUrl/api";
 
   // Auth endpoints.
