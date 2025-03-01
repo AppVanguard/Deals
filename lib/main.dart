@@ -21,13 +21,13 @@ void main() async {
   runApp(
     BlocProvider(
       create: (context) => LocaleCubit(), // Provide LocaleCubit globally
-      child: const InPocket(),
+      child: const Deals(),
     ),
   );
 }
 
-class InPocket extends StatelessWidget {
-  const InPocket({super.key});
+class Deals extends StatelessWidget {
+  const Deals({super.key});
 
   @override
   Widget build(BuildContext context) {
