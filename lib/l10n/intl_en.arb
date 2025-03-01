@@ -131,5 +131,6 @@
       "valid_until": "valid until",
       "existing_customers_discount": "Existing customers discount",
       "new_customers_discount": "New customers discount",
-      "specific_items_discount": "Specific items discount"
+      "specific_items_discount": "Specific items discount",
+      "Emain_not_verified": "Email not verified"
 }

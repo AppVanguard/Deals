@@ -1379,6 +1379,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Email not verified`
+  String get Emain_not_verified {
+    return Intl.message(
+      'Email not verified',
+      name: 'Emain_not_verified',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

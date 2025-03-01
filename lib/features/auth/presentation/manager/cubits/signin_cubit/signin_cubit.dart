@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
@@ -26,7 +28,7 @@ class SigninCubit extends Cubit<SigninState> {
     );
     result.fold(
       (failure) {
-        if (failure.message.contains("Email not verified")) {
+        if (failure.message.contains(S.current.Emain_not_verified)) {
           final userEntity = UserEntity(
             uId: '',
             email: email,
@@ -41,6 +43,7 @@ class SigninCubit extends Cubit<SigninState> {
       },
       (user) async {
         if (rememberMe) {
+          log('Remember me is true');
           // Save user data securely
           await SecureStorageService.saveUserEntity(user.toJson());
         }
@@ -61,7 +64,8 @@ class SigninCubit extends Cubit<SigninState> {
           await SecureStorageService.saveUserEntity(user.toJson());
         }
         Prefs.setBool(kRememberMe, rememberMe);
-        emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
+        emit(SigninSuccess(
+            userEntity: user, message: S.current.SuccessSigningIn));
       },
     );
   }
@@ -76,7 +80,8 @@ class SigninCubit extends Cubit<SigninState> {
           await SecureStorageService.saveUserEntity(user.toJson());
         }
         Prefs.setBool(kRememberMe, rememberMe);
-        emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
+        emit(SigninSuccess(
+            userEntity: user, message: S.current.SuccessSigningIn));
       },
     );
   }
@@ -91,7 +96,8 @@ class SigninCubit extends Cubit<SigninState> {
           await SecureStorageService.saveUserEntity(user.toJson());
         }
         Prefs.setBool(kRememberMe, rememberMe);
-        emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
+        emit(SigninSuccess(
+            userEntity: user, message: S.current.SuccessSigningIn));
       },
     );
   }

@@ -191,6 +191,9 @@ class FirebaseAuthService {
   bool isSignedIn() {
     // Check the rememberMe preference and FirebaseAuth current user
     bool rememberMe = Prefs.getBool(kRememberMe);
-    return FirebaseAuth.instance.currentUser != null && rememberMe;
+    log('Remember me: $rememberMe');
+    var x = FirebaseAuth.instance.currentUser != null && rememberMe;
+    log('isSignedIn: $x');
+    return x;
   }
 }

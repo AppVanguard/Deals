@@ -46,36 +46,37 @@ class _SplashViewBodyState extends State<SplashViewBody> {
 
   Future<void> executeNavigation() async {
     bool isOnBoardingViewSeen = Prefs.getBool(kIsOnBoardingViewSeen);
-
-    // Wait for 2 seconds for splash effect or async initializations
     await Future.delayed(const Duration(seconds: 2));
-    if (!mounted) return;
 
+    // First, try to get user data from secure storage
     if (isOnBoardingViewSeen) {
-      bool isLoggedIn = FirebaseAuthService().isSignedIn();
-      if (!mounted) return;
-      if (isLoggedIn) {
-        // Retrieve user entity from secure storage
-        final userJson = await SecureStorageService.getUserEntity();
-        if (userJson != null && userJson.isNotEmpty) {
-          try {
-            final userEntity = UserEntity.fromJson(userJson);
-            Navigator.pushReplacementNamed(
-              context,
-              HomeView.routeName,
-              arguments: userEntity,
-            );
-          } catch (e) {
-            log("Error parsing user data: $e");
-            Navigator.pushReplacementNamed(context, SigninView.routeName);
-          }
-        } else {
-          Navigator.pushReplacementNamed(context, SigninView.routeName);
+      final userJson = await SecureStorageService.getUserEntity();
+      if (userJson != null && userJson.isNotEmpty) {
+        try {
+          if (!mounted) return;
+
+          final userEntity = UserEntity.fromJson(userJson);
+          Navigator.pushReplacementNamed(
+            context,
+            HomeView.routeName,
+            arguments: userEntity,
+          );
+          return;
+        } catch (e) {
+          log("Error parsing user data: $e");
         }
+      }
+      if (!mounted) return;
+
+      // Fallback to Firebase Auth check for social logins
+      bool isLoggedIn = FirebaseAuthService().isSignedIn();
+      if (isLoggedIn) {
+        Navigator.pushReplacementNamed(context, HomeView.routeName);
       } else {
         Navigator.pushReplacementNamed(context, SigninView.routeName);
       }
     } else {
+      if (!mounted) return;
       Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
     }
   }

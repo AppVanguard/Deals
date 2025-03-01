@@ -55,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter your email."),
         "EmailVerified": MessageLookupByLibrary.simpleMessage(
             "Your email has been verified successfully."),
+        "Emain_not_verified":
+            MessageLookupByLibrary.simpleMessage("Email not verified"),
         "EnterCode":
             MessageLookupByLibrary.simpleMessage("Enter the 4-digit code"),
         "EnterYourEmail":
