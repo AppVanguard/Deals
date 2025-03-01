@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
+import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/generated/l10n.dart';
 import 'package:intl/intl.dart'; // for DateFormat
 import 'package:skeletonizer/skeletonizer.dart';
@@ -19,8 +20,8 @@ class CouponTicket extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardWidth = MediaQuery.of(context).size.width * 0.8;
-    const cardHeight = 116.0;
+    final cardWidth = MediaQuery.sizeOf(context).width * 0.8;
+    final cardHeight = 116.0;
 
     // Parse and format expiry date string
     String formattedDate = '';
@@ -45,17 +46,21 @@ class CouponTicket extends StatelessWidget {
           height: cardHeight,
           child: Row(
             children: [
+              SizedBox(
+                width: 12,
+              ),
               // Left: brand image/logo
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: SizedBox(
-                  width: 50,
-                  height: 50,
+                  width: 66,
+                  height: 66,
                   child: Image.network(
                     coupon.id,
                     fit: BoxFit.contain,
-                    errorBuilder: (ctx, error, stack) =>
-                        const Icon(Icons.error),
+                    errorBuilder: (ctx, error, stack) => Image.asset(
+                        AppImages.assetsImagesTest2,
+                        fit: BoxFit.fill),
                   ),
                 ),
               ),

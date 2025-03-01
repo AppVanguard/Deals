@@ -43,6 +43,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           return Expanded(
             flex: index == selectedIndex ? 3 : 2,
             child: GestureDetector(
+              behavior:
+                  HitTestBehavior.opaque, // Ensures the entire area is tappable
               onTap: () => setState(() {
                 selectedIndex = index;
               }),

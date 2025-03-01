@@ -1,33 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:in_pocket/core/utils/app_colors.dart';
+import 'package:in_pocket/core/utils/app_images.dart';
 import 'package:in_pocket/features/home/domain/entities/store_entity.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class TopStores extends StatelessWidget {
+class TopStores extends StatefulWidget {
   final List<StoreEntity> stores;
   final bool isLoading;
 
   const TopStores({
-    super.key,
+    Key? key,
     required this.stores,
     required this.isLoading,
-  });
+  }) : super(key: key);
+
+  @override
+  State<TopStores> createState() => _TopStoresState();
+}
+
+class _TopStoresState extends State<TopStores> {
+  // We store a local copy of isLoading so we can trigger setState
+  bool localIsLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    localIsLoading = widget.isLoading;
+  }
+
+  // If parent changes isLoading from false to true (or vice versa),
+  // we call setState so the skeleton or real data is updated
+  @override
+  void didUpdateWidget(covariant TopStores oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.isLoading != widget.isLoading) {
+      setState(() {
+        localIsLoading = widget.isLoading;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (stores.isEmpty) {
-      if (!isLoading) {
-        return const SliverToBoxAdapter(
-          child: SizedBox(
-            height: 100,
-            child: Center(child: Text('No stores found')),
-          ),
-        );
-      }
-      return _buildPlaceholderRows();
+    // If no data
+    if (widget.stores.isEmpty && !localIsLoading) {
+      return const SliverToBoxAdapter(
+        child: SizedBox(
+          height: 100,
+          child: Center(child: Text('No stores found')),
+        ),
+      );
     }
 
-    // If we have data
+    // If we have data or we are in loading mode
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -41,12 +66,19 @@ class TopStores extends StatelessWidget {
                   // First row
                   Row(
                     children: List.generate(
-                      (stores.length / 2).ceil(),
+                      localIsLoading ? 6 : (widget.stores.length / 2).ceil(),
                       (index) => Padding(
                         padding: const EdgeInsets.only(right: 16.0),
                         child: _StoreCard(
-                          store: stores[index],
-                          isLoading: isLoading,
+                          store: localIsLoading
+                              ? StoreEntity(
+                                  id: '',
+                                  title: '',
+                                  storeUrl: '',
+                                  isActive: false,
+                                )
+                              : widget.stores[index],
+                          isLoading: localIsLoading,
                         ),
                       ),
                     ),
@@ -55,57 +87,32 @@ class TopStores extends StatelessWidget {
                   // Second row
                   Row(
                     children: List.generate(
-                      (stores.length / 2).floor(),
+                      localIsLoading ? 6 : (widget.stores.length / 2).floor(),
                       (idx) {
-                        final adjustedIndex = idx + (stores.length / 2).ceil();
-                        if (adjustedIndex >= stores.length) {
+                        final adjustedIndex =
+                            idx + (widget.stores.length / 2).ceil();
+                        if (!localIsLoading &&
+                            adjustedIndex >= widget.stores.length) {
                           return const SizedBox();
                         }
                         return Padding(
                           padding: const EdgeInsets.only(right: 16.0),
                           child: _StoreCard(
-                            store: stores[adjustedIndex],
-                            isLoading: isLoading,
+                            store: localIsLoading
+                                ? StoreEntity(
+                                    id: '',
+                                    title: '',
+                                    storeUrl: '',
+                                    isActive: false,
+                                  )
+                                : widget.stores[adjustedIndex],
+                            isLoading: localIsLoading,
                           ),
                         );
                       },
                     ),
                   ),
                 ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPlaceholderRows() {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Column(
-            children: [
-              // First row
-              Row(
-                children: List.generate(2, (index) {
-                  return const Padding(
-                    padding: EdgeInsets.only(right: 16.0),
-                    child: _StorePlaceholderCard(),
-                  );
-                }),
-              ),
-              const SizedBox(height: 16),
-              // Second row
-              Row(
-                children: List.generate(2, (index) {
-                  return const Padding(
-                    padding: EdgeInsets.only(right: 16.0),
-                    child: _StorePlaceholderCard(),
-                  );
-                }),
               ),
             ],
           ),
@@ -132,6 +139,7 @@ class _StoreCard extends StatelessWidget {
         children: [
           Container(
             width: MediaQuery.of(context).size.width * 0.7,
+            height: 90,
             decoration: BoxDecoration(
               color: AppColors.tertiaryText,
               borderRadius: BorderRadius.circular(10),
@@ -139,59 +147,16 @@ class _StoreCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
-                store.imageUrl!,
-                fit: BoxFit.fill,
-                height: 80,
+                store.imageUrl ?? '',
+                fit: BoxFit.fitHeight,
                 errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.error),
+                    Image.asset(AppImages.assetsImagesTest1, fit: BoxFit.fill),
               ),
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Text(
-          //     store.title,
-          //     style: const TextStyle(fontWeight: FontWeight.bold),
-          //   ),
-          // ),
           const Text(
             "Up to 10% Cashback",
             style: TextStyle(color: AppColors.accent),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _StorePlaceholderCard extends StatelessWidget {
-  const _StorePlaceholderCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return Skeletonizer(
-      enabled: true,
-      child: Column(
-        children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            height: 80,
-            decoration: BoxDecoration(
-              color: AppColors.tertiaryText,
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          const SizedBox(height: 8),
-          // Container(
-          //   width: 100,
-          //   height: 16,
-          //   color: AppColors.tertiaryText,
-          // ),
-          const SizedBox(height: 4),
-          Container(
-            width: 150,
-            height: 16,
-            color: AppColors.tertiaryText,
           ),
         ],
       ),
