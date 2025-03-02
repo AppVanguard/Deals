@@ -1,3 +1,4 @@
+import 'package:deals/features/search/presentation/views/widgets/deal.dart';
 import 'package:deals/features/search/presentation/views/widgets/search_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -61,7 +62,105 @@ class _SearchViewState extends State<SearchView> {
           ],
         ),
       ),
-      body: const SearchViewBody(),
+      body: const SearchViewBody(
+        deals: [
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+          Deal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest2,
+          ),
+        ],
+      ),
     );
   }
 }

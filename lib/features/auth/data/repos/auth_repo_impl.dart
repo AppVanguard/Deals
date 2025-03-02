@@ -55,16 +55,29 @@ class AuthRepoImpl extends AuthRepo {
   }) async {
     try {
       log('Attempting login for: $email');
-      final loginResponse = await authApiService.loginUser(
+      // final loginResponse = await authApiService.loginUser(
+      //   email: email,
+      //   password: password,
+      // );
+      // final userEntity = UserEntity(
+      //   uId: loginResponse[BackendEndpoints.kId] as String? ?? '',
+      //   email: loginResponse[BackendEndpoints.keyEmail] as String? ?? email,
+      //   name: loginResponse[BackendEndpoints.keyFullName] as String? ?? '',
+      //   phone: loginResponse[BackendEndpoints.keyPhone] as String? ?? '',
+      // );
+      final user = await firebaseAuthService.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
       final userEntity = UserEntity(
-        uId: loginResponse[BackendEndpoints.kId] as String? ?? '',
-        email: loginResponse[BackendEndpoints.keyEmail] as String? ?? email,
-        name: loginResponse[BackendEndpoints.keyFullName] as String? ?? '',
-        phone: loginResponse[BackendEndpoints.keyPhone] as String? ?? '',
+        uId: user.uid,
+        email: user.email ?? '',
+        name: user.displayName ?? '',
+        phone: '',
       );
+      final token = await user.getIdToken();
+      log('Token: $token');
+      await authApiService.sendOAuthToken(token: token!);
       return right(userEntity);
     } on CustomExeption catch (e) {
       return left(ServerFaliure(message: e.message));
