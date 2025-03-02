@@ -18,17 +18,14 @@ List<BottomNavicationBarEntity> get bottomNavigationBarList => [
           inActiveImage: AppImages.assetsImagesIconsHomeInActive,
           name: S.current.Home),
       BottomNavicationBarEntity(
-          // routName: CategoriesView.routeName,
           activeImage: AppImages.assetsImagesIconsCategoriesActive,
           inActiveImage: AppImages.assetsImagesIconsCategoriesInActive,
           name: S.current.Categories),
       BottomNavicationBarEntity(
-          // routName: '',
           activeImage: AppImages.assetsImagesIconsCouponActive,
           inActiveImage: AppImages.assetsImagesIconsCouponInActive,
           name: S.current.Copouns),
       BottomNavicationBarEntity(
-          // routName: '',
           activeImage: AppImages.assetsImagesIconsBookmarkActive,
           inActiveImage: AppImages.assetsImagesIconsBookmarkInActive,
           name: S.current.Bookmarks),

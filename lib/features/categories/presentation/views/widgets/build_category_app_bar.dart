@@ -5,15 +5,15 @@ import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-AppBar buildSearchAppBar(
+AppBar buildCategoryAppBar(
     BuildContext context, TextEditingController searchController) {
   return AppBar(
     elevation: 0,
     backgroundColor: Colors.transparent,
-    leading: IconButton(
-      icon: const Icon(Icons.arrow_back),
-      onPressed: () => Navigator.pop(context),
-    ),
+    // leading: IconButton(
+    //   icon: const Icon(Icons.arrow_back),
+    //   onPressed: () => Navigator.pop(context),
+    // ),
     title: Row(
       children: [
         Expanded(

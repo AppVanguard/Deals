@@ -3,46 +3,56 @@ import 'package:deals/features/auth/domain/entities/user_entity.dart';
 import 'package:deals/features/home/presentation/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:deals/features/home/presentation/views/home_view.dart';
 import 'package:deals/features/categories/presentation/views/categories_view.dart';
-// import other pages like CouponsView, BookmarksView, etc.
 
 class MainView extends StatefulWidget {
   final UserEntity userData;
   const MainView({super.key, required this.userData});
   static const routeName = 'main';
+
   @override
   State<MainView> createState() => _MainViewState();
 }
 
 class _MainViewState extends State<MainView> {
   int _selectedIndex = 0;
+  int _previousIndex = 0; // Track the previous index to decide slide direction
 
-  // Create a list of "pages". Each is a full widget with its own Scaffold.
+  // Wrap each page in a KeyedSubtree so AnimatedSwitcher can properly distinguish them.
   late final List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize your pages here, each receiving userData if needed
     _pages = [
-      HomeView(userData: widget.userData),
-      CategoriesView(),
-      // Example placeholders for your other tabs:
-      // CouponsView(userData: widget.userData),
-      // BookmarksView(userData: widget.userData),
-      Container(
-        color: Colors.blueGrey,
-        child: const Center(child: Text('Coupons Page Placeholder')),
+      KeyedSubtree(
+        key: const ValueKey('Home'),
+        child: HomeView(userData: widget.userData),
       ),
-      Container(
-        color: Colors.greenAccent,
-        child: const Center(child: Text('Bookmarks Page Placeholder')),
+      KeyedSubtree(
+        key: const ValueKey('Categories'),
+        child: const CategoriesView(),
+      ),
+      KeyedSubtree(
+        key: const ValueKey('Coupons'),
+        child: Container(
+          color: Colors.blueGrey,
+          child: const Center(child: Text('Coupons Page Placeholder')),
+        ),
+      ),
+      KeyedSubtree(
+        key: const ValueKey('Bookmarks'),
+        child: Container(
+          color: Colors.greenAccent,
+          child: const Center(child: Text('Bookmarks Page Placeholder')),
+        ),
       ),
     ];
   }
 
   void _onTabSelected(int index) {
     setState(() {
+      _previousIndex = _selectedIndex;
       _selectedIndex = index;
     });
   }
@@ -50,15 +60,30 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Parent scaffold has NO appBar. Only the bottom navigation bar.
+      // The bottom navigation bar remains fixed.
       bottomNavigationBar: CustomBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onTap: _onTabSelected,
       ),
-      // Use IndexedStack to keep the state of each page alive when switching tabs
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _pages,
+      // AnimatedSwitcher handles the slide transition between pages.
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        transitionBuilder: (child, animation) {
+          // Determine slide direction:
+          // If moving forward (_selectedIndex > _previousIndex) slide from right,
+          // otherwise slide from left.
+          final beginOffset = _selectedIndex > _previousIndex
+              ? const Offset(1, 0)
+              : const Offset(-1, 0);
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: beginOffset,
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+        child: _pages[_selectedIndex],
       ),
     );
   }

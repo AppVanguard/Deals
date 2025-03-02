@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/features/home/domain/entities/bottom_navigation_bar_entity.dart';
 import 'package:deals/features/home/presentation/views/widgets/navigation_bar_item.dart';
 
@@ -7,17 +8,33 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final ValueChanged<int> onTap;
 
   const CustomBottomNavigationBar({
-    Key? key,
+    super.key,
     required this.selectedIndex,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: 375, // You can change this to double.infinity if needed.
       height: 80,
-      // your decoration...
+      decoration: const ShapeDecoration(
+        color: AppColors.background,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
+        ),
+        shadows: [
+          BoxShadow(
+            color: Color(0x19000000),
+            blurRadius: 25,
+            offset: Offset(0, -2),
+            spreadRadius: 0,
+          )
+        ],
+      ),
       child: Row(
         children: bottomNavigationBarList.asMap().entries.map((entry) {
           final index = entry.key;
