@@ -1,6 +1,4 @@
 import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/features/categories/presentation/views/categories_view.dart';
-import 'package:deals/features/home/presentation/views/home_view.dart';
 import 'package:deals/generated/l10n.dart';
 
 class BottomNavicationBarEntity {

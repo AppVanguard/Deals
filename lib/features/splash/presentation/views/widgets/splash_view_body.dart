@@ -7,7 +7,6 @@ import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/features/auth/presentation/views/signin_view.dart';
-import 'package:deals/features/home/presentation/views/home_view.dart';
 import 'package:deals/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:deals/features/auth/domain/entities/user_entity.dart';
 

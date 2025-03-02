@@ -9,7 +9,6 @@ import 'package:deals/features/auth/presentation/manager/cubits/signin_cubit/sig
 import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart';
 import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:deals/features/auth/presentation/views/widgets/signin_view_body.dart';
-import 'package:deals/features/home/presentation/views/home_view.dart';
 
 class SigninViewBlocConsumer extends StatelessWidget {
   const SigninViewBlocConsumer({
