@@ -35,6 +35,11 @@ class _SalesCarouselState extends State<SalesCarousel> {
                 id: '',
                 imageUrl: '',
                 title: '',
+                createdAt: '',
+                updatedAt: '',
+                deletedAt: '',
+                description: '',
+                isActive: false,
               ));
     }
     return widget.announcements;
@@ -127,7 +132,7 @@ class _SalesCarouselState extends State<SalesCarousel> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: Image.network(
-                        ann.imageUrl!,
+                        ann.imageUrl ?? '',
                         fit: BoxFit.cover,
                         errorBuilder: (ctx, obj, st) => Image.asset(
                             AppImages.assetsImagesTest3,

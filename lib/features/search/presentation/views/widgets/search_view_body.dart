@@ -2,10 +2,6 @@ import 'package:deals/features/search/presentation/views/widgets/deal.dart';
 import 'package:deals/features/search/presentation/views/widgets/deal_card.dart';
 import 'package:flutter/material.dart';
 
-
-
-
-
 class SearchViewBody extends StatelessWidget {
   final List<Deal> deals;
 

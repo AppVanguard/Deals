@@ -13,7 +13,7 @@ class Coupon {
   String? discountType;
   int? discountValue;
   List<dynamic>? termsAndConditions;
-  DateTime? startDate;
+  String? startDate;
   String? expiryDate;
   int? usageCount;
   int? successRate;
@@ -78,9 +78,10 @@ class Coupon {
         termsAndConditions: json['terms_and_conditions'] as List<dynamic>?,
         startDate: json['start_date'] == null
             ? null
-            : DateTime.parse(json['start_date'] as String),
-        expiryDate:
-            json['expiry_date'] == null ? null : json['expiry_date'] as String,
+            : json['start_date'] as String,
+        expiryDate: json['expiry_date'] == null
+            ? null
+            : json['expiry_date'] as String,
         usageCount: json['usage_count'] as int?,
         successRate: json['success_rate'] as int?,
         popularityScore: json['popularity_score'] as int?,
@@ -111,7 +112,7 @@ class Coupon {
         'discount_type': discountType,
         'discount_value': discountValue,
         'terms_and_conditions': termsAndConditions,
-        'start_date': startDate?.toIso8601String(),
+        'start_date': startDate,
         'expiry_date': expiryDate,
         'usage_count': usageCount,
         'success_rate': successRate,

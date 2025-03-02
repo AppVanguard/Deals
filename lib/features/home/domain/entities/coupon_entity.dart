@@ -2,7 +2,7 @@ class CouponEntity {
   final String id;
   final String code;
   final String title;
-  final DateTime? startDate;
+  final String? startDate;
   final String? expiryDate;
   final bool isActive;
   final bool? validForExisting;
