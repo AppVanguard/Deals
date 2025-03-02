@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/core/service/get_it_service.dart';
-import 'package:in_pocket/features/auth/domain/repos/user_repo.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/user_update_cubit/user_update_cubit.dart';
-import 'package:in_pocket/features/auth/presentation/views/widgets/personal_data_bloc_consumer.dart';
+import 'package:deals/core/service/get_it_service.dart';
+import 'package:deals/features/auth/domain/repos/user_repo.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/user_update_cubit/user_update_cubit.dart';
+import 'package:deals/features/auth/presentation/views/widgets/personal_data_bloc_consumer.dart';
 
 class PersonalDataView extends StatelessWidget {
   const PersonalDataView({

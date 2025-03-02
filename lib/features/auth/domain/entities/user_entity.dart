@@ -1,21 +1,34 @@
-/// A pure data model (Entity) representing the user in the domain layer.
+import 'dart:convert';
+
 class UserEntity {
-  /// The user's unique Firebase Auth UID.
   final String uId;
-
-  /// The user's email address.
   final String email;
-
-  /// The user's display name.
   final String name;
-
-  /// The user's phone number.
   final String phone;
+  final String token;
 
   UserEntity({
+    required this.token,
     required this.uId,
     required this.email,
     required this.name,
     required this.phone,
   });
+
+  // Method to convert UserEntity to JSON string (for SharedPreferences).
+  String toJson() {
+    return '{"uId": "$uId", "email": "$email", "name": "$name", "phone": "$phone", "token": "$token"}';
+  }
+
+  // Method to create a UserEntity from a JSON string (to load from SharedPreferences).
+  factory UserEntity.fromJson(String jsonString) {
+    final Map<String, dynamic> json = jsonDecode(jsonString);
+    return UserEntity(
+      token: json['token'],
+      uId: json['uId'],
+      email: json['email'],
+      name: json['name'],
+      phone: json['phone'],
+    );
+  }
 }

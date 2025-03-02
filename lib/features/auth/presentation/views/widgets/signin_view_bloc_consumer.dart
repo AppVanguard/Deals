@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/constants.dart';
-import 'package:in_pocket/core/helper_functions/custom_top_snack_bar.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
-import 'package:in_pocket/core/widgets/custom_progress_hud.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/signin_cubit/signin_cubit.dart';
-import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/widgets/signin_view_body.dart';
-import 'package:in_pocket/features/home/presentation/views/home_view.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/widgets/custom_progress_hud.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/signin_cubit/signin_cubit.dart';
+import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart';
+import 'package:deals/features/auth/presentation/views/signin_view.dart';
+import 'package:deals/features/auth/presentation/views/widgets/signin_view_body.dart';
+import 'package:deals/features/home/presentation/views/home_view.dart';
 
 class SigninViewBlocConsumer extends StatelessWidget {
   const SigninViewBlocConsumer({
@@ -29,11 +29,13 @@ class SigninViewBlocConsumer extends StatelessWidget {
                 kEmail: state.userEntity.email,
                 kImage: AppImages.assetsImagesOTB,
                 kNextRoute: SigninView.routeName,
-                kId: ''
+                kId: '',
+                kIsRegister: true
               });
         }
         if (state is SigninSuccess) {
-          Navigator.pushReplacementNamed(context, HomeView.routeName);
+          Navigator.pushReplacementNamed(context, HomeView.routeName,
+              arguments: state.userEntity);
         }
       },
       builder: (context, state) {

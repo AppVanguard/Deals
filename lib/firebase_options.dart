@@ -42,17 +42,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBR8wNL9Cak9dC7R2Iaj4gKCfMj4g_QcLc',
-    appId: '1:198164528317:web:97efcf9346daca9d648bd4',
+    appId: '1:198164528317:web:d976b8b2a3dacbd5648bd4',
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     authDomain: 'inpocket-bb64c.firebaseapp.com',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
-    measurementId: 'G-X6BDM4DDQ6',
+    measurementId: 'G-CSLJKQ383Y',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCm_EJmnu_0EEoo4vSVufVt--q1ApZX0PE',
-    appId: '1:198164528317:android:a27421ee4ecb1e1e648bd4',
+    appId: '1:198164528317:android:fc7d4eb7db20e288648bd4',
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
@@ -60,30 +60,37 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAIR5KSAkbNfMb832_JXgN9k9azvwmL6MI',
-    appId: '1:198164528317:ios:488524f80a5ea0ba648bd4',
+    appId: '1:198164528317:ios:7668bf296ac5b697648bd4',
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
-    iosBundleId: 'com.example.inPocket',
+    androidClientId:
+        '198164528317-i8j967p7ldiq965v5foo5q5u4vb3jpfk.apps.googleusercontent.com',
+    iosClientId:
+        '198164528317-cbtbd135246cdks6bcg2js5no8qc998d.apps.googleusercontent.com',
+    iosBundleId: 'com.example.deals',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAIR5KSAkbNfMb832_JXgN9k9azvwmL6MI',
-    appId: '1:198164528317:ios:488524f80a5ea0ba648bd4',
+    appId: '1:198164528317:ios:7668bf296ac5b697648bd4',
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
-    iosBundleId: 'com.example.inPocket',
+    androidClientId:
+        '198164528317-i8j967p7ldiq965v5foo5q5u4vb3jpfk.apps.googleusercontent.com',
+    iosClientId:
+        '198164528317-cbtbd135246cdks6bcg2js5no8qc998d.apps.googleusercontent.com',
+    iosBundleId: 'com.example.deals',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
     apiKey: 'AIzaSyBR8wNL9Cak9dC7R2Iaj4gKCfMj4g_QcLc',
-    appId: '1:198164528317:web:1fefdc49ed0762db648bd4',
+    appId: '1:198164528317:web:071cfd5bbcf6868c648bd4',
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     authDomain: 'inpocket-bb64c.firebaseapp.com',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
-    measurementId: 'G-B1TNFH1PGX',
+    measurementId: 'G-F3YCQFMXPM',
   );
-
 }

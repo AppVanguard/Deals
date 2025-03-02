@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-import 'package:in_pocket/core/utils/backend_endpoints.dart';
-import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
-import 'package:in_pocket/features/auth/data/models/user_model.dart';
+import 'package:deals/core/utils/backend_endpoints.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/features/auth/data/models/user_model.dart';
 
 class UserService {
   /// Retrieves all users from the /users endpoint.

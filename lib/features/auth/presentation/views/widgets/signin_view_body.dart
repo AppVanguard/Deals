@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/constants.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/core/widgets/custom_button.dart';
-import 'package:in_pocket/core/widgets/custom_password_filed.dart';
-import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
-import 'package:in_pocket/core/widgets/have_or_not_account.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/signin_cubit/signin_cubit.dart';
-import 'package:in_pocket/features/auth/presentation/views/forget_password_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/signup_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/widgets/auth_divider.dart';
-import 'package:in_pocket/features/auth/presentation/views/widgets/remember_password.dart';
-import 'package:in_pocket/features/auth/presentation/views/widgets/third_party_auth.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/custom_button.dart';
+import 'package:deals/core/widgets/custom_password_filed.dart';
+import 'package:deals/core/widgets/custom_text_form_field.dart';
+import 'package:deals/core/widgets/have_or_not_account.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/signin_cubit/signin_cubit.dart';
+import 'package:deals/features/auth/presentation/views/forget_password_view.dart';
+import 'package:deals/features/auth/presentation/views/signup_view.dart';
+import 'package:deals/features/auth/presentation/views/widgets/auth_divider.dart';
+import 'package:deals/features/auth/presentation/views/widgets/remember_password.dart';
+import 'package:deals/features/auth/presentation/views/widgets/third_party_auth.dart';
+import 'package:deals/generated/l10n.dart';
 
 class SigninViewBody extends StatefulWidget {
   const SigninViewBody({super.key});

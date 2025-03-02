@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
-import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/core/widgets/custom_button.dart';
-import 'package:in_pocket/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/custom_button.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer_cubit/otp_resend_timer_cubit.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer_cubit/otp_resend_timer_state.dart';
+import 'package:deals/generated/l10n.dart';
 
 class OTPVerificationViewBody extends StatefulWidget {
   const OTPVerificationViewBody({
@@ -19,37 +21,27 @@ class OTPVerificationViewBody extends StatefulWidget {
     this.image,
     required this.routeName,
     this.errorMessage,
+    required this.isRegister,
   });
 
-  final String email, id;
+  final String email;
+  final String id;
   final String? image;
   final String routeName;
-  final String? errorMessage; // Error from cubit if OTP is invalid
-
+  final String? errorMessage;
+  final bool isRegister;
   @override
   State<OTPVerificationViewBody> createState() =>
       _OTPVerificationViewBodyState();
 }
 
 class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
-  final List<FocusNode> _focusNodes = List.generate(4, (index) => FocusNode());
+  final List<FocusNode> _focusNodes = List.generate(4, (_) => FocusNode());
   final List<TextEditingController> _controllers =
-      List.generate(4, (index) => TextEditingController());
-  final List<bool> _hasValue = List.generate(4, (index) => false);
-  final List<bool> _isError = List.generate(4, (index) => false);
-
-  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+      List.generate(4, (_) => TextEditingController());
+  final List<bool> _hasValue = List.generate(4, (_) => false);
+  final List<bool> _isError = List.generate(4, (_) => false);
   bool _showFieldError = false;
-
-  @override
-  void initState() {
-    super.initState();
-    // Start the 60-second timer as soon as the screen appears.
-    // If you prefer to start the timer only after the first OTP request,
-    // move this logic accordingly.
-    context.read<OtpVerifyCubit>().resendOtp(widget.email);
-  }
 
   @override
   void dispose() {
@@ -67,13 +59,10 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
       _hasValue[index] = value.isNotEmpty;
       _isError[index] = false;
     });
-
-    if (value.isNotEmpty) {
-      if (index < 3) {
-        FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
-      } else {
-        _focusNodes[index].unfocus();
-      }
+    if (value.isNotEmpty && index < 3) {
+      FocusScope.of(context).requestFocus(_focusNodes[index + 1]);
+    } else if (index == 3) {
+      _focusNodes[index].unfocus();
     }
   }
 
@@ -85,7 +74,7 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
         setState(() {
           _hasValue[index - 1] = false;
           _controllers[index - 1].clear();
-          _isError[index - 1] = false; // Reset validation on backspace
+          _isError[index - 1] = false;
         });
         FocusScope.of(context).requestFocus(_focusNodes[index - 1]);
       }
@@ -97,23 +86,31 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     setState(() {
       for (int i = 0; i < 4; i++) {
         if (_controllers[i].text.isEmpty) {
-          _isError[i] = true; // Mark the field as an error
+          _isError[i] = true;
           hasEmptyFields = true;
         }
       }
       _showFieldError = hasEmptyFields;
     });
-
     if (!hasEmptyFields) {
-      String otpCode = _controllers.map((e) => e.text).join();
-      log("Entered OTP: $otpCode");
-      context
-          .read<OtpVerifyCubit>()
-          .verifyOtp(email: widget.email, otp: otpCode);
+      final otpCode = _controllers.map((e) => e.text).join();
+      log('Entered OTP: $otpCode');
+      // Here, for reset password flow, call verifyOtpForReset.
+      widget.isRegister
+          ? context
+              .read<OtpVerifyCubit>()
+              .verifyOtpForRegister(email: widget.email, otp: otpCode)
+          : context
+              .read<OtpVerifyCubit>()
+              .verifyOtpForReset(email: widget.email, otp: otpCode);
     }
   }
 
-  /// Returns a border with red color if the cubit error is present.
+  void _resendOtp() {
+    context.read<OtpVerifyCubit>().resendOtp(widget.email);
+    context.read<OtpResendTimerCubit>().startTimer();
+  }
+
   OutlineInputBorder buildBorder(int index) {
     Color borderColor;
     if (widget.errorMessage != null) {
@@ -124,15 +121,11 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
           : (_hasValue[index] ? AppColors.primary : Colors.grey.shade400);
     }
     return OutlineInputBorder(
-      borderSide: BorderSide(
-        color: borderColor,
-        width: 2,
-      ),
+      borderSide: BorderSide(color: borderColor, width: 2),
       borderRadius: BorderRadius.circular(12),
     );
   }
 
-  /// Returns a focused border with red color if the cubit error is present.
   OutlineInputBorder buildFocusedBorder(int index) {
     final borderColor =
         widget.errorMessage != null ? Colors.red : AppColors.primary;
@@ -147,50 +140,41 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    /// Listen for timer updates.
-    final otpState = context.watch<OtpVerifyCubit>().state;
+    final timerState = context.watch<OtpResendTimerCubit>().state;
     bool timerIsRunning = false;
     int secondsLeft = 0;
-
-    if (otpState is OtpTimerRunning) {
+    if (timerState is TimerRunning) {
       timerIsRunning = true;
-      secondsLeft = otpState.timeLeft;
-    } else if (otpState is OtpTimerFinished) {
-      timerIsRunning = false;
+      secondsLeft = timerState.timeLeft;
     }
-
     return SingleChildScrollView(
-      child: Form(
-        key: formKey,
-        autovalidateMode: autovalidateMode,
-        child: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 16),
-              // Optional image
-              if (widget.image != null)
-                SvgPicture.asset(widget.image!)
-              else
-                const SizedBox(),
-              // Header text
-              if (widget.image != null)
-                Text(
-                  S.of(context).OTPVerification,
-                  style: AppTextStyles.bold32,
-                )
-              else
-                Text(
-                  S.of(context).EnterCode,
-                  style: AppTextStyles.bold32,
-                ),
+      child: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 16),
+            if (widget.image != null)
+              SvgPicture.asset(widget.image!)
+            else
+              const SizedBox(),
+            if (widget.image != null)
               Text(
-                "${S.of(context).OTPSent} \n ${widget.email}",
-                style: AppTextStyles.regular14
-                    .copyWith(color: AppColors.secondaryText),
-                textAlign: TextAlign.center,
+                S.of(context).OTPVerification,
+                style: AppTextStyles.bold32,
+              )
+            else
+              Text(
+                S.of(context).EnterCode,
+                style: AppTextStyles.bold32,
               ),
-              // OTP Fields
-              Row(
+            Text(
+              "${S.of(context).OTPSent} \n ${widget.email}",
+              style: AppTextStyles.regular14
+                  .copyWith(color: AppColors.secondaryText),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            Form(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(4, (index) {
                   return Container(
@@ -203,13 +187,13 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                         return KeyEventResult.ignored;
                       },
                       child: TextFormField(
-                        cursorHeight: 30,
                         controller: _controllers[index],
                         focusNode: _focusNodes[index],
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
                         textAlignVertical: TextAlignVertical.top,
                         maxLength: 1,
+                        cursorHeight: 30,
                         style: AppTextStyles.semiBold32,
                         decoration: InputDecoration(
                           counterText: "",
@@ -223,82 +207,74 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                   );
                 }),
               ),
-              // Local validation error (e.g. if any field is empty)
-              if (_showFieldError)
-                Text(
-                  S.of(context).OTPValidator,
-                  style: AppTextStyles.regular14.copyWith(color: Colors.red),
+            ),
+            if (_showFieldError)
+              Text(
+                S.of(context).OTPValidator,
+                style: AppTextStyles.regular14.copyWith(color: Colors.red),
+              ),
+            if (widget.errorMessage != null)
+              Container(
+                width: 122,
+                height: 36,
+                margin: const EdgeInsets.only(top: 8),
+                decoration: ShapeDecoration(
+                  color: const Color(0xFFFFEBEB),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-              // Server-side error from cubit
-              if (widget.errorMessage != null)
-                Container(
-                  width: 122,
-                  height: 36,
-                  margin: const EdgeInsets.only(top: 8),
-                  decoration: ShapeDecoration(
-                    color: const Color(0xFFFFEBEB),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(AppImages.assetsImagesWarning),
+                    const SizedBox(width: 8),
+                    Text(
+                      widget.errorMessage!,
+                      style: AppTextStyles.regular13
+                          .copyWith(color: AppColors.accent),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(AppImages.assetsImagesWarning),
-                      const SizedBox(width: 8),
-                      Text(
-                        widget.errorMessage!,
-                        style: AppTextStyles.regular13
-                            .copyWith(color: AppColors.accent),
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
-              // Verify Button
-              CustomButton(
+              ),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: CustomButton(
                 width: double.infinity,
                 onPressed: _validateFields,
                 text: S.of(context).Verify,
               ),
-              // Resend Section
-              const SizedBox(height: 12),
-              Text.rich(
-                TextSpan(
-                  children: [
+            ),
+            const SizedBox(height: 12),
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: S.of(context).NoCode,
+                    style: AppTextStyles.regular14
+                        .copyWith(color: AppColors.secondaryText),
+                  ),
+                  const TextSpan(text: ' '),
+                  if (timerIsRunning)
                     TextSpan(
-                      text: S.of(context).NoCode,
+                      text: '${S.of(context).Resend} ${secondsLeft}s',
                       style: AppTextStyles.regular14
-                          .copyWith(color: AppColors.secondaryText),
+                          .copyWith(color: AppColors.primary),
+                    )
+                  else
+                    TextSpan(
+                      recognizer: TapGestureRecognizer()..onTap = _resendOtp,
+                      text: S.of(context).Resend,
+                      style: AppTextStyles.bold14
+                          .copyWith(color: AppColors.primary),
                     ),
-                    const TextSpan(text: ' '),
-                    if (timerIsRunning) ...[
-                      // Show the countdown, e.g. "Resend in 45s"
-                      TextSpan(
-                        text: '${S.of(context).Resend} $secondsLeft s',
-                        style: AppTextStyles.regular14
-                            .copyWith(color: AppColors.primary),
-                      ),
-                    ] else ...[
-                      // Timer finished, user can tap to resend
-                      TextSpan(
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            context
-                                .read<OtpVerifyCubit>()
-                                .resendOtp(widget.email);
-                          },
-                        text: S.of(context).Resend,
-                        style: AppTextStyles.bold14
-                            .copyWith(color: AppColors.primary),
-                      ),
-                    ],
-                  ],
-                ),
-                textAlign: TextAlign.center,
+                ],
               ),
-              const SizedBox(height: 20),
-            ],
-          ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+          ],
         ),
       ),
     );

@@ -1039,6 +1039,356 @@ class S {
       args: [],
     );
   }
+
+  /// `Earnings`
+  String get earnings {
+    return Intl.message(
+      'Earnings',
+      name: 'earnings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Personal data`
+  String get personalData {
+    return Intl.message(
+      'Personal data',
+      name: 'personalData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terms & Conditions`
+  String get termsAndConditions {
+    return Intl.message(
+      'Terms & Conditions',
+      name: 'termsAndConditions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy policy`
+  String get privacyPolicy {
+    return Intl.message(
+      'Privacy policy',
+      name: 'privacyPolicy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings`
+  String get settings {
+    return Intl.message(
+      'Settings',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Help`
+  String get help {
+    return Intl.message(
+      'Help',
+      name: 'help',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact us`
+  String get contactUs {
+    return Intl.message(
+      'Contact us',
+      name: 'contactUs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Log out`
+  String get logOut {
+    return Intl.message(
+      'Log out',
+      name: 'logOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `DEALS version`
+  String get appVersion {
+    return Intl.message(
+      'DEALS version',
+      name: 'appVersion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Home`
+  String get Home {
+    return Intl.message(
+      'Home',
+      name: 'Home',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Categories`
+  String get Categories {
+    return Intl.message(
+      'Categories',
+      name: 'Categories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile`
+  String get Profile {
+    return Intl.message(
+      'Profile',
+      name: 'Profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deals`
+  String get Deals {
+    return Intl.message(
+      'Deals',
+      name: 'Deals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Deals`
+  String get MyDeals {
+    return Intl.message(
+      'My Deals',
+      name: 'MyDeals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Coupons`
+  String get MyCoupons {
+    return Intl.message(
+      'My Coupons',
+      name: 'MyCoupons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category`
+  String get Category {
+    return Intl.message(
+      'Category',
+      name: 'Category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bookmarks`
+  String get Bookmarks {
+    return Intl.message(
+      'Bookmarks',
+      name: 'Bookmarks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupons`
+  String get Copouns {
+    return Intl.message(
+      'Coupons',
+      name: 'Copouns',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success signing in`
+  String get SuccessSigningIn {
+    return Intl.message(
+      'Success signing in',
+      name: 'SuccessSigningIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success signing up`
+  String get SuccessSigningUp {
+    return Intl.message(
+      'Success signing up',
+      name: 'SuccessSigningUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success signing out`
+  String get SuccessSigningOut {
+    return Intl.message(
+      'Success signing out',
+      name: 'SuccessSigningOut',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save money with us`
+  String get Save_money_with_us {
+    return Intl.message(
+      'Save money with us',
+      name: 'Save_money_with_us',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top cashbacks`
+  String get Top_cashbacks {
+    return Intl.message(
+      'Top cashbacks',
+      name: 'Top_cashbacks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top coupons`
+  String get Top_coupons {
+    return Intl.message(
+      'Top coupons',
+      name: 'Top_coupons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top deals`
+  String get Top_deals {
+    return Intl.message(
+      'Top deals',
+      name: 'Top_deals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See All`
+  String get See_All {
+    return Intl.message(
+      'See All',
+      name: 'See_All',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top stores`
+  String get Top_stores {
+    return Intl.message(
+      'Top stores',
+      name: 'Top_stores',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Top categories`
+  String get Top_categories {
+    return Intl.message(
+      'Top categories',
+      name: 'Top_categories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupon Active`
+  String get Coupon_Active {
+    return Intl.message(
+      'Coupon Active',
+      name: 'Coupon_Active',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupon Expired`
+  String get Coupon_Expired {
+    return Intl.message(
+      'Coupon Expired',
+      name: 'Coupon_Expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `valid until`
+  String get valid_until {
+    return Intl.message(
+      'valid until',
+      name: 'valid_until',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Existing customers discount`
+  String get existing_customers_discount {
+    return Intl.message(
+      'Existing customers discount',
+      name: 'existing_customers_discount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New customers discount`
+  String get new_customers_discount {
+    return Intl.message(
+      'New customers discount',
+      name: 'new_customers_discount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Specific items discount`
+  String get specific_items_discount {
+    return Intl.message(
+      'Specific items discount',
+      name: 'specific_items_discount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Email not verified`
+  String get Emain_not_verified {
+    return Intl.message(
+      'Email not verified',
+      name: 'Emain_not_verified',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:in_pocket/constants.dart';
-import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
-import 'package:in_pocket/core/utils/app_colors.dart';
-import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/core/widgets/custom_button.dart';
-import 'package:in_pocket/core/widgets/have_or_not_account.dart';
-import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
-import 'package:in_pocket/features/on_boarding/presentation/views/widgets/on_boarding_page_view.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/core/service/shared_prefrences_singleton.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/custom_button.dart';
+import 'package:deals/core/widgets/have_or_not_account.dart';
+import 'package:deals/features/auth/presentation/views/signin_view.dart';
+import 'package:deals/features/on_boarding/presentation/views/widgets/on_boarding_page_view.dart';
+import 'package:deals/generated/l10n.dart';
 
 class OnBoardingViewBody extends StatefulWidget {
   const OnBoardingViewBody({super.key});

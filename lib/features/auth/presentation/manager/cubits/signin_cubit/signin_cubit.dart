@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:in_pocket/constants.dart';
-import 'package:in_pocket/core/service/shared_prefrences_singleton.dart';
-import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
-import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/core/service/secure_storage_service.dart';
+import 'package:deals/core/service/shared_prefrences_singleton.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:meta/meta.dart';
 
 part 'signin_state.dart';
@@ -24,10 +28,9 @@ class SigninCubit extends Cubit<SigninState> {
     );
     result.fold(
       (failure) {
-        // Check if the failure message indicates that the email is not verified.
-        if (failure.message.contains("Email not verified")) {
-          // Optionally, you might construct a minimal UserEntity if you only have the email.
+        if (failure.message.contains(S.current.Emain_not_verified)) {
           final userEntity = UserEntity(
+            token: '',
             uId: '',
             email: email,
             name: '',
@@ -39,9 +42,15 @@ class SigninCubit extends Cubit<SigninState> {
           emit(SigninFailure(message: failure.message));
         }
       },
-      (user) {
+      (user) async {
+        if (rememberMe) {
+          log('Remember me is true');
+          // Save user data securely
+          await SecureStorageService.saveUserEntity(user.toJson());
+        }
         Prefs.setBool(kRememberMe, rememberMe);
-        emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
+        emit(SigninSuccess(
+            userEntity: user, message: S.current.SuccessSigningIn));
       },
     );
   }
@@ -51,9 +60,13 @@ class SigninCubit extends Cubit<SigninState> {
     final result = await authRepo.signInWithGoogle();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
-      (user) {
+      (user) async {
+        if (rememberMe) {
+          await SecureStorageService.saveUserEntity(user.toJson());
+        }
         Prefs.setBool(kRememberMe, rememberMe);
-        emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
+        emit(SigninSuccess(
+            userEntity: user, message: S.current.SuccessSigningIn));
       },
     );
   }
@@ -63,9 +76,13 @@ class SigninCubit extends Cubit<SigninState> {
     final result = await authRepo.signInWithFacebook();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
-      (user) {
+      (user) async {
+        if (rememberMe) {
+          await SecureStorageService.saveUserEntity(user.toJson());
+        }
         Prefs.setBool(kRememberMe, rememberMe);
-        emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
+        emit(SigninSuccess(
+            userEntity: user, message: S.current.SuccessSigningIn));
       },
     );
   }
@@ -75,9 +92,13 @@ class SigninCubit extends Cubit<SigninState> {
     final result = await authRepo.signInWithApple();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
-      (user) {
+      (user) async {
+        if (rememberMe) {
+          await SecureStorageService.saveUserEntity(user.toJson());
+        }
         Prefs.setBool(kRememberMe, rememberMe);
-        emit(SigninSuccess(userEntity: user, message: 'تم تسجيل الدخول بنجاح'));
+        emit(SigninSuccess(
+            userEntity: user, message: S.current.SuccessSigningIn));
       },
     );
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:in_pocket/core/widgets/custom_button.dart';
+import 'package:deals/core/widgets/custom_button.dart';
 
 class CustomModalSheet extends StatelessWidget {
   final String message;

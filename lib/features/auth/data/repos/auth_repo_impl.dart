@@ -1,14 +1,14 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:in_pocket/core/errors/exception.dart';
-import 'package:in_pocket/core/errors/faliure.dart';
-import 'package:in_pocket/core/service/auth_api_service.dart';
-import 'package:in_pocket/core/service/firebase_auth_service.dart';
-import 'package:in_pocket/core/utils/backend_endpoints.dart';
-import 'package:in_pocket/features/auth/domain/entities/user_entity.dart';
-import 'package:in_pocket/features/auth/domain/repos/auth_repo.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/errors/exception.dart';
+import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/service/auth_api_service.dart';
+import 'package:deals/core/service/firebase_auth_service.dart';
+import 'package:deals/core/utils/backend_endpoints.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/generated/l10n.dart';
 
 class AuthRepoImpl extends AuthRepo {
   final FirebaseAuthService firebaseAuthService;
@@ -34,6 +34,7 @@ class AuthRepoImpl extends AuthRepo {
         password: password,
       );
       final userEntity = UserEntity(
+        token: '',
         uId: userResponse[BackendEndpoints.keyUserId],
         email: userResponse[BackendEndpoints.keyEmail] ?? email,
         name: name,
@@ -55,17 +56,21 @@ class AuthRepoImpl extends AuthRepo {
   }) async {
     try {
       log('Attempting login for: $email');
-      // Call the backend login service.
-      // If email is not verified, the API triggers OTP resend and throws a CustomExeption.
-      final loginResponse = await authApiService.loginUser(
+      final user = await firebaseAuthService.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      final token = await user.getIdToken();
+      log('Token: $token');
+      final userResponse = await authApiService.sendOAuthToken(token: token!);
       final userEntity = UserEntity(
-        uId: loginResponse[BackendEndpoints.kId] as String? ?? '',
-        email: loginResponse[BackendEndpoints.keyEmail] as String? ?? email,
-        name: loginResponse[BackendEndpoints.keyFullName] as String? ?? '',
-        phone: loginResponse[BackendEndpoints.keyPhone] as String? ?? '',
+        token: token,
+        uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
+        email: userResponse[BackendEndpoints.keyEmail] ?? email,
+        name: userResponse[BackendEndpoints.keyFullName] ??
+            user.displayName ??
+            '',
+        phone: userResponse[BackendEndpoints.keyPhone] ?? '',
       );
       return right(userEntity);
     } on CustomExeption catch (e) {
@@ -81,15 +86,24 @@ class AuthRepoImpl extends AuthRepo {
     User? user;
     try {
       user = await firebaseAuthService.signInWithGoogle();
-      final userEntity = UserEntity(
-        uId: user.uid,
-        email: user.email ?? '',
-        name: user.displayName ?? '',
-        phone: '',
-      );
+      // final userEntity = UserEntity(
+      //   uId: user.uid,
+      //   email: user.email ?? '',
+      //   name: user.displayName ?? '',
+      //   phone: '',
+      // );
       final token = await user.getIdToken();
-      log("$token");
-      await authApiService.sendOAuthToken(token: token!);
+      log('Token: $token');
+      final userResponse = await authApiService.sendOAuthToken(token: token!);
+      final userEntity = UserEntity(
+        token: token,
+        uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
+        email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
+        name: userResponse[BackendEndpoints.keyFullName] ??
+            user.displayName ??
+            '',
+        phone: userResponse[BackendEndpoints.keyPhone] ?? '',
+      );
       return right(userEntity);
     } on CustomExeption catch (e) {
       await deleteUser(user);
@@ -106,14 +120,17 @@ class AuthRepoImpl extends AuthRepo {
     User? user;
     try {
       user = await firebaseAuthService.signInWithFacebook();
-      final userEntity = UserEntity(
-        uId: user.uid,
-        email: user.email ?? '',
-        name: user.displayName ?? '',
-        phone: '',
-      );
       final token = await user.getIdToken();
-      await authApiService.sendOAuthToken(token: token!);
+      final userResponse = await authApiService.sendOAuthToken(token: token!);
+      final userEntity = UserEntity(
+        token: token,
+        uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
+        email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
+        name: userResponse[BackendEndpoints.keyFullName] ??
+            user.displayName ??
+            '',
+        phone: userResponse[BackendEndpoints.keyPhone] ?? '',
+      );
       return right(userEntity);
     } on CustomExeption catch (e) {
       await deleteUser(user);
@@ -130,14 +147,17 @@ class AuthRepoImpl extends AuthRepo {
     User? user;
     try {
       user = await firebaseAuthService.signInWithApple();
-      final userEntity = UserEntity(
-        uId: user.uid,
-        email: user.email ?? '',
-        name: user.displayName ?? '',
-        phone: '',
-      );
       final token = await user.getIdToken();
-      await authApiService.sendOAuthToken(token: token!);
+      final userResponse = await authApiService.sendOAuthToken(token: token!);
+      final userEntity = UserEntity(
+        token: token,
+        uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
+        email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
+        name: userResponse[BackendEndpoints.keyFullName] ??
+            user.displayName ??
+            '',
+        phone: userResponse[BackendEndpoints.keyPhone] ?? '',
+      );
       return right(userEntity);
     } on CustomExeption catch (e) {
       await deleteUser(user);
@@ -157,6 +177,7 @@ class AuthRepoImpl extends AuthRepo {
     try {
       final response = await authApiService.sendOtp(email: email, otp: otp);
       final userEntity = UserEntity(
+        token: '',
         uId: response.uId,
         email: response.email,
         name: response.name,
@@ -172,7 +193,6 @@ class AuthRepoImpl extends AuthRepo {
   @override
   Future<Either<Failure, Unit>> resendOtp({required String email}) async {
     try {
-      // The API returns a message on success; we log it and return unit.
       final message = await authApiService.resendOtp(email: email);
       log('Resend OTP success: $message');
       return right(unit);
@@ -184,10 +204,77 @@ class AuthRepoImpl extends AuthRepo {
     }
   }
 
-  /// Helper method to delete a partially created Firebase user if an error occurs.
+  @override
+  Future<Either<Failure, String>> forgotPassword(
+      {required String email}) async {
+    try {
+      final message = await authApiService.forgotPassword(email: email);
+      log('Forgot password message: $message');
+      return right(message);
+    } on CustomExeption catch (e) {
+      return left(ServerFaliure(message: e.message));
+    } catch (e) {
+      log('Error in forgotPassword: ${e.toString()}');
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> resetPassword({
+    required String email,
+    required String otp,
+    required String newPassword,
+  }) async {
+    try {
+      final message = await authApiService.resetPassword(
+        email: email,
+        otp: otp,
+        newPassword: newPassword,
+      );
+      log('Reset password message: $message');
+      return right(message);
+    } on CustomExeption catch (e) {
+      return left(ServerFaliure(message: e.message));
+    } catch (e) {
+      log('Error in resetPassword: ${e.toString()}');
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> logout({required String firebaseUid}) async {
+    try {
+      await authApiService.logout(firebaseUid: firebaseUid);
+      log('Logout completed successfully.');
+      return right(unit);
+    } on CustomExeption catch (e) {
+      return left(ServerFaliure(message: e.message));
+    } catch (e) {
+      log('Error in logout: ${e.toString()}');
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+    }
+  }
+
   Future<void> deleteUser(User? user) async {
     if (user != null) {
       await firebaseAuthService.deleteUser();
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> verifyOtp({
+    required String email,
+    required String otp,
+  }) async {
+    try {
+      log("in repo verifyOtp $otp, $email");
+      final message = await authApiService.verifyOtp(email: email, otp: otp);
+      return right(message);
+    } on CustomExeption catch (e) {
+      return left(ServerFaliure(message: e.message));
+    } catch (e) {
+      log('Error in verifyOtp: ${e.toString()}');
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 }

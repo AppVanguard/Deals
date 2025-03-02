@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:in_pocket/core/utils/app_images.dart';
-import 'package:in_pocket/core/utils/app_text_styles.dart';
-import 'package:in_pocket/core/widgets/custom_button.dart';
-import 'package:in_pocket/core/widgets/custom_text_form_field.dart';
-import 'package:in_pocket/features/auth/presentation/views/otp_verfication_view.dart';
-import 'package:in_pocket/features/auth/presentation/views/signin_view.dart';
-import 'package:in_pocket/generated/l10n.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/custom_button.dart';
+import 'package:deals/core/widgets/custom_text_form_field.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
+import 'package:deals/generated/l10n.dart';
 
 class ForgetPasswordViewBody extends StatefulWidget {
-  const ForgetPasswordViewBody({super.key});
+  final ValueChanged<String> onEmailSaved;
+  const ForgetPasswordViewBody({super.key, required this.onEmailSaved});
 
   @override
   State<ForgetPasswordViewBody> createState() => _ForgetPasswordViewBodyState();
@@ -17,9 +18,9 @@ class ForgetPasswordViewBody extends StatefulWidget {
 
 class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
   late String email;
-
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  late GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -27,11 +28,8 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
         key: formKey,
         autovalidateMode: autovalidateMode,
         child: Column(
-          spacing: 20,
           children: [
-            SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Center(
               child: SvgPicture.asset(
                 AppImages.assetsImagesForgetPassword,
@@ -44,7 +42,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
             Text(
               S.of(context).EnterYourEmail,
               style: AppTextStyles.regular14.copyWith(
-                color: Color(0xFF717171),
+                color: const Color(0xFF717171),
               ),
             ),
             CustomTextFormField(
@@ -59,6 +57,7 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
               },
               onSaved: (value) {
                 email = value!;
+                widget.onEmailSaved(email);
               },
             ),
             CustomButton(
@@ -66,19 +65,14 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
-                  Navigator.pushNamed(
-                    context,
-                    OtpVerficationView.routeName,
-                    arguments: [
-                      email,
-                      AppImages.assetsImagesOTB,
-                      SigninView.routeName
-                    ],
-                  );
+                  // Trigger the forgot-password API call via the cubit.
+                  context
+                      .read<ResetPasswordCubit>()
+                      .sendForgotPasswordEmail(email);
                 }
               },
               text: S.of(context).SendCode,
-            )
+            ),
           ],
         ),
       ),

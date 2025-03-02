@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-      <string name="app_name">in_pocket</string>
+      <string name="app_name">deals</string>
       <string name="facebook_app_id">1998045420715912</string>
       <string name="fb_login_protocol_scheme">fb394921808532217</string>
       <string name="facebook_client_token">3166fd49fa5b132e0fc271b16037672d</string>
