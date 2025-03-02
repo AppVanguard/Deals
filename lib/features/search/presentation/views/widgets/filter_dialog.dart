@@ -1,9 +1,9 @@
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'filter_option.dart';
-import 'filter_dialog_header.dart';
-import 'filter_dialog_actions.dart';
-import 'dynamic_radio_group.dart';
+import '../../../../../core/widgets/filter_dialog/filter_dialog_header.dart';
+import '../../../../../core/widgets/filter_dialog/filter_dialog_actions.dart';
+import '../../../../../core/widgets/filter_dialog/dynamic_radio_group.dart';
 
 class FilterDialog extends StatefulWidget {
   const FilterDialog({super.key});

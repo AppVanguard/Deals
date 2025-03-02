@@ -44,7 +44,7 @@ class DynamicRadioGroup<T> extends StatelessWidget {
               onTap: () => onChanged(option),
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }

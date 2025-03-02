@@ -1,6 +1,7 @@
 // lib/features/search/presentation/views/filter_dialog/filter_dialog_header.dart
 
 import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class FilterDialogHeader extends StatelessWidget {
@@ -17,8 +18,8 @@ class FilterDialogHeader extends StatelessWidget {
         ),
       ),
       padding: const EdgeInsets.fromLTRB(16, 18, 16, 18),
-      child: const Center(
-        child: Text('Filters', style: AppTextStyles.bold16),
+      child: Center(
+        child: Text(S.of(context).Filters, style: AppTextStyles.bold16),
       ),
     );
   }

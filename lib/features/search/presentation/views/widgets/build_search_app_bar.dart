@@ -1,5 +1,5 @@
 import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/features/search/presentation/views/widgets/filter_dialog/filter_dialog.dart';
+import 'package:deals/features/search/presentation/views/widgets/filter_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

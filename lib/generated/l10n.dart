@@ -1389,6 +1389,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Filters`
+  String get Filters {
+    return Intl.message(
+      'Filters',
+      name: 'Filters',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

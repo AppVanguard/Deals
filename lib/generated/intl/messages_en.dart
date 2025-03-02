@@ -68,6 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Female": MessageLookupByLibrary.simpleMessage("Female"),
         "FieldRequired":
             MessageLookupByLibrary.simpleMessage("This field is required"),
+        "Filters": MessageLookupByLibrary.simpleMessage("Filters"),
         "ForgotPassword":
             MessageLookupByLibrary.simpleMessage("Forget the password?"),
         "ForgotPasswordTittle":
