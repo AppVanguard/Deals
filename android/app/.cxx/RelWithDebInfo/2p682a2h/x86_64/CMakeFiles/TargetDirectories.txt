@@ -1,0 +1,2 @@
+D:/FlutterProjects/in_pocket/android/app/.cxx/RelWithDebInfo/2p682a2h/x86_64/CMakeFiles/edit_cache.dir
+D:/FlutterProjects/in_pocket/android/app/.cxx/RelWithDebInfo/2p682a2h/x86_64/CMakeFiles/rebuild_cache.dir
