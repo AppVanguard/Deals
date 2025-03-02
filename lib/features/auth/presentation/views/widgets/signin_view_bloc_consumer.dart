@@ -1,3 +1,4 @@
+import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/constants.dart';
@@ -34,7 +35,7 @@ class SigninViewBlocConsumer extends StatelessWidget {
               });
         }
         if (state is SigninSuccess) {
-          Navigator.pushReplacementNamed(context, HomeView.routeName,
+          Navigator.pushReplacementNamed(context, MainView.routeName,
               arguments: state.userEntity);
         }
       },

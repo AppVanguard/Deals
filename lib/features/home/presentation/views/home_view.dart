@@ -6,11 +6,10 @@ import 'package:deals/features/home/domain/repos/home_repo.dart';
 import 'package:deals/features/home/presentation/manager/cubits/home_cubit/home_cubit.dart';
 import 'package:deals/features/home/presentation/views/widgets/build_home_app_bar.dart';
 import 'package:deals/features/home/presentation/views/widgets/custom_app_drawer_bloc_provider.dart';
-import 'package:deals/features/home/presentation/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:deals/features/home/presentation/views/widgets/home_view_body.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({Key? key, required this.userData}) : super(key: key);
+  const HomeView({super.key, required this.userData});
 
   static const String routeName = 'home';
 
@@ -19,7 +18,6 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const CustomBottomNavigationBar(),
       appBar: buildHomeAppBar(context),
       drawer: CustomAppDrawerBlocProvider(userData: userData),
       body: BlocProvider(

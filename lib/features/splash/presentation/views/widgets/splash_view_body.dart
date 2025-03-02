@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/core/service/firebase_auth_service.dart';
@@ -58,7 +59,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
           final userEntity = UserEntity.fromJson(userJson);
           Navigator.pushReplacementNamed(
             context,
-            HomeView.routeName,
+            MainView.routeName,
             arguments: userEntity,
           );
           return;
@@ -71,7 +72,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
       // Fallback to Firebase Auth check for social logins
       bool isLoggedIn = FirebaseAuthService().isSignedIn();
       if (isLoggedIn) {
-        Navigator.pushReplacementNamed(context, HomeView.routeName);
+        Navigator.pushReplacementNamed(context, MainView.routeName);
       } else {
         Navigator.pushReplacementNamed(context, SigninView.routeName);
       }

@@ -8,6 +8,11 @@ import 'package:deals/features/search/presentation/views/search_view.dart';
 
 AppBar buildHomeAppBar(BuildContext context) {
   return AppBar(
+    bottom: const PreferredSize(
+      preferredSize: Size(0, 1),
+      child: Divider(),
+    ),
+    elevation: 0,
     backgroundColor: Colors.transparent,
     leading: Builder(
       builder: (context) {

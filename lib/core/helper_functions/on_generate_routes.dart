@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:deals/features/categories/presentation/views/categories_view.dart';
+import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/features/auth/domain/entities/user_entity.dart';
@@ -42,6 +44,19 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         settings: settings,
         builder: (context) => HomeView(userData: args),
+      );
+    case MainView.routeName:
+      log("args are Entity: ${settings.arguments}");
+      final args = settings.arguments as UserEntity?;
+      log("User ID: ${args!.uId}");
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) => MainView(userData: args),
+      );
+    case CategoriesView.routeName:
+      return MaterialPageRoute(
+        settings: settings,
+        builder: (context) => const CategoriesView(),
       );
     case ForgetPasswordView.routeName:
       return MaterialPageRoute(
