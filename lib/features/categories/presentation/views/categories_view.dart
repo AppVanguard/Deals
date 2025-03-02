@@ -1,5 +1,7 @@
+import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/features/categories/presentation/views/widgets/build_category_app_bar.dart';
 import 'package:deals/features/categories/presentation/views/widgets/categories_view_body.dart';
+import 'package:deals/features/categories/presentation/views/widgets/category_deal.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesView extends StatefulWidget {
@@ -17,7 +19,35 @@ class _CategoriesViewState extends State<CategoriesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildCategoryAppBar(context, searchController),
-      body: CategoriesViewBody(),
+      body: CategoriesViewBody(
+        deals: [
+          CategoryDeal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest3,
+          ),
+          CategoryDeal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest3,
+          ),
+          CategoryDeal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest3,
+          ),
+          CategoryDeal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest3,
+          ),
+          CategoryDeal(
+            title: 'Deal',
+            subtitle: 'Subtitle',
+            imagePath: AppImages.assetsImagesTest3,
+          ),
+        ],
+      ),
     );
   }
 }

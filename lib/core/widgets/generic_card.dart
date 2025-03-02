@@ -1,14 +1,17 @@
-import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/features/search/presentation/views/widgets/deal.dart';
 import 'package:flutter/material.dart';
+import 'package:deals/core/utils/app_colors.dart';
 
-class DealCard extends StatelessWidget {
-  final Deal deal;
+class GenericCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String imagePath;
   final VoidCallback? onTap;
 
-  const DealCard({
+  const GenericCard({
     super.key,
-    required this.deal,
+    required this.title,
+    required this.subtitle,
+    required this.imagePath,
     this.onTap,
   });
 
@@ -35,17 +38,15 @@ class DealCard extends StatelessWidget {
         onTap: onTap,
         child: Row(
           children: [
-            // Deal image.
+            // Leading image.
             Container(
               width: 80,
               height: 80,
-              decoration: ShapeDecoration(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
                 image: DecorationImage(
-                  image: AssetImage(deal.imagePath),
+                  image: AssetImage(imagePath),
                   fit: BoxFit.cover,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
@@ -56,7 +57,7 @@ class DealCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    deal.title,
+                    title,
                     style: const TextStyle(
                       color: Color(0xFF121212),
                       fontSize: 14,
@@ -67,7 +68,7 @@ class DealCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    deal.subtitle,
+                    subtitle,
                     style: const TextStyle(
                       color: Color(0xFFE50300),
                       fontSize: 12,
@@ -79,12 +80,11 @@ class DealCard extends StatelessWidget {
                 ],
               ),
             ),
-            // Arrow icon.
+            // Trailing icon.
             Container(
               height: 24,
               padding: const EdgeInsets.symmetric(vertical: 5),
-              child:
-                  const Icon(Icons.arrow_forward_ios, color: AppColors.accent),
+              child: const Icon(Icons.arrow_forward_ios, color: AppColors.accent),
             ),
           ],
         ),
