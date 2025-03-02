@@ -30,6 +30,7 @@ class SigninCubit extends Cubit<SigninState> {
       (failure) {
         if (failure.message.contains(S.current.Emain_not_verified)) {
           final userEntity = UserEntity(
+            token: '',
             uId: '',
             email: email,
             name: '',

@@ -7,6 +7,7 @@ class UserModel extends UserEntity {
     required super.name,
     required super.uId,
     required super.phone,
+    required super.token,
   });
 
   // Construct a UserModel from a Firebase User object.
@@ -15,7 +16,8 @@ class UserModel extends UserEntity {
       email: user.email ?? '',
       uId: user.uid,
       name: user.displayName ?? '',
-      phone: '', // Default to empty if phone is not available.
+      phone: '',
+      token: '', // Default to empty if phone is not available.
     );
   }
 
@@ -26,6 +28,7 @@ class UserModel extends UserEntity {
       name: json['name'] ?? '',
       uId: json['uId'] ?? '',
       phone: json['phone'] ?? '',
+      token: json['token'] ?? '',
     );
   }
 
@@ -36,6 +39,7 @@ class UserModel extends UserEntity {
       'email': email,
       'name': name,
       'phone': phone,
+      'token': token,
     };
   }
 }

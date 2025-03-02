@@ -60,6 +60,7 @@ class AuthApiService {
       final Map<String, dynamic> responseData = jsonDecode(response.body);
       log("sendOtp response: $responseData");
       return UserEntity(
+        token: '',
         uId: responseData[BackendEndpoints.kId],
         email: responseData[BackendEndpoints.keyEmail],
         name: responseData[BackendEndpoints.keyFullName],
@@ -105,8 +106,8 @@ class AuthApiService {
     }
   }
 
-  /// Sends an OAuth token to the backend.
-  Future<void> sendOAuthToken({required String token}) async {
+  /// Sends an OAuth token to the backend and returns the response as a map.
+  Future<Map<String, dynamic>> sendOAuthToken({required String token}) async {
     final url = Uri.parse(BackendEndpoints.oauth);
     try {
       final response = await http.post(
@@ -114,7 +115,10 @@ class AuthApiService {
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({BackendEndpoints.kToken: token}),
       );
-      if (response.statusCode != 200) {
+      if (response.statusCode == 200) {
+        log('OAuth token sent successfully: ${response.body}');
+        return jsonDecode(response.body) as Map<String, dynamic>;
+      } else {
         log('Error in sendOAuthToken: ${response.statusCode} ${response.body}');
         throw CustomExeption(
             'Error sending OAuth token: ${response.statusCode} ${response.body}');

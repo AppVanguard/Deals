@@ -36,6 +36,7 @@ class BackendEndpoints {
   static const String kGender = "gender";
   // JSON keys for response payloads.
   static const String keyUserId = "userId";
+  static const String kFirbaseUid = "firebase_uid";
 
   // Common Headers.
   static const Map<String, String> jsonHeaders = {
