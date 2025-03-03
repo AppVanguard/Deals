@@ -4,7 +4,7 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:deals/features/home/domain/entities/announcement_entity.dart';
+import 'package:deals/core/entities/announcement_entity.dart';
 
 class SalesCarousel extends StatefulWidget {
   final List<AnnouncementEntity> announcements;

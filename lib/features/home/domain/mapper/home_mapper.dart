@@ -5,10 +5,10 @@ import 'package:deals/features/home/data/models/announcement.dart';
 import 'package:deals/features/home/data/models/home_model.dart';
 import 'package:deals/features/home/data/models/store.dart';
 import 'package:deals/features/home/data/models/coupon.dart';
-import 'package:deals/features/home/domain/entities/announcement_entity.dart';
+import 'package:deals/core/entities/announcement_entity.dart';
 import 'package:deals/features/home/domain/entities/home_entity.dart';
-import 'package:deals/features/home/domain/entities/store_entity.dart';
-import 'package:deals/features/home/domain/entities/coupon_entity.dart';
+import 'package:deals/core/entities/store_entity.dart';
+import 'package:deals/core/entities/coupon_entity.dart';
 
 class HomeMapper {
   static HomeEntity mapToEntity(HomeModel model) {
@@ -64,6 +64,7 @@ class HomeMapper {
       startDate: couponModel.startDate,
       expiryDate: couponModel.expiryDate,
       isActive: couponModel.isActive ?? false,
+      discountValue: couponModel.discountValue ?? 0,
     );
   }
 }

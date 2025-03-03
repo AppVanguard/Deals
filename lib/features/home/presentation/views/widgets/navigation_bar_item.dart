@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:deals/features/home/domain/entities/bottom_navigation_bar_entity.dart';
+import 'package:deals/core/entities/bottom_navigation_bar_entity.dart';
 import 'package:deals/features/home/presentation/views/widgets/active_item.dart';
 import 'package:deals/features/home/presentation/views/widgets/in_active_item.dart';
 

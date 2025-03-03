@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:deals/features/home/domain/entities/coupon_entity.dart';
-import 'package:deals/features/home/presentation/views/widgets/coupon_ticket.dart';
+import 'package:deals/core/entities/coupon_entity.dart';
+import 'package:deals/core/widgets/coupon_ticket/coupon_ticket.dart';
 
 /// The main widget that displays coupons in two horizontal rows:
 /// - If no data and not loading => "No coupons found"
@@ -11,10 +11,10 @@ class TopCoupons extends StatefulWidget {
   final bool isLoading;
 
   const TopCoupons({
-    Key? key,
+    super.key,
     required this.coupons,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   State<TopCoupons> createState() => _TopCouponsState();

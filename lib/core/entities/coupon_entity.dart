@@ -7,10 +7,12 @@ class CouponEntity {
   final bool isActive;
   final bool? validForExisting;
   final bool? validForNew;
+  final int? discountValue;
 
   // etc. Add discountValue, usageCount, successRate, etc. if needed
 
   const CouponEntity({
+    this.discountValue,
     this.validForNew,
     this.validForExisting,
     required this.id,
