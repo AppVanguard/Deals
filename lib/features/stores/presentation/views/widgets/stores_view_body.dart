@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:deals/features/categories/presentation/views/widgets/category_deal.dart';
+import 'package:deals/features/stores/presentation/views/widgets/stores_deal.dart';
 import 'package:deals/core/widgets/generic_card.dart';
 
-class CategoriesViewBody extends StatelessWidget {
-  const CategoriesViewBody({super.key, required this.deals});
+class StoresViewBody extends StatelessWidget {
+  const StoresViewBody({super.key, required this.deals});
 
-  final List<CategoryDeal> deals;
+  final List<StoresDeal> deals;
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:deals/features/categories/presentation/views/categories_view.dart';
+import 'package:deals/features/stores/presentation/views/stores_view.dart';
 import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/constants.dart';
@@ -53,10 +53,10 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
         settings: settings,
         builder: (context) => MainView(userData: args),
       );
-    case CategoriesView.routeName:
+    case StoresView.routeName:
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => const CategoriesView(),
+        builder: (context) => const StoresView(),
       );
     case ForgetPasswordView.routeName:
       return MaterialPageRoute(

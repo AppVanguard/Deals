@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:deals/features/auth/domain/entities/user_entity.dart';
-import 'package:deals/features/home/presentation/views/widgets/custom_bottom_navigation_bar.dart';
+import 'package:deals/features/main/presentation/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:deals/features/home/presentation/views/home_view.dart';
-import 'package:deals/features/categories/presentation/views/categories_view.dart';
+import 'package:deals/features/stores/presentation/views/stores_view.dart';
 
 class MainView extends StatefulWidget {
   final UserEntity userData;
@@ -31,7 +31,7 @@ class _MainViewState extends State<MainView> {
       ),
       KeyedSubtree(
         key: const ValueKey('Categories'),
-        child: const CategoriesView(),
+        child: const StoresView(),
       ),
       KeyedSubtree(
         key: const ValueKey('Coupons'),
