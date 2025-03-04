@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class StoresView extends StatefulWidget {
   const StoresView({super.key});
-  static const routeName = 'categories';
+  static const routeName = 'stores';
 
   @override
   State<StoresView> createState() => _StoresViewState();

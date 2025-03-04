@@ -1150,6 +1150,16 @@ class S {
     );
   }
 
+  /// `Stores`
+  String get Stores {
+    return Intl.message(
+      'Stores',
+      name: 'Stores',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Profile`
   String get Profile {
     return Intl.message(
