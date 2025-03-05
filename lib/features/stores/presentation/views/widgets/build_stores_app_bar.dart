@@ -1,19 +1,19 @@
+// build_category_app_bar.dart
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/features/search/presentation/views/widgets/filter_dialog.dart';
 import 'package:deals/generated/l10n.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 AppBar buildStoresAppBar(
-    BuildContext context, TextEditingController searchController) {
+  BuildContext context,
+  TextEditingController searchController, {
+  required Function(String) onSearchChanged,
+}) {
   return AppBar(
     elevation: 0,
     backgroundColor: Colors.transparent,
-    // leading: IconButton(
-    //   icon: const Icon(Icons.arrow_back),
-    //   onPressed: () => Navigator.pop(context),
-    // ),
     title: Row(
       children: [
         Expanded(
@@ -24,15 +24,11 @@ AppBar buildStoresAppBar(
               width: 24,
               height: 24,
             ),
-            elevation: const WidgetStatePropertyAll(0),
+            elevation: WidgetStateProperty.all(0),
             controller: searchController,
             hintText: S.of(context).Search,
-            onChanged: (query) {
-              // TODO: Add search logic later.
-            },
-            onSubmitted: (query) {
-              // TODO: Add search logic later.
-            },
+            onChanged: onSearchChanged,
+            onSubmitted: onSearchChanged,
           ),
         ),
         const SizedBox(width: 12),

@@ -46,12 +46,12 @@ class Data {
         category: json['category'] == null
             ? null
             : Category.fromJson(json['category'] as Map<String, dynamic>),
-        averageSavings: json['average_savings'] as double?,
+        averageSavings: (json['average_savings'] as num?)?.toDouble(),
         totalCoupons: json['total_coupons'] as int?,
         activeCoupons: json['active_coupons'] as int?,
         isFeatured: json['is_featured'] as bool?,
         isActive: json['is_active'] as bool?,
-        popularityScore: json['popularity_score'] as double?,
+        popularityScore: (json['popularity_score'] as num?)?.toDouble(),
         deletedAt: json['deleted_at'] as dynamic,
         createdAt: json['createdAt'] == null
             ? null
