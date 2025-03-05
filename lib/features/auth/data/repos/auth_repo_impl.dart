@@ -86,24 +86,26 @@ class AuthRepoImpl extends AuthRepo {
     User? user;
     try {
       user = await firebaseAuthService.signInWithGoogle();
-      // final userEntity = UserEntity(
-      //   uId: user.uid,
-      //   email: user.email ?? '',
-      //   name: user.displayName ?? '',
-      //   phone: '',
-      // );
+
       final token = await user.getIdToken();
-      log('Token: $token');
-      final userResponse = await authApiService.sendOAuthToken(token: token!);
       final userEntity = UserEntity(
-        token: token,
-        uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
-        email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
-        name: userResponse[BackendEndpoints.keyFullName] ??
-            user.displayName ??
-            '',
-        phone: userResponse[BackendEndpoints.keyPhone] ?? '',
+        token: token!,
+        uId: user.uid,
+        email: user.email ?? '',
+        name: user.displayName ?? '',
+        phone: '',
       );
+      log('Token: $token');
+      // final userResponse = await authApiService.sendOAuthToken(token: token!);
+      // final userEntity = UserEntity(
+      //   token: token,
+      //   uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
+      //   email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
+      //   name: userResponse[BackendEndpoints.keyFullName] ??
+      //       user.displayName ??
+      //       '',
+      //   phone: userResponse[BackendEndpoints.keyPhone] ?? '',
+      // );
       return right(userEntity);
     } on CustomExeption catch (e) {
       await deleteUser(user);
