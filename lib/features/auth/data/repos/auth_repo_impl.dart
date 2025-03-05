@@ -86,15 +86,14 @@ class AuthRepoImpl extends AuthRepo {
     User? user;
     try {
       user = await firebaseAuthService.signInWithGoogle();
-
-      final token = await user.getIdToken();
       final userEntity = UserEntity(
-        token: token!,
+        token: '',
         uId: user.uid,
         email: user.email ?? '',
         name: user.displayName ?? '',
         phone: '',
       );
+      final token = await user.getIdToken();
       log('Token: $token');
       // final userResponse = await authApiService.sendOAuthToken(token: token!);
       // final userEntity = UserEntity(
@@ -108,10 +107,10 @@ class AuthRepoImpl extends AuthRepo {
       // );
       return right(userEntity);
     } on CustomExeption catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       log('Error in signInWithGoogle: ${e.toString()}');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
@@ -135,10 +134,10 @@ class AuthRepoImpl extends AuthRepo {
       );
       return right(userEntity);
     } on CustomExeption catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       log('Error in signInWithFacebook: ${e.toString()}');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
@@ -162,10 +161,10 @@ class AuthRepoImpl extends AuthRepo {
       );
       return right(userEntity);
     } on CustomExeption catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       log('Error in signInWithApple: ${e.toString()}');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
