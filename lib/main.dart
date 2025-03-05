@@ -16,11 +16,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // 1) Initialize SharedPreferences
   await Prefs.init();
+  // 2) Setup GetIt
   setupGetit();
+  // 3) Run the app
   runApp(
     BlocProvider(
-      create: (context) => LocaleCubit(), // Provide LocaleCubit globally
+      create: (context) => LocaleCubit(), // Provide your LocaleCubit globally
       child: const Deals(),
     ),
   );
@@ -46,7 +49,7 @@ class Deals extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: S.delegate.supportedLocales,
-          locale: locale, // Use locale from the cubit
+          locale: locale,
           initialRoute: SplashView.routeName,
           onGenerateRoute: onGenerateRoute,
           home: const SplashView(),

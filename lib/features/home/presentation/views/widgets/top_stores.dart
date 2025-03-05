@@ -9,10 +9,10 @@ class TopStores extends StatefulWidget {
   final bool isLoading;
 
   const TopStores({
-    Key? key,
+    super.key,
     required this.stores,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   State<TopStores> createState() => _TopStoresState();

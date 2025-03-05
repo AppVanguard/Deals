@@ -1,19 +1,40 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/errors/faliure.dart';
-import 'package:deals/core/service/home_api_service.dart';
-import 'package:deals/features/home/domain/mapper/home_mapper.dart';
 import 'package:deals/features/home/data/models/home_model.dart';
+import 'package:deals/features/home/domain/mapper/home_mapper.dart';
 import 'package:deals/features/home/domain/entities/home_entity.dart';
 import 'package:deals/features/home/domain/repos/home_repo.dart';
+import 'package:deals/core/service/home_api_service.dart';
+import 'package:deals/features/home/data/datasources/home_local_data_source.dart';
 
 class HomeRepoImpl implements HomeRepo {
   final HomeService homeService;
+  final HomeLocalDataSource localDataSource;
 
-  HomeRepoImpl({required this.homeService});
+  HomeRepoImpl({
+    required this.homeService,
+    required this.localDataSource,
+  });
 
-  @override
-  Future<Either<Failure, HomeEntity>> getHomeData({
+  /// Fetch only from the local cache. Return Failure if no cache is present.
+  Future<Either<Failure, HomeEntity>> getCachedData() async {
+    try {
+      final cachedModel = localDataSource.getCachedHomeData();
+      if (cachedModel != null) {
+        final cachedEntity = HomeMapper.mapToEntity(cachedModel);
+        return Right(cachedEntity);
+      } else {
+        return Left(ServerFaliure(message: 'No cached home data found'));
+      }
+    } catch (e) {
+      log('Error reading cache: $e');
+      return Left(ServerFaliure(message: e.toString()));
+    }
+  }
+
+  /// Fetch from remote, cache if success. Return the newly fetched data or Failure if fails.
+  Future<Either<Failure, HomeEntity>> getFreshData({
     required int announcementsPage,
     required int announcementsCount,
     required int storesPage,
@@ -22,8 +43,7 @@ class HomeRepoImpl implements HomeRepo {
     required int couponsCount,
   }) async {
     try {
-      // 1) Get the Data-layer model
-      final HomeModel homeModel = await homeService.getHomeData(
+      final HomeModel remoteModel = await homeService.getHomeData(
         announcementsPage: announcementsPage,
         announcementsCount: announcementsCount,
         storesPage: storesPage,
@@ -31,15 +51,15 @@ class HomeRepoImpl implements HomeRepo {
         couponsPage: couponsPage,
         couponsCount: couponsCount,
       );
-
-      // 2) Map Data -> Domain using the dedicated mapper
-      final HomeEntity homeEntity = HomeMapper.mapToEntity(homeModel);
-
-      // 3) Return success
+      // Cache it
+      await localDataSource.cacheHomeData(remoteModel);
+      // Map to domain
+      final homeEntity = HomeMapper.mapToEntity(remoteModel);
       return Right(homeEntity);
     } catch (e) {
-      log('Error in HomeRepoImpl.getHomeData: $e');
+      log('Error fetching remote: $e');
       return Left(ServerFaliure(message: e.toString()));
     }
   }
+  
 }

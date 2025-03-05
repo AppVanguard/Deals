@@ -11,10 +11,10 @@ class SalesCarousel extends StatefulWidget {
   final bool isLoading;
 
   const SalesCarousel({
-    Key? key,
+    super.key,
     required this.announcements,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   State<SalesCarousel> createState() => _SalesCarouselState();
