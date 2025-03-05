@@ -1,4 +1,3 @@
-// stores_service.dart
 import 'dart:convert';
 import 'dart:developer';
 import 'package:deals/features/stores/data/models/stores_model/stores_model.dart';
@@ -6,19 +5,25 @@ import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
 
 class StoresService {
-  /// Retrieve stores data with optional search and pagination parameters.
-  /// Example endpoint: /stores?search=Amazon&page=2&limit=3
-  Future<StoresModel> getAllStores(
-      {String? search, int? page, int? limit}) async {
+  /// Retrieve stores data with optional search, sort, and pagination parameters.
+  /// Example endpoint: /stores?search=Amazon&sortField=tittle&page=2&limit=3&sortOrder=asc
+  Future<StoresModel> getAllStores({
+    String? search,
+    String? sortField,
+    int? page,
+    int? limit,
+    String? sortOrder,
+  }) async {
     final queryParameters = <String, String>{
       if (search != null) BackendEndpoints.kSearch: search,
+      if (sortField != null) BackendEndpoints.kSortField: sortField,
       if (page != null) BackendEndpoints.kPage: page.toString(),
       if (limit != null) BackendEndpoints.kLimit: limit.toString(),
+      if (sortOrder != null) BackendEndpoints.kSortOrder: sortOrder,
     };
 
     final url = Uri.parse(BackendEndpoints.stores)
         .replace(queryParameters: queryParameters);
-
     try {
       final response =
           await http.get(url, headers: BackendEndpoints.jsonHeaders);

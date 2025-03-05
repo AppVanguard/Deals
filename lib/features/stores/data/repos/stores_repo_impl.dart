@@ -5,7 +5,6 @@ import 'package:deals/core/errors/faliure.dart';
 import 'package:deals/core/service/stores_api_service.dart';
 import 'package:deals/features/stores/data/models/stores_model/stores_model.dart';
 import 'package:deals/features/stores/domain/mapper/stores_mapper.dart';
-
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 
 class StoresRepoImpl implements StoresRepo {
@@ -14,12 +13,22 @@ class StoresRepoImpl implements StoresRepo {
   StoresRepoImpl({required this.storesService});
 
   @override
-  Future<Either<Failure, List<StoreEntity>>> getAllStores(
-      {String? search, int? page, int? limit}) async {
+  Future<Either<Failure, List<StoreEntity>>> getAllStores({
+    String? search,
+    String? sortField,
+    int? page,
+    int? limit,
+    String? sortOrder,
+  }) async {
     try {
-      // 1) Fetch the data model with optional pagination and search parameters.
+      // 1) Fetch the data model with the provided parameters.
       final StoresModel storesModel = await storesService.getAllStores(
-          search: search, page: page, limit: limit);
+        search: search,
+        sortField: sortField,
+        page: page,
+        limit: limit,
+        sortOrder: sortOrder,
+      );
 
       // 2) Map the data model to a list of domain entities.
       final List<StoreEntity> storeEntities =

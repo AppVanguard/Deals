@@ -38,6 +38,8 @@ class BackendEndpoints {
   static const String kSearch = "search";
   static const String kPage = "page";
   static const String kLimit = "limit";
+  static const String kSortField = 'sortField';
+  static const String kSortOrder = 'sortOrder';
   // JSON keys for response payloads.
   static const String keyUserId = "userId";
   static const String kFirbaseUid = "firebase_uid";
