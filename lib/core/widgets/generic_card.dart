@@ -84,7 +84,8 @@ class GenericCard extends StatelessWidget {
             Container(
               height: 24,
               padding: const EdgeInsets.symmetric(vertical: 5),
-              child: const Icon(Icons.arrow_forward_ios, color: AppColors.accent),
+              child:
+                  const Icon(Icons.arrow_forward_ios, color: AppColors.accent),
             ),
           ],
         ),
