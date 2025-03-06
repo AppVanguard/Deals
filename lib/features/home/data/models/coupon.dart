@@ -76,12 +76,10 @@ class Coupon {
         discountType: json['discount_type'] as String?,
         discountValue: json['discount_value'] as int?,
         termsAndConditions: json['terms_and_conditions'] as List<dynamic>?,
-        startDate: json['start_date'] == null
-            ? null
-            : json['start_date'] as String,
-        expiryDate: json['expiry_date'] == null
-            ? null
-            : json['expiry_date'] as String,
+        startDate:
+            json['start_date'] == null ? null : json['start_date'] as String,
+        expiryDate:
+            json['expiry_date'] == null ? null : json['expiry_date'] as String,
         usageCount: json['usage_count'] as int?,
         successRate: json['success_rate'] as int?,
         popularityScore: json['popularity_score'] as int?,

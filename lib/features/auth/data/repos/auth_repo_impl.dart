@@ -110,6 +110,7 @@ class AuthRepoImpl extends AuthRepo {
       // await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
+      
       // await deleteUser(user);
       log('Error in signInWithGoogle: ${e.toString()}');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/entities/bottom_navigation_bar_entity.dart';
-import 'package:deals/features/home/presentation/views/widgets/navigation_bar_item.dart';
+import 'package:deals/features/main/presentation/views/widgets/navigation_bar_item.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;

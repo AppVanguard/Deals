@@ -18,7 +18,7 @@ List<BottomNavicationBarEntity> get bottomNavigationBarList => [
       BottomNavicationBarEntity(
           activeImage: AppImages.assetsImagesIconsCategoriesActive,
           inActiveImage: AppImages.assetsImagesIconsCategoriesInActive,
-          name: S.current.Categories),
+          name: S.current.Stores),
       BottomNavicationBarEntity(
           activeImage: AppImages.assetsImagesIconsCouponActive,
           inActiveImage: AppImages.assetsImagesIconsCouponInActive,

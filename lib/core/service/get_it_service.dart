@@ -1,4 +1,7 @@
 // get_it_service.dart
+import 'package:deals/core/service/stores_api_service.dart';
+import 'package:deals/features/stores/data/repos/stores_repo_impl.dart';
+import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:get_it/get_it.dart';
 import 'package:deals/core/service/auth_api_service.dart';
 import 'package:deals/core/service/database_service.dart';
@@ -24,6 +27,7 @@ void setupGetit() {
   getIt.registerSingleton<FirebaseAuthService>(FirebaseAuthService());
   getIt.registerSingleton<DatabaseService>(FirestoreServices());
   getIt.registerSingleton<AuthApiService>(AuthApiService());
+  getIt.registerSingleton<StoresService>(StoresService());
 
   getIt.registerSingleton<AuthRepo>(
     AuthRepoImpl(
@@ -51,6 +55,11 @@ void setupGetit() {
     HomeRepoImpl(
       homeService: getIt<HomeService>(),
       localDataSource: getIt<HomeLocalDataSource>(),
+    ),
+  );
+  getIt.registerSingleton<StoresRepo>(
+    StoresRepoImpl(
+      storesService: getIt<StoresService>(),
     ),
   );
 }

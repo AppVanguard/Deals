@@ -14,6 +14,7 @@ class BackendEndpoints {
   static const String forgotPassword = "$apiPath/auth/forgot-password";
   static const String logout = "$apiPath/auth/logout";
   static const String verifyOtp = "$apiPath/auth/verify-otp";
+  static const String stores = "$apiPath/stores";
 // Home endpoints.
   static const String homeMobile = "$apiPath/home/mobile";
   // Collection names.
@@ -34,6 +35,11 @@ class BackendEndpoints {
   static const String kCity = "city";
   static const String kDateOfBirth = "date_of_birth";
   static const String kGender = "gender";
+  static const String kSearch = "search";
+  static const String kPage = "page";
+  static const String kLimit = "limit";
+  static const String kSortField = 'sortField';
+  static const String kSortOrder = 'sortOrder';
   // JSON keys for response payloads.
   static const String keyUserId = "userId";
   static const String kFirbaseUid = "firebase_uid";
