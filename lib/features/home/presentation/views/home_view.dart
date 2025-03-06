@@ -21,7 +21,6 @@ class HomeView extends StatelessWidget {
       appBar: buildHomeAppBar(context),
       drawer: CustomAppDrawerBlocProvider(userData: userData),
       body: BlocProvider(
-        // The cubit fetches data from the repository
         create: (_) => HomeCubit(
           homeRepo: getIt<HomeRepo>(),
         ),

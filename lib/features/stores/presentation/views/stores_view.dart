@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit.dart';
+import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:deals/features/stores/presentation/views/widgets/build_stores_app_bar.dart';
 import 'package:deals/features/stores/presentation/views/widgets/stores_view_body.dart';
 import 'package:flutter/material.dart';

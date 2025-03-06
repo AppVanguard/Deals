@@ -1,5 +1,5 @@
 import 'package:deals/core/entities/store_entity.dart';
-import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit.dart';
+import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/widgets/generic_card.dart';

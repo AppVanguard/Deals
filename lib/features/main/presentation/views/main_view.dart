@@ -1,6 +1,6 @@
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
-import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit.dart';
+import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/features/auth/domain/entities/user_entity.dart';
 import 'package:deals/features/main/presentation/views/widgets/custom_bottom_navigation_bar.dart';

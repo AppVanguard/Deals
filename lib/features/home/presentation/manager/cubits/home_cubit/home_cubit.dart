@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dartz/dartz.dart';
+import 'package:meta/meta.dart';
+
 import 'package:deals/core/errors/faliure.dart';
 import 'package:deals/features/home/domain/entities/home_entity.dart';
 import 'package:deals/features/home/domain/repos/home_repo.dart';
@@ -9,26 +11,34 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final HomeRepo homeRepo;
 
-  HomeCubit({required this.homeRepo}) : super(HomeState.initial()) {
+  HomeCubit({required this.homeRepo}) : super(HomeInitial()) {
+    // Automatically fetch data on creation
     fetchHomeData();
   }
 
-  Future<void> fetchHomeData() async {
+  /// Fetch fresh data, optionally indicating if it's a full "refresh".
+  Future<void> fetchHomeData({bool isRefresh = false}) async {
+    // If user explicitly refreshes, show loading to display a spinner at the top
+    if (isRefresh) {
+      emit(HomeLoading());
+    }
+
     // 1) Try reading cached data
     final Either<Failure, HomeEntity> cacheResult =
         await homeRepo.getCachedData();
 
     cacheResult.fold(
       (failure) {
-        // If no cache, show "loading" while we fetch remote
-        emit(state.copyWith(status: HomeStatus.loading));
+        // If there's no cache, remain in or switch to loading while fetching remote
+        if (!isRefresh) {
+          emit(HomeLoading());
+        }
       },
       (cachedEntity) {
-        // If we have cached data, show it immediately
-        emit(state.copyWith(
-          status: HomeStatus.success,
-          homeEntity: cachedEntity,
-        ));
+        // If we have cached data and it's not a forced refresh, show it immediately
+        if (!isRefresh) {
+          emit(HomeSuccess(homeEntity: cachedEntity));
+        }
       },
     );
 
@@ -45,22 +55,15 @@ class HomeCubit extends Cubit<HomeState> {
 
     remoteResult.fold(
       (failure) {
-        // If remote fails, remain in the current state (we still have cached data if it existed).
-        // But if there was no cache to begin with, we must show error:
-        if (state.homeEntity == null) {
-          emit(state.copyWith(
-            status: HomeStatus.error,
-            errorMessage: failure.message,
-          ));
+        // If remote fails and we had no data before, show error
+        if (state is HomeInitial || state is HomeLoading) {
+          emit(HomeFailure(errorMessage: failure.message));
         }
-        // Optionally you can show a toast or leave it as is
+        // If we were showing cached data, you can keep the old data or handle partial updates
       },
       (freshEntity) {
         // Overwrite with new data
-        emit(state.copyWith(
-          status: HomeStatus.success,
-          homeEntity: freshEntity,
-        ));
+        emit(HomeSuccess(homeEntity: freshEntity));
       },
     );
   }
