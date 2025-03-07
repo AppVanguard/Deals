@@ -1,6 +1,7 @@
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/features/search/presentation/views/widgets/filter_dialog.dart';
+import 'package:deals/core/widgets/filter_dialog/filter_dialog.dart';
+import 'package:deals/core/widgets/filter_dialog/filter_option.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -41,7 +42,9 @@ AppBar buildSearchAppBar(
           onTap: () {
             showDialog(
               context: context,
-              builder: (_) => const FilterDialog(),
+              builder: (_) => FilterDialog(
+                onApplyFilter: (selectedFilter) {},
+              ),
             );
           },
           child: SvgPicture.asset(

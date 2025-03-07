@@ -1,10 +1,14 @@
-// build_category_app_bar.dart
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:developer';
+
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/features/search/presentation/views/widgets/filter_dialog.dart';
+import 'package:deals/core/widgets/filter_dialog/filter_dialog.dart';
+import 'package:deals/core/widgets/filter_dialog/filter_option.dart';
+import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 AppBar buildStoresAppBar(
   BuildContext context,
@@ -37,7 +41,19 @@ AppBar buildStoresAppBar(
           onTap: () {
             showDialog(
               context: context,
-              builder: (_) => const FilterDialog(),
+              builder: (context) => FilterDialog(
+                onApplyFilter: (selectedFilter) {
+                  log(selectedFilter.label);
+                  // Use the selectedFilter here when fetching stores.
+                  context.read<StoresCubit>().fetchStores(
+                        isRefresh: true,
+                        // Pass the selectedFilter to your fetchStores method.
+                        sortOrder: selectedFilter.label,
+                        // You may also want to pass the order option if needed.
+                        // sortOrder: yourSortOrderValue,
+                      );
+                },
+              ),
             );
           },
           child: SvgPicture.asset(

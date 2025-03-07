@@ -98,8 +98,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter the 4-digit code."),
         "OTPVerification":
             MessageLookupByLibrary.simpleMessage("OTP Verification"),
+        "Offers": MessageLookupByLibrary.simpleMessage("Offers"),
         "OrRegisterWith":
             MessageLookupByLibrary.simpleMessage("or register with"),
+        "Ordered_by": MessageLookupByLibrary.simpleMessage("Ordered by"),
         "Other": MessageLookupByLibrary.simpleMessage("Other"),
         "OtpVerfiedFailed":
             MessageLookupByLibrary.simpleMessage("OTP verification failed"),
@@ -121,6 +123,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "RememberMe": MessageLookupByLibrary.simpleMessage("Remember me?"),
         "Resend": MessageLookupByLibrary.simpleMessage("Resend"),
         "ResendCode": MessageLookupByLibrary.simpleMessage("Resend code"),
+        "Reset": MessageLookupByLibrary.simpleMessage("Reset"),
         "ResetPassword": MessageLookupByLibrary.simpleMessage("Reset password"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
         "Save_money_with_us":
@@ -133,6 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "SelectDate": MessageLookupByLibrary.simpleMessage("Select Date"),
         "SelectGender": MessageLookupByLibrary.simpleMessage("Select Gender"),
         "SendCode": MessageLookupByLibrary.simpleMessage("Send code"),
+        "ShowResults": MessageLookupByLibrary.simpleMessage("Show results"),
         "SignUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "SomethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something went wrong"),

@@ -134,5 +134,9 @@
       "new_customers_discount": "New customers discount",
       "specific_items_discount": "Specific items discount",
       "Emain_not_verified": "Email not verified",
-      "Filters": "Filters"
+      "Filters": "Filters",
+      "Ordered_by": "Ordered by",
+      "Offers": "Offers",
+      "ShowResults": "Show results",
+      "Reset": "Reset"
 }

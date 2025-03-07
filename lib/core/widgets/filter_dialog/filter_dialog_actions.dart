@@ -2,6 +2,7 @@
 
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
 class FilterDialogActions extends StatelessWidget {
@@ -31,7 +32,7 @@ class FilterDialogActions extends StatelessWidget {
                 color: AppColors.background,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text('Reset', style: AppTextStyles.bold14),
+              child: Text(S.of(context).Reset, style: AppTextStyles.bold14),
             ),
           ),
           const SizedBox(width: 10),
@@ -48,8 +49,11 @@ class FilterDialogActions extends StatelessWidget {
                   color: const Color(0xFF00AD37),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Center(
-                  child: Text('Show 255 Results', style: AppTextStyles.bold14),
+                child: Center(
+                  child: Text(
+                    S.of(context).ShowResults,
+                    style: AppTextStyles.bold14,
+                  ),
                 ),
               ),
             ),

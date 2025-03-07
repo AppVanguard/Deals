@@ -1,12 +1,14 @@
 import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/widgets/filter_dialog/dynamic_radio_group.dart';
+import 'package:deals/core/widgets/filter_dialog/filter_dialog_actions.dart';
+import 'package:deals/core/widgets/filter_dialog/filter_dialog_header.dart';
+import 'package:deals/core/widgets/filter_dialog/filter_option.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
-import 'filter_option.dart';
-import '../../../../../core/widgets/filter_dialog/filter_dialog_header.dart';
-import '../../../../../core/widgets/filter_dialog/filter_dialog_actions.dart';
-import '../../../../../core/widgets/filter_dialog/dynamic_radio_group.dart';
 
 class FilterDialog extends StatefulWidget {
-  const FilterDialog({super.key});
+  const FilterDialog({super.key, required this.onApplyFilter});
+  final void Function(OrderOption selectedFilter) onApplyFilter;
 
   @override
   State<FilterDialog> createState() => _FilterDialogState();
@@ -18,9 +20,7 @@ class _FilterDialogState extends State<FilterDialog> {
 
   @override
   Widget build(BuildContext context) {
-    // Use MediaQuery to get screen height and constrain the dialog size.
     final screenHeight = MediaQuery.of(context).size.height;
-    // The dialog will take up to 80% of the screen height if needed.
     final maxHeight = screenHeight * 0.8;
 
     return Dialog(
@@ -41,7 +41,7 @@ class _FilterDialogState extends State<FilterDialog> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: DynamicRadioGroup<FilterOption>(
-                  title: 'Offers',
+                  title: S.of(context).Offers,
                   options: FilterOption.values,
                   selected: _selectedFilter,
                   onChanged: (value) {
@@ -56,7 +56,7 @@ class _FilterDialogState extends State<FilterDialog> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: DynamicRadioGroup<OrderOption>(
-                  title: 'Ordered by',
+                  title: S.of(context).Ordered_by,
                   options: OrderOption.values,
                   selected: _selectedOrder,
                   onChanged: (value) {
@@ -71,7 +71,8 @@ class _FilterDialogState extends State<FilterDialog> {
               FilterDialogActions(
                 onReset: _resetFilters,
                 onShowResults: () {
-                  // TODO: Implement filter logic if needed.
+                  // Pass the selected filter to the callback and close the dialog.
+                  widget.onApplyFilter(_selectedOrder);
                   Navigator.pop(context);
                 },
               ),
