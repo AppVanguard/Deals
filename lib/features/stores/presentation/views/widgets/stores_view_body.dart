@@ -138,9 +138,8 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     StoreEntity? store,
   }) {
     // For skeleton cards, use empty placeholders
-    final image = isLoading
-        ? AppImages.assetsImagesTest2
-        : (store?.imageUrl ?? AppImages.assetsImagesTest2);
+    final image =
+        isLoading ? AppImages.assetsImagesTest2 : (AppImages.assetsImagesTest2);
 
     final title = isLoading ? '' : (store?.title ?? '');
     final subtitle = isLoading
