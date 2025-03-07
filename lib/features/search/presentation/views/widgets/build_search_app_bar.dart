@@ -32,7 +32,7 @@ AppBar buildSearchAppBar(
           child: SearchBar(
             backgroundColor: WidgetStateProperty.all(AppColors.lightGray),
             leading: SvgPicture.asset(
-              AppImages.assetsImagesIconsSearchIcon,
+              AppImages.assetsImagesSearchIcon,
               width: 24,
               height: 24,
             ),
@@ -63,7 +63,7 @@ AppBar buildSearchAppBar(
             );
           },
           child: SvgPicture.asset(
-            AppImages.assetsImagesIconsFilter,
+            AppImages.assetsImagesFilter,
             width: 24,
             height: 24,
           ),

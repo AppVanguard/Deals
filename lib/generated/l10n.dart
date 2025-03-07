@@ -1430,10 +1430,10 @@ class S {
     );
   }
 
-  /// `Show results`
+  /// `Show Results`
   String get ShowResults {
     return Intl.message(
-      'Show results',
+      'Show Results',
       name: 'ShowResults',
       desc: '',
       args: [],

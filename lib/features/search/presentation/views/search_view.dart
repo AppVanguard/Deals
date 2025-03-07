@@ -29,14 +29,6 @@ class _SearchViewState extends State<SearchView> {
     super.dispose();
   }
 
-  void _onSearchChanged(String query) {
-    // Debounce search: wait 400ms after user stops typing
-    if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 400), () {
-      context.read<StoresCubit>().fetchStores(isRefresh: true, search: query);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

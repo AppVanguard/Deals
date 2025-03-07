@@ -47,39 +47,39 @@ class CustomAppDrawer extends StatelessWidget {
                     spacing: 10, // vertical spacing between children
                     children: [
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesIconsEarning,
+                        iconPath: AppImages.assetsImagesEarning,
                         text: s.earnings,
                         onTap: () {},
                       ),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesIconsPersonalData,
+                        iconPath: AppImages.assetsImagesPersonalData,
                         text: s.personalData,
                         onTap: () {},
                       ),
                       _buildDivider(),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesIconsTermsConditions,
+                        iconPath: AppImages.assetsImagesTermsConditions,
                         text: s.termsAndConditions,
                         onTap: () {},
                       ),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesIconsPrivacy,
+                        iconPath: AppImages.assetsImagesPrivacyIcon,
                         text: s.privacyPolicy,
                         onTap: () {},
                       ),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesIconsSettings,
+                        iconPath: AppImages.assetsImagesSettings,
                         text: s.settings,
                         onTap: () {},
                       ),
                       _buildDivider(),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesIconsHelp,
+                        iconPath: AppImages.assetsImagesHelp,
                         text: s.help,
                         onTap: () {},
                       ),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesIconsContact,
+                        iconPath: AppImages.assetsImagesContact,
                         text: s.contactUs,
                         onTap: () {},
                       ),
@@ -101,7 +101,7 @@ class CustomAppDrawer extends StatelessWidget {
                   }
                 },
                 child: _buildDrawerTile(
-                  iconPath: AppImages.assetsImagesIconsLogOut,
+                  iconPath: AppImages.assetsImagesLogOut,
                   text: s.logOut,
                   textStyle:
                       AppTextStyles.bold14.copyWith(color: AppColors.accent),

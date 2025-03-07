@@ -136,7 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "SelectDate": MessageLookupByLibrary.simpleMessage("Select Date"),
         "SelectGender": MessageLookupByLibrary.simpleMessage("Select Gender"),
         "SendCode": MessageLookupByLibrary.simpleMessage("Send code"),
-        "ShowResults": MessageLookupByLibrary.simpleMessage("Show results"),
+        "ShowResults": MessageLookupByLibrary.simpleMessage("Show Results"),
         "SignUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "SomethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something went wrong"),

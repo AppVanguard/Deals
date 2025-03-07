@@ -12,19 +12,19 @@ class BottomNavicationBarEntity {
 
 List<BottomNavicationBarEntity> get bottomNavigationBarList => [
       BottomNavicationBarEntity(
-          activeImage: AppImages.assetsImagesIconsHomeActive,
-          inActiveImage: AppImages.assetsImagesIconsHomeInActive,
+          activeImage: AppImages.assetsImagesHomeActive,
+          inActiveImage: AppImages.assetsImagesHomeInActive,
           name: S.current.Home),
       BottomNavicationBarEntity(
-          activeImage: AppImages.assetsImagesIconsCategoriesActive,
-          inActiveImage: AppImages.assetsImagesIconsCategoriesInActive,
+          activeImage: AppImages.assetsImagesCategoriesActive,
+          inActiveImage: AppImages.assetsImagesCategoriesInActive,
           name: S.current.Stores),
       BottomNavicationBarEntity(
-          activeImage: AppImages.assetsImagesIconsCouponActive,
-          inActiveImage: AppImages.assetsImagesIconsCouponInActive,
+          activeImage: AppImages.assetsImagesCouponActive,
+          inActiveImage: AppImages.assetsImagesCouponInActive,
           name: S.current.Copouns),
       BottomNavicationBarEntity(
-          activeImage: AppImages.assetsImagesIconsBookmarkActive,
-          inActiveImage: AppImages.assetsImagesIconsBookmarkInActive,
+          activeImage: AppImages.assetsImagesBookmarkActive,
+          inActiveImage: AppImages.assetsImagesBookmarkInActive,
           name: S.current.Bookmarks),
     ];

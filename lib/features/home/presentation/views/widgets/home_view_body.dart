@@ -49,15 +49,11 @@ class HomeViewBody extends StatelessWidget {
       );
     } else if (state is HomeSuccess) {
       // If there's no data, show a fallback
-      if (state.homeEntity == null) {
-        return const Center(child: Text('No data found'));
-      } else {
-        // Show the data
-        return HomeContent(
-          homeEntity: state.homeEntity,
-          isLoading: isLoading,
-        );
-      }
+      // Show the data
+      return HomeContent(
+        homeEntity: state.homeEntity,
+        isLoading: isLoading,
+      );
     } else {
       // Fallback if we encounter an unknown state
       return const SizedBox.shrink();
