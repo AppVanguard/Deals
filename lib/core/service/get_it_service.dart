@@ -4,7 +4,6 @@ import 'package:deals/features/stores/data/repos/stores_repo_impl.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:get_it/get_it.dart';
 import 'package:deals/core/service/auth_api_service.dart';
-import 'package:deals/core/service/database_service.dart';
 import 'package:deals/core/service/firebase_auth_service.dart';
 import 'package:deals/core/service/user_service.dart';
 import 'package:deals/features/auth/data/repos/auth_repo_impl.dart';

@@ -18,6 +18,7 @@ class HomeRepoImpl implements HomeRepo {
   });
 
   /// Fetch only from the local cache. Return Failure if no cache is present.
+  @override
   Future<Either<Failure, HomeEntity>> getCachedData() async {
     try {
       final cachedModel = localDataSource.getCachedHomeData();
@@ -34,6 +35,7 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   /// Fetch from remote, cache if success. Return the newly fetched data or Failure if fails.
+  @override
   Future<Either<Failure, HomeEntity>> getFreshData({
     required int announcementsPage,
     required int announcementsCount,
@@ -61,5 +63,4 @@ class HomeRepoImpl implements HomeRepo {
       return Left(ServerFaliure(message: e.toString()));
     }
   }
-  
 }
