@@ -27,7 +27,6 @@ class _CountrySelectorFieldState extends State<CountrySelectorField> {
   void _openCountryPicker() {
     showCountryPicker(
       context: context,
-      showPhoneCode: false,
       onSelect: (Country country) {
         setState(() {
           _selectedCountry = country;
@@ -62,7 +61,6 @@ class _CountrySelectorFieldState extends State<CountrySelectorField> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(

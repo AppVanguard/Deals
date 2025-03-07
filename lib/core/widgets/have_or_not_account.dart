@@ -18,7 +18,7 @@ class HaveOrNotAccount extends StatelessWidget {
               style: AppTextStyles.regular14.copyWith(
                 color: const Color(0xFF949D9E),
               )),
-          TextSpan(
+          const TextSpan(
             text: ' ',
           ),
           TextSpan(

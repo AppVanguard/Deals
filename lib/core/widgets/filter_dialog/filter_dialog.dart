@@ -27,7 +27,6 @@ class _FilterDialogState extends State<FilterDialog> {
       backgroundColor: AppColors.background,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide.none,
       ),
       child: ConstrainedBox(
         constraints: BoxConstraints(maxHeight: maxHeight),

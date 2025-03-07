@@ -69,7 +69,6 @@ class CategoriesCubit extends Cubit<CategoriesState> {
             emit(CategoriesSuccess(
               categories: newCategories,
               pagination: newPagination,
-              isLoadingMore: false,
             ));
           } else {
             // Append new categories to the existing list.

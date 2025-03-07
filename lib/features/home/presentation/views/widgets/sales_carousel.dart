@@ -31,7 +31,7 @@ class _SalesCarouselState extends State<SalesCarousel> {
     if (widget.announcements.isEmpty || widget.isLoading) {
       return List.generate(
           4,
-          (_) => AnnouncementEntity(
+          (_) => const AnnouncementEntity(
                 id: '',
                 imageUrl: '',
                 title: '',

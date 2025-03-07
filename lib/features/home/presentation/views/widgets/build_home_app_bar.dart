@@ -33,7 +33,7 @@ AppBar buildHomeAppBar(BuildContext context) {
           appTittle,
           style: AppTextStyles.bold24.copyWith(color: AppColors.primary),
         ),
-        Spacer(),
+        const Spacer(),
         SvgPicture.asset(AppImages.assetsImagesRefer),
         GestureDetector(
           child: SvgPicture.asset(AppImages.assetsImagesSearch),
@@ -41,7 +41,7 @@ AppBar buildHomeAppBar(BuildContext context) {
             Navigator.pushNamed(context, SearchView.routeName);
           },
         ),
-        Icon(
+        const Icon(
           Icons.notifications_none_outlined,
           size: 32,
           color: AppColors.primary,

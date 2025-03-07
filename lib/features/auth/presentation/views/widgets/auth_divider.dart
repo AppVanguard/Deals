@@ -13,7 +13,7 @@ class AuthDivider extends StatelessWidget {
       child: Row(
         spacing: kSpacing + 2,
         children: [
-          Expanded(
+          const Expanded(
             child: Divider(
               color: Color(0xffdcdede),
             ),
@@ -24,7 +24,7 @@ class AuthDivider extends StatelessWidget {
               color: AppColors.text,
             ),
           ),
-          Expanded(
+          const Expanded(
             child: Divider(
               color: Color(0xffdcdede),
             ),

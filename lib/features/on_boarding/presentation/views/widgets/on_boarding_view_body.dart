@@ -47,7 +47,7 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(height: 34),
+              const SizedBox(height: 34),
 
               Flexible(
                 child: Padding(
@@ -65,12 +65,12 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
               DotsIndicator(
                 dotsCount: 3,
                 position: currentPage,
-                decorator: DotsDecorator(
+                decorator: const DotsDecorator(
                   activeColor: AppColors.primary,
                   color: AppColors.lightPrimary,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: currentPage == 0
@@ -125,12 +125,12 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
                                         },
                                         text: S.of(context).JoinNow,
                                       )
-                                    : SizedBox(),
+                                    : const SizedBox(),
                           ),
                         ],
                       ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               HaveOrNotAccount(
                 question: S.of(context).HaveAccount,
                 action: S.of(context).Login,
@@ -139,7 +139,7 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
                   Navigator.pushReplacementNamed(context, SigninView.routeName);
                 },
               ),
-              SizedBox(height: 20), // Ensure spacing at the bottom
+              const SizedBox(height: 20), // Ensure spacing at the bottom
             ],
           ),
         ),

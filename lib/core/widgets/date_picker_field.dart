@@ -27,9 +27,6 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       firstDate: DateTime(1900),
       lastDate: now,
       dateFormat: "dd-MMM-yyyy",
-      locale: DateTimePickerLocale.en_us,
-      looping: false,
-      reverse: false,
     );
 
     if (pickedDate != null) {

@@ -43,7 +43,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
       final currentState = cubit.state;
       if (currentState is StoresSuccess &&
           currentState.pagination.hasNextPage) {
-        cubit.fetchStores(isRefresh: false);
+        cubit.fetchStores();
       }
     }
   }
@@ -54,7 +54,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
       controller: _scrollController,
       slivers: [
         // 1) The CategoryWidget (or its placeholder).
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(
           child: CategoryTabBar(),
         ),
 

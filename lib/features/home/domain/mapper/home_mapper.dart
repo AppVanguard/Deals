@@ -35,7 +35,6 @@ class HomeMapper {
       title: announcementModel.title ?? '',
       description: announcementModel.description ?? '',
       isActive: announcementModel.isActive ?? false,
-      imageUrl: null,
       createdAt: announcementModel.createdAt ?? '',
       updatedAt: announcementModel.updatedAt ?? '',
       deletedAt: announcementModel.deletedAt,

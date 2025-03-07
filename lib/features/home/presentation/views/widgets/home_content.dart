@@ -97,8 +97,8 @@ class HomeContent extends StatelessWidget {
           coupons: coupons,
           isLoading: isLoading,
         ),
-        SliverToBoxAdapter(
-          child: const SizedBox(height: 24),
+        const SliverToBoxAdapter(
+          child: SizedBox(height: 24),
         ),
       ],
     );

@@ -18,7 +18,7 @@ class ForgetPasswordView extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
         ),
-        body: SafeArea(
+        body: const SafeArea(
           child: ForgetPasswordBlocConsumer(),
         ),
       ),

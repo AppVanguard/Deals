@@ -46,7 +46,6 @@ class CouponTicket extends StatelessWidget {
       child: PhysicalShape(
         clipBehavior: Clip.antiAlias,
         elevation: 5,
-        shadowColor: Colors.black,
         color: Colors.white,
         clipper: const RectTicketClipper(holeRadius: 16),
         child: SizedBox(
@@ -58,12 +57,12 @@ class CouponTicket extends StatelessWidget {
               CouponBrandImage(coupon: coupon),
               SizedBox(
                 height: height * 0.8,
-                child: CustomPaint(
+                child: const CustomPaint(
                   painter: DashedLinePainter(
                     color: AppColors.secondaryText,
-                    dashHeight: 5,
-                    dashSpace: 3,
-                    strokeWidth: 1,
+                    dashHeight: 11,
+                    dashSpace: 8,
+                    strokeWidth: 2,
                   ),
                 ),
               ),

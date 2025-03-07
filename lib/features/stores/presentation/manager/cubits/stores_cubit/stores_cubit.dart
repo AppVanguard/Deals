@@ -79,7 +79,6 @@ class StoresCubit extends Cubit<StoresState> {
               StoresSuccess(
                 stores: newStores,
                 pagination: newPagination,
-                isLoadingMore: false,
               ),
             );
           } else {

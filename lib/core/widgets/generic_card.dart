@@ -31,7 +31,6 @@ class GenericCard extends StatelessWidget {
             color: Color(0x3F000000),
             blurRadius: 5,
             offset: Offset(0, 2),
-            spreadRadius: 0,
           )
         ],
       ),

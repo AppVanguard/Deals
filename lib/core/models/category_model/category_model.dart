@@ -1,4 +1,4 @@
-import 'datum.dart';
+import 'category_data.dart';
 import '../pagination.dart';
 
 class CategoryModel {

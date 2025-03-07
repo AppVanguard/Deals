@@ -71,7 +71,7 @@ class _TopStoresState extends State<TopStores> {
                         padding: const EdgeInsets.only(right: 16.0),
                         child: _StoreCard(
                           store: localIsLoading
-                              ? StoreEntity(
+                              ? const StoreEntity(
                                   id: '',
                                   title: '',
                                   storeUrl: '',
@@ -99,7 +99,7 @@ class _TopStoresState extends State<TopStores> {
                           padding: const EdgeInsets.only(right: 16.0),
                           child: _StoreCard(
                             store: localIsLoading
-                                ? StoreEntity(
+                                ? const StoreEntity(
                                     id: '',
                                     title: '',
                                     storeUrl: '',

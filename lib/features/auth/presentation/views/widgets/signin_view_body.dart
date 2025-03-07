@@ -37,14 +37,14 @@ class _SigninViewBodyState extends State<SigninViewBody> {
         child: Column(
           spacing: 20,
           children: [
-            SizedBox(height: 76),
+            const SizedBox(height: 76),
             Text(
               appTittle,
               style: AppTextStyles.bold46.copyWith(
                 color: AppColors.primary,
               ),
             ),
-            SizedBox(),
+            const SizedBox(),
             CustomTextFormField(
               onSaved: (value) => email = value!,
               validator: (value) {
