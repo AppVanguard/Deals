@@ -72,6 +72,7 @@ class _TopStoresState extends State<TopStores> {
                         child: _StoreCard(
                           store: localIsLoading
                               ? StoreEntity(
+                                  category: null,
                                   id: '',
                                   title: '',
                                   storeUrl: '',
@@ -100,6 +101,7 @@ class _TopStoresState extends State<TopStores> {
                           child: _StoreCard(
                             store: localIsLoading
                                 ? StoreEntity(
+                                    category: null,
                                     id: '',
                                     title: '',
                                     storeUrl: '',

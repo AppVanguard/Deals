@@ -1,4 +1,7 @@
 // get_it_service.dart
+import 'package:deals/core/repos/implementation/categories_repo_impl.dart';
+import 'package:deals/core/repos/interface/categories_repo.dart';
+import 'package:deals/core/service/category_service.dart';
 import 'package:deals/core/service/stores_api_service.dart';
 import 'package:deals/features/stores/data/repos/stores_repo_impl.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
@@ -25,6 +28,7 @@ void setupGetit() {
   getIt.registerSingleton<FirebaseAuthService>(FirebaseAuthService());
   getIt.registerSingleton<AuthApiService>(AuthApiService());
   getIt.registerSingleton<StoresService>(StoresService());
+  getIt.registerSingleton<CategoriesService>(CategoriesService());
 
   getIt.registerSingleton<AuthRepo>(
     AuthRepoImpl(
@@ -57,6 +61,11 @@ void setupGetit() {
   getIt.registerSingleton<StoresRepo>(
     StoresRepoImpl(
       storesService: getIt<StoresService>(),
+    ),
+  );
+  getIt.registerSingleton<CategoriesRepo>(
+    CategoriesRepoImpl(
+      categoriesService: getIt<CategoriesService>(),
     ),
   );
 }

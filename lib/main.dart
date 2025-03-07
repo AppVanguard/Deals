@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:deals/core/helper_functions/on_generate_routes.dart';
-import 'package:deals/core/manager/cubit/local_cubit.dart';
+import 'package:deals/core/manager/cubit/local_cubit/local_cubit.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/utils/app_colors.dart';

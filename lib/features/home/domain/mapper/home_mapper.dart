@@ -44,6 +44,7 @@ class HomeMapper {
 
   static StoreEntity _mapStore(Store storeModel) {
     return StoreEntity(
+      category: null,
       id: storeModel.id ?? '',
       title: storeModel.title ?? '',
       storeUrl: storeModel.storeUrl ?? '',

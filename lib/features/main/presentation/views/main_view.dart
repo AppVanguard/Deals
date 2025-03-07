@@ -1,3 +1,5 @@
+import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
+import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
@@ -35,8 +37,19 @@ class _MainViewState extends State<MainView> {
       ),
       KeyedSubtree(
         key: const ValueKey('Categories'),
-        child: BlocProvider(
-          create: (context) => StoresCubit(storesRepo: getIt<StoresRepo>()),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => StoresCubit(
+                storesRepo: getIt<StoresRepo>(),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => CategoriesCubit(
+                categoriesRepo: getIt<CategoriesRepo>(),
+              ),
+            ),
+          ],
           child: const StoresView(),
         ),
       ),

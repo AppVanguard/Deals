@@ -1,3 +1,5 @@
+import 'package:deals/core/entities/category_entity.dart';
+
 class StoreEntity {
   final String id;
   final String title;
@@ -8,9 +10,11 @@ class StoreEntity {
   final double? averageSavings;
   final int? totalCoupons;
   final double? popularityScore;
+  final CategoryEntity? category;
   // Add whichever fields you actually use in your domain/UI
 
   const StoreEntity({
+    required this.category,
     this.popularityScore,
     this.totalCoupons,
     this.activeCoupons,

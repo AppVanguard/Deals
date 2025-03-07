@@ -1,4 +1,5 @@
 import 'package:deals/core/entities/store_entity.dart';
+import 'package:deals/core/mappers/category_mapper.dart';
 import 'package:deals/features/stores/data/models/stores_model/data.dart';
 import 'package:deals/features/stores/data/models/stores_model/stores_model.dart';
 
@@ -11,6 +12,7 @@ class StoresMapper {
 
   static StoreEntity mapToEntity(Data storeModel) {
     return StoreEntity(
+      category: CategoryMapper.mapToEntity(storeModel.category!),
       id: storeModel.id ?? '',
       title: storeModel.title ?? '',
       storeUrl: storeModel.storeUrl ?? '',
