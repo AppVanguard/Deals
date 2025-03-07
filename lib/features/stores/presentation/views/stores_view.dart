@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StoresView extends StatefulWidget {
-  const StoresView({Key? key}) : super(key: key);
+  const StoresView({super.key});
   static const routeName = 'stores';
 
   @override

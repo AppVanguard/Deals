@@ -36,7 +36,7 @@ class _MainViewState extends State<MainView> {
         child: HomeView(userData: widget.userData),
       ),
       KeyedSubtree(
-        key: const ValueKey('Categories'),
+        key: const ValueKey('Stores'),
         child: MultiBlocProvider(
           providers: [
             BlocProvider(

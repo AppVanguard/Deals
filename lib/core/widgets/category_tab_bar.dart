@@ -7,8 +7,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 class CategoryTabBar extends StatefulWidget {
   /// Optional: Provide a callback if you want to respond when a tab is tapped.
   final ValueChanged<int>? onTabSelected;
-
-  const CategoryTabBar({super.key, this.onTabSelected});
+  final void Function(int)? onTap;
+  const CategoryTabBar({super.key, this.onTabSelected, this.onTap});
 
   @override
   State<CategoryTabBar> createState() => _CategoryTabBarState();
@@ -63,6 +63,7 @@ class _CategoryTabBarState extends State<CategoryTabBar> {
                 return Container(
                   color: Colors.white,
                   child: TabBar(
+                    onTap: widget.onTap,
                     isScrollable: true,
                     labelColor: Colors.green,
                     unselectedLabelColor: Colors.black,
