@@ -1,14 +1,14 @@
 class Pagination {
   int? currentPage;
   int? totalPages;
-  int? totalStores;
+  int? totalCategories;
   bool? hasNextPage;
   bool? hasPrevPage;
 
   Pagination({
     this.currentPage,
     this.totalPages,
-    this.totalStores,
+    this.totalCategories,
     this.hasNextPage,
     this.hasPrevPage,
   });
@@ -16,7 +16,7 @@ class Pagination {
   factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
         currentPage: json['currentPage'] as int?,
         totalPages: json['totalPages'] as int?,
-        totalStores: json['totalStores'] as int?,
+        totalCategories: json['totalCategories'] as int?,
         hasNextPage: json['hasNextPage'] as bool?,
         hasPrevPage: json['hasPrevPage'] as bool?,
       );
@@ -24,7 +24,7 @@ class Pagination {
   Map<String, dynamic> toJson() => {
         'currentPage': currentPage,
         'totalPages': totalPages,
-        'totalStores': totalStores,
+        'totalCategories': totalCategories,
         'hasNextPage': hasNextPage,
         'hasPrevPage': hasPrevPage,
       };

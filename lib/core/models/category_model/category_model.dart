@@ -1,16 +1,15 @@
-import 'package:deals/core/models/pagination.dart';
+import 'datum.dart';
+import '../pagination.dart';
 
-import 'data.dart';
-
-class StoresModel {
-  List<Data>? data;
+class CategoryModel {
+  List<CategoryData>? data;
   Pagination? pagination;
 
-  StoresModel({this.data, this.pagination});
+  CategoryModel({this.data, this.pagination});
 
-  factory StoresModel.fromJson(Map<String, dynamic> json) => StoresModel(
+  factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
         data: (json['data'] as List<dynamic>?)
-            ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => CategoryData.fromJson(e as Map<String, dynamic>))
             .toList(),
         pagination: json['pagination'] == null
             ? null

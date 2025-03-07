@@ -1,4 +1,4 @@
-class Category {
+class CategoryData {
   String? id;
   String? title;
   String? colorCode;
@@ -14,7 +14,7 @@ class Category {
   String? slug;
   int? v;
 
-  Category({
+  CategoryData({
     this.id,
     this.title,
     this.colorCode,
@@ -31,7 +31,7 @@ class Category {
     this.v,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory CategoryData.fromJson(Map<String, dynamic> json) => CategoryData(
         id: json['_id'] as String?,
         title: json['title'] as String?,
         colorCode: json['color_code'] as String?,
@@ -67,5 +67,6 @@ class Category {
         'updatedAt': updatedAt?.toIso8601String(),
         'slug': slug,
         '__v': v,
+        'id': id,
       };
 }

@@ -1,3 +1,5 @@
+// stores_view_body.dart
+
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
@@ -38,13 +40,17 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     super.dispose();
   }
 
-  /// If the user scrolls near the bottom, attempt to load more stores
+  /// If near the bottom, attempt to load more
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
       final cubit = context.read<StoresCubit>();
       final currentState = cubit.state;
-      if (currentState is StoresSuccess && currentState.hasMore) {
+
+      // Instead of `currentState.hasMore`, we now check `currentState.pagination.hasNextPage`
+      if (currentState is StoresSuccess &&
+          currentState.pagination.hasNextPage) {
+        // Fetch more
         cubit.fetchStores(isRefresh: false);
       }
     }
@@ -56,7 +62,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
       length: tabs.length,
       child: Column(
         children: [
-          // The top TabBar for categories
+          // Tabs across the top
           Container(
             color: Colors.white,
             child: TabBar(
@@ -71,7 +77,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
             ),
           ),
 
-          // The TabBarView below
+          // TabBarView content below
           Expanded(
             child: TabBarView(
               children: tabs.map((_) => _buildTabContent()).toList(),
@@ -82,27 +88,26 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     );
   }
 
-  /// Renders content for each tab, based on the Cubit's StoresState.
   Widget _buildTabContent() {
     return BlocBuilder<StoresCubit, StoresState>(
       builder: (context, state) {
-        // 1) If failure => show error
+        // 1) If error
         if (state is StoresFailure) {
           return Center(child: Text(state.message));
         }
 
-        // 2) If loading => show full skeleton placeholders
-        //    (this happens on initial load or any "full" refresh)
+        // 2) If loading => show skeleton placeholders
         if (state is StoresLoading) {
-          // e.g., show 8 skeleton cards
           return ListView.builder(
             controller: _scrollController,
             itemCount: 8,
-            itemBuilder: (_, __) => _buildStoreCard(isLoading: true),
+            itemBuilder: (context, index) {
+              return _buildStoreCard(isLoading: true);
+            },
           );
         }
 
-        // 3) If success => show existing items plus optional placeholders
+        // 3) If success => show real data, plus skeleton placeholders if isLoadingMore
         if (state is StoresSuccess) {
           final stores = state.stores;
           final placeholdersCount = state.isLoadingMore ? 5 : 0;
@@ -119,29 +124,29 @@ class _StoresViewBodyState extends State<StoresViewBody> {
                   store: stores[index],
                 );
               } else {
-                // Skeleton placeholders for partial load
+                // Skeleton placeholder
                 return _buildStoreCard(isLoading: true);
               }
             },
           );
         }
 
-        // 4) If it's still StoresInitial or any corner case => show nothing
+        // 4) Otherwise (StoresInitial, etc.) => nothing
         return const SizedBox.shrink();
       },
     );
   }
 
-  /// Single method that toggles skeleton vs. real card based on isLoading.
+  /// Single method that toggles skeleton or real card
   Widget _buildStoreCard({
     required bool isLoading,
     StoreEntity? store,
   }) {
-    // For skeleton cards, use empty placeholders
-    final image =
-        isLoading ? AppImages.assetsImagesTest2 : (AppImages.assetsImagesTest2);
+    final imagePath = isLoading
+        ? AppImages.assetsImagesTest2
+        : (AppImages.assetsImagesTest2); // or store?.imageUrl if available
 
-    final title = isLoading ? '' : (store?.title ?? '');
+    final title = isLoading ? '' : store?.title ?? '';
     final subtitle = isLoading
         ? ''
         : 'Coupons: ${store?.totalCoupons ?? 0} • Savings: ${store?.averageSavings ?? 0}';
@@ -149,12 +154,12 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     return Skeletonizer(
       enabled: isLoading,
       child: GenericCard(
-        imagePath: image,
+        imagePath: imagePath,
         title: title,
         subtitle: subtitle,
         onTap: () {
           if (!isLoading && store != null) {
-            // You might navigate to store details or do something else
+            // Navigate to store details or do something else
           }
         },
       ),

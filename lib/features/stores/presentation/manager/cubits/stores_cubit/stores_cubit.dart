@@ -1,31 +1,28 @@
-import 'package:deals/core/entities/store_entity.dart';
-import 'package:deals/features/stores/domain/repos/stores_repo.dart';
+// stores_cubit.dart
+
+import 'package:deals/core/entities/pagination_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:deals/core/entities/store_entity.dart';
+import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 
 part 'stores_state.dart';
 
 class StoresCubit extends Cubit<StoresState> {
   final StoresRepo storesRepo;
 
-  // Pagination + query params
+  // Tracking pagination locally
   int currentPage = 1;
-  bool hasMore = true;
-
+  int limit = 10;
   String? search;
   String? sortField;
   String? sortOrder;
-  int limit = 10;
 
-  /// Immediately fetch data in the constructor so we don't stay in `StoresInitial`.
-  /// This ensures we emit `StoresLoading` -> the UI can show skeletons right away.
   StoresCubit({required this.storesRepo}) : super(StoresInitial()) {
+    // Immediately fetch on creation
     fetchStores(isRefresh: true);
   }
 
-  /// Fetch the stores data.
-  /// [isRefresh] = true => full reload
-  /// [isRefresh] = false => load next page
   Future<void> fetchStores({
     bool isRefresh = false,
     String? search,
@@ -42,26 +39,24 @@ class StoresCubit extends Cubit<StoresState> {
     if (isRefresh) {
       // Full reload
       currentPage = 1;
-      hasMore = true;
       emit(StoresLoading());
     } else {
-      // Attempt to load more (pagination)
+      // Loading next page
       if (state is StoresSuccess) {
-        final oldState = state as StoresSuccess;
-        if (!oldState.hasMore) {
-          // No more data => do nothing
+        final successState = state as StoresSuccess;
+        // If no more pages, do nothing
+        if (!successState.pagination.hasNextPage) {
           return;
         }
-        // Keep the existing items, but set isLoadingMore=true
-        emit(oldState.copyWith(isLoadingMore: true));
+        // Otherwise, set partial loading
+        emit(successState.copyWith(isLoadingMore: true));
       } else {
-        // If not in success state yet, fallback to full load
+        // If not in success yet, just show a full load
         emit(StoresLoading());
       }
     }
 
     try {
-      // Retrieve new data from the repository
       final eitherResult = await storesRepo.getAllStores(
         search: this.search,
         sortField: this.sortField,
@@ -71,41 +66,41 @@ class StoresCubit extends Cubit<StoresState> {
       );
 
       eitherResult.fold(
-        // On failure
-        (failure) => emit(StoresFailure(message: failure.message)),
+        (failure) {
+          emit(StoresFailure(message: failure.message));
+        },
+        (storesWithPagination) {
+          final newStores = storesWithPagination.stores;
+          final newPagination = storesWithPagination.pagination;
 
-        // On success
-        (newStores) {
-          // If fewer items returned than 'limit', no more pages
-          if (newStores.length < this.limit) {
-            hasMore = false;
-          } else {
-            hasMore = true;
-          }
-
-          // If refreshing or haven't had success yet, replace list entirely
           if (isRefresh || state is! StoresSuccess) {
-            emit(StoresSuccess(
-              stores: newStores,
-              currentPage: currentPage,
-              hasMore: hasMore,
-              isLoadingMore: false,
-            ));
+            // Replace entire list
+            emit(
+              StoresSuccess(
+                stores: newStores,
+                pagination: newPagination,
+                isLoadingMore: false,
+              ),
+            );
           } else {
-            // Append new data
+            // Append to existing
             final oldState = state as StoresSuccess;
             final updatedStores = List<StoreEntity>.from(oldState.stores)
               ..addAll(newStores);
 
-            emit(oldState.copyWith(
-              stores: updatedStores,
-              currentPage: currentPage,
-              hasMore: hasMore,
-              isLoadingMore: false,
-            ));
+            emit(
+              oldState.copyWith(
+                stores: updatedStores,
+                pagination: newPagination,
+                isLoadingMore: false,
+              ),
+            );
           }
 
-          currentPage++;
+          // Only increment local page if there's a next page
+          if (newPagination.hasNextPage) {
+            currentPage++;
+          }
         },
       );
     } catch (e) {

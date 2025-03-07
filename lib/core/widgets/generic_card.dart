@@ -1,3 +1,4 @@
+import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/core/utils/app_colors.dart';
 
@@ -34,7 +35,7 @@ class GenericCard extends StatelessWidget {
           )
         ],
       ),
-      child: InkWell(
+      child: GestureDetector(
         onTap: onTap,
         child: Row(
           children: [
@@ -58,24 +59,13 @@ class GenericCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      color: Color(0xFF121212),
-                      fontSize: 14,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w700,
-                      height: 1,
-                    ),
+                    style: AppTextStyles.bold14,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     subtitle,
-                    style: const TextStyle(
-                      color: Color(0xFFE50300),
-                      fontSize: 12,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w600,
-                      height: 1.5,
-                    ),
+                    style: AppTextStyles.semiBold12
+                        .copyWith(color: AppColors.accent),
                   ),
                 ],
               ),

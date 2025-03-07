@@ -5,8 +5,6 @@ import 'package:deals/core/utils/backend_endpoints.dart';
 import 'package:deals/features/auth/data/models/user_model.dart';
 
 class UserService {
- 
-
   /// Retrieves a single user by id from /users/:id.
   Future<UserModel> getUserById(String id) async {
     final url = Uri.parse('${BackendEndpoints.users}/$id');

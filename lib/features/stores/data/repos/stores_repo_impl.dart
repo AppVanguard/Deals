@@ -1,11 +1,17 @@
+// lib/features/stores/data/repos/stores_repo_impl.dart
+
 import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
+import 'package:deals/core/entities/pagination_entity.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/mappers/pagination_mapper.dart';
 import 'package:deals/core/service/stores_api_service.dart';
 import 'package:deals/features/stores/data/models/stores_model/stores_model.dart';
-import 'package:deals/features/stores/domain/mapper/stores_mapper.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
+import 'package:deals/features/stores/domain/mapper/stores_mapper.dart';
+import 'package:deals/features/stores/domain/repos/stores_with_pagination.dart';
 
 class StoresRepoImpl implements StoresRepo {
   final StoresService storesService;
@@ -13,7 +19,7 @@ class StoresRepoImpl implements StoresRepo {
   StoresRepoImpl({required this.storesService});
 
   @override
-  Future<Either<Failure, List<StoreEntity>>> getAllStores({
+  Future<Either<Failure, StoresWithPaginationEntity>> getAllStores({
     String? search,
     String? sortField,
     int? page,
@@ -21,7 +27,7 @@ class StoresRepoImpl implements StoresRepo {
     String? sortOrder,
   }) async {
     try {
-      // 1) Fetch the data model with the provided parameters.
+      // 1) Fetch the data-layer model from the service
       final StoresModel storesModel = await storesService.getAllStores(
         search: search,
         sortField: sortField,
@@ -30,12 +36,32 @@ class StoresRepoImpl implements StoresRepo {
         sortOrder: sortOrder,
       );
 
-      // 2) Map the data model to a list of domain entities.
+      // 2) Map the 'data' to domain store entities
       final List<StoreEntity> storeEntities =
           StoresMapper.mapToEntities(storesModel);
 
-      // 3) Return the mapped entities wrapped in a Right.
-      return Right(storeEntities);
+      // 3) Map the 'pagination' to domain pagination entity
+      final paginationModel =
+          storesModel.pagination; // data-layer 'Pagination'?
+      // It's possible that paginationModel is null if the API doesn't send it.
+      // Provide a default if needed:
+      final PaginationEntity paginationEntity = paginationModel == null
+          ? const PaginationEntity(
+              currentPage: 1,
+              totalPages: 1,
+              totalStores: 0,
+              hasNextPage: false,
+              hasPrevPage: false,
+            )
+          : PaginationMapper.mapToEntity(paginationModel);
+
+      // 4) Bundle everything into a single aggregator
+      final result = StoresWithPaginationEntity(
+        stores: storeEntities,
+        pagination: paginationEntity,
+      );
+
+      return Right(result);
     } catch (e) {
       log('Error in StoresRepoImpl.getAllStores: $e');
       return Left(ServerFaliure(message: e.toString()));
@@ -45,13 +71,10 @@ class StoresRepoImpl implements StoresRepo {
   @override
   Future<Either<Failure, StoreEntity>> getStoreById(String id) async {
     try {
-      // 1) Fetch the data model by ID.
       final StoresModel storesModel = await storesService.getStoreById(id);
 
-      // 2) Check if the model contains data and map the first item.
       if (storesModel.data != null && storesModel.data!.isNotEmpty) {
-        final StoreEntity storeEntity =
-            StoresMapper.mapToEntity(storesModel.data!.first);
+        final storeEntity = StoresMapper.mapToEntity(storesModel.data!.first);
         return Right(storeEntity);
       } else {
         throw Exception('Store not found');

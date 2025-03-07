@@ -1,4 +1,5 @@
-import 'category.dart';
+import 'package:deals/core/models/category_model/category_model.dart';
+
 import 'image.dart';
 
 class Data {
@@ -6,7 +7,7 @@ class Data {
   String? title;
   Image? image;
   String? storeUrl;
-  Category? category;
+  CategoryModel? category;
   double? averageSavings;
   int? totalCoupons;
   int? activeCoupons;
@@ -45,7 +46,7 @@ class Data {
         storeUrl: json['store_url'] as String?,
         category: json['category'] == null
             ? null
-            : Category.fromJson(json['category'] as Map<String, dynamic>),
+            : CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
         averageSavings: (json['average_savings'] as num?)?.toDouble(),
         totalCoupons: json['total_coupons'] as int?,
         activeCoupons: json['active_coupons'] as int?,
