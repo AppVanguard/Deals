@@ -41,7 +41,7 @@ AppBar buildStoresAppBar(
           onTap: () {
             showDialog(
               context: context,
-              builder: (context) => FilterDialog(
+              builder: (c) => FilterDialog(
                 onApplyFilter: (selectedFilter) {
                   log(selectedFilter.label);
                   // Use the selectedFilter here when fetching stores.
