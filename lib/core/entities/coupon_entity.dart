@@ -8,10 +8,12 @@ class CouponEntity {
   final bool? validForExisting;
   final bool? validForNew;
   final int? discountValue;
+  final String? image;
 
   // etc. Add discountValue, usageCount, successRate, etc. if needed
 
   const CouponEntity({
+    this.image,
     this.discountValue,
     this.validForNew,
     this.validForExisting,

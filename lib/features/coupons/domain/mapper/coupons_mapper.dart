@@ -1,0 +1,25 @@
+import 'package:deals/core/entities/coupon_entity.dart';
+import 'package:deals/features/coupons/data/models/coupons_data.dart';
+import 'package:deals/features/coupons/data/models/coupons_model.dart';
+
+class CouponsMapper {
+  static List<CouponEntity> mapToEntities(CouponsModel model) {
+    return model.data == null
+        ? []
+        : model.data!.map((couponModel) => mapToEntity(couponModel)).toList();
+  }
+
+  static CouponEntity mapToEntity(CouponsData couponModel) {
+    return CouponEntity(
+      id: couponModel.id ?? '',
+      code: couponModel.code ?? '',
+      isActive: couponModel.isActive ?? false,
+      title: couponModel.title ?? '',
+      discountValue: couponModel.discountValue,
+      expiryDate: couponModel.expiryDate,
+      startDate: couponModel.startDate,
+      validForExisting: couponModel.validFor?.existingCustomers,
+      validForNew: couponModel.validFor?.newCustomers,
+    );
+  }
+}

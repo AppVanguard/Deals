@@ -28,7 +28,8 @@ class StoresCubit extends Cubit<StoresState> {
     String? search,
     String? sortField,
     String? sortOrder,
-    int? limit, String? categoryId,
+    int? limit,
+    String? categoryId,
   }) async {
     // Update optional query params
     if (search != null) this.search = search;
