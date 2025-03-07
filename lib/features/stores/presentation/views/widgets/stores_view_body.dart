@@ -7,7 +7,7 @@ import 'package:deals/core/widgets/generic_card.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class StoresViewBody extends StatefulWidget {
-  const StoresViewBody({Key? key}) : super(key: key);
+  const StoresViewBody({super.key});
 
   @override
   State<StoresViewBody> createState() => _StoresViewBodyState();
@@ -15,6 +15,7 @@ class StoresViewBody extends StatefulWidget {
 
 class _StoresViewBodyState extends State<StoresViewBody> {
   final ScrollController _scrollController = ScrollController();
+
   final List<String> tabs = [
     'All',
     'New stores',
@@ -24,27 +25,21 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     'Travel',
   ];
 
-  // Local boolean to control skeleton placeholders
-  bool localIsLoading = false;
-
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-
-    // Initialize localIsLoading based on the current cubit state
-    final currentState = context.read<StoresCubit>().state;
-    localIsLoading = currentState is StoresLoading;
   }
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }
 
+  /// If the user scrolls near the bottom, attempt to load more stores
   void _onScroll() {
-    // Load more if near bottom
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
       final cubit = context.read<StoresCubit>();
@@ -57,133 +52,112 @@ class _StoresViewBodyState extends State<StoresViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<StoresCubit, StoresState>(
-      listener: (context, state) {
-        if (state is StoresLoading) {
-          setState(() {
-            localIsLoading = true;
-          });
-        } else {
-          // In either success or failure, we consider loading done
-          setState(() {
-            localIsLoading = false;
-          });
-        }
-      },
-      child: DefaultTabController(
-        length: tabs.length,
-        child: Column(
-          children: [
-            // TabBar for categories.
-            Container(
-              color: Colors.white,
-              child: TabBar(
-                isScrollable: true,
-                labelColor: Colors.green,
-                unselectedLabelColor: Colors.black,
-                indicatorColor: Colors.green,
-                labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                unselectedLabelStyle:
-                    const TextStyle(fontWeight: FontWeight.normal),
-                tabs: tabs.map((tabText) => Tab(text: tabText)).toList(),
-              ),
+    return DefaultTabController(
+      length: tabs.length,
+      child: Column(
+        children: [
+          // The top TabBar for categories
+          Container(
+            color: Colors.white,
+            child: TabBar(
+              isScrollable: true,
+              labelColor: Colors.green,
+              unselectedLabelColor: Colors.black,
+              indicatorColor: Colors.green,
+              labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+              unselectedLabelStyle:
+                  const TextStyle(fontWeight: FontWeight.normal),
+              tabs: tabs.map((tabText) => Tab(text: tabText)).toList(),
             ),
+          ),
 
-            // If you want pull-to-refresh, wrap TabBarView in a RefreshIndicator:
-            // Expanded(
-            //   child: RefreshIndicator(
-            //     onRefresh: () async {
-            //       // Force a refresh
-            //       context.read<StoresCubit>().fetchStores(isRefresh: true);
-            //     },
-            //     child: TabBarView(
-            //       children: tabs.map((_) => _buildTabContent()).toList(),
-            //     ),
-            //   ),
-            // ),
-
-            // Without pull-to-refresh:
-            Expanded(
-              child: TabBarView(
-                children: tabs.map((_) => _buildTabContent()).toList(),
-              ),
+          // The TabBarView below
+          Expanded(
+            child: TabBarView(
+              children: tabs.map((_) => _buildTabContent()).toList(),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
+  /// Renders content for each tab, based on the Cubit's StoresState.
   Widget _buildTabContent() {
     return BlocBuilder<StoresCubit, StoresState>(
       builder: (context, state) {
-        // 1) Show error
+        // 1) If failure => show error
         if (state is StoresFailure) {
           return Center(child: Text(state.message));
         }
 
-        // 2) If localIsLoading => show skeleton placeholders
-        if (localIsLoading) {
-          // Show, for example, 8 skeleton placeholders
+        // 2) If loading => show full skeleton placeholders
+        //    (this happens on initial load or any "full" refresh)
+        if (state is StoresLoading) {
+          // e.g., show 8 skeleton cards
           return ListView.builder(
             controller: _scrollController,
             itemCount: 8,
-            itemBuilder: (context, index) {
-              return storeSkeletonCard();
-            },
+            itemBuilder: (_, __) => _buildStoreCard(isLoading: true),
           );
         }
 
-        // 3) If success, show real data
+        // 3) If success => show existing items plus optional placeholders
         if (state is StoresSuccess) {
           final stores = state.stores;
+          final placeholdersCount = state.isLoadingMore ? 5 : 0;
+          final totalItemCount = stores.length + placeholdersCount;
+
           return ListView.builder(
             controller: _scrollController,
-            itemCount: stores.length + (state.hasMore ? 1 : 0),
+            itemCount: totalItemCount,
             itemBuilder: (context, index) {
-              // If we still have more data, show a "Loading..." at the bottom
-              if (index >= stores.length) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  child: Center(child: CircularProgressIndicator()),
+              if (index < stores.length) {
+                // Real store
+                return _buildStoreCard(
+                  isLoading: false,
+                  store: stores[index],
                 );
+              } else {
+                // Skeleton placeholders for partial load
+                return _buildStoreCard(isLoading: true);
               }
-              return _buildStoreCard(stores[index]);
             },
           );
         }
 
-        // If none of the above matched, might be the initial or a corner case
+        // 4) If it's still StoresInitial or any corner case => show nothing
         return const SizedBox.shrink();
       },
     );
   }
 
-  Widget _buildStoreCard(StoreEntity store) {
-    // For the "real" card, no skeleton needed, so pass enabled: false
-    return Skeletonizer(
-      enabled: false,
-      child: GenericCard(
-        imagePath: store.imageUrl ?? AppImages.assetsImagesTest2,
-        title: store.title,
-        subtitle: 'Coupons: ${store.totalCoupons ?? 0} '
-            '• Savings: ${store.averageSavings ?? 0}',
-        onTap: () {
-          // Handle tap if needed
-        },
-      ),
-    );
-  }
+  /// Single method that toggles skeleton vs. real card based on isLoading.
+  Widget _buildStoreCard({
+    required bool isLoading,
+    StoreEntity? store,
+  }) {
+    // For skeleton cards, use empty placeholders
+    final image = isLoading
+        ? AppImages.assetsImagesTest2
+        : (store?.imageUrl ?? AppImages.assetsImagesTest2);
 
-  // When localIsLoading is true, we show these placeholders
-  Widget storeSkeletonCard() {
+    final title = isLoading ? '' : (store?.title ?? '');
+    final subtitle = isLoading
+        ? ''
+        : 'Coupons: ${store?.totalCoupons ?? 0} • Savings: ${store?.averageSavings ?? 0}';
+
     return Skeletonizer(
-      enabled: true,
+      enabled: isLoading,
       child: GenericCard(
-        imagePath: AppImages.assetsImagesTest2, // blank or placeholder
-        title: '',
-        subtitle: '',
-        onTap: () {},
+        imagePath: image,
+        title: title,
+        subtitle: subtitle,
+        onTap: () {
+          if (!isLoading && store != null) {
+            // You might navigate to store details or do something else
+          }
+        },
       ),
     );
   }

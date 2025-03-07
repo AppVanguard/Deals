@@ -1,25 +1,31 @@
 import 'package:deals/core/entities/store_entity.dart';
+import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 
 part 'stores_state.dart';
 
 class StoresCubit extends Cubit<StoresState> {
   final StoresRepo storesRepo;
 
-  // Track pagination and query parameters:
+  // Pagination + query params
   int currentPage = 1;
   bool hasMore = true;
+
   String? search;
   String? sortField;
   String? sortOrder;
   int limit = 10;
 
-  StoresCubit({required this.storesRepo}) : super(StoresInitial());
+  /// Immediately fetch data in the constructor so we don't stay in `StoresInitial`.
+  /// This ensures we emit `StoresLoading` -> the UI can show skeletons right away.
+  StoresCubit({required this.storesRepo}) : super(StoresInitial()) {
+    fetchStores(isRefresh: true);
+  }
 
   /// Fetch the stores data.
-  /// [isRefresh] = true means start from page 1 and replace old data.
+  /// [isRefresh] = true => full reload
+  /// [isRefresh] = false => load next page
   Future<void> fetchStores({
     bool isRefresh = false,
     String? search,
@@ -27,27 +33,35 @@ class StoresCubit extends Cubit<StoresState> {
     String? sortOrder,
     int? limit,
   }) async {
-    if (isRefresh) {
-      currentPage = 1;
-      hasMore = true;
-      emit(StoresLoading());
-    }
-
-    // Update query parameters if provided.
+    // Update optional query params
     if (search != null) this.search = search;
     if (sortField != null) this.sortField = sortField;
     if (sortOrder != null) this.sortOrder = sortOrder;
     if (limit != null) this.limit = limit;
 
-    // If not a refresh and no more data is available, do nothing.
-    if (!isRefresh &&
-        state is StoresSuccess &&
-        !(state as StoresSuccess).hasMore) {
-      return;
+    if (isRefresh) {
+      // Full reload
+      currentPage = 1;
+      hasMore = true;
+      emit(StoresLoading());
+    } else {
+      // Attempt to load more (pagination)
+      if (state is StoresSuccess) {
+        final oldState = state as StoresSuccess;
+        if (!oldState.hasMore) {
+          // No more data => do nothing
+          return;
+        }
+        // Keep the existing items, but set isLoadingMore=true
+        emit(oldState.copyWith(isLoadingMore: true));
+      } else {
+        // If not in success state yet, fallback to full load
+        emit(StoresLoading());
+      }
     }
 
     try {
-      // Get the list of StoreEntity from the repository.
+      // Retrieve new data from the repository
       final eitherResult = await storesRepo.getAllStores(
         search: this.search,
         sortField: this.sortField,
@@ -56,38 +70,44 @@ class StoresCubit extends Cubit<StoresState> {
         limit: this.limit,
       );
 
-      eitherResult.fold((failure) {
-        emit(StoresFailure(message: failure.message));
-      }, (newStores) {
-        // Determine if there are more pages.
-        // If the returned list is empty or its length is less than limit, then no more data.
-        if (newStores.isEmpty || newStores.length < this.limit) {
-          hasMore = false;
-        } else {
-          hasMore = true;
-        }
+      eitherResult.fold(
+        // On failure
+        (failure) => emit(StoresFailure(message: failure.message)),
 
-        if (isRefresh || state is! StoresSuccess) {
-          // Replace the list entirely.
-          emit(StoresSuccess(
-            stores: newStores,
-            currentPage: currentPage,
-            hasMore: hasMore,
-          ));
-        } else {
-          // Append new items to the existing list.
-          final oldState = state as StoresSuccess;
-          final updatedStores = List<StoreEntity>.from(oldState.stores)
-            ..addAll(newStores);
-          emit(StoresSuccess(
-            stores: updatedStores,
-            currentPage: currentPage,
-            hasMore: hasMore,
-          ));
-        }
-        // Prepare for next page.
-        currentPage++;
-      });
+        // On success
+        (newStores) {
+          // If fewer items returned than 'limit', no more pages
+          if (newStores.length < this.limit) {
+            hasMore = false;
+          } else {
+            hasMore = true;
+          }
+
+          // If refreshing or haven't had success yet, replace list entirely
+          if (isRefresh || state is! StoresSuccess) {
+            emit(StoresSuccess(
+              stores: newStores,
+              currentPage: currentPage,
+              hasMore: hasMore,
+              isLoadingMore: false,
+            ));
+          } else {
+            // Append new data
+            final oldState = state as StoresSuccess;
+            final updatedStores = List<StoreEntity>.from(oldState.stores)
+              ..addAll(newStores);
+
+            emit(oldState.copyWith(
+              stores: updatedStores,
+              currentPage: currentPage,
+              hasMore: hasMore,
+              isLoadingMore: false,
+            ));
+          }
+
+          currentPage++;
+        },
+      );
     } catch (e) {
       emit(StoresFailure(message: e.toString()));
     }
