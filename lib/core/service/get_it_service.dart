@@ -2,7 +2,7 @@
 import 'package:deals/core/repos/implementation/categories_repo_impl.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/core/service/category_service.dart';
-import 'package:deals/core/service/stores_api_service.dart';
+import 'package:deals/core/service/stores_service.dart';
 import 'package:deals/features/stores/data/repos/stores_repo_impl.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:get_it/get_it.dart';

@@ -16,6 +16,7 @@ class BackendEndpoints {
   static const String verifyOtp = "$apiPath/auth/verify-otp";
   static const String stores = "$apiPath/stores";
   static const String categories = "$apiPath/categories";
+  static const String coupons = "$apiPath/coupons";
 // Home endpoints.
   static const String homeMobile = "$apiPath/home/mobile";
   // Collection names.

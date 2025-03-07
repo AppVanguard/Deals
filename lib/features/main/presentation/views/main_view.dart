@@ -1,6 +1,7 @@
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/core/service/get_it_service.dart';
+import 'package:deals/features/coupons/presentation/views/coupon_view.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:flutter/material.dart';
@@ -53,12 +54,9 @@ class _MainViewState extends State<MainView> {
           child: const StoresView(),
         ),
       ),
-      KeyedSubtree(
-        key: const ValueKey('Coupons'),
-        child: Container(
-          color: Colors.blueGrey,
-          child: const Center(child: Text('Coupons Page Placeholder')),
-        ),
+      const KeyedSubtree(
+        key: ValueKey('Coupons'),
+        child: CouponView(),
       ),
       KeyedSubtree(
         key: const ValueKey('Bookmarks'),
