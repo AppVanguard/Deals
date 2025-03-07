@@ -1,52 +1,65 @@
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
+import 'package:deals/core/entities/category_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-
-class CategoryTabBar extends StatelessWidget {
+class CategoryTabBar extends StatefulWidget {
   /// Optional: Provide a callback if you want to respond when a tab is tapped.
   final ValueChanged<int>? onTabSelected;
 
   const CategoryTabBar({super.key, this.onTabSelected});
 
   @override
+  State<CategoryTabBar> createState() => _CategoryTabBarState();
+}
+
+class _CategoryTabBarState extends State<CategoryTabBar> {
+  // Internal flag to track if skeleton should be enabled.
+  bool _skeletonEnabled = true;
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<CategoriesCubit, CategoriesState>(
       builder: (context, state) {
-        // 1) If failure => show error text
+        // Determine if skeleton should be enabled based on state.
+        final bool newSkeletonEnabled =
+            state is CategoriesLoading || state is CategoriesInitial;
+        if (newSkeletonEnabled != _skeletonEnabled) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              setState(() {
+                _skeletonEnabled = newSkeletonEnabled;
+              });
+            }
+          });
+        }
+
         if (state is CategoriesFailure) {
           return Center(child: Text(state.message));
         }
 
-        // 2) If loading => show skeleton for the entire tab bar
-        if (state is CategoriesLoading || state is CategoriesInitial) {
-          return _buildFullSkeleton();
-        }
+        // Use available categories if present; otherwise, default to a count of 4.
+        final List<CategoryEntity> categories =
+            state is CategoriesSuccess ? state.categories : [];
+        final int totalItemCount =
+            categories.isNotEmpty ? categories.length : 4;
 
-        // 3) If success => build the real tab bar, plus placeholders if isLoadingMore
-        if (state is CategoriesSuccess) {
-          final categories = state.categories;
-          // If the cubit is currently loading more data (pagination),
-          // we can show some placeholder tabs at the end.
-          final placeholdersCount = state.isLoadingMore ? 3 : 0;
-          final totalItemCount = categories.length + placeholdersCount;
-
-          // Use a DefaultTabController so that we can display the tabs.
-          return DefaultTabController(
+        // The entire real widget (DefaultTabController with TabBar) is wrapped in a Skeletonizer.
+        return Skeletonizer(
+          enabled: _skeletonEnabled,
+          child: DefaultTabController(
             length: totalItemCount,
             child: Builder(
               builder: (context) {
                 final tabController = DefaultTabController.of(context);
-                // Listen for tab changes if needed
-                tabController?.addListener(() {
-                  if (onTabSelected != null &&
+                tabController.addListener(() {
+                  if (widget.onTabSelected != null &&
                       !tabController.indexIsChanging &&
                       tabController.index < categories.length) {
-                    onTabSelected!(tabController.index);
+                    widget.onTabSelected!(tabController.index);
                   }
                 });
-
                 return Container(
                   color: Colors.white,
                   child: TabBar(
@@ -58,23 +71,18 @@ class CategoryTabBar extends StatelessWidget {
                     unselectedLabelStyle:
                         const TextStyle(fontWeight: FontWeight.normal),
                     tabs: List.generate(totalItemCount, (index) {
-                      // If index is within the real categories, show the actual title
                       if (index < categories.length) {
-                        final category = categories[index];
-                        return Tab(text: category.title);
+                        return Tab(text: categories[index].title);
                       } else {
-                        // For placeholders, show a skeleton tab
+                        // Instead of an empty tab, provide a visible placeholder container.
                         return Tab(
-                          child: Skeletonizer(
-                            enabled: true,
-                            child: Container(
-                              width: 50,
-                              height: 16,
-                              margin: const EdgeInsets.symmetric(vertical: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
+                          child: Container(
+                            width: 50,
+                            height: 16,
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(4),
                             ),
                           ),
                         );
@@ -84,36 +92,9 @@ class CategoryTabBar extends StatelessWidget {
                 );
               },
             ),
-          );
-        }
-
-        // Fallback for any other state (e.g. if not handled).
-        return const SizedBox.shrink();
+          ),
+        );
       },
-    );
-  }
-
-  /// Builds a full-width skeleton for the entire tab bar (used on initial load).
-  Widget _buildFullSkeleton() {
-    return Skeletonizer(
-      enabled: true,
-      child: Container(
-        height: 48,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          children: List.generate(4, (index) {
-            return Container(
-              width: 60,
-              height: 16,
-              margin: const EdgeInsets.only(right: 16),
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(4),
-              ),
-            );
-          }),
-        ),
-      ),
     );
   }
 }
