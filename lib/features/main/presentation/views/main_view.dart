@@ -1,6 +1,8 @@
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/core/service/get_it_service.dart';
+import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
+import 'package:deals/features/coupons/presentation/manager/cubits/coupons_cubit/coupons_cubit.dart';
 import 'package:deals/features/coupons/presentation/views/coupon_view.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
@@ -54,9 +56,23 @@ class _MainViewState extends State<MainView> {
           child: const StoresView(),
         ),
       ),
-      const KeyedSubtree(
-        key: ValueKey('Coupons'),
-        child: CouponView(),
+      KeyedSubtree(
+        key: const ValueKey('Coupons'),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => StoresCubit(
+                storesRepo: getIt<StoresRepo>(),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => CouponsCubit(
+                couponsRepo: getIt<CouponsRepo>(),
+              ),
+            ),
+          ],
+          child: const CouponView(),
+        ),
       ),
       KeyedSubtree(
         key: const ValueKey('Bookmarks'),
