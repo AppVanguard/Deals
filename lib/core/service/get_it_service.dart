@@ -6,7 +6,6 @@ import 'package:get_it/get_it.dart';
 import 'package:deals/core/service/auth_api_service.dart';
 import 'package:deals/core/service/database_service.dart';
 import 'package:deals/core/service/firebase_auth_service.dart';
-import 'package:deals/core/service/firestore_services.dart';
 import 'package:deals/core/service/user_service.dart';
 import 'package:deals/features/auth/data/repos/auth_repo_impl.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
@@ -25,7 +24,6 @@ final getIt = GetIt.instance;
 void setupGetit() {
   // 1. Existing singletons
   getIt.registerSingleton<FirebaseAuthService>(FirebaseAuthService());
-  getIt.registerSingleton<DatabaseService>(FirestoreServices());
   getIt.registerSingleton<AuthApiService>(AuthApiService());
   getIt.registerSingleton<StoresService>(StoresService());
 
