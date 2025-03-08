@@ -9,7 +9,7 @@ part 'coupons_state.dart';
 class CouponsCubit extends Cubit<CouponsState> {
   final CouponsRepo couponsRepo;
   int currentPage = 1;
-  int limit = 10;
+  int limit = 6;
   String? search;
   String? sortField;
   String? sortOrder;

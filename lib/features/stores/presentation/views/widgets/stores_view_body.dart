@@ -19,7 +19,6 @@ class StoresViewBody extends StatefulWidget {
 
 class _StoresViewBodyState extends State<StoresViewBody> {
   final ScrollController _scrollController = ScrollController();
-  Timer? _debounce;
 
   @override
   void initState() {
@@ -29,7 +28,6 @@ class _StoresViewBodyState extends State<StoresViewBody> {
 
   @override
   void dispose() {
-    _debounce?.cancel();
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
