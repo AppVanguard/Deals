@@ -1,13 +1,10 @@
-// stores_cubit.dart
-
 import 'dart:developer';
 
 import 'package:deals/core/entities/pagination_entity.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta/meta.dart';
 part 'stores_state.dart';
 
 class StoresCubit extends Cubit<StoresState> {
@@ -19,6 +16,9 @@ class StoresCubit extends Cubit<StoresState> {
   String? search;
   String? sortField;
   String? sortOrder;
+
+  // Prevent duplicate fetch requests
+  bool _isFetchingMore = false;
 
   StoresCubit({required this.storesRepo}) : super(StoresInitial()) {
     // Immediately fetch on creation
@@ -33,11 +33,14 @@ class StoresCubit extends Cubit<StoresState> {
     int? limit,
     String? categoryId,
   }) async {
-    // Update optional query params
+    // Update optional query parameters
     if (search != null) this.search = search;
     if (sortField != null) this.sortField = sortField;
     if (sortOrder != null) this.sortOrder = sortOrder;
     if (limit != null) this.limit = limit;
+
+    // Prevent duplicate fetch requests (except for refresh)
+    if (!isRefresh && _isFetchingMore) return;
 
     if (isRefresh) {
       // Full reload
@@ -59,6 +62,8 @@ class StoresCubit extends Cubit<StoresState> {
       }
     }
 
+    // Mark that a fetch is in progress
+    _isFetchingMore = true;
     try {
       final eitherResult = await storesRepo.getAllStores(
         search: this.search,
@@ -75,7 +80,8 @@ class StoresCubit extends Cubit<StoresState> {
         (storesWithPagination) {
           final newStores = storesWithPagination.stores;
           final newPagination = storesWithPagination.pagination;
-          log("total stores:${newPagination.totalStores}");
+          log("total stores: ${newPagination.totalStores}");
+
           if (isRefresh || state is! StoresSuccess) {
             // Replace entire list
             emit(
@@ -107,6 +113,9 @@ class StoresCubit extends Cubit<StoresState> {
       );
     } catch (e) {
       emit(StoresFailure(message: e.toString()));
+    } finally {
+      // Reset the flag when the fetch completes
+      _isFetchingMore = false;
     }
   }
 }

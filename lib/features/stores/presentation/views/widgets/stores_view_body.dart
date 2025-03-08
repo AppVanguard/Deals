@@ -1,13 +1,11 @@
-// stores_view_body.dart
-
-import 'dart:async';
-import 'package:deals/core/widgets/category_tab_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/category_tab_bar.dart';
 import 'package:deals/core/widgets/generic_card.dart';
+import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class StoresViewBody extends StatefulWidget {
@@ -51,12 +49,9 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
-        // 1) The CategoryWidget (or its placeholder).
-        const SliverToBoxAdapter(
-          child: CategoryTabBar(),
-        ),
+        // Category tab or widget placeholder
+        const SliverToBoxAdapter(child: CategoryTabBar()),
 
-        // 2) The store list (in a SliverList). We use BlocBuilder to handle loading/failure/success states.
         BlocBuilder<StoresCubit, StoresState>(
           builder: (context, state) {
             if (state is StoresFailure) {
@@ -77,28 +72,45 @@ class _StoresViewBodyState extends State<StoresViewBody> {
 
             if (state is StoresSuccess) {
               final stores = state.stores;
-              final placeholdersCount = state.isLoadingMore ? 5 : 0;
-              final totalItemCount = stores.length + placeholdersCount;
-
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    // Real store items
-                    if (index < stores.length) {
-                      return _buildStoreCard(
-                        isLoading: false,
-                        store: stores[index],
+                    // The first item is a header showing the total number of stores.
+                    if (index == 0) {
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'Total Stores: ${state.pagination.totalStores}',
+                          style: AppTextStyles.bold14,
+                        ),
                       );
                     }
-                    // Extra placeholders if isLoadingMore
-                    return _buildStoreCard(isLoading: true);
+                    // Adjust the index to account for the header.
+                    final storeIndex = index - 1;
+                    if (storeIndex < stores.length) {
+                      return _buildStoreCard(
+                        isLoading: false,
+                        store: stores[storeIndex],
+                      );
+                    }
+                    // If more pages are available, show a loading indicator.
+                    if (state.pagination.hasNextPage) {
+                      return const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    return Container();
                   },
-                  childCount: totalItemCount,
+                  // Total count: header + stores + loading indicator (if needed)
+                  childCount: stores.length +
+                      1 +
+                      (state.pagination.hasNextPage ? 1 : 0),
                 ),
               );
             }
 
-            // Otherwise (StoresInitial, etc.) => show nothing
+            // For StoresInitial and other states.
             return const SliverToBoxAdapter(child: SizedBox.shrink());
           },
         ),
@@ -113,7 +125,8 @@ class _StoresViewBodyState extends State<StoresViewBody> {
   }) {
     final imagePath = isLoading
         ? AppImages.assetsImagesTest2
-        : AppImages.assetsImagesTest2; // or store?.imageUrl if available
+        : AppImages
+            .assetsImagesTest2; // You can use store?.imageUrl if available
 
     final title = isLoading ? '' : (store?.title ?? '');
     final subtitle = isLoading
@@ -128,7 +141,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
         subtitle: subtitle,
         onTap: () {
           if (!isLoading && store != null) {
-            // e.g., navigate to store details or do something else
+            // For example: navigate to store details
           }
         },
       ),
