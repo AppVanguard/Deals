@@ -1,5 +1,7 @@
 // stores_cubit.dart
 
+import 'dart:developer';
+
 import 'package:deals/core/entities/pagination_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
@@ -73,7 +75,7 @@ class StoresCubit extends Cubit<StoresState> {
         (storesWithPagination) {
           final newStores = storesWithPagination.stores;
           final newPagination = storesWithPagination.pagination;
-
+          log("total stores:${newPagination.totalStores}");
           if (isRefresh || state is! StoresSuccess) {
             // Replace entire list
             emit(

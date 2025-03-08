@@ -88,7 +88,15 @@ class _TopCouponsState extends State<TopCoupons> {
                       (index) => Padding(
                         padding: const EdgeInsets.only(right: 16.0),
                         child: CouponTicket(
-                          coupon: displayCoupons[index],
+                          tittle: displayCoupons[index].title,
+                          validTo: displayCoupons[index].expiryDate,
+                          discountValue: displayCoupons[index].discountValue,
+                          image: displayCoupons[index].image,
+                          subTittle: displayCoupons[index].validForExisting!
+                              ? 'Valid for Existing Users'
+                              : displayCoupons[index].validForNew!
+                                  ? 'Valid for New Users'
+                                  : 'Extra discount',
                           isLoading: localIsLoading,
                         ),
                       ),
@@ -107,7 +115,17 @@ class _TopCouponsState extends State<TopCoupons> {
                         return Padding(
                           padding: const EdgeInsets.only(right: 16.0),
                           child: CouponTicket(
-                            coupon: displayCoupons[adjustedIndex],
+                            tittle: displayCoupons[adjustedIndex].title,
+                            validTo: displayCoupons[adjustedIndex].expiryDate,
+                            discountValue:
+                                displayCoupons[adjustedIndex].discountValue,
+                            image: displayCoupons[adjustedIndex].image,
+                            subTittle:
+                                displayCoupons[adjustedIndex].validForExisting!
+                                    ? 'Valid for Existing Users'
+                                    : displayCoupons[adjustedIndex].validForNew!
+                                        ? 'Valid for New Users'
+                                        : 'Extra discount',
                             isLoading: localIsLoading,
                           ),
                         );

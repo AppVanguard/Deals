@@ -9,7 +9,9 @@ class PaginationMapper {
     return PaginationEntity(
       currentPage: paginationModel.currentPage ?? 1,
       totalPages: paginationModel.totalPages ?? 1,
-      totalStores: paginationModel.totalCategories ?? 0,
+      totalStores: paginationModel.totlaStores ?? 0,
+      totalCategories: paginationModel.totalCategories ?? 0,
+      totalCoupons: paginationModel.totalCoupons ?? 0,
       hasNextPage: paginationModel.hasNextPage ?? false,
       hasPrevPage: paginationModel.hasPrevPage ?? false,
     );
@@ -21,7 +23,9 @@ class PaginationMapper {
     return Pagination(
       currentPage: paginationEntity.currentPage,
       totalPages: paginationEntity.totalPages,
-      totalCategories: paginationEntity.totalStores,
+      totalCategories: paginationEntity.totalCategories,
+      totalCoupons: paginationEntity.totalCoupons,
+      totlaStores: paginationEntity.totalStores,
       hasNextPage: paginationEntity.hasNextPage,
       hasPrevPage: paginationEntity.hasPrevPage,
     );

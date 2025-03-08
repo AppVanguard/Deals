@@ -10,8 +10,10 @@ import 'package:deals/core/widgets/coupon_ticket/dashed_line_painter.dart';
 import 'package:deals/core/widgets/coupon_ticket/rect_ticket_clipper.dart';
 
 class CouponTicket extends StatelessWidget {
-  final CouponEntity coupon;
   final bool isLoading;
+  final String? image, tittle, subTittle;
+  final int? discountValue;
+  final String? validTo;
 
   /// Optional width can be provided; otherwise defaults to 85% of screen width.
   final double? width;
@@ -19,16 +21,20 @@ class CouponTicket extends StatelessWidget {
 
   const CouponTicket({
     super.key,
-    required this.coupon,
     this.isLoading = false,
     this.width,
     this.height = 130.0,
+    this.validTo,
+    this.image,
+    this.tittle,
+    this.subTittle,
+    this.discountValue,
   });
 
   // Helper method to parse and format the expiry date.
   String _formattedDate() {
-    if (coupon.expiryDate != null) {
-      final parsed = DateTime.tryParse(coupon.expiryDate!);
+    if (validTo != null) {
+      final parsed = DateTime.tryParse(validTo!);
       if (parsed != null) {
         return DateFormat('d MMM').format(parsed);
       }
@@ -54,7 +60,9 @@ class CouponTicket extends StatelessWidget {
           child: Row(
             children: [
               const SizedBox(width: 12),
-              CouponBrandImage(coupon: coupon),
+              CouponBrandImage(
+                image: image,
+              ),
               SizedBox(
                 height: height * 0.8,
                 child: const CustomPaint(
@@ -71,7 +79,9 @@ class CouponTicket extends StatelessWidget {
               // and uses Flexible for each text so that long text wraps.
               Expanded(
                 child: CouponInfoSection(
-                  coupon: coupon,
+                  discountValue: discountValue,
+                  tittle: tittle,
+                  subTittle: subTittle,
                   formattedDate: formattedDate,
                 ),
               ),
@@ -84,11 +94,10 @@ class CouponTicket extends StatelessWidget {
 }
 
 class CouponBrandImage extends StatelessWidget {
-  final CouponEntity coupon;
-
+  final String? image;
   const CouponBrandImage({
     super.key,
-    required this.coupon,
+    this.image,
   });
 
   @override
@@ -99,7 +108,7 @@ class CouponBrandImage extends StatelessWidget {
         width: 66,
         height: 66,
         child: Image.network(
-          coupon.id,
+          image ?? '',
           fit: BoxFit.contain,
           errorBuilder: (ctx, error, stack) => Image.asset(
             AppImages.assetsImagesTest2,
@@ -112,23 +121,20 @@ class CouponBrandImage extends StatelessWidget {
 }
 
 class CouponInfoSection extends StatelessWidget {
-  final CouponEntity coupon;
   final String formattedDate;
-
+  final String? tittle;
+  final String? subTittle;
+  final int? discountValue;
   const CouponInfoSection({
+    this.discountValue,
+    this.subTittle,
     super.key,
-    required this.coupon,
+    this.tittle,
     required this.formattedDate,
   });
 
   @override
   Widget build(BuildContext context) {
-    final discountText = coupon.validForExisting ?? false
-        ? S.of(context).existing_customers_discount
-        : coupon.validForNew ?? false
-            ? S.of(context).new_customers_discount
-            : S.of(context).specific_items_discount;
-
     return Padding(
       // Adding extra right padding (16) keeps text away from the right clip hole.
       padding: const EdgeInsets.only(
@@ -138,7 +144,7 @@ class CouponInfoSection extends StatelessWidget {
         children: [
           Flexible(
             child: Text(
-              coupon.title,
+              tittle ?? '',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -151,10 +157,10 @@ class CouponInfoSection extends StatelessWidget {
             child: Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(text: discountText, style: AppTextStyles.semiBold12),
+                  TextSpan(text: subTittle, style: AppTextStyles.semiBold12),
                   const TextSpan(text: ' '),
                   TextSpan(
-                    text: '${coupon.discountValue}% off',
+                    text: '$discountValue% off',
                     style: AppTextStyles.semiBold12.copyWith(
                       color: AppColors.accent,
                     ),
