@@ -2,7 +2,7 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/widgets/filter_dialog/dynamic_radio_group.dart';
 import 'package:deals/core/widgets/filter_dialog/filter_dialog_actions.dart';
 import 'package:deals/core/widgets/filter_dialog/filter_dialog_header.dart';
-import 'package:deals/core/widgets/filter_dialog/filter_option.dart';
+import 'package:deals/features/stores/presentation/views/widgets/filter_option.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
