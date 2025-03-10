@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
@@ -33,15 +32,17 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     super.dispose();
   }
 
-  /// If near the bottom, attempt to load more stores.
+  /// When near the bottom, load the next page.
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
       final cubit = context.read<StoresCubit>();
       final currentState = cubit.state;
-      if (currentState is StoresSuccess &&
-          currentState.pagination.hasNextPage) {
-        cubit.fetchStores();
+      if (currentState is StoresSuccess && !currentState.isLoadingMore) {
+        if (currentState.stores.length < currentState.pagination.totalStores!) {
+          log("Scrolling => load next page");
+          cubit.loadNextPage();
+        }
       }
     }
   }
@@ -51,29 +52,25 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
-        // Category tab or widget placeholder
+        // Category tab bar.
         SliverToBoxAdapter(
           child: CategoryTabBar(
             onTabSelected: (categoryId) {
-              log("Category ID in the Body: $categoryId");
-              // Call fetchStores with the selected categoryId.
-              context
-                  .read<StoresCubit>()
-                  .fetchStores(categoryId: categoryId, isRefresh: true);
+              log("Category selected: $categoryId");
+              // Update the list by setting the new category filter.
+              context.read<StoresCubit>().updateFilters(categoryId: categoryId);
             },
           ),
         ),
-
+        // Main store list.
         BlocBuilder<StoresCubit, StoresState>(
           builder: (context, state) {
             if (state is StoresFailure) {
               return SliverToBoxAdapter(
-                child: Center(child: Text(state.message)),
-              );
+                  child: Center(child: Text(state.message)));
             }
-
             if (state is StoresLoading) {
-              // Show skeleton placeholders for loading
+              // Display skeleton placeholders.
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => _buildStoreCard(isLoading: true),
@@ -81,33 +78,30 @@ class _StoresViewBodyState extends State<StoresViewBody> {
                 ),
               );
             }
-
             if (state is StoresSuccess) {
               final stores = state.stores;
+              final totalStores = state.pagination.totalStores;
+              final bool showLoadingIndicator = (stores.length < totalStores!);
 
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    // The first item is a header showing the total number of stores.
+                    // Index 0 is a header.
                     if (index == 0) {
                       return Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'Total Stores: ${state.pagination.totalStores}',
-                          style: AppTextStyles.bold14,
-                        ),
+                        child: Text('Total Stores: $totalStores',
+                            style: AppTextStyles.bold14),
                       );
                     }
-                    // Adjust the index to account for the header.
+                    // Adjust index for the header.
                     final storeIndex = index - 1;
                     if (storeIndex < stores.length) {
-                      return _buildStoreCard(
-                        isLoading: false,
-                        store: stores[storeIndex],
-                      );
+                      final store = stores[storeIndex];
+                      log("Building storeIndex $storeIndex => ${store.title}");
+                      return _buildStoreCard(isLoading: false, store: store);
                     }
-                    // If more pages are available, show a loading indicator.
-                    if (state.pagination.hasNextPage) {
+                    if (showLoadingIndicator) {
                       return const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(child: CircularProgressIndicator()),
@@ -115,15 +109,11 @@ class _StoresViewBodyState extends State<StoresViewBody> {
                     }
                     return Container();
                   },
-                  // Total count: header + stores + loading indicator (if needed)
-                  childCount: stores.length +
-                      1 +
-                      (state.pagination.hasNextPage ? 1 : 0),
+                  // Count: header + store items + possible loading indicator.
+                  childCount: stores.length + 2,
                 ),
               );
             }
-
-            // For StoresInitial and other states.
             return const SliverToBoxAdapter(child: SizedBox.shrink());
           },
         ),
@@ -131,21 +121,17 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     );
   }
 
-  /// Single method to build a store card with skeleton effect.
+  /// Helper to build a store card or a skeleton card while loading.
   Widget _buildStoreCard({
     required bool isLoading,
     StoreEntity? store,
   }) {
-    final imagePath = isLoading
-        ? AppImages.assetsImagesTest2
-        : AppImages
-            .assetsImagesTest2; // You can use store?.imageUrl if available
-
+    final imagePath =
+        isLoading ? AppImages.assetsImagesTest2 : AppImages.assetsImagesTest2;
     final title = isLoading ? '' : (store?.title ?? '');
     final subtitle = isLoading
         ? ''
         : 'Coupons: ${store?.totalCoupons ?? 0} • Savings: ${store?.averageSavings ?? 0}';
-
     return Skeletonizer(
       enabled: isLoading,
       child: GenericCard(
@@ -154,7 +140,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
         subtitle: subtitle,
         onTap: () {
           if (!isLoading && store != null) {
-            // For example: navigate to store details
+            // Navigate to store details or perform an action.
           }
         },
       ),

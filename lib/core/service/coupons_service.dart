@@ -11,7 +11,7 @@ class CouponsService {
       String? sortField = "title",
       int? page,
       int? limit,
-      String? sortOrder,
+      String? sortOrder = "asc",
       String? category,
       String? discountType}) async {
     final queryParameters = <String, String>{

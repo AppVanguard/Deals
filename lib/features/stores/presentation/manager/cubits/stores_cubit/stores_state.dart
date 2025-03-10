@@ -3,10 +3,8 @@ part of 'stores_cubit.dart';
 @immutable
 abstract class StoresState {}
 
-/// Initial = no data yet
 class StoresInitial extends StoresState {}
 
-/// Full refresh or first load
 class StoresLoading extends StoresState {}
 
 class StoresSuccess extends StoresState {
@@ -33,7 +31,6 @@ class StoresSuccess extends StoresState {
   }
 }
 
-/// Failure
 class StoresFailure extends StoresState {
   final String message;
   StoresFailure({required this.message});

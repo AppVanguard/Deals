@@ -9,10 +9,10 @@ class StoresService {
   /// Example endpoint: /stores?search=Amazon&sortField=tittle&page=2&limit=3&sortOrder=asc
   Future<StoresModel> getAllStores({
     String? search,
-    String? sortField,
+    String? sortField = "title",
     int? page,
     int? limit,
-    String? sortOrder,
+    String? sortOrder = "asc",
     String? categoryId,
   }) async {
     final queryParameters = <String, String>{

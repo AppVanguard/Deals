@@ -41,7 +41,7 @@ class _SearchViewBodyState extends State<SearchViewBody> {
       final currentState = cubit.state;
       if (currentState is StoresSuccess &&
           currentState.pagination.hasNextPage) {
-        cubit.fetchStores();
+        cubit.loadNextPage();
       }
     }
   }

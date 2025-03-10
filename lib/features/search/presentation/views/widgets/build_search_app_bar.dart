@@ -19,7 +19,9 @@ AppBar buildSearchAppBar(
     // Debounce search: wait 400ms after user stops typing
     if (debounce?.isActive ?? false) debounce?.cancel();
     debounce = Timer(const Duration(milliseconds: 400), () {
-      context.read<StoresCubit>().fetchStores(isRefresh: true, search: query);
+      context.read<StoresCubit>().loadStores(
+            isRefresh: true,
+          );
     });
   }
 
@@ -54,10 +56,7 @@ AppBar buildSearchAppBar(
               builder: (c) => FilterDialog(
                 onApplyFilter: (selectedFilter) {
                   log(selectedFilter.label);
-                  storesCubit.fetchStores(
-                    isRefresh: true,
-                    sortOrder: selectedFilter.label,
-                  );
+                  storesCubit.loadNextPage();
                 },
               ),
             );

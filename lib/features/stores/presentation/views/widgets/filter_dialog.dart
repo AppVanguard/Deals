@@ -8,14 +8,13 @@ import 'package:flutter/material.dart';
 
 class FilterDialog extends StatefulWidget {
   const FilterDialog({super.key, required this.onApplyFilter});
-  final void Function(OrderOption selectedFilter) onApplyFilter;
+  final void Function(OrderOption selectedOrder) onApplyFilter;
 
   @override
   State<FilterDialog> createState() => _FilterDialogState();
 }
 
 class _FilterDialogState extends State<FilterDialog> {
-  FilterOption _selectedFilter = FilterOption.cashbackAndCoupons;
   OrderOption _selectedOrder = OrderOption.lowToHigh;
 
   @override
@@ -36,21 +35,6 @@ class _FilterDialogState extends State<FilterDialog> {
             children: [
               const FilterDialogHeader(),
               const Divider(height: 1, thickness: 1),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: DynamicRadioGroup<FilterOption>(
-                  title: S.of(context).Offers,
-                  options: FilterOption.values,
-                  selected: _selectedFilter,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedFilter = value;
-                    });
-                  },
-                  labelBuilder: (option) => option.label,
-                ),
-              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -84,7 +68,6 @@ class _FilterDialogState extends State<FilterDialog> {
 
   void _resetFilters() {
     setState(() {
-      _selectedFilter = FilterOption.cashbackAndCoupons;
       _selectedOrder = OrderOption.lowToHigh;
     });
   }

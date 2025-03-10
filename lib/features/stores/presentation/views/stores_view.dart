@@ -1,5 +1,3 @@
-// stores_view.dart
-
 import 'dart:async';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:deals/features/stores/presentation/views/widgets/build_stores_app_bar.dart';
@@ -22,9 +20,9 @@ class _StoresViewState extends State<StoresView> {
   @override
   void initState() {
     super.initState();
-    // (Optional) If you want to load data right away, the Cubit constructor already does it.
-    // But if you want to be sure, you can also do:
-    // context.read<StoresCubit>().fetchStores(isRefresh: true);
+    
+    // Optionally trigger initial load if not already done by a parent/provider.
+    // context.read<StoresCubit>().loadStores(isRefresh: true);
   }
 
   @override
@@ -35,10 +33,10 @@ class _StoresViewState extends State<StoresView> {
   }
 
   void _onSearchChanged(String query) {
-    // Debounce search: wait 400ms after user stops typing
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      context.read<StoresCubit>().fetchStores(isRefresh: true, search: query);
+      // Update the search filter; this will refresh the list.
+      context.read<StoresCubit>().updateFilters(search: query);
     });
   }
 
