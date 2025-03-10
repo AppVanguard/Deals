@@ -21,6 +21,15 @@ extension OrderOptionExtension on OrderOption {
   String get label {
     switch (this) {
       case OrderOption.lowToHigh:
+        return 'Low to High';
+      case OrderOption.highToLow:
+        return 'High to Low';
+    }
+  }
+
+  String get value {
+    switch (this) {
+      case OrderOption.lowToHigh:
         return 'asc';
       case OrderOption.highToLow:
         return 'desc';

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/entities/category_entity.dart';
 import 'package:deals/generated/l10n.dart';
@@ -7,8 +9,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 class CategoryTabBar extends StatefulWidget {
   /// Optional: Provide a callback if you want to respond when a tab is tapped.
-  final ValueChanged<int>? onTabSelected;
-  final void Function(int)? onTap;
+  final ValueChanged<String>? onTabSelected;
+  final void Function(String)? onTap;
   const CategoryTabBar({super.key, this.onTabSelected, this.onTap});
 
   @override
@@ -53,25 +55,28 @@ class _CategoryTabBarState extends State<CategoryTabBar> {
             length: totalItemCount,
             child: Builder(
               builder: (context) {
-                final tabController = DefaultTabController.of(context)!;
+                final tabController = DefaultTabController.of(context);
                 tabController.addListener(() {
                   final int currentIndex = tabController.index;
-                  // When categories are loaded, index 0 corresponds to "All"
                   if (widget.onTabSelected != null &&
                       !tabController.indexIsChanging &&
                       currentIndex < totalItemCount) {
                     if (isSuccess) {
-                      widget.onTabSelected!(
-                          currentIndex == 0 ? -1 : currentIndex - 1);
+                      final String categoryId = currentIndex == 0
+                          ? ''
+                          : categories[currentIndex - 1].id;
+                      log("Selected tab: $categoryId");
+                      widget.onTabSelected!(categoryId);
                     } else {
-                      widget.onTabSelected!(currentIndex);
+                      widget.onTabSelected!(currentIndex.toString());
                     }
                   }
                 });
+
                 return Container(
                   color: Colors.white,
                   child: TabBar(
-                    onTap: widget.onTap,
+                    // onTap: widget.onTap,
                     isScrollable: true,
                     labelColor: Colors.green,
                     unselectedLabelColor: Colors.black,

@@ -42,6 +42,7 @@ class BackendEndpoints {
   static const String kLimit = "limit";
   static const String kSortField = 'sortField';
   static const String kSortOrder = 'sortOrder';
+  static const String kCategoryId = 'category';
   // JSON keys for response payloads.
   static const String keyUserId = "userId";
   static const String kFirbaseUid = "firebase_uid";

@@ -25,6 +25,7 @@ class StoresRepoImpl implements StoresRepo {
     int? page,
     int? limit,
     String? sortOrder,
+    String? categoryId,
   }) async {
     try {
       // 1) Fetch the data-layer model from the service
@@ -34,6 +35,7 @@ class StoresRepoImpl implements StoresRepo {
         page: page,
         limit: limit,
         sortOrder: sortOrder,
+        categoryId: categoryId,
       );
 
       // 2) Map the 'data' to domain store entities

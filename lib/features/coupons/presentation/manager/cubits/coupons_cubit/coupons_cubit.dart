@@ -6,6 +6,7 @@ import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 part 'coupons_state.dart';
+
 class CouponsCubit extends Cubit<CouponsState> {
   final CouponsRepo couponsRepo;
   int currentPage = 1;

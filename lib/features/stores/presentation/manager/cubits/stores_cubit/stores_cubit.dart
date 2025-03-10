@@ -16,6 +16,7 @@ class StoresCubit extends Cubit<StoresState> {
   String? search;
   String? sortField;
   String? sortOrder;
+  String? categoryId;
 
   // Prevent duplicate fetch requests
   bool _isFetchingMore = false;
@@ -38,6 +39,7 @@ class StoresCubit extends Cubit<StoresState> {
     if (sortField != null) this.sortField = sortField;
     if (sortOrder != null) this.sortOrder = sortOrder;
     if (limit != null) this.limit = limit;
+    if (categoryId != null) this.categoryId = categoryId;
 
     // Prevent duplicate fetch requests (except for refresh)
     if (!isRefresh && _isFetchingMore) return;
@@ -71,6 +73,7 @@ class StoresCubit extends Cubit<StoresState> {
         sortOrder: this.sortOrder,
         page: currentPage,
         limit: this.limit,
+        categoryId: this.categoryId,
       );
 
       eitherResult.fold(

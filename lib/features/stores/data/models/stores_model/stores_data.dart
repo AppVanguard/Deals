@@ -1,25 +1,24 @@
-import 'package:deals/core/models/category_model/category_model.dart';
-
+import 'category.dart';
 import 'image.dart';
 
-class Data {
+class StoresData {
   String? id;
   String? title;
   Image? image;
   String? storeUrl;
-  CategoryModel? category;
-  double? averageSavings;
+  Category? category;
+  int? averageSavings;
   int? totalCoupons;
   int? activeCoupons;
   bool? isFeatured;
   bool? isActive;
-  double? popularityScore;
+  int? popularityScore;
   dynamic deletedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
 
-  Data({
+  StoresData({
     this.id,
     this.title,
     this.image,
@@ -37,7 +36,7 @@ class Data {
     this.v,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory StoresData.fromJson(Map<String, dynamic> json) => StoresData(
         id: json['_id'] as String?,
         title: json['title'] as String?,
         image: json['image'] == null
@@ -46,13 +45,13 @@ class Data {
         storeUrl: json['store_url'] as String?,
         category: json['category'] == null
             ? null
-            : CategoryModel.fromJson(json['category'] as Map<String, dynamic>),
-        averageSavings: (json['average_savings'] as num?)?.toDouble(),
+            : Category.fromJson(json['category'] as Map<String, dynamic>),
+        averageSavings: json['average_savings'] as int?,
         totalCoupons: json['total_coupons'] as int?,
         activeCoupons: json['active_coupons'] as int?,
         isFeatured: json['is_featured'] as bool?,
         isActive: json['is_active'] as bool?,
-        popularityScore: (json['popularity_score'] as num?)?.toDouble(),
+        popularityScore: json['popularity_score'] as int?,
         deletedAt: json['deleted_at'] as dynamic,
         createdAt: json['createdAt'] == null
             ? null

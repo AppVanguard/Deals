@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
@@ -50,7 +52,17 @@ class _StoresViewBodyState extends State<StoresViewBody> {
       controller: _scrollController,
       slivers: [
         // Category tab or widget placeholder
-        const SliverToBoxAdapter(child: CategoryTabBar()),
+        SliverToBoxAdapter(
+          child: CategoryTabBar(
+            onTabSelected: (categoryId) {
+              log("Category ID in the Body: $categoryId");
+              // Call fetchStores with the selected categoryId.
+              context
+                  .read<StoresCubit>()
+                  .fetchStores(categoryId: categoryId, isRefresh: true);
+            },
+          ),
+        ),
 
         BlocBuilder<StoresCubit, StoresState>(
           builder: (context, state) {
@@ -72,6 +84,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
 
             if (state is StoresSuccess) {
               final stores = state.stores;
+
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {

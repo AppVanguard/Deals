@@ -8,9 +8,11 @@ class StoreEntity {
   final double? averageSavings;
   final int? totalCoupons;
   final double? popularityScore;
+  final String? categoryId;
   // Add whichever fields you actually use in your domain/UI
 
   const StoreEntity({
+    this.categoryId,
     this.popularityScore,
     this.totalCoupons,
     this.activeCoupons,

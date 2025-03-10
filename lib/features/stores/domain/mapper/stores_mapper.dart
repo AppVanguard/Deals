@@ -1,5 +1,5 @@
 import 'package:deals/core/entities/store_entity.dart';
-import 'package:deals/features/stores/data/models/stores_model/data.dart';
+import 'package:deals/features/stores/data/models/stores_model/stores_data.dart';
 import 'package:deals/features/stores/data/models/stores_model/stores_model.dart';
 
 class StoresMapper {
@@ -9,17 +9,18 @@ class StoresMapper {
         : model.data!.map((storeModel) => mapToEntity(storeModel)).toList();
   }
 
-  static StoreEntity mapToEntity(Data storeModel) {
+  static StoreEntity mapToEntity(StoresData storeModel) {
     return StoreEntity(
+      categoryId: storeModel.category?.id ?? '',
       id: storeModel.id ?? '',
       title: storeModel.title ?? '',
       storeUrl: storeModel.storeUrl ?? '',
       imageUrl: storeModel.image?.url,
       isActive: storeModel.isActive ?? false,
       activeCoupons: storeModel.activeCoupons,
-      averageSavings: storeModel.averageSavings,
+      averageSavings: double.parse((storeModel.averageSavings).toString()),
       totalCoupons: storeModel.totalCoupons,
-      popularityScore: storeModel.popularityScore,
+      popularityScore: double.parse((storeModel.popularityScore).toString()),
     );
   }
 }

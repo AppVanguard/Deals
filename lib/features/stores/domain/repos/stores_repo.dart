@@ -11,6 +11,7 @@ abstract class StoresRepo {
     int? page,
     int? limit,
     String? sortOrder,
+    String? categoryId,
   });
 
   Future<Either<Failure, StoreEntity>> getStoreById(String id);

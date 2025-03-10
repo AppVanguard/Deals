@@ -43,12 +43,12 @@ AppBar buildStoresAppBar(
               context: context,
               builder: (c) => FilterDialog(
                 onApplyFilter: (selectedFilter) {
-                  log(selectedFilter.label);
+                  log(selectedFilter.value);
                   // Use the selectedFilter here when fetching stores.
                   context.read<StoresCubit>().fetchStores(
                         isRefresh: true,
                         // Pass the selectedFilter to your fetchStores method.
-                        sortOrder: selectedFilter.label,
+                        sortOrder: selectedFilter.value,
                         // You may also want to pass the order option if needed.
                         // sortOrder: yourSortOrderValue,
                       );

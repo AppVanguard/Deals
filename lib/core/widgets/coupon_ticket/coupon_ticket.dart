@@ -5,7 +5,6 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/generated/l10n.dart';
-import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/widgets/coupon_ticket/dashed_line_painter.dart';
 import 'package:deals/core/widgets/coupon_ticket/rect_ticket_clipper.dart';
 

@@ -75,12 +75,10 @@ class CouponsData {
         validFor: json['valid_for'] == null
             ? null
             : ValidFor.fromJson(json['valid_for'] as Map<String, dynamic>),
-        startDate: json['start_date'] == null
-            ? null
-            : json['start_date'] as String,
-        expiryDate: json['expiry_date'] == null
-            ? null
-            : json['expiry_date'] as String,
+        startDate:
+            json['start_date'] == null ? null : json['start_date'] as String,
+        expiryDate:
+            json['expiry_date'] == null ? null : json['expiry_date'] as String,
         usageCount: json['usage_count'] as int?,
         successRate: json['success_rate'] as int?,
         averageSavings: json['average_savings'] == null
@@ -95,12 +93,10 @@ class CouponsData {
         deletedAt: json['deleted_at'] as dynamic,
         verifiedBy: json['verified_by'] as List<dynamic>?,
         reportedNotWorking: json['reported_not_working'] as List<dynamic>?,
-        createdAt: json['createdAt'] == null
-            ? null
-            : json['createdAt'] as String,
-        updatedAt: json['updatedAt'] == null
-            ? null
-            : json['updatedAt'] as String,
+        createdAt:
+            json['createdAt'] == null ? null : json['createdAt'] as String,
+        updatedAt:
+            json['updatedAt'] == null ? null : json['updatedAt'] as String,
         v: json['__v'] as int?,
       );
 

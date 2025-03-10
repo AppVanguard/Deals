@@ -13,6 +13,7 @@ class StoresService {
     int? page,
     int? limit,
     String? sortOrder,
+    String? categoryId,
   }) async {
     final queryParameters = <String, String>{
       if (search != null) BackendEndpoints.kSearch: search,
@@ -20,6 +21,7 @@ class StoresService {
       if (page != null) BackendEndpoints.kPage: page.toString(),
       if (limit != null) BackendEndpoints.kLimit: limit.toString(),
       if (sortOrder != null) BackendEndpoints.kSortOrder: sortOrder,
+      if (categoryId != null) BackendEndpoints.kCategoryId: categoryId,
     };
 
     final url = Uri.parse(BackendEndpoints.stores)
