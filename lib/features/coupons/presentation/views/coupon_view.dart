@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:deals/features/coupons/presentation/manager/cubits/coupons_cubit/coupons_cubit.dart';
-import 'package:deals/features/coupons/presentation/views/widgets/buil_coupons_app_bar.dart';
+import 'package:deals/features/coupons/presentation/views/widgets/build_coupons_app_bar.dart';
 import 'package:deals/features/coupons/presentation/views/widgets/coupon_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

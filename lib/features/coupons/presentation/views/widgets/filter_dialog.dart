@@ -8,7 +8,8 @@ import 'package:flutter/material.dart';
 
 class FilterDialog extends StatefulWidget {
   const FilterDialog({super.key, required this.onApplyFilter});
-  final void Function(OrderOption selectedFilter) onApplyFilter;
+  final void Function(OrderOption selectedOrder, FilterOption selectedFilter)
+      onApplyFilter;
 
   @override
   State<FilterDialog> createState() => _FilterDialogState();
@@ -71,7 +72,7 @@ class _FilterDialogState extends State<FilterDialog> {
                 onReset: _resetFilters,
                 onShowResults: () {
                   // Pass the selected filter to the callback and close the dialog.
-                  widget.onApplyFilter(_selectedOrder);
+                  widget.onApplyFilter(_selectedOrder, _selectedFilter);
                   Navigator.pop(context);
                 },
               ),

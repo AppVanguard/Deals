@@ -1,6 +1,6 @@
 // lib/features/search/presentation/views/filter_dialog/filter_option.dart
 
-enum FilterOption { cashback, coupons, cashbackAndCoupons }
+enum FilterOption { cashback, coupons, persentage, cashbackAndCoupons }
 
 enum OrderOption { lowToHigh, highToLow }
 
@@ -11,8 +11,23 @@ extension FilterOptionExtension on FilterOption {
         return 'Cashback';
       case FilterOption.coupons:
         return 'Coupons';
+      case FilterOption.persentage:
+        return 'Percentage';
       case FilterOption.cashbackAndCoupons:
         return 'Cashback & Coupons';
+    }
+  }
+
+  String get value {
+    switch (this) {
+      case FilterOption.cashback:
+        return 'CASHBACK';
+      case FilterOption.coupons:
+        return 'DISCOUNT';
+      case FilterOption.persentage:
+        return 'PERCENTAGE';
+      case FilterOption.cashbackAndCoupons:
+        return '';
     }
   }
 }

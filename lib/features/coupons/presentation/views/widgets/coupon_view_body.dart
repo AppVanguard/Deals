@@ -50,7 +50,15 @@ class _CouponViewBodyState extends State<CouponViewBody> {
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
-        const SliverToBoxAdapter(child: CategoryTabBar()),
+        SliverToBoxAdapter(child: CategoryTabBar(
+          onTabSelected: (categoryId) {
+            log("Category ID in the Body: $categoryId");
+            // Call fetchStores with the selected categoryId.
+            context
+                .read<CouponsCubit>()
+                .fetchCouppons(categoryId: categoryId, isRefresh: true);
+          },
+        )),
         BlocBuilder<CouponsCubit, CouponsState>(
           builder: (context, state) {
             if (state is CouponsLoading) {

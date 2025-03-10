@@ -16,12 +16,15 @@ class CouponsRepoImpl implements CouponsRepo {
 
   CouponsRepoImpl({required this.couponsService});
   @override
-  Future<Either<Failure, CouponsWithPaginationEntity>> getAllCoupons(
-      {String? search,
-      String? sortField,
-      int? page,
-      int? limit,
-      String? sortOrder}) async {
+  Future<Either<Failure, CouponsWithPaginationEntity>> getAllCoupons({
+    String? search,
+    String? sortField,
+    int? page,
+    int? limit,
+    String? sortOrder,
+    String? category,
+    String? discountType,
+  }) async {
     try {
       final CouponsModel couponsModel = await couponsService.getAllCoupons(
         search: search,
@@ -29,6 +32,8 @@ class CouponsRepoImpl implements CouponsRepo {
         page: page,
         limit: limit,
         sortOrder: sortOrder,
+        category: category,
+        discountType: discountType,
       );
       final List<CouponEntity> couponEntities =
           CouponsMapper.mapToEntities(couponsModel);

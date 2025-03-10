@@ -10,6 +10,8 @@ abstract class CouponsRepo {
     int? page,
     int? limit,
     String? sortOrder,
+    String? category,
+    String? discountType,
   });
 
   Future<Either<Failure, CouponEntity>> getCouponById(String id);

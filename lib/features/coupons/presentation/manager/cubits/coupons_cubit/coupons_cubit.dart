@@ -14,7 +14,8 @@ class CouponsCubit extends Cubit<CouponsState> {
   String? search;
   String? sortField;
   String? sortOrder;
-
+  String? categoryId;
+  String? discountType;
   // Flag to prevent duplicate fetch requests.
   bool _isFetchingMore = false;
 
@@ -25,10 +26,11 @@ class CouponsCubit extends Cubit<CouponsState> {
   Future<void> fetchCouppons({
     bool isRefresh = false,
     String? search,
-    String? sortField,
+    String? sortField = "title",
     String? sortOrder,
     int? limit,
     String? categoryId,
+    String? discountType,
   }) async {
     // Prevent duplicate fetch requests if not a refresh.
     if (!isRefresh && _isFetchingMore) return;
@@ -37,6 +39,8 @@ class CouponsCubit extends Cubit<CouponsState> {
     if (sortField != null) this.sortField = sortField;
     if (sortOrder != null) this.sortOrder = sortOrder;
     if (limit != null) this.limit = limit;
+    if (categoryId != null) this.categoryId = categoryId;
+    if (discountType != null) this.discountType = discountType;
 
     if (isRefresh) {
       // Full reload
@@ -65,6 +69,8 @@ class CouponsCubit extends Cubit<CouponsState> {
         sortOrder: this.sortOrder,
         page: currentPage,
         limit: this.limit,
+        category: this.categoryId,
+        discountType: this.discountType,
       );
       eitherResult.fold((failure) {
         emit(CouponsFailure(message: failure.message));
