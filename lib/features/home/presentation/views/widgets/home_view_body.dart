@@ -43,40 +43,33 @@ class HomeViewBody extends StatelessWidget {
       return ListView(
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Center(
-                child: GenericErrorScreen(
-                  title: 'Oops, something went wrong!',
-                  message:
-                      'We encountered an unexpected error while processing your request.',
-                  errorDetails: 'Error Code: 500 - Internal Server Error',
-                  onRetry: () {
-                    context.read<HomeCubit>().fetchHomeData(isRefresh: true);
-                  },
-                  retryButtonText: 'Try Again',
-                  // Optionally override the default error illustration
-                  errorIllustration: const Icon(
-                    Icons.cloud_off,
-                    size: 80,
-                    color: Colors.orangeAccent,
-                  ),
-                  // Optionally provide a Lottie animation (this overrides errorIllustration if provided)
-                  lottieAnimationAsset: 'assets/animations/error.json',
-                  // Customize the background gradient
-                  gradientColors: const [
-                    AppColors.background,
-                    AppColors.background
-                  ],
-                  backgroundColor: AppColors.primary,
-                  // Optional footer widget
-                  footer: const Text(
-                    'If the issue persists, please contact our support team.',
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.regular16,
-                  ),
-                ),
-              )),
+          GenericErrorScreen(
+            title: 'Oops, something went wrong!',
+            message:
+                'We encountered an unexpected error while processing your request.',
+            errorDetails: 'Error Code: 500 - Internal Server Error',
+            onRetry: () {
+              context.read<HomeCubit>().fetchHomeData(isRefresh: true);
+            },
+            retryButtonText: 'Try Again',
+            // Optionally override the default error illustration
+            errorIllustration: const Icon(
+              Icons.cloud_off,
+              size: 80,
+              color: Colors.orangeAccent,
+            ),
+            // Optionally provide a Lottie animation (this overrides errorIllustration if provided)
+            lottieAnimationAsset: 'assets/animations/error.json',
+            // Customize the background gradient
+            gradientColors: const [AppColors.background, AppColors.background],
+            backgroundColor: AppColors.primary,
+            // Optional footer widget
+            footer: const Text(
+              'If the issue persists, please contact our support team.',
+              textAlign: TextAlign.center,
+              style: AppTextStyles.regular16,
+            ),
+          ),
         ],
       );
     } else if (state is HomeSuccess) {

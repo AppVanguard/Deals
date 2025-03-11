@@ -1,4 +1,5 @@
 import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -60,7 +61,7 @@ class GenericErrorScreen extends StatelessWidget {
     // If a Lottie asset is provided, override the illustration.
     if (lottieAnimationAsset != null) {
       illustration = SizedBox(
-        height: 150,
+        height: 300,
         child: Lottie.asset(lottieAnimationAsset!, repeat: true),
       );
     }
@@ -79,70 +80,58 @@ class GenericErrorScreen extends StatelessWidget {
               )
             : null,
       ),
-      child: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20.0),
-            child: Card(
-              elevation: 6,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 32.0,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
+        child: Card(
+          color: Colors.transparent,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              // vertical: 32.0,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                illustration,
+                const SizedBox(height: 24),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.bold14,
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    illustration,
-                    const SizedBox(height: 24),
-                    Text(
-                      title,
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.bold14,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      message,
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.bold14,
-                    ),
-                    if (errorDetails.isNotEmpty) ...[
-                      const SizedBox(height: 8),
-                      Text(
-                        errorDetails,
-                        textAlign: TextAlign.center,
-                        style: AppTextStyles.bold14
-                            .copyWith(color: Colors.redAccent),
-                      ),
-                    ],
-                    const SizedBox(height: 24),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: onRetry,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                        ),
-                        child: Text(
-                          retryButtonText,
-                          style: AppTextStyles.regular16,
-                        ),
-                      ),
-                    ),
-                    if (footer != null) ...[
-                      const SizedBox(height: 16),
-                      footer!,
-                    ],
-                  ],
+                const SizedBox(height: 12),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.bold14,
                 ),
-              ),
+                if (errorDetails.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    errorDetails,
+                    textAlign: TextAlign.center,
+                    style:
+                        AppTextStyles.bold14.copyWith(color: Colors.redAccent),
+                  ),
+                ],
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: CustomButton(
+                    width: double.infinity,
+                    text: 'Retry',
+                    onPressed: onRetry,
+                  ),
+                ),
+                if (footer != null) ...[
+                  const SizedBox(height: 16),
+                  footer!,
+                ],
+              ],
             ),
           ),
         ),
