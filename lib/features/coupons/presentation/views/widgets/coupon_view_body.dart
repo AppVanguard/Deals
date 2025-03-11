@@ -123,7 +123,7 @@ class _CouponViewBodyState extends State<CouponViewBody> {
         subTittle: 'Get',
         discountValue: coupon?.discountValue,
         image: coupon?.image,
-        validTo: coupon?.expiryDate,
+        validTo: coupon?.expiryDate.toString(),
         isLoading: isLoading,
       ),
     );

@@ -1,9 +1,9 @@
 class StoreEntity {
   final String id;
   final String title;
-  final String storeUrl;
+  final String? storeUrl;
   final String? imageUrl;
-  final bool isActive;
+  final bool? isActive;
   final int? activeCoupons;
   final double? averageSavings;
   final int? totalCoupons;
@@ -19,8 +19,8 @@ class StoreEntity {
     this.averageSavings,
     required this.id,
     required this.title,
-    required this.storeUrl,
+     this.storeUrl,
     this.imageUrl,
-    required this.isActive,
+     this.isActive,
   });
 }

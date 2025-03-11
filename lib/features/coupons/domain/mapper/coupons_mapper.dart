@@ -1,5 +1,5 @@
 import 'package:deals/core/entities/coupon_entity.dart';
-import 'package:deals/features/coupons/data/models/coupons_data.dart';
+import 'package:deals/features/coupons/data/models/coupon_data.dart';
 import 'package:deals/features/coupons/data/models/coupons_model.dart';
 
 class CouponsMapper {
@@ -13,13 +13,10 @@ class CouponsMapper {
     return CouponEntity(
       id: couponModel.id ?? '',
       code: couponModel.code ?? '',
-      isActive: couponModel.isActive ?? false,
       title: couponModel.title ?? '',
       discountValue: couponModel.discountValue,
       expiryDate: couponModel.expiryDate,
       startDate: couponModel.startDate,
-      validForExisting: couponModel.validFor?.existingCustomers,
-      validForNew: couponModel.validFor?.newCustomers,
     );
   }
 }

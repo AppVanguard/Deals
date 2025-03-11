@@ -5,8 +5,8 @@ class AnnouncementEntity {
   final String? description;
   final bool? isActive;
   final dynamic deletedAt;
-  final String? createdAt;
-  final String? updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   // etc.
 
   const AnnouncementEntity({

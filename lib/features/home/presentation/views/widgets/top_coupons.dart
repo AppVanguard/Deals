@@ -61,7 +61,6 @@ class _TopCouponsState extends State<TopCoupons> {
                   id: '',
                   code: '',
                   title: '',
-                  isActive: false,
                 ),
               )
             : widget.coupons;
@@ -89,14 +88,10 @@ class _TopCouponsState extends State<TopCoupons> {
                         padding: const EdgeInsets.only(right: 16.0),
                         child: CouponTicket(
                           tittle: displayCoupons[index].title,
-                          validTo: displayCoupons[index].expiryDate,
+                          validTo: displayCoupons[index].expiryDate.toString(),
                           discountValue: displayCoupons[index].discountValue,
                           image: displayCoupons[index].image,
-                          subTittle: displayCoupons[index].validForExisting!
-                              ? 'Valid for Existing Users'
-                              : displayCoupons[index].validForNew!
-                                  ? 'Valid for New Users'
-                                  : 'Extra discount',
+                          subTittle: displayCoupons[index].code,
                           isLoading: localIsLoading,
                         ),
                       ),
@@ -116,16 +111,13 @@ class _TopCouponsState extends State<TopCoupons> {
                           padding: const EdgeInsets.only(right: 16.0),
                           child: CouponTicket(
                             tittle: displayCoupons[adjustedIndex].title,
-                            validTo: displayCoupons[adjustedIndex].expiryDate,
+                            validTo: displayCoupons[adjustedIndex]
+                                .expiryDate
+                                .toString(),
                             discountValue:
                                 displayCoupons[adjustedIndex].discountValue,
                             image: displayCoupons[adjustedIndex].image,
-                            subTittle:
-                                displayCoupons[adjustedIndex].validForExisting!
-                                    ? 'Valid for Existing Users'
-                                    : displayCoupons[adjustedIndex].validForNew!
-                                        ? 'Valid for New Users'
-                                        : 'Extra discount',
+                            subTittle: displayCoupons[adjustedIndex].code,
                             isLoading: localIsLoading,
                           ),
                         );

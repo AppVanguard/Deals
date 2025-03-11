@@ -20,7 +20,7 @@ class _StoresViewState extends State<StoresView> {
   @override
   void initState() {
     super.initState();
-    
+
     // Optionally trigger initial load if not already done by a parent/provider.
     // context.read<StoresCubit>().loadStores(isRefresh: true);
   }

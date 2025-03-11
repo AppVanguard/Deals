@@ -2,11 +2,8 @@ class CouponEntity {
   final String id;
   final String code;
   final String title;
-  final String? startDate;
-  final String? expiryDate;
-  final bool isActive;
-  final bool? validForExisting;
-  final bool? validForNew;
+  final DateTime? startDate;
+  final DateTime? expiryDate;
   final int? discountValue;
   final String? image;
 
@@ -15,13 +12,10 @@ class CouponEntity {
   const CouponEntity({
     this.image,
     this.discountValue,
-    this.validForNew,
-    this.validForExisting,
     required this.id,
     required this.code,
     required this.title,
     this.startDate,
     this.expiryDate,
-    required this.isActive,
   });
 }

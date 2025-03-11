@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/errors/faliure.dart';
-import 'package:deals/features/home/data/models/home_model.dart';
+import 'package:deals/features/home/data/models/home_model/home_model.dart';
 import 'package:deals/features/home/domain/mapper/home_mapper.dart';
 import 'package:deals/features/home/domain/entities/home_entity.dart';
 import 'package:deals/features/home/domain/repos/home_repo.dart';

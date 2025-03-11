@@ -1,7 +1,7 @@
 // home_local_data_source.dart
 import 'dart:convert';
+import 'package:deals/features/home/data/models/home_model/home_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:deals/features/home/data/models/home_model.dart';
 
 class HomeLocalDataSource {
   static const String _cacheKey = 'cached_home_data';

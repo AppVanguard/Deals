@@ -35,8 +35,6 @@ class _SalesCarouselState extends State<SalesCarousel> {
                 id: '',
                 imageUrl: '',
                 title: '',
-                createdAt: '',
-                updatedAt: '',
                 deletedAt: '',
                 description: '',
                 isActive: false,
