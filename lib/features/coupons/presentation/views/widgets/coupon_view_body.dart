@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
-import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/core/widgets/build_custom_error_screen.dart';
 import 'package:deals/core/widgets/category_tab_bar.dart';
 import 'package:deals/core/widgets/coupon_ticket/coupon_ticket.dart';
