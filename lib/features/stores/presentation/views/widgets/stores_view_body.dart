@@ -102,14 +102,12 @@ class _StoresViewBodyState extends State<StoresViewBody> {
                       return _buildStoreCard(isLoading: false, store: store);
                     }
                     if (showLoadingIndicator) {
-                      return const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(child: CircularProgressIndicator()),
-                      );
+                      // Instead of a CircularProgressIndicator, show a skeleton card.
+                      return _buildStoreCard(isLoading: true);
                     }
                     return Container();
                   },
-                  // Count: header + store items + possible loading indicator.
+                  // Count: header + store items + extra skeleton card if loading more.
                   childCount: stores.length + 2,
                 ),
               );

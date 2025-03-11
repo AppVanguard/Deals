@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/widgets/filter_dialog/filter_option.dart';
@@ -43,16 +42,12 @@ AppBar buildCouponsAppBar(
               context: context,
               builder: (c) => FilterDialog(
                 onApplyFilter: (selectedOrder, selectedFilter) {
-                  log("selectedOrder ${selectedOrder.value}");
-                  log("selectedFilter ${selectedFilter.value}");
-                  // Use the selectedFilter here when fetching stores.
-                  context.read<CouponsCubit>().fetchCouppons(
-                        isRefresh: true,
-                        // Pass the selectedFilter to your fetchStores method.
+                  log("selectedOrder: ${selectedOrder.value}");
+                  log("selectedFilter: ${selectedFilter.value}");
+                  // Update filters with the selected sort order and discount type.
+                  context.read<CouponsCubit>().updateFilters(
                         sortOrder: selectedOrder.value,
                         discountType: selectedFilter.value,
-                        // You may also want to pass the order option if needed.
-                        // sortOrder: yourSortOrderValue,
                       );
                 },
               ),

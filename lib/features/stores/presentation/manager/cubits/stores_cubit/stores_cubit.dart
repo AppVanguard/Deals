@@ -15,11 +15,11 @@ class StoresCubit extends Cubit<StoresState> {
   String? _search;
   String _sortField = 'title';
   String _sortOrder = 'asc';
-  int _limit = 10;
+  int _limit = 6;
   String? _categoryId;
 
   StoresCubit({required this.storesRepo}) : super(StoresInitial()) {
-    loadStores();
+    loadStores(isRefresh: true);
   }
 
   /// Loads stores data.

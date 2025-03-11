@@ -1,111 +1,116 @@
-import 'dart:developer';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta/meta.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
 import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
+
 part 'coupons_state.dart';
 
 class CouponsCubit extends Cubit<CouponsState> {
   final CouponsRepo couponsRepo;
-  int currentPage = 1;
-  int limit = 6;
-  String? search;
-  String? sortField;
-  String? sortOrder;
-  String? categoryId;
-  String? discountType;
-  // Flag to prevent duplicate fetch requests.
-  bool _isFetchingMore = false;
+
+  // Internal parameters for filtering, sorting, and pagination.
+  int _currentPage = 1;
+  String? _search;
+  String _sortField = 'title';
+  String _sortOrder = 'asc';
+  int _limit = 5;
+  String? _category;
+  String? _discountType;
 
   CouponsCubit({required this.couponsRepo}) : super(CouponsInitial()) {
-    fetchCouppons(isRefresh: true);
+    loadCoupons(isRefresh: true);
   }
 
-  Future<void> fetchCouppons({
-    bool isRefresh = false,
-    String? search,
-    String? sortField = "title",
-    String? sortOrder,
-    int? limit,
-    String? categoryId,
-    String? discountType,
-  }) async {
-    // Prevent duplicate fetch requests if not a refresh.
-    if (!isRefresh && _isFetchingMore) return;
-
-    if (search != null) this.search = search;
-    if (sortField != null) this.sortField = sortField;
-    if (sortOrder != null) this.sortOrder = sortOrder;
-    if (limit != null) this.limit = limit;
-    if (categoryId != null) this.categoryId = categoryId;
-    if (discountType != null) this.discountType = discountType;
-
+  /// Loads coupons data.
+  /// If [isRefresh] is true, resets the pagination to the first page.
+  Future<void> loadCoupons({bool isRefresh = false}) async {
     if (isRefresh) {
-      // Full reload
-      currentPage = 1;
-      emit(CouponsLoading());
-    } else {
-      if (state is CouponsSuccess) {
-        final successState = state as CouponsSuccess;
-        // If no more pages, do nothing
-        if (!successState.pagination.hasNextPage) {
-          return;
-        }
-        // Otherwise, set partial loading
-        emit(successState.copyWith(isLoadingMore: true));
-      } else {
-        emit(CouponsLoading());
-      }
+      _currentPage = 1;
     }
 
-    // Set the flag before starting the fetch
-    _isFetchingMore = true;
+    // When loading more pages, check the current state.
+    if (state is CouponsSuccess && !isRefresh) {
+      final currentState = state as CouponsSuccess;
+      if (!currentState.pagination.hasNextPage) return;
+      emit(CouponsSuccess(
+        coupons: currentState.coupons,
+        pagination: currentState.pagination,
+        isLoadingMore: true,
+      ));
+    } else {
+      emit(CouponsLoading());
+    }
+
     try {
-      final eitherResult = await couponsRepo.getAllCoupons(
-        search: this.search,
-        sortField: this.sortField,
-        sortOrder: this.sortOrder,
-        page: currentPage,
-        limit: this.limit,
-        category: this.categoryId,
-        discountType: this.discountType,
+      final result = await couponsRepo.getAllCoupons(
+        search: _search,
+        sortField: _sortField,
+        page: _currentPage,
+        limit: _limit,
+        sortOrder: _sortOrder,
+        category: _category,
+        discountType: _discountType,
       );
-      eitherResult.fold((failure) {
-        emit(CouponsFailure(message: failure.message));
-      }, (couponsData) {
-        final newCoupons = couponsData.coupons;
-        final newPagination = couponsData.pagination;
-        log("Total coupons from API: ${newPagination.totalCoupons}");
-        if (isRefresh || state is! CouponsSuccess) {
-          emit(
-            CouponsSuccess(
-              coupons: newCoupons,
-              pagination: newPagination,
-            ),
-          );
-        } else {
-          final oldState = state as CouponsSuccess;
-          // Append only new coupons
-          final updatedCoupons = List<CouponEntity>.from(oldState.coupons)
-            ..addAll(newCoupons);
-          emit(
-            oldState.copyWith(
-              coupons: updatedCoupons,
-              pagination: newPagination,
-              isLoadingMore: false,
-            ),
-          );
-        }
-        // Increment the page if there are more coupons to fetch
-        if (newPagination.hasNextPage) currentPage++;
-      });
+
+      result.fold(
+        (failure) => emit(CouponsFailure(message: failure.message)),
+        (couponsWithPagination) {
+          List<CouponEntity> updatedCoupons = [];
+          if (isRefresh || state is! CouponsSuccess) {
+            // Fresh load (or refresh) replaces the current list.
+            updatedCoupons = couponsWithPagination.coupons;
+          } else if (state is CouponsSuccess) {
+            // Append new items to the existing list.
+            final currentState = state as CouponsSuccess;
+            updatedCoupons = List.from(currentState.coupons)
+              ..addAll(couponsWithPagination.coupons);
+          }
+
+          emit(CouponsSuccess(
+            coupons: updatedCoupons,
+            pagination: couponsWithPagination.pagination,
+            isLoadingMore: false,
+          ));
+
+          // If more pages are available, increment the page.
+          if (couponsWithPagination.pagination.hasNextPage) {
+            _currentPage++;
+          }
+        },
+      );
     } catch (e) {
       emit(CouponsFailure(message: e.toString()));
-    } finally {
-      // Reset the flag once fetching is complete
-      _isFetchingMore = false;
+    }
+  }
+
+  /// Updates filtering, sorting, and pagination parameters, then refreshes the coupons.
+  void updateFilters({
+    String? search,
+    String? sortField,
+    String? sortOrder,
+    int? limit,
+    String? category,
+    String? discountType,
+  }) {
+    _search = search;
+    if (sortField != null) _sortField = sortField;
+    if (sortOrder != null) _sortOrder = sortOrder;
+    if (limit != null) _limit = limit;
+    _category = category;
+    _discountType = discountType;
+
+    _currentPage = 1;
+    loadCoupons(isRefresh: true);
+  }
+
+  /// Loads the next page if available.
+  Future<void> loadNextPage() async {
+    if (state is CouponsSuccess) {
+      final currentState = state as CouponsSuccess;
+      if (currentState.pagination.hasNextPage) {
+        await loadCoupons();
+      }
     }
   }
 }

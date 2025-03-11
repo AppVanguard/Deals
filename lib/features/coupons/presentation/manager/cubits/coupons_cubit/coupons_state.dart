@@ -17,6 +17,7 @@ class CouponsSuccess extends CouponsState {
     required this.pagination,
     this.isLoadingMore = false,
   });
+
   CouponsSuccess copyWith({
     List<CouponEntity>? coupons,
     PaginationEntity? pagination,
