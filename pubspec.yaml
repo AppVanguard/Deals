@@ -44,6 +44,7 @@ dependencies:
   meta: ^1.15.0
   modal_progress_hud_nsn: ^0.5.1
   package_info_plus: ^8.2.1
+  sentry_flutter: ^8.13.3
   shared_preferences: ^2.4.0
   shimmer: ^3.0.0
   sign_in_with_apple: ^6.1.4
@@ -53,6 +54,7 @@ dependencies:
   top_snackbar_flutter: ^3.1.0
 
 dev_dependencies:
+  sentry_dart_plugin: ^2.4.1
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
@@ -90,3 +92,9 @@ flutter_assets:
   output_path: lib/core/utils/
   filename: app_images.dart
   classname: AppImages
+
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  project: in_pocket
+  org: seif-1l

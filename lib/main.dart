@@ -10,21 +10,33 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/firebase_options.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:deals/features/splash/presentation/views/splash_view.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   // 1) Initialize SharedPreferences
   await Prefs.init();
   // 2) Setup GetIt
   setupGetit();
   // 3) Run the app
-  runApp(
-    BlocProvider(
-      create: (context) => LocaleCubit(), // Provide your LocaleCubit globally
-      child: const Deals(),
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://da3c6050a6f353ca4bd8b56f90591b16@o4508131969990656.ingest.us.sentry.io/4508722479431680';
+
+      // Adds request headers and IP for users,
+      // visit: https://docs.sentry.io/platforms/dart/data-management/data-collected/ for more info
+      options.sendDefaultPii = true;
+    },
+    appRunner: () => runApp(
+      BlocProvider(
+        create: (context) => LocaleCubit(), // Provide your LocaleCubit globally
+        child: const Deals(),
+      ),
     ),
   );
 }
