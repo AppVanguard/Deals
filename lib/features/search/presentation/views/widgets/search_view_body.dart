@@ -67,7 +67,7 @@ class _SearchViewBodyState extends State<SearchViewBody> {
         BlocBuilder<StoresCubit, StoresState>(
           builder: (context, state) {
             if (state is StoresFailure) {
-              return SliverToBoxAdapter(
+              return SliverFillRemaining(
                   child: buildCustomErrorScreen(
                       context: context,
                       onRetry: () {

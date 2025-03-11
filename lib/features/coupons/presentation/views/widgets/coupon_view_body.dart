@@ -94,7 +94,7 @@ class _CouponViewBodyState extends State<CouponViewBody> {
                 ),
               );
             } else if (state is CouponsFailure) {
-              return SliverToBoxAdapter(
+              return SliverFillRemaining(
                   child: buildCustomErrorScreen(
                       context: context,
                       onRetry: () {
