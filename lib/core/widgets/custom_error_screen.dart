@@ -3,7 +3,7 @@ import 'package:deals/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class GenericErrorScreen extends StatelessWidget {
+class CustomErrorScreen extends StatelessWidget {
   /// Main title to display. Defaults to "Something Went Wrong".
   final String title;
 
@@ -34,7 +34,7 @@ class GenericErrorScreen extends StatelessWidget {
   /// Optional background color if gradient is not desired.
   final Color backgroundColor;
 
-  const GenericErrorScreen({
+  const CustomErrorScreen({
     super.key,
     this.title = 'Something Went Wrong',
     this.message = 'An unexpected error has occurred. Please try again later.',

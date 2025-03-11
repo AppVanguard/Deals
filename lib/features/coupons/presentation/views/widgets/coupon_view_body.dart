@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:deals/core/entities/coupon_entity.dart';
+import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/build_custom_error_screen.dart';
 import 'package:deals/core/widgets/category_tab_bar.dart';
 import 'package:deals/core/widgets/coupon_ticket/coupon_ticket.dart';
 import 'package:deals/features/coupons/presentation/manager/cubits/coupons_cubit/coupons_cubit.dart';
@@ -73,13 +75,7 @@ class _CouponViewBodyState extends State<CouponViewBody> {
                   (context, index) {
                     // The first item is a header.
                     if (index == 0) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'Total Coupons: ${state.pagination.totalCoupons}',
-                          style: AppTextStyles.bold14,
-                        ),
-                      );
+                      return const SizedBox();
                     }
                     final couponIndex = index - 1;
                     if (couponIndex < coupons.length) {
@@ -99,8 +95,16 @@ class _CouponViewBodyState extends State<CouponViewBody> {
               );
             } else if (state is CouponsFailure) {
               return SliverToBoxAdapter(
-                child: Center(child: Text(state.message)),
-              );
+                  child: buildCustomErrorScreen(
+                      context: context,
+                      onRetry: () {
+                        context
+                            .read<CouponsCubit>()
+                            .loadCoupons(isRefresh: true);
+                        context
+                            .read<CategoriesCubit>()
+                            .fetchCategories(isRefresh: true);
+                      }));
             } else {
               return const SliverToBoxAdapter(
                 child: Center(child: Text('No coupons found')),

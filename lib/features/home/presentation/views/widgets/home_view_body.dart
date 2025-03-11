@@ -1,6 +1,4 @@
-import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/core/utils/app_text_styles.dart';
-import 'package:deals/core/widgets/custom_error_screen.dart';
+import 'package:deals/core/widgets/build_custom_error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,33 +41,11 @@ class HomeViewBody extends StatelessWidget {
       return ListView(
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          GenericErrorScreen(
-            title: 'Oops, something went wrong!',
-            message:
-                'We encountered an unexpected error while processing your request.',
-            errorDetails: 'Error Code: 500 - Internal Server Error',
-            onRetry: () {
-              context.read<HomeCubit>().fetchHomeData(isRefresh: true);
-            },
-            retryButtonText: 'Try Again',
-            // Optionally override the default error illustration
-            errorIllustration: const Icon(
-              Icons.cloud_off,
-              size: 80,
-              color: Colors.orangeAccent,
-            ),
-            // Optionally provide a Lottie animation (this overrides errorIllustration if provided)
-            lottieAnimationAsset: 'assets/animations/error.json',
-            // Customize the background gradient
-            gradientColors: const [AppColors.background, AppColors.background],
-            backgroundColor: AppColors.primary,
-            // Optional footer widget
-            footer: const Text(
-              'If the issue persists, please contact our support team.',
-              textAlign: TextAlign.center,
-              style: AppTextStyles.regular16,
-            ),
-          ),
+          buildCustomErrorScreen(
+              context: context,
+              onRetry: () {
+                context.read<HomeCubit>().fetchHomeData(isRefresh: true);
+              }),
         ],
       );
     } else if (state is HomeSuccess) {
@@ -82,4 +58,6 @@ class HomeViewBody extends StatelessWidget {
       return ListView();
     }
   }
+
+  
 }

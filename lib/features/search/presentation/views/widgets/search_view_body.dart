@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
+import 'package:deals/core/widgets/build_custom_error_screen.dart';
 import 'package:deals/core/widgets/category_tab_bar.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:deals/core/entities/store_entity.dart';
@@ -66,8 +68,14 @@ class _SearchViewBodyState extends State<SearchViewBody> {
           builder: (context, state) {
             if (state is StoresFailure) {
               return SliverToBoxAdapter(
-                child: Center(child: Text(state.message)),
-              );
+                  child: buildCustomErrorScreen(
+                      context: context,
+                      onRetry: () {
+                        context.read<StoresCubit>().loadStores(isRefresh: true);
+                        context
+                            .read<CategoriesCubit>()
+                            .fetchCategories(isRefresh: true);
+                      }));
             }
             if (state is StoresLoading) {
               // Show skeleton placeholders during initial loading.

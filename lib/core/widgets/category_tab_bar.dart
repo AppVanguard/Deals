@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/entities/category_entity.dart';
+import 'package:deals/core/widgets/build_custom_error_screen.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +40,14 @@ class _CategoryTabBarState extends State<CategoryTabBar> {
         }
 
         if (state is CategoriesFailure) {
-          return Center(child: Text(state.message));
+          return const SizedBox();
+          // buildCustomErrorScreen(
+          //     context: context,
+          //     onRetry: () {
+          //       context
+          //           .read<CategoriesCubit>()
+          //           .fetchCategories(isRefresh: true);
+          //     });
         }
 
         // When categories are successfully loaded, we want to insert a tab for "All"

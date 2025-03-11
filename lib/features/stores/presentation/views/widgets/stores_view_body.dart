@@ -1,8 +1,11 @@
 import 'dart:developer';
 import 'package:deals/core/entities/store_entity.dart';
+import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/build_custom_error_screen.dart';
 import 'package:deals/core/widgets/category_tab_bar.dart';
+import 'package:deals/core/widgets/custom_error_screen.dart';
 import 'package:deals/core/widgets/generic_card.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +70,14 @@ class _StoresViewBodyState extends State<StoresViewBody> {
           builder: (context, state) {
             if (state is StoresFailure) {
               return SliverToBoxAdapter(
-                  child: Center(child: Text(state.message)));
+                  child: buildCustomErrorScreen(
+                      context: context,
+                      onRetry: () {
+                        context.read<StoresCubit>().loadStores(isRefresh: true);
+                        context
+                            .read<CategoriesCubit>()
+                            .fetchCategories(isRefresh: true);
+                      }));
             }
             if (state is StoresLoading) {
               // Display skeleton placeholders.
@@ -88,11 +98,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
                   (context, index) {
                     // Index 0 is a header.
                     if (index == 0) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text('Total Stores: $totalStores',
-                            style: AppTextStyles.bold14),
-                      );
+                      return const SizedBox();
                     }
                     // Adjust index for the header.
                     final storeIndex = index - 1;
