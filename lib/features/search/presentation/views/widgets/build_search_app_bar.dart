@@ -15,13 +15,11 @@ AppBar buildSearchAppBar(
   TextEditingController searchController, {
   Timer? debounce,
 }) {
-  void onSearchChanged0(String query) {
-    // Debounce search: wait 400ms after user stops typing
+  void onSearchChanged(String query) {
     if (debounce?.isActive ?? false) debounce?.cancel();
     debounce = Timer(const Duration(milliseconds: 400), () {
-      context.read<StoresCubit>().loadStores(
-            isRefresh: true,
-          );
+      // Update the search filter.
+      context.read<StoresCubit>().updateFilters(search: query);
     });
   }
 
@@ -41,22 +39,24 @@ AppBar buildSearchAppBar(
             elevation: WidgetStateProperty.all(0),
             controller: searchController,
             hintText: S.of(context).Search,
-            onChanged: onSearchChanged0,
-            onSubmitted: onSearchChanged0,
+            onChanged: onSearchChanged,
+            onSubmitted: onSearchChanged,
           ),
         ),
         const SizedBox(width: 12),
         GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
-            // Capture the StoresCubit instance before opening the dialog.
             final storesCubit = context.read<StoresCubit>();
             showDialog(
               context: context,
               builder: (c) => FilterDialog(
                 onApplyFilter: (selectedFilter) {
                   log(selectedFilter.label);
-                  storesCubit.loadNextPage();
+                  // Update filters with the selected sort order, for example.
+                  storesCubit.updateFilters(
+                    sortOrder: selectedFilter.value,
+                  );
                 },
               ),
             );

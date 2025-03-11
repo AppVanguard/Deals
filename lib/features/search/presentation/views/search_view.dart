@@ -5,9 +5,9 @@ import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/features/search/presentation/views/widgets/build_search_app_bar.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
+import 'package:deals/features/search/presentation/views/widgets/search_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:deals/features/search/presentation/views/widgets/search_view_body.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({super.key});
@@ -44,7 +44,7 @@ class _SearchViewState extends State<SearchView> {
           ),
         ),
       ],
-      // Wrap with Builder so that the context is below the providers.
+      // Builder so that context is below the providers.
       child: Builder(
         builder: (context) => Scaffold(
           appBar: buildSearchAppBar(

@@ -1,9 +1,8 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
-import 'package:deals/features/stores/domain/repos/stores_with_pagination.dart';
 
 part 'stores_state.dart';
 
@@ -15,7 +14,7 @@ class StoresCubit extends Cubit<StoresState> {
   String? _search;
   String _sortField = 'title';
   String _sortOrder = 'asc';
-  int _limit = 6;
+  int _limit = 10;
   String? _categoryId;
 
   StoresCubit({required this.storesRepo}) : super(StoresInitial()) {
@@ -71,7 +70,6 @@ class StoresCubit extends Cubit<StoresState> {
           emit(StoresSuccess(
             stores: updatedStores,
             pagination: storesWithPagination.pagination,
-            isLoadingMore: false,
           ));
 
           // If more pages are available, update the current page.
