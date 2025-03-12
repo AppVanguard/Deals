@@ -5,13 +5,16 @@ import 'package:lottie/lottie.dart';
 
 class CustomErrorScreen extends StatelessWidget {
   /// Main title to display. Defaults to "Something Went Wrong".
-  final String title;
+  final Widget title;
 
   /// Primary error message. Defaults to a generic message.
-  final String message;
+  final Widget message;
 
   /// Optional error details. Defaults to an empty string.
-  final String errorDetails;
+  final Widget? errorDetails;
+
+  /// Whether to show the retry animation.
+  final bool retryAnimation;
 
   /// Callback to invoke when the user taps the retry button.
   final VoidCallback onRetry;
@@ -36,11 +39,12 @@ class CustomErrorScreen extends StatelessWidget {
 
   const CustomErrorScreen({
     super.key,
-    this.title = 'Something Went Wrong',
-    this.message = 'An unexpected error has occurred. Please try again later.',
-    this.errorDetails = '',
+    this.retryAnimation = true,
+    required this.title,
+    required this.message,
+    this.errorDetails,
     required this.onRetry,
-    this.retryButtonText = 'Retry',
+    this.retryButtonText = "Retry",
     this.errorIllustration,
     this.lottieAnimationAsset,
     this.footer,
@@ -62,7 +66,7 @@ class CustomErrorScreen extends StatelessWidget {
     if (lottieAnimationAsset != null) {
       illustration = SizedBox(
         height: 300,
-        child: Lottie.asset(lottieAnimationAsset!, repeat: true),
+        child: Lottie.asset(lottieAnimationAsset!, repeat: retryAnimation),
       );
     }
 
@@ -98,34 +102,18 @@ class CustomErrorScreen extends StatelessWidget {
               children: [
                 illustration,
                 const SizedBox(height: 24),
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.bold14,
-                ),
+                title,
                 const SizedBox(height: 12),
-                Text(
-                  message,
-                  textAlign: TextAlign.center,
-                  style: AppTextStyles.bold14,
-                ),
-                if (errorDetails.isNotEmpty) ...[
+                message,
+                if (errorDetails != null) ...[
                   const SizedBox(height: 8),
-                  Text(
-                    errorDetails,
-                    textAlign: TextAlign.center,
-                    style:
-                        AppTextStyles.bold14.copyWith(color: Colors.redAccent),
-                  ),
+                  errorDetails!,
                 ],
                 const SizedBox(height: 24),
-                SizedBox(
+                CustomButton(
                   width: double.infinity,
-                  child: CustomButton(
-                    width: double.infinity,
-                    text: 'Retry',
-                    onPressed: onRetry,
-                  ),
+                  text: retryButtonText,
+                  onPressed: onRetry,
                 ),
                 if (footer != null) ...[
                   const SizedBox(height: 16),

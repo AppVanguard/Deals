@@ -14,3 +14,4 @@ const kBasicData = 'basicData';
 const kOtp = 'otp';
 const kIsRegister = 'isRegister';
 const kUserEntity = 'userEntity';
+const kErrorAnimation = 'assets/animations/error.json';

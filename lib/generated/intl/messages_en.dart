@@ -36,6 +36,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter your city."),
         "ConfirmPassword":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "ContactSupportForFailure": MessageLookupByLibrary.simpleMessage(
+            "If the issue persists, please contact our support team."),
         "Copouns": MessageLookupByLibrary.simpleMessage("Coupons"),
         "Country": MessageLookupByLibrary.simpleMessage("Country"),
         "CountryValidator":
@@ -82,6 +84,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "HaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account ?"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
+        "InternalServerError": MessageLookupByLibrary.simpleMessage(
+            "Error Code: 500 - Internal Server Error"),
         "InvalidCode": MessageLookupByLibrary.simpleMessage("Invalid code"),
         "JoinNow": MessageLookupByLibrary.simpleMessage("Join now"),
         "Later": MessageLookupByLibrary.simpleMessage("I’d do later"),
@@ -91,8 +95,23 @@ class MessageLookup extends MessageLookupByLibrary {
         "MyCoupons": MessageLookupByLibrary.simpleMessage("My Coupons"),
         "MyDeals": MessageLookupByLibrary.simpleMessage("My Deals"),
         "Next": MessageLookupByLibrary.simpleMessage("Next"),
+        "NoBookmarks":
+            MessageLookupByLibrary.simpleMessage("No bookmarks found"),
+        "NoCategories":
+            MessageLookupByLibrary.simpleMessage("No categories found"),
         "NoCode":
             MessageLookupByLibrary.simpleMessage("Did not receive any code?"),
+        "NoCoupons": MessageLookupByLibrary.simpleMessage("No coupons found"),
+        "NoDeals": MessageLookupByLibrary.simpleMessage("No deals found"),
+        "NoFilterResults":
+            MessageLookupByLibrary.simpleMessage("No filter results found"),
+        "NoInternetConnection":
+            MessageLookupByLibrary.simpleMessage("No internet connection"),
+        "NoInternetConnectionError": MessageLookupByLibrary.simpleMessage(
+            "Oops, no internet connection!"),
+        "NoSearchResults":
+            MessageLookupByLibrary.simpleMessage("No search results found"),
+        "NoStores": MessageLookupByLibrary.simpleMessage("No stores found"),
         "OTPSent": MessageLookupByLibrary.simpleMessage(
             "A 4-digit code has been sent to "),
         "OTPValidator": MessageLookupByLibrary.simpleMessage(
@@ -126,6 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ResendCode": MessageLookupByLibrary.simpleMessage("Resend code"),
         "Reset": MessageLookupByLibrary.simpleMessage("Reset"),
         "ResetPassword": MessageLookupByLibrary.simpleMessage("Reset password"),
+        "Retry": MessageLookupByLibrary.simpleMessage("Retry"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
         "Save_money_with_us":
             MessageLookupByLibrary.simpleMessage("Save money with us"),
@@ -156,6 +176,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Top_coupons": MessageLookupByLibrary.simpleMessage("Top coupons"),
         "Top_deals": MessageLookupByLibrary.simpleMessage("Top deals"),
         "Top_stores": MessageLookupByLibrary.simpleMessage("Top stores"),
+        "UnexpectedError": MessageLookupByLibrary.simpleMessage(
+            "We encountered an unexpected error while processing your request."),
+        "UnexpectedErrorRetry": MessageLookupByLibrary.simpleMessage(
+            "An unexpected error has occurred. Please try again later."),
         "UnknowError": MessageLookupByLibrary.simpleMessage("Unknow error"),
         "Verify": MessageLookupByLibrary.simpleMessage("Verify"),
         "accountExistsWithDifferentCredential":

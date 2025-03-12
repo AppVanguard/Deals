@@ -1469,6 +1469,146 @@ class S {
       args: [],
     );
   }
+
+  /// `Retry`
+  String get Retry {
+    return Intl.message(
+      'Retry',
+      name: 'Retry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No deals found`
+  String get NoDeals {
+    return Intl.message(
+      'No deals found',
+      name: 'NoDeals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No stores found`
+  String get NoStores {
+    return Intl.message(
+      'No stores found',
+      name: 'NoStores',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No coupons found`
+  String get NoCoupons {
+    return Intl.message(
+      'No coupons found',
+      name: 'NoCoupons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No categories found`
+  String get NoCategories {
+    return Intl.message(
+      'No categories found',
+      name: 'NoCategories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No bookmarks found`
+  String get NoBookmarks {
+    return Intl.message(
+      'No bookmarks found',
+      name: 'NoBookmarks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No search results found`
+  String get NoSearchResults {
+    return Intl.message(
+      'No search results found',
+      name: 'NoSearchResults',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No filter results found`
+  String get NoFilterResults {
+    return Intl.message(
+      'No filter results found',
+      name: 'NoFilterResults',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No internet connection`
+  String get NoInternetConnection {
+    return Intl.message(
+      'No internet connection',
+      name: 'NoInternetConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Oops, no internet connection!`
+  String get NoInternetConnectionError {
+    return Intl.message(
+      'Oops, no internet connection!',
+      name: 'NoInternetConnectionError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We encountered an unexpected error while processing your request.`
+  String get UnexpectedError {
+    return Intl.message(
+      'We encountered an unexpected error while processing your request.',
+      name: 'UnexpectedError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An unexpected error has occurred. Please try again later.`
+  String get UnexpectedErrorRetry {
+    return Intl.message(
+      'An unexpected error has occurred. Please try again later.',
+      name: 'UnexpectedErrorRetry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error Code: 500 - Internal Server Error`
+  String get InternalServerError {
+    return Intl.message(
+      'Error Code: 500 - Internal Server Error',
+      name: 'InternalServerError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If the issue persists, please contact our support team.`
+  String get ContactSupportForFailure {
+    return Intl.message(
+      'If the issue persists, please contact our support team.',
+      name: 'ContactSupportForFailure',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

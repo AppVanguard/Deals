@@ -140,5 +140,19 @@
       "ShowResults": "Show Results",
       "Reset": "Reset",
       "All": "All",
-      "SomethingWentWrongError": "Oops, something went wrong!"
+      "SomethingWentWrongError": "Oops, something went wrong!",
+      "Retry": "Retry",
+      "NoDeals": "No deals found",
+      "NoStores": "No stores found",
+      "NoCoupons": "No coupons found",
+      "NoCategories": "No categories found",
+      "NoBookmarks": "No bookmarks found",
+      "NoSearchResults": "No search results found",
+      "NoFilterResults": "No filter results found",
+      "NoInternetConnection": "No internet connection",
+      "NoInternetConnectionError": "Oops, no internet connection!",
+      "UnexpectedError": "We encountered an unexpected error while processing your request.",
+      "UnexpectedErrorRetry": "An unexpected error has occurred. Please try again later.",
+      "InternalServerError": "Error Code: 500 - Internal Server Error",
+      "ContactSupportForFailure": "If the issue persists, please contact our support team."
 }
