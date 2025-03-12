@@ -139,5 +139,6 @@
       "Offers": "Offers",
       "ShowResults": "Show Results",
       "Reset": "Reset",
-      "All": "All"
+      "All": "All",
+      "SomethingWentWrongError": "Oops, something went wrong!"
 }

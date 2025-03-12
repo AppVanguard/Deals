@@ -141,6 +141,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "SignUp": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "SomethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something went wrong"),
+        "SomethingWentWrongError":
+            MessageLookupByLibrary.simpleMessage("Oops, something went wrong!"),
         "Stores": MessageLookupByLibrary.simpleMessage("Stores"),
         "SuccessSigningIn":
             MessageLookupByLibrary.simpleMessage("Success signing in"),

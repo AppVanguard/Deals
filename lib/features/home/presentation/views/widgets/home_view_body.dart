@@ -1,4 +1,4 @@
-import 'package:deals/core/widgets/build_custom_error_screen.dart';
+import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
