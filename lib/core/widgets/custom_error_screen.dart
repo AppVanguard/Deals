@@ -1,4 +1,3 @@
-import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
