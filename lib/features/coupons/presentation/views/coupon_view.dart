@@ -17,9 +17,11 @@ class _CouponViewState extends State<CouponView> {
   final TextEditingController searchController = TextEditingController();
   Timer? _debounce;
 
-  // New state variables to hold the current search query and selected category.
+  // State variables to hold the applied filters.
   String _selectedCategory = '';
   String _searchQuery = '';
+  String _selectedSortOrder = '';
+  String _selectedDiscountType = '';
 
   @override
   void initState() {
@@ -37,28 +39,45 @@ class _CouponViewState extends State<CouponView> {
 
   void _onSearchChanged(String query) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    // Update the search query in state.
     setState(() {
       _searchQuery = query;
     });
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      // When the search changes, update filters with both search and category.
+      // Update filters with search, category and the chosen filter options.
       context.read<CouponsCubit>().updateFilters(
-            search: query,
+            search: _searchQuery,
             category: _selectedCategory,
+            sortOrder: _selectedSortOrder,
+            discountType: _selectedDiscountType,
           );
     });
   }
 
-  // Callback for when the category is changed via the CouponViewBody.
+  // Callback for when a new category is chosen.
   void _onCategoryChanged(String categoryId) {
     setState(() {
       _selectedCategory = categoryId;
     });
-    // Update filters including any current search query.
+    // Update filters including any current search and filter options.
     context.read<CouponsCubit>().updateFilters(
           search: _searchQuery,
-          category: categoryId,
+          category: _selectedCategory,
+          sortOrder: _selectedSortOrder,
+          discountType: _selectedDiscountType,
+        );
+  }
+
+  // Callback for when new filter options are applied from the dialog.
+  void _onFilterChanged(String sortOrder, String discountType) {
+    setState(() {
+      _selectedSortOrder = sortOrder;
+      _selectedDiscountType = discountType;
+    });
+    context.read<CouponsCubit>().updateFilters(
+          search: _searchQuery,
+          category: _selectedCategory,
+          sortOrder: _selectedSortOrder,
+          discountType: _selectedDiscountType,
         );
   }
 
@@ -69,8 +88,10 @@ class _CouponViewState extends State<CouponView> {
         context,
         searchController,
         onSearchChanged: _onSearchChanged,
+        onFilterChanged: _onFilterChanged,
       ),
-      // Pass both the current search query and selected category to the body.
+      // Pass down the current search query and category,
+      // and a callback to update the category.
       body: CouponViewBody(
         selectedCategory: _selectedCategory,
         currentSearchQuery: _searchQuery,

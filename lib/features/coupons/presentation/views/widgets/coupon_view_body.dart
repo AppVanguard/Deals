@@ -57,6 +57,7 @@ class _CouponViewBodyState extends State<CouponViewBody> {
     return CustomScrollView(
       controller: _scrollController,
       slivers: [
+        // Category tab bar – simply notify parent on tap.
         SliverToBoxAdapter(
           child: CategoryTabBar(
             onTabSelected: (categoryId) => widget.onCategoryChanged(categoryId),
@@ -98,16 +99,16 @@ class _CouponViewBodyState extends State<CouponViewBody> {
               );
             } else if (state is CouponsFailure) {
               return SliverFillRemaining(
-                  child: buildCustomErrorScreen(
-                      context: context,
-                      onRetry: () {
-                        context
-                            .read<CouponsCubit>()
-                            .loadCoupons(isRefresh: true);
-                        context
-                            .read<CategoriesCubit>()
-                            .fetchCategories(isRefresh: true);
-                      }));
+                child: buildCustomErrorScreen(
+                  context: context,
+                  onRetry: () {
+                    context.read<CouponsCubit>().loadCoupons(isRefresh: true);
+                    context
+                        .read<CategoriesCubit>()
+                        .fetchCategories(isRefresh: true);
+                  },
+                ),
+              );
             } else {
               return const SliverToBoxAdapter(
                 child: Center(child: Text('No coupons found')),
