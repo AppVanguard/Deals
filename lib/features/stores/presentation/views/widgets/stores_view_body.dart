@@ -13,11 +13,14 @@ import 'package:skeletonizer/skeletonizer.dart';
 class StoresViewBody extends StatefulWidget {
   final String selectedCategoryId;
   final String currentSearchQuery;
+  // Also receive the current sort order (if needed for visual cues or debugging)
+  final String selectedSortOrder;
   final ValueChanged<String> onCategoryChanged;
   const StoresViewBody({
     super.key,
     required this.selectedCategoryId,
     required this.currentSearchQuery,
+    required this.selectedSortOrder,
     required this.onCategoryChanged,
   });
 
@@ -68,10 +71,11 @@ class _StoresViewBodyState extends State<StoresViewBody> {
               log("Category selected: $categoryId");
               // Notify the parent about the new category selection.
               widget.onCategoryChanged(categoryId);
-              // Update the filters, including the current search query if available.
+              // Update the filters with the current search and sort order.
               context.read<StoresCubit>().updateFilters(
                     search: widget.currentSearchQuery,
                     categoryId: categoryId,
+                    sortOrder: widget.selectedSortOrder,
                   );
             },
           ),

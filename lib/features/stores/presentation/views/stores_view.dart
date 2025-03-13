@@ -16,15 +16,18 @@ class StoresView extends StatefulWidget {
 class _StoresViewState extends State<StoresView> {
   final TextEditingController searchController = TextEditingController();
   Timer? _debounce;
+
   // Holds the currently selected category id (empty means "All")
   String _selectedCategoryId = '';
   // Holds the current search query entered by the user
   String _searchQuery = '';
+  // Holds the applied sort order from the filter dialog.
+  String _selectedSortOrder = '';
 
   @override
   void initState() {
     super.initState();
-    // Optionally trigger initial load if not already done.
+    // Optionally trigger an initial load if not already done.
     // context.read<StoresCubit>().loadStores(isRefresh: true);
   }
 
@@ -37,17 +40,42 @@ class _StoresViewState extends State<StoresView> {
 
   void _onSearchChanged(String query) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    // Update the current search query in state.
     setState(() {
       _searchQuery = query;
     });
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      // When the search changes, update filters with both query and category.
+      // When search changes, update filters with search, category and sort order.
       context.read<StoresCubit>().updateFilters(
-            search: query,
+            search: _searchQuery,
             categoryId: _selectedCategoryId,
+            sortOrder: _selectedSortOrder,
           );
     });
+  }
+
+  // Callback when a new category is chosen from the body.
+  void _onCategoryChanged(String categoryId) {
+    setState(() {
+      _selectedCategoryId = categoryId;
+    });
+    // Update filters with the current search, new category and sort order.
+    context.read<StoresCubit>().updateFilters(
+          search: _searchQuery,
+          categoryId: _selectedCategoryId,
+          sortOrder: _selectedSortOrder,
+        );
+  }
+
+  // Callback when new filter options (sort order) are applied from the app bar.
+  void _onFilterChanged(String sortOrder) {
+    setState(() {
+      _selectedSortOrder = sortOrder;
+    });
+    context.read<StoresCubit>().updateFilters(
+          search: _searchQuery,
+          categoryId: _selectedCategoryId,
+          sortOrder: _selectedSortOrder,
+        );
   }
 
   @override
@@ -57,16 +85,14 @@ class _StoresViewState extends State<StoresView> {
         context,
         searchController,
         onSearchChanged: _onSearchChanged,
+        onFilterChanged: _onFilterChanged,
       ),
-      // Pass both the current selected category and search query to the child.
+      // Pass down the current search query, sort order and selected category.
       body: StoresViewBody(
         selectedCategoryId: _selectedCategoryId,
         currentSearchQuery: _searchQuery,
-        onCategoryChanged: (categoryId) {
-          setState(() {
-            _selectedCategoryId = categoryId;
-          });
-        },
+        selectedSortOrder: _selectedSortOrder,
+        onCategoryChanged: _onCategoryChanged,
       ),
     );
   }
