@@ -11,7 +11,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class StoresViewBody extends StatefulWidget {
-  const StoresViewBody({super.key});
+  final String selectedCategoryId;
+  final String currentSearchQuery;
+  final ValueChanged<String> onCategoryChanged;
+  const StoresViewBody({
+    super.key,
+    required this.selectedCategoryId,
+    required this.currentSearchQuery,
+    required this.onCategoryChanged,
+  });
 
   @override
   State<StoresViewBody> createState() => _StoresViewBodyState();
@@ -58,8 +66,13 @@ class _StoresViewBodyState extends State<StoresViewBody> {
           child: CategoryTabBar(
             onTabSelected: (categoryId) {
               log("Category selected: $categoryId");
-              // Update the list by setting the new category filter.
-              context.read<StoresCubit>().updateFilters(categoryId: categoryId);
+              // Notify the parent about the new category selection.
+              widget.onCategoryChanged(categoryId);
+              // Update the filters, including the current search query if available.
+              context.read<StoresCubit>().updateFilters(
+                    search: widget.currentSearchQuery,
+                    categoryId: categoryId,
+                  );
             },
           ),
         ),
@@ -68,17 +81,18 @@ class _StoresViewBodyState extends State<StoresViewBody> {
           builder: (context, state) {
             if (state is StoresFailure) {
               return SliverFillRemaining(
-                  child: buildCustomErrorScreen(
-                      context: context,
-                      onRetry: () {
-                        context.read<StoresCubit>().loadStores(isRefresh: true);
-                        context
-                            .read<CategoriesCubit>()
-                            .fetchCategories(isRefresh: true);
-                      }));
+                child: buildCustomErrorScreen(
+                  context: context,
+                  onRetry: () {
+                    context.read<StoresCubit>().loadStores(isRefresh: true);
+                    context
+                        .read<CategoriesCubit>()
+                        .fetchCategories(isRefresh: true);
+                  },
+                ),
+              );
             }
             if (state is StoresLoading) {
-              // Display skeleton placeholders.
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) => _buildStoreCard(isLoading: true),
@@ -90,15 +104,12 @@ class _StoresViewBodyState extends State<StoresViewBody> {
               final stores = state.stores;
               final totalStores = state.pagination.totalStores;
               final bool showLoadingIndicator = (stores.length < totalStores!);
-
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    // Index 0 is a header.
                     if (index == 0) {
                       return const SizedBox();
                     }
-                    // Adjust index for the header.
                     final storeIndex = index - 1;
                     if (storeIndex < stores.length) {
                       final store = stores[storeIndex];
@@ -106,12 +117,10 @@ class _StoresViewBodyState extends State<StoresViewBody> {
                       return _buildStoreCard(isLoading: false, store: store);
                     }
                     if (showLoadingIndicator) {
-                      // Instead of a CircularProgressIndicator, show a skeleton card.
                       return _buildStoreCard(isLoading: true);
                     }
                     return Container();
                   },
-                  // Count: header + store items + extra skeleton card if loading more.
                   childCount: stores.length + 2,
                 ),
               );
@@ -128,8 +137,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     required bool isLoading,
     StoreEntity? store,
   }) {
-    final imagePath =
-        isLoading ? AppImages.assetsImagesTest2 : AppImages.assetsImagesTest2;
+    final imagePath = AppImages.assetsImagesTest2;
     final title = isLoading ? '' : (store?.title ?? '');
     final subtitle = isLoading
         ? ''

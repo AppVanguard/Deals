@@ -16,12 +16,15 @@ class StoresView extends StatefulWidget {
 class _StoresViewState extends State<StoresView> {
   final TextEditingController searchController = TextEditingController();
   Timer? _debounce;
+  // Holds the currently selected category id (empty means "All")
+  String _selectedCategoryId = '';
+  // Holds the current search query entered by the user
+  String _searchQuery = '';
 
   @override
   void initState() {
     super.initState();
-
-    // Optionally trigger initial load if not already done by a parent/provider.
+    // Optionally trigger initial load if not already done.
     // context.read<StoresCubit>().loadStores(isRefresh: true);
   }
 
@@ -34,9 +37,16 @@ class _StoresViewState extends State<StoresView> {
 
   void _onSearchChanged(String query) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
+    // Update the current search query in state.
+    setState(() {
+      _searchQuery = query;
+    });
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      // Update the search filter; this will refresh the list.
-      context.read<StoresCubit>().updateFilters(search: query);
+      // When the search changes, update filters with both query and category.
+      context.read<StoresCubit>().updateFilters(
+            search: query,
+            categoryId: _selectedCategoryId,
+          );
     });
   }
 
@@ -48,7 +58,16 @@ class _StoresViewState extends State<StoresView> {
         searchController,
         onSearchChanged: _onSearchChanged,
       ),
-      body: const StoresViewBody(),
+      // Pass both the current selected category and search query to the child.
+      body: StoresViewBody(
+        selectedCategoryId: _selectedCategoryId,
+        currentSearchQuery: _searchQuery,
+        onCategoryChanged: (categoryId) {
+          setState(() {
+            _selectedCategoryId = categoryId;
+          });
+        },
+      ),
     );
   }
 }
