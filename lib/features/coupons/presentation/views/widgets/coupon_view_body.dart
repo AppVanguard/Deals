@@ -9,7 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CouponViewBody extends StatefulWidget {
-  const CouponViewBody({super.key});
+  final String selectedCategory;
+  final String currentSearchQuery;
+  final ValueChanged<String> onCategoryChanged;
+  const CouponViewBody({
+    super.key,
+    required this.selectedCategory,
+    required this.currentSearchQuery,
+    required this.onCategoryChanged,
+  });
 
   @override
   State<CouponViewBody> createState() => _CouponViewBodyState();
@@ -51,11 +59,7 @@ class _CouponViewBodyState extends State<CouponViewBody> {
       slivers: [
         SliverToBoxAdapter(
           child: CategoryTabBar(
-            onTabSelected: (categoryId) {
-              log("Category ID in the Body: $categoryId");
-              // Update the list using the selected category.
-              context.read<CouponsCubit>().updateFilters(category: categoryId);
-            },
+            onTabSelected: (categoryId) => widget.onCategoryChanged(categoryId),
           ),
         ),
         BlocBuilder<CouponsCubit, CouponsState>(

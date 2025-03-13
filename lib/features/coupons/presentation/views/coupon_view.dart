@@ -17,6 +17,10 @@ class _CouponViewState extends State<CouponView> {
   final TextEditingController searchController = TextEditingController();
   Timer? _debounce;
 
+  // New state variables to hold the current search query and selected category.
+  String _selectedCategory = '';
+  String _searchQuery = '';
+
   @override
   void initState() {
     super.initState();
@@ -32,12 +36,30 @@ class _CouponViewState extends State<CouponView> {
   }
 
   void _onSearchChanged(String query) {
-    // Debounce search: wait 400ms after user stops typing
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _debounce = Timer(const Duration(milliseconds: 400), () {
-      // Update the search filter and refresh data.
-      context.read<CouponsCubit>().updateFilters(search: query);
+    // Update the search query in state.
+    setState(() {
+      _searchQuery = query;
     });
+    _debounce = Timer(const Duration(milliseconds: 400), () {
+      // When the search changes, update filters with both search and category.
+      context.read<CouponsCubit>().updateFilters(
+            search: query,
+            category: _selectedCategory,
+          );
+    });
+  }
+
+  // Callback for when the category is changed via the CouponViewBody.
+  void _onCategoryChanged(String categoryId) {
+    setState(() {
+      _selectedCategory = categoryId;
+    });
+    // Update filters including any current search query.
+    context.read<CouponsCubit>().updateFilters(
+          search: _searchQuery,
+          category: categoryId,
+        );
   }
 
   @override
@@ -48,7 +70,12 @@ class _CouponViewState extends State<CouponView> {
         searchController,
         onSearchChanged: _onSearchChanged,
       ),
-      body: const CouponViewBody(),
+      // Pass both the current search query and selected category to the body.
+      body: CouponViewBody(
+        selectedCategory: _selectedCategory,
+        currentSearchQuery: _searchQuery,
+        onCategoryChanged: _onCategoryChanged,
+      ),
     );
   }
 }
