@@ -1609,6 +1609,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Cashback rate :`
+  String get CashBackRate {
+    return Intl.message(
+      'Cashback rate :',
+      name: 'CashBackRate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Up to`
+  String get upTo {
+    return Intl.message(
+      'Up to',
+      name: 'upTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cashback`
+  String get cashBack {
+    return Intl.message(
+      'cashback',
+      name: 'cashBack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cashback terms`
+  String get cashbackTerms {
+    return Intl.message(
+      'Cashback terms',
+      name: 'cashbackTerms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No cashback terms available`
+  String get noCashbackTermsAvailable {
+    return Intl.message(
+      'No cashback terms available',
+      name: 'noCashbackTermsAvailable',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

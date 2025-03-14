@@ -35,6 +35,7 @@ dependencies:
   flutter_picker_plus: ^1.3.0
   flutter_secure_storage: ^9.2.4
   flutter_svg: ^2.0.17
+  font_awesome_flutter: ^10.8.0
   get_it: ^8.0.3
   go_router: ^14.8.1
   google_sign_in: ^6.2.2

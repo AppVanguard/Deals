@@ -18,23 +18,22 @@ class StoresCubit extends Cubit<StoresState> {
   String? _categoryId;
 
   StoresCubit({required this.storesRepo}) : super(StoresInitial()) {
-    // Optionally load a list of stores at initialization:
     loadStores(isRefresh: true);
   }
 
-  /// Loads stores data (multiple stores).
+  /// Loads stores data.
   /// If [isRefresh] is true, pagination resets to the first page.
   Future<void> loadStores({bool isRefresh = false}) async {
     if (isRefresh) {
       _currentPage = 1;
     }
 
-    // If we're appending (not refresh) and we already have a success state:
+    // When appending data (load more) check if the current state is a success.
     if (state is StoresSuccess && !isRefresh) {
       final currentState = state as StoresSuccess;
-      // If there's no next page, nothing to load:
+      // If there is no next page, return early.
       if (!currentState.pagination.hasNextPage) return;
-      // Otherwise, emit a success state showing a "load more" in progress.
+      // Emit a state indicating that additional data is loading.
       emit(StoresSuccess(
         stores: currentState.stores,
         pagination: currentState.pagination,
@@ -59,10 +58,10 @@ class StoresCubit extends Cubit<StoresState> {
         (storesWithPagination) {
           List<StoreEntity> updatedStores = [];
           if (isRefresh || state is! StoresSuccess) {
-            // Use fresh data if it's the first load or a forced refresh.
+            // Use fresh data when refreshing or on initial load.
             updatedStores = storesWithPagination.stores;
-          } else {
-            // Append new data to the existing list.
+          } else if (state is StoresSuccess) {
+            // Append new stores to the existing list.
             final currentState = state as StoresSuccess;
             updatedStores = List.from(currentState.stores)
               ..addAll(storesWithPagination.stores);
@@ -73,7 +72,7 @@ class StoresCubit extends Cubit<StoresState> {
             pagination: storesWithPagination.pagination,
           ));
 
-          // If there's another page, increment so we can load next time.
+          // If more pages are available, update the current page.
           if (storesWithPagination.pagination.hasNextPage) {
             _currentPage++;
           }
@@ -84,19 +83,8 @@ class StoresCubit extends Cubit<StoresState> {
     }
   }
 
-  /// Retrieves a single store by its [storeId].
-  /// Emits [SingleStoreLoading] => [SingleStoreSuccess] or [SingleStoreFailure].
-  Future<void> getStoreById(String storeId) async {
-    emit(SingleStoreLoading());
-    final result = await storesRepo.getStoreById(storeId);
-    result.fold(
-      (failure) => emit(SingleStoreFailure(message: failure.message)),
-      (storeEntity) => emit(SingleStoreSuccess(store: storeEntity)),
-    );
-  }
-
   /// Updates filtering, sorting, and pagination parameters,
-  /// then reloads the stores data (starting from the first page).
+  /// then reloads the stores data.
   void updateFilters({
     String? search,
     String? sortField,
@@ -110,7 +98,6 @@ class StoresCubit extends Cubit<StoresState> {
     if (limit != null) _limit = limit;
     _categoryId = categoryId;
 
-    // Reset to first page whenever filters change.
     _currentPage = 1;
     loadStores(isRefresh: true);
   }

@@ -21,15 +21,12 @@ class ResetPasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log("The otp in reset: $otp");
-    return BlocProvider(
-      create: (_) => ResetPasswordCubit(getIt.get<AuthRepo>()),
-      child: Scaffold(
-        appBar: AppBar(backgroundColor: Colors.transparent),
-        body: SafeArea(
-          child: ResetPasswordViewBody(
-            email: email,
-            otp: otp,
-          ),
+    return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.transparent),
+      body: SafeArea(
+        child: ResetPasswordViewBody(
+          email: email,
+          otp: otp,
         ),
       ),
     );

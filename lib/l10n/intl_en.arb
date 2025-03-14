@@ -154,5 +154,10 @@
       "UnexpectedError": "We encountered an unexpected error while processing your request.",
       "UnexpectedErrorRetry": "An unexpected error has occurred. Please try again later.",
       "InternalServerError": "Error Code: 500 - Internal Server Error",
-      "ContactSupportForFailure": "If the issue persists, please contact our support team."
+      "ContactSupportForFailure": "If the issue persists, please contact our support team.",
+      "CashBackRate": "Cashback rate :",
+      "upTo": "Up to",
+      "cashBack": "cashback",
+      "cashbackTerms": "Cashback terms",
+      "noCashbackTermsAvailable": "No cashback terms available"
 }

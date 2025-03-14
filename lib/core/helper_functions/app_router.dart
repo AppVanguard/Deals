@@ -1,7 +1,10 @@
-// lib/core/app_router.dart
-
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer_cubit/otp_resend_timer_cubit.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
+import 'package:deals/features/stores/domain/repos/stores_repo.dart';
+import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
 import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -47,7 +50,7 @@ class AppRouter {
         name: SigninView.routeName,
         builder: (context, state) {
           return BlocProvider(
-            create: (context) => SigninCubit(getIt.get<AuthRepo>()),
+            create: (_) => SigninCubit(getIt.get<AuthRepo>()),
             child: const SigninView(),
           );
         },
@@ -59,7 +62,7 @@ class AppRouter {
         name: SignupView.routeName,
         builder: (context, state) {
           return BlocProvider(
-            create: (context) => SignupCubit(getIt.get<AuthRepo>()),
+            create: (_) => SignupCubit(getIt.get<AuthRepo>()),
             child: const SignupView(),
           );
         },
@@ -74,7 +77,7 @@ class AppRouter {
           return MultiBlocProvider(
             providers: [
               BlocProvider<CategoriesCubit>(
-                create: (context) => CategoriesCubit(
+                create: (_) => CategoriesCubit(
                   categoriesRepo: getIt<CategoriesRepo>(),
                 ),
               ),
@@ -95,12 +98,22 @@ class AppRouter {
               body: Center(child: Text('Missing route arguments')),
             );
           }
-          return OtpVerficationView(
-            email: args[kEmail] as String,
-            image: args[kImage] as String?,
-            nextRoute: args[kNextRoute] as String,
-            id: args[kId] as String,
-            isRegister: args[kIsRegister] as bool,
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<OtpVerifyCubit>(
+                create: (_) => OtpVerifyCubit(getIt.get<AuthRepo>()),
+              ),
+              BlocProvider<OtpResendTimerCubit>(
+                create: (_) => OtpResendTimerCubit(),
+              ),
+            ],
+            child: OtpVerficationView(
+              email: args[kEmail] as String,
+              image: args[kImage] as String?,
+              nextRoute: args[kNextRoute] as String,
+              id: args[kId] as String,
+              isRegister: args[kIsRegister] as bool,
+            ),
           );
         },
       ),
@@ -109,7 +122,9 @@ class AppRouter {
       GoRoute(
         path: ForgetPasswordView.routeName,
         name: ForgetPasswordView.routeName,
-        builder: (context, state) => const ForgetPasswordView(),
+        builder: (context, state) => BlocProvider(
+            create: (_) => ResetPasswordCubit(getIt<AuthRepo>()),
+            child: const ForgetPasswordView()),
       ),
 
       // Reset Password Route
@@ -123,10 +138,12 @@ class AppRouter {
               body: Center(child: Text('Missing route arguments')),
             );
           }
-          return ResetPasswordView(
-            email: args[kEmail] as String,
-            otp: args[kOtp] as String,
-          );
+          return BlocProvider(
+              create: (_) => ResetPasswordCubit(getIt.get<AuthRepo>()),
+              child: ResetPasswordView(
+                email: args[kEmail] as String,
+                otp: args[kOtp] as String,
+              ));
         },
       ),
 
@@ -145,8 +162,13 @@ class AppRouter {
         name: StoreDetailView.routeName,
         builder: (context, state) {
           final id = state.extra as String?;
-          return StoreDetailView(
-            storeId: id ?? '',
+          return BlocProvider(
+            create: (_) => StoreDetailCubit(
+              storesRepo: getIt<StoresRepo>(),
+            ),
+            child: StoreDetailView(
+              storeId: id ?? '',
+            ),
           );
         },
       ),

@@ -29,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "BirthdayValidator":
             MessageLookupByLibrary.simpleMessage("Please enter your birthday."),
         "Bookmarks": MessageLookupByLibrary.simpleMessage("Bookmarks"),
+        "CashBackRate": MessageLookupByLibrary.simpleMessage("Cashback rate :"),
         "Categories": MessageLookupByLibrary.simpleMessage("Categories"),
         "Category": MessageLookupByLibrary.simpleMessage("Category"),
         "City": MessageLookupByLibrary.simpleMessage("City/Town"),
@@ -190,6 +191,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Authentication domain configuration is missing."),
         "cancelledPopupRequest": MessageLookupByLibrary.simpleMessage(
             "The popup request was canceled."),
+        "cashBack": MessageLookupByLibrary.simpleMessage("cashback"),
+        "cashbackTerms": MessageLookupByLibrary.simpleMessage("Cashback terms"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact us"),
         "createAccount": MessageLookupByLibrary.simpleMessage("Create account"),
         "credentialAlreadyInUse": MessageLookupByLibrary.simpleMessage(
@@ -215,6 +218,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No internet connection."),
         "new_customers_discount":
             MessageLookupByLibrary.simpleMessage("New customers discount"),
+        "noCashbackTermsAvailable":
+            MessageLookupByLibrary.simpleMessage("No cashback terms available"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Registration is not enabled."),
         "operationNotSupportedInThisEnvironment":
@@ -255,6 +260,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Too many requests have been made."),
         "unknownError":
             MessageLookupByLibrary.simpleMessage("An unknown error occurred."),
+        "upTo": MessageLookupByLibrary.simpleMessage("Up to"),
         "userDisabled":
             MessageLookupByLibrary.simpleMessage("The account is disabled."),
         "userNotFound":
