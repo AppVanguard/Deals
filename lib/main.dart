@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,34 +12,52 @@ import 'package:deals/firebase_options.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:deals/features/splash/presentation/views/splash_view.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // Import dotenv
 
 void main() async {
+  // Ensure that Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load environment variables from the .env file
+  await dotenv.load();
+
+  // Initialize Firebase and SharedPreferences
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  // 1) Initialize SharedPreferences
   await Prefs.init();
-  // 2) Setup GetIt
-  setupGetit();
-  // 3) Run the app
-  await SentryFlutter.init(
-    (options) {
-      options.dsn =
-          'https://da3c6050a6f353ca4bd8b56f90591b16@o4508131969990656.ingest.us.sentry.io/4508722479431680';
 
-      // Adds request headers and IP for users,
-      // visit: https://docs.sentry.io/platforms/dart/data-management/data-collected/ for more info
-      options.sendDefaultPii = true;
-    },
-    appRunner: () => runApp(
-      BlocProvider(
-        create: (context) => LocaleCubit(), // Provide your LocaleCubit globally
-        child: const Deals(),
-      ),
-    ),
-  );
+  // Setup GetIt service locator
+  setupGetit();
+
+  // Check if we are in release mode (production)
+  kReleaseMode
+      ? await SentryFlutter.init(
+          (options) {
+            // Retrieve the DSN securely from environment variables
+            options.dsn =
+                dotenv.env['SENTRY_DSN'] ?? ''; // Default empty if not found
+            options.sendDefaultPii =
+                true; // Include personally identifiable information (PII)
+          },
+          appRunner: () {
+            // Run the app wrapped in the necessary BlocProvider
+            runApp(
+              BlocProvider(
+                create: (context) => LocaleCubit(),
+                child: const Deals(),
+              ),
+            );
+          },
+        )
+      :
+      // In debug/development mode, run the app without Sentry
+      runApp(
+          BlocProvider(
+            create: (context) => LocaleCubit(),
+            child: const Deals(),
+          ),
+        );
 }
 
 class Deals extends StatelessWidget {

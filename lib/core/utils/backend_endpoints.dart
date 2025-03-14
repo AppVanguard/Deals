@@ -1,24 +1,26 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class BackendEndpoints {
   // Base URLs and API paths.
-  static const String baseUrl = "https://inpocket-backend.onrender.com";
-  static const String apiPath = "$baseUrl/api";
+  static String baseUrl = dotenv.env['Base_Url'] ?? '';
+  static String apiPath = "$baseUrl/api";
 
   // Auth endpoints.
-  static const String registerUser = "$apiPath/auth/register";
-  static const String verifyEmail = "$apiPath/auth/verify-email";
-  static const String oauth = "$apiPath/auth/oauth";
-  static const String loginUser = "$apiPath/auth/login";
-  static const String resendOtp = "$apiPath/auth/resend-otp";
-  static const String users = "$apiPath/users";
-  static const String resetPassword = "$apiPath/auth/reset-password";
-  static const String forgotPassword = "$apiPath/auth/forgot-password";
-  static const String logout = "$apiPath/auth/logout";
-  static const String verifyOtp = "$apiPath/auth/verify-otp";
-  static const String stores = "$apiPath/stores";
-  static const String categories = "$apiPath/categories";
-  static const String coupons = "$apiPath/coupons";
+  static String registerUser = "$apiPath/auth/register";
+  static String verifyEmail = "$apiPath/auth/verify-email";
+  static String oauth = "$apiPath/auth/oauth";
+  static String loginUser = "$apiPath/auth/login";
+  static String resendOtp = "$apiPath/auth/resend-otp";
+  static String users = "$apiPath/users";
+  static String resetPassword = "$apiPath/auth/reset-password";
+  static String forgotPassword = "$apiPath/auth/forgot-password";
+  static String logout = "$apiPath/auth/logout";
+  static String verifyOtp = "$apiPath/auth/verify-otp";
+  static String stores = "$apiPath/stores";
+  static String categories = "$apiPath/categories";
+  static String coupons = "$apiPath/coupons";
 // Home endpoints.
-  static const String homeMobile = "$apiPath/home/mobile";
+  static String homeMobile = "$apiPath/home/mobile";
   // Collection names.
   static const String usersCollection = "users";
 

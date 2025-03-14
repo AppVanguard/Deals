@@ -27,6 +27,7 @@ dependencies:
   flutter_bloc: ^9.0.0
   flutter_country_selector: ^1.0.14
   flutter_datetime_picker_plus: ^2.2.0
+  flutter_dotenv: ^5.2.1
   flutter_facebook_auth: ^7.1.1
   flutter_holo_date_picker: ^2.0.0
   flutter_localizations:
@@ -54,11 +55,11 @@ dependencies:
   top_snackbar_flutter: ^3.1.0
 
 dev_dependencies:
-  sentry_dart_plugin: ^2.4.1
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
   intl_utils: ^2.5.1
+  sentry_dart_plugin: ^2.4.1
 
 flutter:
   # Include material design icons
@@ -68,6 +69,7 @@ flutter:
   assets:
     - assets/images/
     - assets/animations/error.json
+    - .env
 
   # Fonts configuration
   fonts:
