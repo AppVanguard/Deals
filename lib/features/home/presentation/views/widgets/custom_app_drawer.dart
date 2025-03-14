@@ -10,6 +10,7 @@ import 'package:deals/features/auth/domain/entities/user_entity.dart';
 import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:deals/features/home/presentation/manager/cubits/menu_cubit/menu_cubit.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomAppDrawer extends StatelessWidget {
   const CustomAppDrawer({super.key, required this.userData});
@@ -39,7 +40,6 @@ class CustomAppDrawer extends StatelessWidget {
             children: [
               // 1) Header
               _buildDrawerHeader(context),
-
               // 2) Body (Scrollable list of ListTiles)
               Expanded(
                 child: SingleChildScrollView(
@@ -87,7 +87,6 @@ class CustomAppDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-
               // 3) Footer (Log Out + App Version)
               BlocListener<MenuCubit, MenuState>(
                 listener: (context, state) {
@@ -96,8 +95,8 @@ class CustomAppDrawer extends StatelessWidget {
                         context: context, message: state.message);
                   }
                   if (state is MenuLogoutSuccess) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        SigninView.routeName, (route) => false);
+                    // When logout is successful, navigate to SigninView and clear history.
+                    context.goNamed(SigninView.routeName);
                   }
                 },
                 child: _buildDrawerTile(
