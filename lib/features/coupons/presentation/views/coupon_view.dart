@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CouponView extends StatefulWidget {
   const CouponView({super.key});
-  static const routeName = 'coupons';
+  static const routeName = '/coupons';
 
   @override
   State<CouponView> createState() => _CouponViewState();
@@ -43,7 +43,6 @@ class _CouponViewState extends State<CouponView> {
       _searchQuery = query;
     });
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      // Update filters with search, category and the chosen filter options.
       context.read<CouponsCubit>().updateFilters(
             search: _searchQuery,
             category: _selectedCategory,
@@ -58,7 +57,6 @@ class _CouponViewState extends State<CouponView> {
     setState(() {
       _selectedCategory = categoryId;
     });
-    // Update filters including any current search and filter options.
     context.read<CouponsCubit>().updateFilters(
           search: _searchQuery,
           category: _selectedCategory,
@@ -90,8 +88,6 @@ class _CouponViewState extends State<CouponView> {
         onSearchChanged: _onSearchChanged,
         onFilterChanged: _onFilterChanged,
       ),
-      // Pass down the current search query and category,
-      // and a callback to update the category.
       body: CouponViewBody(
         selectedCategory: _selectedCategory,
         currentSearchQuery: _searchQuery,

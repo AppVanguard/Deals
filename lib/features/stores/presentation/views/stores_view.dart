@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StoresView extends StatefulWidget {
   const StoresView({super.key});
-  static const routeName = 'stores';
+  static const routeName = '/stores';
 
   @override
   State<StoresView> createState() => _StoresViewState();
@@ -27,7 +27,7 @@ class _StoresViewState extends State<StoresView> {
   @override
   void initState() {
     super.initState();
-    // Optionally trigger an initial load if not already done.
+    // Optionally trigger an initial load if needed
     // context.read<StoresCubit>().loadStores(isRefresh: true);
   }
 
@@ -44,7 +44,6 @@ class _StoresViewState extends State<StoresView> {
       _searchQuery = query;
     });
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      // When search changes, update filters with search, category and sort order.
       context.read<StoresCubit>().updateFilters(
             search: _searchQuery,
             categoryId: _selectedCategoryId,
@@ -58,7 +57,6 @@ class _StoresViewState extends State<StoresView> {
     setState(() {
       _selectedCategoryId = categoryId;
     });
-    // Update filters with the current search, new category and sort order.
     context.read<StoresCubit>().updateFilters(
           search: _searchQuery,
           categoryId: _selectedCategoryId,
@@ -87,7 +85,6 @@ class _StoresViewState extends State<StoresView> {
         onSearchChanged: _onSearchChanged,
         onFilterChanged: _onFilterChanged,
       ),
-      // Pass down the current search query, sort order and selected category.
       body: StoresViewBody(
         selectedCategoryId: _selectedCategoryId,
         currentSearchQuery: _searchQuery,

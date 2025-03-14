@@ -9,8 +9,14 @@ import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 class ResetPasswordView extends StatelessWidget {
   final String email;
   final String otp;
-  const ResetPasswordView({super.key, required this.email, required this.otp});
-  static const routeName = 'reset-password';
+
+  const ResetPasswordView({
+    super.key,
+    required this.email,
+    required this.otp,
+  });
+
+  static const routeName = '/reset-password';
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,10 @@ class ResetPasswordView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(backgroundColor: Colors.transparent),
         body: SafeArea(
-          child: ResetPasswordViewBody(email: email, otp: otp),
+          child: ResetPasswordViewBody(
+            email: email,
+            otp: otp,
+          ),
         ),
       ),
     );

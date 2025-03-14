@@ -5,6 +5,7 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/features/search/presentation/views/search_view.dart';
+import 'package:go_router/go_router.dart';
 
 AppBar buildHomeAppBar(BuildContext context) {
   return AppBar(
@@ -27,7 +28,7 @@ AppBar buildHomeAppBar(BuildContext context) {
       },
     ),
     title: Row(
-      spacing: 16,
+      spacing: 16, // For newer Flutter versions (3.7+), else remove
       children: [
         Text(
           appTittle,
@@ -38,7 +39,8 @@ AppBar buildHomeAppBar(BuildContext context) {
         GestureDetector(
           child: SvgPicture.asset(AppImages.assetsImagesSearch),
           onTap: () {
-            Navigator.pushNamed(context, SearchView.routeName);
+            // REPLACED: Navigator.pushNamed(context, SearchView.routeName);
+            context.pushNamed(SearchView.routeName);
           },
         ),
         const Icon(

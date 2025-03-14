@@ -1,0 +1,143 @@
+// lib/core/app_router.dart
+
+import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
+import 'package:deals/core/repos/interface/categories_repo.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:deals/core/service/get_it_service.dart';
+import 'package:deals/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/features/splash/presentation/views/splash_view.dart';
+import 'package:deals/features/on_boarding/presentation/views/on_boarding_view.dart';
+import 'package:deals/features/auth/presentation/views/signin_view.dart';
+import 'package:deals/features/auth/presentation/views/signup_view.dart';
+import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart';
+import 'package:deals/features/auth/presentation/views/forget_password_view.dart';
+import 'package:deals/features/auth/presentation/views/reset_password_view.dart';
+import 'package:deals/features/auth/presentation/views/personal_data_view.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/features/main/presentation/views/main_view.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/signin_cubit/signin_cubit.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
+
+class AppRouter {
+  /// Our single [GoRouter] instance.
+  static final router = GoRouter(
+    initialLocation: SplashView.routeName, // e.g. 'splash'
+    routes: [
+      // Splash Route
+      GoRoute(
+        path: SplashView.routeName, // 'splash'
+        name: SplashView.routeName,
+        builder: (context, state) => const SplashView(),
+      ),
+
+      // OnBoarding Route
+      GoRoute(
+        path: OnBoardingView.routeName, // 'onBoarding'
+        name: OnBoardingView.routeName,
+        builder: (context, state) => const OnBoardingView(),
+      ),
+
+      // Sign In Route
+      GoRoute(
+        path: SigninView.routeName, // 'signin'
+        name: SigninView.routeName,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => SigninCubit(getIt.get<AuthRepo>()),
+            child: const SigninView(),
+          );
+        },
+      ),
+
+      // Sign Up Route
+      GoRoute(
+        path: SignupView.routeName, // 'signup'
+        name: SignupView.routeName,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => SignupCubit(getIt.get<AuthRepo>()),
+            child: const SignupView(),
+          );
+        },
+      ),
+
+      // MainView Route (providing CategoriesCubit here)
+      GoRoute(
+        path: MainView.routeName,
+        name: MainView.routeName,
+        builder: (context, state) {
+          final userEntity = state.extra as UserEntity?;
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<CategoriesCubit>(
+                create: (context) => CategoriesCubit(
+                  categoriesRepo: getIt<CategoriesRepo>(),
+                ),
+              ),
+            ],
+            child: MainView(userData: userEntity!),
+          );
+        },
+      ),
+
+      // OTP Verification Route
+      GoRoute(
+        path: OtpVerficationView.routeName, // 'otp_verfication_view'
+        name: OtpVerficationView.routeName,
+        builder: (context, state) {
+          final args = state.extra as Map<String, dynamic>?;
+          if (args == null) {
+            return const Scaffold(
+              body: Center(child: Text('Missing route arguments')),
+            );
+          }
+          return OtpVerficationView(
+            email: args[kEmail] as String,
+            image: args[kImage] as String?,
+            nextRoute: args[kNextRoute] as String,
+            id: args[kId] as String,
+            isRegister: args[kIsRegister] as bool,
+          );
+        },
+      ),
+
+      // Forget Password Route
+      GoRoute(
+        path: ForgetPasswordView.routeName, // 'forget-password'
+        name: ForgetPasswordView.routeName,
+        builder: (context, state) => const ForgetPasswordView(),
+      ),
+
+      // Reset Password Route
+      GoRoute(
+        path: ResetPasswordView.routeName, // 'reset-password'
+        name: ResetPasswordView.routeName,
+        builder: (context, state) {
+          final args = state.extra as Map<String, dynamic>?;
+          if (args == null) {
+            return const Scaffold(
+              body: Center(child: Text('Missing route arguments')),
+            );
+          }
+          return ResetPasswordView(
+            email: args[kEmail] as String,
+            otp: args[kOtp] as String,
+          );
+        },
+      ),
+
+      // Personal Data Route
+      GoRoute(
+        path: PersonalDataView.routeName, // 'personal_data_view'
+        name: PersonalDataView.routeName,
+        builder: (context, state) {
+          final id = state.extra as String?;
+          return PersonalDataView(id: id ?? '');
+        },
+      ),
+    ],
+  );
+}

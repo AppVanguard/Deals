@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
 
-  static const String routeName = 'search';
+  static const String routeName = '/search';
 
   @override
   Widget build(BuildContext context) {

@@ -20,7 +20,6 @@ class HomeViewBody extends StatelessWidget {
             // Force a refresh in the Cubit
             await context.read<HomeCubit>().fetchHomeData(isRefresh: true);
           },
-
           child: _buildContent(context, state, isLoading),
         );
       },
@@ -42,10 +41,11 @@ class HomeViewBody extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           buildCustomErrorScreen(
-              context: context,
-              onRetry: () {
-                context.read<HomeCubit>().fetchHomeData(isRefresh: true);
-              }),
+            context: context,
+            onRetry: () {
+              context.read<HomeCubit>().fetchHomeData(isRefresh: true);
+            },
+          ),
         ],
       );
     } else if (state is HomeSuccess) {
@@ -58,6 +58,4 @@ class HomeViewBody extends StatelessWidget {
       return ListView();
     }
   }
-
-  
 }

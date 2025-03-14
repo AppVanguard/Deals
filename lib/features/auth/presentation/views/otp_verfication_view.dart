@@ -18,10 +18,11 @@ class OtpVerficationView extends StatelessWidget {
 
   final String email;
   final String? image;
-  final String nextRoute;
+  final String nextRoute; // e.g. 'reset-password' or 'personal_data_view'
   final String id;
   final bool isRegister;
-  static const routeName = 'otp_verfication_view';
+
+  static const routeName = '/otp_verfication_view';
 
   @override
   Widget build(BuildContext context) {

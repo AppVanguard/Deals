@@ -11,7 +11,7 @@ import 'package:deals/features/home/presentation/views/widgets/home_view_body.da
 class HomeView extends StatelessWidget {
   const HomeView({super.key, required this.userData});
 
-  static const String routeName = 'home';
+  static const String routeName = '/home';
 
   final UserEntity userData;
 
@@ -20,12 +20,7 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: buildHomeAppBar(context),
       drawer: CustomAppDrawerBlocProvider(userData: userData),
-      body: BlocProvider(
-        create: (_) => HomeCubit(
-          homeRepo: getIt<HomeRepo>(),
-        ),
-        child: const HomeViewBody(),
-      ),
+      body: const HomeViewBody(),
     );
   }
 }

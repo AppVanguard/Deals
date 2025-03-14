@@ -1,14 +1,15 @@
 import 'dart:developer';
-import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/core/service/firebase_auth_service.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:deals/features/on_boarding/presentation/views/on_boarding_view.dart';
-import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -28,7 +29,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        spacing: 10,
+        spacing: 10, // If you are using flutter 3.7+ for 'spacing'
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
@@ -48,36 +49,34 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     bool isOnBoardingViewSeen = Prefs.getBool(kIsOnBoardingViewSeen);
     await Future.delayed(const Duration(seconds: 2));
 
-    // First, try to get user data from secure storage
     if (isOnBoardingViewSeen) {
       final userJson = await SecureStorageService.getUserEntity();
       if (userJson != null && userJson.isNotEmpty) {
         try {
           if (!mounted) return;
-
           final userEntity = UserEntity.fromJson(userJson);
-          Navigator.pushReplacementNamed(
-            context,
+
+          // Switch to go_router
+          context.goNamed(
             MainView.routeName,
-            arguments: userEntity,
+            extra: userEntity,
           );
           return;
         } catch (e) {
           log("Error parsing user data: $e");
         }
       }
-      if (!mounted) return;
 
-      // Fallback to Firebase Auth check for social logins
+      if (!mounted) return;
       bool isLoggedIn = FirebaseAuthService().isSignedIn();
       if (isLoggedIn) {
-        Navigator.pushReplacementNamed(context, MainView.routeName);
+        context.goNamed(MainView.routeName);
       } else {
-        Navigator.pushReplacementNamed(context, SigninView.routeName);
+        context.goNamed(SigninView.routeName);
       }
     } else {
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, OnBoardingView.routeName);
+      context.pushNamed(OnBoardingView.routeName);
     }
   }
 }

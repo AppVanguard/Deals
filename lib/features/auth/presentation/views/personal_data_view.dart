@@ -11,7 +11,9 @@ class PersonalDataView extends StatelessWidget {
     required this.id,
   });
   final String id;
-  static const routeName = 'personal_data_view';
+
+  static const routeName = '/personal_data_view';
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

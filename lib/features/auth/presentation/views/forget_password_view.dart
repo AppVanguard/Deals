@@ -7,13 +7,12 @@ import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 
 class ForgetPasswordView extends StatelessWidget {
   const ForgetPasswordView({super.key});
-  static const routeName = 'forget-password';
+  static const routeName = '/forget-password';
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ResetPasswordCubit(
-        getIt<AuthRepo>(),
-      ),
+      create: (_) => ResetPasswordCubit(getIt<AuthRepo>()),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,

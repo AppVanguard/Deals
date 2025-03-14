@@ -1,21 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:deals/core/service/get_it_service.dart';
-import 'package:deals/features/auth/domain/repos/auth_repo.dart';
-import 'package:deals/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
+// lib/features/auth/presentation/views/signup_view.dart
+
 import 'package:deals/features/auth/presentation/views/widgets/signup_bloc_consumer.dart';
+import 'package:flutter/material.dart';
 
 class SignupView extends StatelessWidget {
   const SignupView({super.key});
-  static const String routeName = 'signup';
+  static const String routeName = '/signup';
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SignupCubit(getIt.get<AuthRepo>()),
-      child: const Scaffold(
-        body: SafeArea(
-          child: SignupBlocConsumer(),
-        ),
+    // No BlocProvider. It's provided in app_router.dart
+    return const Scaffold(
+      body: SafeArea(
+        child: SignupBlocConsumer(),
       ),
     );
   }
