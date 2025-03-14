@@ -2,6 +2,7 @@
 
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
+import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,25 +25,25 @@ import 'package:deals/features/auth/presentation/manager/cubits/signup_cubit/sig
 class AppRouter {
   /// Our single [GoRouter] instance.
   static final router = GoRouter(
-    initialLocation: SplashView.routeName, // e.g. 'splash'
+    initialLocation: SplashView.routeName,
     routes: [
       // Splash Route
       GoRoute(
-        path: SplashView.routeName, // 'splash'
+        path: SplashView.routeName,
         name: SplashView.routeName,
         builder: (context, state) => const SplashView(),
       ),
 
       // OnBoarding Route
       GoRoute(
-        path: OnBoardingView.routeName, // 'onBoarding'
+        path: OnBoardingView.routeName,
         name: OnBoardingView.routeName,
         builder: (context, state) => const OnBoardingView(),
       ),
 
       // Sign In Route
       GoRoute(
-        path: SigninView.routeName, // 'signin'
+        path: SigninView.routeName,
         name: SigninView.routeName,
         builder: (context, state) {
           return BlocProvider(
@@ -54,7 +55,7 @@ class AppRouter {
 
       // Sign Up Route
       GoRoute(
-        path: SignupView.routeName, // 'signup'
+        path: SignupView.routeName,
         name: SignupView.routeName,
         builder: (context, state) {
           return BlocProvider(
@@ -85,7 +86,7 @@ class AppRouter {
 
       // OTP Verification Route
       GoRoute(
-        path: OtpVerficationView.routeName, // 'otp_verfication_view'
+        path: OtpVerficationView.routeName,
         name: OtpVerficationView.routeName,
         builder: (context, state) {
           final args = state.extra as Map<String, dynamic>?;
@@ -106,14 +107,14 @@ class AppRouter {
 
       // Forget Password Route
       GoRoute(
-        path: ForgetPasswordView.routeName, // 'forget-password'
+        path: ForgetPasswordView.routeName,
         name: ForgetPasswordView.routeName,
         builder: (context, state) => const ForgetPasswordView(),
       ),
 
       // Reset Password Route
       GoRoute(
-        path: ResetPasswordView.routeName, // 'reset-password'
+        path: ResetPasswordView.routeName,
         name: ResetPasswordView.routeName,
         builder: (context, state) {
           final args = state.extra as Map<String, dynamic>?;
@@ -131,11 +132,22 @@ class AppRouter {
 
       // Personal Data Route
       GoRoute(
-        path: PersonalDataView.routeName, // 'personal_data_view'
+        path: PersonalDataView.routeName,
         name: PersonalDataView.routeName,
         builder: (context, state) {
           final id = state.extra as String?;
           return PersonalDataView(id: id ?? '');
+        },
+      ),
+      // Store Details Route
+      GoRoute(
+        path: StoreDetailView.routeName,
+        name: StoreDetailView.routeName,
+        builder: (context, state) {
+          final id = state.extra as String?;
+          return StoreDetailView(
+            storeId: id ?? '',
+          );
         },
       ),
     ],

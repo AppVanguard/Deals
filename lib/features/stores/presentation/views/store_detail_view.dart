@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MyWidget extends StatelessWidget {
-  const MyWidget({super.key});
-
+class StoreDetailView extends StatelessWidget {
+  const StoreDetailView({super.key, required this.storeId});
+  final String storeId;
+  static const routeName = '/store-detail';
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold();
   }
 }

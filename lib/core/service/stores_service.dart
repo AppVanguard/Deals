@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:deals/features/stores/data/models/stores_model/stores_data.dart';
 import 'package:deals/features/stores/data/models/stores_model/stores_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
@@ -44,14 +45,21 @@ class StoresService {
 
   /// Retrieve a single store's data by its [id].
   Future<StoresModel> getStoreById(String id) async {
-    // Assuming the endpoint for a single store is `${BackendEndpoints.stores}/id`
     final url = Uri.parse('${BackendEndpoints.stores}/$id');
     try {
       final response =
           await http.get(url, headers: BackendEndpoints.jsonHeaders);
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
-        return StoresModel.fromJson(jsonMap);
+
+        // Instead of trying to parse into `StoresModel` directly,
+        // parse the single store into `StoresData`,
+        // and then build a `StoresModel` whose `data` list contains just this single item.
+        final singleStore = StoresData.fromJson(jsonMap);
+        return StoresModel(
+          data: [singleStore],
+          pagination: null, // or build a dummy Pagination if needed
+        );
       } else {
         log('Error fetching store by id: ${response.statusCode} ${response.body}');
         throw Exception('Failed to fetch store by id: ${response.body}');

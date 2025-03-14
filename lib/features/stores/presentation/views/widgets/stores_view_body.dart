@@ -6,8 +6,10 @@ import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:deals/core/widgets/category_tab_bar.dart';
 import 'package:deals/core/widgets/generic_card.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
+import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class StoresViewBody extends StatefulWidget {
@@ -154,7 +156,10 @@ class _StoresViewBodyState extends State<StoresViewBody> {
         subtitle: subtitle,
         onTap: () {
           if (!isLoading && store != null) {
-            // Navigate to store details or perform an action.
+            context.push(
+              StoreDetailView.routeName,
+              extra: store.id,
+            );
           }
         },
       ),
