@@ -79,6 +79,7 @@ class _TabsSectionState extends State<TabsSection>
         // Instead of TabBarView, we manually show content below.
         // This avoids the unbounded-height error inside SingleChildScrollView.
         _buildTabContent(_tabController.index),
+        const SizedBox(height: 24),
       ],
     );
   }

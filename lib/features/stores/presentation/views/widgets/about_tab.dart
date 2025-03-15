@@ -36,7 +36,7 @@ class AboutTab extends StatelessWidget {
             ),
             Text(
               storeEntity!.description!,
-              style: AppTextStyles.regular14,
+              style: AppTextStyles.regular16,
             ),
           ],
         ),
