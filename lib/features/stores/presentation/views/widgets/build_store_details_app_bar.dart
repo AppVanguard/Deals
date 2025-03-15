@@ -13,19 +13,25 @@ AppBar buildStoreDetailsAppBar(StoreDetailsState state) {
           )
         : const Text('Unknown Store'),
     centerTitle: true,
-    actions: const [
-      Icon(
-        FontAwesomeIcons.bookmark,
-        size: 24,
+    actions: [
+      IconButton(
+        onPressed: () {},
+        icon: const Icon(
+          FontAwesomeIcons.bookmark,
+          size: 24,
+        ),
       ),
-      SizedBox(
-        width: 24,
+      // const SizedBox(
+      //   width: 24,
+      // ),
+      IconButton(
+        onPressed: () {},
+        icon: const Icon(
+          Icons.share_outlined,
+          size: 24,
+        ),
       ),
-      Icon(
-        Icons.share_outlined,
-        size: 24,
-      ),
-      SizedBox(
+      const SizedBox(
         width: 16,
       ),
     ],
