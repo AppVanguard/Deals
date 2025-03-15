@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:deals/features/on_boarding/presentation/views/widgets/on_boarding_view_body.dart';
 

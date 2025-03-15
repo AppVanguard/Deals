@@ -1,7 +1,10 @@
+import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/entities/store_entity.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class TopStores extends StatefulWidget {
@@ -137,26 +140,35 @@ class _StoreCard extends StatelessWidget {
       enabled: isLoading,
       child: Column(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            height: 90,
-            decoration: BoxDecoration(
-              color: AppColors.tertiaryText,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                store.imageUrl ?? '',
-                fit: BoxFit.fitHeight,
-                errorBuilder: (context, error, stackTrace) =>
-                    Image.asset(AppImages.assetsImagesTest1, fit: BoxFit.fill),
+          GestureDetector(
+            onTap: () {
+              context.pushNamed(
+                StoreDetailView.routeName,
+                extra: store.id,
+              );
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: 90,
+              decoration: BoxDecoration(
+                color: AppColors.tertiaryText,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.network(
+                  store.imageUrl ?? '',
+                  fit: BoxFit.fitHeight,
+                  errorBuilder: (context, error, stackTrace) => Image.asset(
+                      AppImages.assetsImagesTest1,
+                      fit: BoxFit.fill),
+                ),
               ),
             ),
           ),
-          const Text(
-            "Up to 10% Cashback",
-            style: TextStyle(color: AppColors.accent),
+          Text(
+            "${S.of(context).upTo} ${store.averageSavings}% ${S.of(context).cashBack}",
+            style: const TextStyle(color: AppColors.accent),
           ),
         ],
       ),

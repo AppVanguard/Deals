@@ -3,8 +3,10 @@ import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer_cubit/otp_resend_timer_cubit.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
+import 'package:deals/features/search/presentation/views/search_view.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
+import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -172,6 +174,22 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        path: SearchView.routeName,
+        name: SearchView.routeName,
+        builder: (context, state) => MultiBlocProvider(providers: [
+          BlocProvider(
+            create: (_) => StoresCubit(
+              storesRepo: getIt<StoresRepo>(),
+            ),
+          ),
+          BlocProvider(
+            create: (_) => CategoriesCubit(
+              categoriesRepo: getIt<CategoriesRepo>(),
+            ),
+          )
+        ], child: const SearchView()),
+      )
     ],
   );
 }

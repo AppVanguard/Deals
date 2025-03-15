@@ -1,6 +1,6 @@
 import 'package:deals/core/entities/store_entity.dart';
-import 'package:deals/features/stores/data/models/stores_model/stores_data.dart';
-import 'package:deals/features/stores/data/models/stores_model/stores_model.dart';
+import 'package:deals/features/stores/data/models/stores_data.dart';
+import 'package:deals/features/stores/data/models/stores_model.dart';
 
 class StoresMapper {
   static List<StoreEntity> mapToEntities(StoresModel model) {
@@ -21,6 +21,7 @@ class StoresMapper {
       averageSavings: double.parse((storeModel.averageSavings).toString()),
       totalCoupons: storeModel.totalCoupons,
       popularityScore: double.parse((storeModel.popularityScore).toString()),
+      description: storeModel.description,
     );
   }
 }

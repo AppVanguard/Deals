@@ -17,6 +17,7 @@ class StoresData {
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
+  String? description;
 
   StoresData({
     this.id,
@@ -34,6 +35,7 @@ class StoresData {
     this.createdAt,
     this.updatedAt,
     this.v,
+    this.description,
   });
 
   factory StoresData.fromJson(Map<String, dynamic> json) => StoresData(
@@ -60,6 +62,7 @@ class StoresData {
             ? null
             : DateTime.parse(json['updatedAt'] as String),
         v: json['__v'] as int?,
+        description: json['description'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -78,5 +81,6 @@ class StoresData {
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
         '__v': v,
+        'description': description,
       };
 }

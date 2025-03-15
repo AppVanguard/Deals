@@ -1,5 +1,5 @@
 import 'package:deals/core/entities/coupon_entity.dart';
-import 'package:deals/features/coupons/data/models/coupon_data.dart';
+import 'package:deals/features/coupons/data/models/coupons_data.dart';
 import 'package:deals/features/coupons/data/models/coupons_model.dart';
 
 class CouponsMapper {

@@ -39,7 +39,6 @@ AppBar buildHomeAppBar(BuildContext context) {
         GestureDetector(
           child: SvgPicture.asset(AppImages.assetsImagesSearch),
           onTap: () {
-            // REPLACED: Navigator.pushNamed(context, SearchView.routeName);
             context.pushNamed(SearchView.routeName);
           },
         ),

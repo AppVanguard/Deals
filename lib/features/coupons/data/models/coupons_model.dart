@@ -1,6 +1,6 @@
 import 'package:deals/core/models/pagination.dart';
 
-import 'coupon_data.dart';
+import 'coupons_data.dart';
 
 class CouponsModel {
   List<CouponsData>? data;

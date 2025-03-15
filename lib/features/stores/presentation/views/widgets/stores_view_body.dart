@@ -156,7 +156,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
         subtitle: subtitle,
         onTap: () {
           if (!isLoading && store != null) {
-            context.push(
+            context.pushNamed(
               StoreDetailView.routeName,
               extra: store.id,
             );

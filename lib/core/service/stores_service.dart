@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:deals/features/stores/data/models/stores_model/stores_data.dart';
-import 'package:deals/features/stores/data/models/stores_model/stores_model.dart';
+import 'package:deals/features/stores/data/models/stores_data.dart';
+import 'package:deals/features/stores/data/models/stores_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
 

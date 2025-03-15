@@ -8,7 +8,7 @@ import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/errors/faliure.dart';
 import 'package:deals/core/mappers/pagination_mapper.dart';
 import 'package:deals/core/service/stores_service.dart';
-import 'package:deals/features/stores/data/models/stores_model/stores_model.dart';
+import 'package:deals/features/stores/data/models/stores_model.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/domain/mapper/stores_mapper.dart';
 import 'package:deals/features/stores/domain/repos/stores_with_pagination.dart';

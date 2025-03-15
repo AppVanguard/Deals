@@ -5,13 +5,15 @@ class StoreEntity {
   final String? imageUrl;
   final bool? isActive;
   final int? activeCoupons;
-  final double? averageSavings;
+  final num? averageSavings;
   final int? totalCoupons;
-  final double? popularityScore;
+  final num? popularityScore;
   final String? categoryId;
+  final String? description;
   // Add whichever fields you actually use in your domain/UI
 
   const StoreEntity({
+    this.description,
     this.categoryId,
     this.popularityScore,
     this.totalCoupons,
@@ -19,8 +21,8 @@ class StoreEntity {
     this.averageSavings,
     required this.id,
     required this.title,
-     this.storeUrl,
+    this.storeUrl,
     this.imageUrl,
-     this.isActive,
+    this.isActive,
   });
 }

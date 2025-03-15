@@ -45,7 +45,14 @@ class HomeMapper {
     return StoreEntity(
       id: storeModel.id ?? '',
       title: storeModel.title ?? '',
-      // etc. whichever fields you need in domain
+      activeCoupons: storeModel.activeCoupons ?? 0,
+      imageUrl: storeModel.image?.url,
+      averageSavings: storeModel.averageSavings ?? 0,
+      categoryId: storeModel.category ?? '',
+      isActive: storeModel.isActive ?? false,
+      popularityScore: storeModel.popularityScore ?? 0,
+      storeUrl: storeModel.storeUrl ?? '',
+      totalCoupons: storeModel.totalCoupons ?? 0,
     );
   }
 
