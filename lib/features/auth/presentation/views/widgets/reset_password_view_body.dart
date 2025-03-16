@@ -34,9 +34,6 @@ class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
     return BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
       listener: (context, state) {
         if (state is ResetPasswordSuccess) {
-          // Instead of:
-          // Navigator.popUntil(context, (route) => route.settings.name == SigninView.routeName);
-          // We do:
           context.goNamed(SigninView.routeName);
         } else if (state is ResetPasswordFailure) {
           ScaffoldMessenger.of(context).showSnackBar(

@@ -44,7 +44,6 @@ class OTPVeficationBlocConsumer extends StatelessWidget {
             onTap: () {
               // If user is resetting password
               if (path == ResetPasswordView.routeName) {
-                // Instead of Navigator.pushReplacementNamed(...)
                 context.goNamed(
                   ResetPasswordView.routeName,
                   extra: {

@@ -27,7 +27,6 @@ class _ForgetPasswordBlocConsumerState
       listener: (context, state) {
         if (state is ResetPasswordEmailSent) {
           if (email != null) {
-            // Instead of Navigator.pushNamed(...)
             context.pushNamed(
               OtpVerficationView.routeName,
               extra: {

@@ -5,6 +5,7 @@ import 'package:deals/core/widgets/filter_dialog/filter_dialog_header.dart';
 import 'package:deals/core/widgets/filter_dialog/filter_option.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class FilterDialog extends StatefulWidget {
   const FilterDialog({super.key, required this.onApplyFilter});
@@ -56,7 +57,7 @@ class _FilterDialogState extends State<FilterDialog> {
                 onShowResults: () {
                   // Pass the selected filter to the callback and close the dialog.
                   widget.onApplyFilter(_selectedOrder);
-                  Navigator.pop(context);
+                  context.pop();
                 },
               ),
             ],
