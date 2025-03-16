@@ -2,11 +2,16 @@ import 'dart:developer';
 import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
+import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/widgets/category_tab_bar.dart';
 import 'package:deals/core/widgets/coupon_ticket/coupon_ticket.dart';
+import 'package:deals/core/widgets/coupon_ticket/ticket_container.dart';
+import 'package:deals/core/widgets/coupon_ticket/dashed_line_painter.dart';
+import 'package:deals/core/widgets/coupon_ticket/rect_ticket_clipper.dart';
 import 'package:deals/features/coupons/presentation/manager/cubits/coupons_cubit/coupons_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CouponViewBody extends StatefulWidget {
   final String selectedCategory;
@@ -126,14 +131,45 @@ class _CouponViewBodyState extends State<CouponViewBody> {
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-      child: CouponTicket(
-        tittle: coupon?.title,
-        subTittle: 'Get',
-        discountValue: coupon?.discountValue,
-        image: coupon?.image,
-        validTo: coupon?.expiryDate.toString(),
-        isLoading: isLoading,
+      child: Skeletonizer(
+        enabled: isLoading,
+        child: _buildCouponTicket(context, coupon, isLoading),
       ),
     );
+  }
+
+  Widget _buildCouponTicket(
+      BuildContext context, CouponEntity? coupon, bool isLoading) {
+    // If coupon is null => placeholder
+    if (coupon == null) {
+      return Skeletonizer(
+        enabled: isLoading,
+        child: CouponTicket(
+          title: 'Loading...',
+          code: 'Loading...',
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: 150,
+          onPressed: () {},
+        ),
+      );
+    } else {
+      // If you have real fields, cast and pass them here
+      // final c = coupon as CouponEntity;
+      return Skeletonizer(
+        enabled: isLoading,
+        child: CouponTicket(
+          title: coupon.title,
+          code: coupon.code,
+          discountValue: coupon.discountValue,
+          imageUrl: coupon.image,
+          expiryDate: coupon.expiryDate,
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: 150,
+          onPressed: () {
+            // handle click
+          },
+        ),
+      );
+    }
   }
 }

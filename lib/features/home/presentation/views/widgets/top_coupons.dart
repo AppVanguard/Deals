@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/widgets/coupon_ticket/coupon_ticket.dart';
+import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+// import 'coupon_entity.dart'; // wherever you keep your real CouponEntity
 
-/// The main widget that displays coupons in two horizontal rows:
-/// - If no data and not loading => "No coupons found"
-/// - If loading (or coupons list is empty) => show placeholder tickets (2 rows)
-/// - Otherwise, show real coupons.
 class TopCoupons extends StatefulWidget {
-  final List<CouponEntity> coupons;
+  // Replace `dynamic` with your actual CouponEntity type
+  final List<dynamic> coupons;
   final bool isLoading;
 
   const TopCoupons({
@@ -41,7 +40,7 @@ class _TopCouponsState extends State<TopCoupons> {
 
   @override
   Widget build(BuildContext context) {
-    // If there are no coupons and we're not loading, show a "No coupons found" message.
+    // If no coupons and not loading => show "No coupons found".
     if (widget.coupons.isEmpty && !localIsLoading) {
       return const SliverToBoxAdapter(
         child: SizedBox(
@@ -51,23 +50,15 @@ class _TopCouponsState extends State<TopCoupons> {
       );
     }
 
-    // When loading and coupons list is empty, we generate placeholder coupons.
-    // Otherwise, we use the real coupon list.
-    final List<CouponEntity> displayCoupons =
-        localIsLoading && widget.coupons.isEmpty
-            ? List.generate(
-                12,
-                (_) => const CouponEntity(
-                  id: '',
-                  code: '',
-                  title: '',
-                ),
-              )
-            : widget.coupons;
+    // If loading and empty => placeholder coupons
+    // Otherwise => real coupons
+    final displayCoupons = localIsLoading && widget.coupons.isEmpty
+        ? List.generate(4, (_) => null) // placeholders
+        : widget.coupons;
 
-    // Build two rows: first row with ceil(count/2) and second row with floor(count/2)
-    final int firstRowCount = (displayCoupons.length / 2).ceil();
-    final int secondRowCount = (displayCoupons.length / 2).floor();
+    // Build two rows: first row => ceil(count/2), second row => floor(count/2)
+    final firstRowCount = (displayCoupons.length / 2).ceil();
+    final secondRowCount = (displayCoupons.length / 2).floor();
 
     return SliverToBoxAdapter(
       child: Padding(
@@ -77,24 +68,21 @@ class _TopCouponsState extends State<TopCoupons> {
           clipBehavior: Clip.none,
           child: Row(
             children: [
-              const SizedBox(width: 16), // left padding
+              const SizedBox(width: 16),
               Column(
                 children: [
                   // First row
                   Row(
                     children: List.generate(
                       firstRowCount,
-                      (index) => Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: CouponTicket(
-                          tittle: displayCoupons[index].title,
-                          validTo: displayCoupons[index].expiryDate.toString(),
-                          discountValue: displayCoupons[index].discountValue,
-                          image: displayCoupons[index].image,
-                          subTittle: displayCoupons[index].code,
-                          isLoading: localIsLoading,
-                        ),
-                      ),
+                      (index) {
+                        final coupon = displayCoupons[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: _buildCouponTicket(
+                              context, coupon, localIsLoading),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -107,19 +95,11 @@ class _TopCouponsState extends State<TopCoupons> {
                         if (adjustedIndex >= displayCoupons.length) {
                           return const SizedBox();
                         }
+                        final coupon = displayCoupons[adjustedIndex];
                         return Padding(
                           padding: const EdgeInsets.only(right: 16.0),
-                          child: CouponTicket(
-                            tittle: displayCoupons[adjustedIndex].title,
-                            validTo: displayCoupons[adjustedIndex]
-                                .expiryDate
-                                .toString(),
-                            discountValue:
-                                displayCoupons[adjustedIndex].discountValue,
-                            image: displayCoupons[adjustedIndex].image,
-                            subTittle: displayCoupons[adjustedIndex].code,
-                            isLoading: localIsLoading,
-                          ),
+                          child: _buildCouponTicket(
+                              context, coupon, localIsLoading),
                         );
                       },
                     ),
@@ -131,5 +111,40 @@ class _TopCouponsState extends State<TopCoupons> {
         ),
       ),
     );
+  }
+
+  Widget _buildCouponTicket(
+      BuildContext context, CouponEntity? coupon, bool isLoading) {
+    // If coupon is null => placeholder
+    if (coupon == null) {
+      return Skeletonizer(
+        enabled: isLoading,
+        child: CouponTicket(
+          title: 'Loading...',
+          code: 'Loading...',
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: 150,
+          onPressed: () {},
+        ),
+      );
+    } else {
+      // If you have real fields, cast and pass them here
+      // final c = coupon as CouponEntity;
+      return Skeletonizer(
+        enabled: isLoading,
+        child: CouponTicket(
+          title: coupon.title,
+          code: coupon.code,
+          discountValue: coupon.discountValue,
+          imageUrl: coupon.image,
+          expiryDate: coupon.expiryDate,
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: 150,
+          onPressed: () {
+            // handle click
+          },
+        ),
+      );
+    }
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// A custom clipper that creates circle "holes" on the left & right edges,
+/// giving a classic "ticket" shape.
 class RectTicketClipper extends CustomClipper<Path> {
   final double holeRadius;
 
@@ -7,26 +9,33 @@ class RectTicketClipper extends CustomClipper<Path> {
 
   @override
   Path getClip(Size size) {
-    // Full rectangle covering the entire widget
-    final rect = Rect.fromLTWH(0, 0, size.width, size.height);
-    final rectPath = Path()..addRect(rect);
+    final rectPath = Path()
+      ..addRect(Rect.fromLTWH(0, 0, size.width, size.height));
 
-    // Define the left and right holes as ovals (circles)
     final centerY = size.height / 2;
-    final leftHoleRect =
-        Rect.fromCircle(center: Offset(0, centerY), radius: holeRadius);
+
+    // Left hole
+    final leftHoleRect = Rect.fromCircle(
+      center: Offset(0, centerY),
+      radius: holeRadius,
+    );
+
+    // Right hole
     final rightHoleRect = Rect.fromCircle(
-        center: Offset(size.width, centerY), radius: holeRadius);
+      center: Offset(size.width, centerY),
+      radius: holeRadius,
+    );
 
     final holesPath = Path()
       ..addOval(leftHoleRect)
       ..addOval(rightHoleRect);
 
-    // Subtract the holes from the full rectangle
+    // Subtract the holes from the rectangle
     return Path.combine(PathOperation.difference, rectPath, holesPath);
   }
 
   @override
-  bool shouldReclip(covariant RectTicketClipper oldClipper) =>
-      holeRadius != oldClipper.holeRadius;
+  bool shouldReclip(RectTicketClipper oldClipper) {
+    return holeRadius != oldClipper.holeRadius;
+  }
 }
