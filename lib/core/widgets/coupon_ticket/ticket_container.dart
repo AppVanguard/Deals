@@ -1,39 +1,56 @@
 import 'package:flutter/material.dart';
 
-/// A generic container that clips itself using a provided clipper (e.g. RectTicketClipper),
-/// optionally shows a dashed line, and arranges leading, child, trailing in either
-/// a horizontal row or vertical column.
+/// A generic container widget that applies a "ticket" shape via a [CustomClipper],
+/// optionally draws a dashed line, and arranges its [leading], [child], and [trailing]
+/// widgets in either a horizontal row or vertical column layout.
+///
+/// This widget uses [PhysicalShape] to apply an elevation and clip behavior,
+/// allowing you to create coupon-like or ticket-like UIs with "holes" on the sides.
 class TicketContainer extends StatelessWidget {
+  /// A [CustomClipper<Path>] that defines the ticket shape. For example,
+  /// you can use [RectTicketClipper] to clip holes on the left and right edges.
   final CustomClipper<Path> clipper;
+
+  /// The elevation of the resulting [PhysicalShape].
+  /// A higher elevation value increases the drop shadow beneath the ticket.
   final double elevation;
+
+  /// The background color of the ticket container.
   final Color backgroundColor;
 
-  /// Optional dashed line painter. If null, no line is drawn.
+  /// An optional dashed line painter, typically a [DashedLinePainter].
+  /// If null, no dashed line is drawn.
   final CustomPainter? dashedLinePainter;
 
-  /// If `true`, place the dashed line between the leading and the child.
-  /// If `false`, place the line after the child.
+  /// If `true`, the dashed line (when present) is placed between the [leading] and [child].
+  /// If `false`, the line is placed after the [child] (before the [trailing]).
   final bool centerLine;
 
-  /// Leading widget (e.g., brand logo).
+  /// An optional widget placed at the start (left in horizontal layout, top in vertical layout).
+  /// Commonly used for a brand logo or icon.
   final Widget? leading;
 
-  /// Trailing widget (e.g., an icon button).
+  /// An optional widget placed at the end (right in horizontal layout, bottom in vertical layout).
+  /// Often used for an action icon (e.g., arrow or button).
   final Widget? trailing;
 
-  /// Main content in the middle.
+  /// The main content widget, typically displayed between the [leading] and [trailing].
   final Widget? child;
 
-  /// `true` for a horizontal row layout, `false` for a vertical column layout.
+  /// Determines whether the layout is a horizontal [Row] (`true`) or vertical [Column] (`false`).
   final bool horizontalLayout;
 
-  /// Spacing between the elements (leading, line, child, trailing).
+  /// Spacing between the elements (leading, dashed line, child, trailing).
   final double spacing;
 
-  /// Optional width & height. If not provided, it tries to size to content.
+  /// Optional width for the entire ticket container. If null, it tries to size to its content.
   final double? width;
+
+  /// Optional height for the entire ticket container. If null, it tries to size to its content.
   final double? height;
 
+  /// Creates a [TicketContainer] that clips its content to a ticket shape, optionally
+  /// drawing a dashed line and arranging [leading], [child], and [trailing].
   const TicketContainer({
     super.key,
     required this.clipper,
@@ -65,6 +82,8 @@ class TicketContainer extends StatelessWidget {
     );
   }
 
+  /// Builds either a horizontal [Row] or a vertical [Column],
+  /// placing [leading], an optional dashed line, [child], another optional line, and [trailing].
   Widget _buildLayout() {
     if (horizontalLayout) {
       return Row(
