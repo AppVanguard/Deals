@@ -73,7 +73,9 @@ class CouponsData {
             ? null
             : MinimumPurchase.fromJson(
                 json['minimum_purchase'] as Map<String, dynamic>),
-        termsAndConditions: json['terms_and_conditions'] as List<String>?,
+        termsAndConditions: (json['terms_and_conditions'] as List<dynamic>?)
+            ?.map((e) => e as String)
+            .toList(),
         validFor: json['valid_for'] == null
             ? null
             : ValidFor.fromJson(json['valid_for'] as Map<String, dynamic>),
