@@ -1,5 +1,5 @@
 class Cashback {
-  int? rate;
+  num? rate;
   List<String>? terms;
 
   Cashback({this.rate, this.terms});

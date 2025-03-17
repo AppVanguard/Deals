@@ -47,7 +47,7 @@ class HomeMapper {
       title: storeModel.title ?? '',
       activeCoupons: storeModel.activeCoupons ?? 0,
       imageUrl: storeModel.image?.url,
-      averageSavings: storeModel.averageSavings ?? 0,
+      cashBackRate: storeModel.cashback?.rate ?? 0,
       categoryId: storeModel.category ?? '',
       isActive: storeModel.isActive ?? false,
       popularityScore: storeModel.popularityScore ?? 0,

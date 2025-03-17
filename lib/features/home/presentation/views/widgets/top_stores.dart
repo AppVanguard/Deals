@@ -167,7 +167,7 @@ class _StoreCard extends StatelessWidget {
             ),
           ),
           Text(
-            "${S.of(context).upTo} ${store.averageSavings}% ${S.of(context).cashBack}",
+            "${S.of(context).upTo} ${store.cashBackRate}% ${S.of(context).cashBack}",
             style: const TextStyle(color: AppColors.accent),
           ),
         ],

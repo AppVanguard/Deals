@@ -66,7 +66,7 @@ class _CashbackTabState extends State<CashbackTab>
               style: AppTextStyles.semiBold14,
             ),
             Text(
-              '${S.of(context).upTo} ${widget.storeEntity?.averageSavings ?? ''}% ${S.of(context).cashBack}',
+              '${S.of(context).upTo} ${widget.storeEntity?.cashBackRate ?? ''}% ${S.of(context).cashBack}',
               style: AppTextStyles.semiBold14.copyWith(
                 color: AppColors.accent,
               ),

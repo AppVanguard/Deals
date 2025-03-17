@@ -19,7 +19,7 @@ class StoresMapper {
       imageUrl: storeModel.image?.url,
       isActive: storeModel.isActive ?? false,
       activeCoupons: storeModel.activeCoupons,
-      averageSavings: double.parse((storeModel.averageSavings).toString()),
+      cashBackRate: double.parse((storeModel.cashback?.rate).toString()),
       totalCoupons: storeModel.totalCoupons,
       popularityScore: double.parse((storeModel.popularityScore).toString()),
       description: storeModel.description,

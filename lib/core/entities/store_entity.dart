@@ -5,7 +5,7 @@ class StoreEntity {
   final String? imageUrl;
   final bool? isActive;
   final int? activeCoupons;
-  final num? averageSavings;
+  final num? cashBackRate;
   final int? totalCoupons;
   final num? popularityScore;
   final String? categoryId;
@@ -20,7 +20,7 @@ class StoreEntity {
     this.popularityScore,
     this.totalCoupons,
     this.activeCoupons,
-    this.averageSavings,
+    this.cashBackRate,
     required this.id,
     required this.title,
     this.storeUrl,

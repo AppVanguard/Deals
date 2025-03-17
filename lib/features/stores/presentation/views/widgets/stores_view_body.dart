@@ -147,7 +147,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     final title = isLoading ? '' : (store?.title ?? '');
     final subtitle = isLoading
         ? ''
-        : 'Coupons: ${store?.totalCoupons ?? 0} • Savings: ${store?.averageSavings ?? 0}';
+        : 'Coupons: ${store?.totalCoupons ?? 0} • Savings: ${store?.cashBackRate ?? 0}';
     return Skeletonizer(
       enabled: isLoading,
       child: GenericCard(
