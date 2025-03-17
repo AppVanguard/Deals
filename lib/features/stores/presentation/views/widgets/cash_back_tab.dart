@@ -52,8 +52,8 @@ class _CashbackTabState extends State<CashbackTab>
 
   @override
   Widget build(BuildContext context) {
-    // final terms = widget.storeEntity?.cashbackTerms ?? [];
-    final terms = ["Cashback terms", "Cashback terms", "Cashback terms"];
+    final terms = widget.storeEntity?.terms ?? [];
+    // final terms = ["Cashback terms", "Cashback terms", "Cashback terms"];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -4,7 +4,7 @@ class CouponEntity {
   final String title;
   final DateTime? startDate;
   final DateTime? expiryDate;
-  final int? discountValue;
+  final num? discountValue;
   final String? image;
 
   // etc. Add discountValue, usageCount, successRate, etc. if needed

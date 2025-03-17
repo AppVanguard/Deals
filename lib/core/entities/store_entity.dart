@@ -10,9 +10,11 @@ class StoreEntity {
   final num? popularityScore;
   final String? categoryId;
   final String? description;
+  final List<String>? terms;
   // Add whichever fields you actually use in your domain/UI
 
   const StoreEntity({
+    this.terms,
     this.description,
     this.categoryId,
     this.popularityScore,

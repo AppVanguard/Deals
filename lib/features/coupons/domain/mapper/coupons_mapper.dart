@@ -14,7 +14,7 @@ class CouponsMapper {
       id: couponModel.id ?? '',
       code: couponModel.code ?? '',
       title: couponModel.title ?? '',
-      discountValue: couponModel.discountValue,
+      discountValue: couponModel.discountValue ?? 0,
       expiryDate: couponModel.expiryDate,
       startDate: couponModel.startDate,
     );

@@ -1,3 +1,4 @@
+import 'cashback.dart';
 import 'category.dart';
 import 'image.dart';
 
@@ -7,6 +8,7 @@ class StoresData {
   Image? image;
   String? storeUrl;
   Category? category;
+  Cashback? cashback;
   int? averageSavings;
   int? totalCoupons;
   int? activeCoupons;
@@ -25,6 +27,7 @@ class StoresData {
     this.image,
     this.storeUrl,
     this.category,
+    this.cashback,
     this.averageSavings,
     this.totalCoupons,
     this.activeCoupons,
@@ -48,6 +51,9 @@ class StoresData {
         category: json['category'] == null
             ? null
             : Category.fromJson(json['category'] as Map<String, dynamic>),
+        cashback: json['cashback'] == null
+            ? null
+            : Cashback.fromJson(json['cashback'] as Map<String, dynamic>),
         averageSavings: json['average_savings'] as int?,
         totalCoupons: json['total_coupons'] as int?,
         activeCoupons: json['active_coupons'] as int?,
@@ -71,6 +77,7 @@ class StoresData {
         'image': image?.toJson(),
         'store_url': storeUrl,
         'category': category?.toJson(),
+        'cashback': cashback?.toJson(),
         'average_savings': averageSavings,
         'total_coupons': totalCoupons,
         'active_coupons': activeCoupons,

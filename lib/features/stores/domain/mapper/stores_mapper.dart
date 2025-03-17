@@ -12,6 +12,7 @@ class StoresMapper {
   static StoreEntity mapToEntity(StoresData storeModel) {
     return StoreEntity(
       categoryId: storeModel.category?.id ?? '',
+      terms: storeModel.cashback?.terms,
       id: storeModel.id ?? '',
       title: storeModel.title ?? '',
       storeUrl: storeModel.storeUrl ?? '',

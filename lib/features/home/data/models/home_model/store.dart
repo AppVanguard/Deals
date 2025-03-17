@@ -1,7 +1,9 @@
+import 'cashback.dart';
 import 'image.dart';
 
 class Store {
   Image? image;
+  Cashback? cashback;
   String? id;
   String? title;
   String? storeUrl;
@@ -16,9 +18,11 @@ class Store {
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
+  String? description;
 
   Store({
     this.image,
+    this.cashback,
     this.id,
     this.title,
     this.storeUrl,
@@ -33,12 +37,16 @@ class Store {
     this.createdAt,
     this.updatedAt,
     this.v,
+    this.description,
   });
 
   factory Store.fromJson(Map<String, dynamic> json) => Store(
         image: json['image'] == null
             ? null
             : Image.fromJson(json['image'] as Map<String, dynamic>),
+        cashback: json['cashback'] == null
+            ? null
+            : Cashback.fromJson(json['cashback'] as Map<String, dynamic>),
         id: json['_id'] as String?,
         title: json['title'] as String?,
         storeUrl: json['store_url'] as String?,
@@ -57,10 +65,12 @@ class Store {
             ? null
             : DateTime.parse(json['updatedAt'] as String),
         v: json['__v'] as int?,
+        description: json['description'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
         'image': image?.toJson(),
+        'cashback': cashback?.toJson(),
         '_id': id,
         'title': title,
         'store_url': storeUrl,
@@ -75,6 +85,7 @@ class Store {
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
         '__v': v,
+        'description': description,
         'id': id,
       };
 }

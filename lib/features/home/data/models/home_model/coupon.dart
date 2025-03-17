@@ -6,10 +6,11 @@ class Coupon {
   Store? store;
   String? title;
   String? discountType;
-  int? discountValue;
+  double? discountValue;
   DateTime? startDate;
   DateTime? expiryDate;
   DateTime? createdAt;
+  String? description;
 
   Coupon({
     this.id,
@@ -21,6 +22,7 @@ class Coupon {
     this.startDate,
     this.expiryDate,
     this.createdAt,
+    this.description,
   });
 
   factory Coupon.fromJson(Map<String, dynamic> json) => Coupon(
@@ -31,7 +33,7 @@ class Coupon {
             : Store.fromJson(json['store'] as Map<String, dynamic>),
         title: json['title'] as String?,
         discountType: json['discount_type'] as String?,
-        discountValue: json['discount_value'] as int?,
+        discountValue: (json['discount_value'] as num?)?.toDouble(),
         startDate: json['start_date'] == null
             ? null
             : DateTime.parse(json['start_date'] as String),
@@ -41,6 +43,7 @@ class Coupon {
         createdAt: json['createdAt'] == null
             ? null
             : DateTime.parse(json['createdAt'] as String),
+        description: json['description'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -53,5 +56,6 @@ class Coupon {
         'start_date': startDate?.toIso8601String(),
         'expiry_date': expiryDate?.toIso8601String(),
         'createdAt': createdAt?.toIso8601String(),
+        'description': description,
       };
 }

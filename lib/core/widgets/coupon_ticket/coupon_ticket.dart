@@ -9,7 +9,7 @@ import 'dashed_line_painter.dart';
 class CouponTicket extends StatelessWidget {
   final String title;
   final String code;
-  final int? discountValue;
+  final num? discountValue;
   final String? imageUrl;
   final DateTime? expiryDate;
 
@@ -37,25 +37,21 @@ class CouponTicket extends StatelessWidget {
     return TicketContainer(
       clipper: const RectTicketClipper(holeRadius: 16),
       dashedLinePainter: const DashedLinePainter(
-        axis: Axis.vertical,
         dashHeight: 8,
         dashSpace: 4,
         strokeWidth: 2,
         color: Colors.black,
       ),
       centerLine: true, // places the dashed line between leading & child
-      horizontalLayout: true,
       spacing: 25,
       width: width,
       height: height,
-      elevation: 4,
-      backgroundColor: Colors.white,
       leading: _buildLeadingImage(),
-      child: _buildCouponInfo(),
       trailing: IconButton(
         icon: const Icon(Icons.chevron_right),
         onPressed: onPressed,
       ),
+      child: _buildCouponInfo(),
     );
   }
 

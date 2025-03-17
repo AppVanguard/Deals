@@ -1,7 +1,6 @@
 import 'average_savings.dart';
 import 'minimum_purchase.dart';
 import 'store.dart';
-import 'valid_for.dart';
 
 class CouponsData {
   String? id;
@@ -9,10 +8,9 @@ class CouponsData {
   Store? store;
   String? title;
   String? discountType;
-  int? discountValue;
+  double? discountValue;
   MinimumPurchase? minimumPurchase;
-  List<String>? termsAndConditions;
-  ValidFor? validFor;
+  List<dynamic>? termsAndConditions;
   DateTime? startDate;
   DateTime? expiryDate;
   int? usageCount;
@@ -29,6 +27,7 @@ class CouponsData {
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
+  String? validFor;
   String? description;
 
   CouponsData({
@@ -40,7 +39,6 @@ class CouponsData {
     this.discountValue,
     this.minimumPurchase,
     this.termsAndConditions,
-    this.validFor,
     this.startDate,
     this.expiryDate,
     this.usageCount,
@@ -57,6 +55,7 @@ class CouponsData {
     this.createdAt,
     this.updatedAt,
     this.v,
+    this.validFor,
     this.description,
   });
 
@@ -68,17 +67,12 @@ class CouponsData {
             : Store.fromJson(json['store'] as Map<String, dynamic>),
         title: json['title'] as String?,
         discountType: json['discount_type'] as String?,
-        discountValue: json['discount_value'] as int?,
+        discountValue: (json['discount_value'] as num?)?.toDouble(),
         minimumPurchase: json['minimum_purchase'] == null
             ? null
             : MinimumPurchase.fromJson(
                 json['minimum_purchase'] as Map<String, dynamic>),
-        termsAndConditions: (json['terms_and_conditions'] as List<dynamic>?)
-            ?.map((e) => e as String)
-            .toList(),
-        validFor: json['valid_for'] == null
-            ? null
-            : ValidFor.fromJson(json['valid_for'] as Map<String, dynamic>),
+        termsAndConditions: json['terms_and_conditions'] as List<dynamic>?,
         startDate: json['start_date'] == null
             ? null
             : DateTime.parse(json['start_date'] as String),
@@ -106,6 +100,7 @@ class CouponsData {
             ? null
             : DateTime.parse(json['updatedAt'] as String),
         v: json['__v'] as int?,
+        validFor: json['valid_for'] as String?,
         description: json['description'] as String?,
       );
 
@@ -118,7 +113,6 @@ class CouponsData {
         'discount_value': discountValue,
         'minimum_purchase': minimumPurchase?.toJson(),
         'terms_and_conditions': termsAndConditions,
-        'valid_for': validFor?.toJson(),
         'start_date': startDate?.toIso8601String(),
         'expiry_date': expiryDate?.toIso8601String(),
         'usage_count': usageCount,
@@ -135,6 +129,7 @@ class CouponsData {
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
         '__v': v,
+        'valid_for': validFor,
         'description': description,
       };
 }
