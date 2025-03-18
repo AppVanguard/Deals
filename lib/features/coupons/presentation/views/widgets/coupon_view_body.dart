@@ -3,11 +3,12 @@ import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:deals/core/widgets/category_tab_bar.dart';
-import 'package:deals/core/widgets/coupon_ticket/coupon_ticket.dart';
 import 'package:deals/features/coupons/presentation/manager/cubits/coupons_cubit/coupons_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+
+import 'coupon_ticket.dart';
 
 class CouponViewBody extends StatefulWidget {
   final String selectedCategory;

@@ -124,6 +124,7 @@ class TicketContainer extends StatelessWidget {
           if (trailing != null) ...[
             SizedBox(width: spacing),
             trailing!,
+            SizedBox(width: spacing),
           ],
         ],
       );

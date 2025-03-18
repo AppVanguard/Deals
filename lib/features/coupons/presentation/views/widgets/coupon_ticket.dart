@@ -1,8 +1,8 @@
 import 'package:deals/core/utils/app_images.dart';
 import 'package:flutter/material.dart';
-import 'ticket_container.dart';
-import 'rect_ticket_clipper.dart';
-import 'dashed_line_painter.dart';
+import '../../../../../core/widgets/coupon_ticket/ticket_container.dart';
+import '../../../../../core/widgets/coupon_ticket/rect_ticket_clipper.dart';
+import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
 
 /// A specialized coupon widget that uses [TicketContainer].
 /// Here we accept coupon-related data.
@@ -34,24 +34,25 @@ class CouponTicket extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TicketContainer(
-      clipper: const RectTicketClipper(holeRadius: 16),
-      dashedLinePainter: const DashedLinePainter(
-        dashHeight: 8,
-        dashSpace: 4,
-        strokeWidth: 2,
-        color: Colors.black,
+    return GestureDetector(
+      onTap: onPressed,
+      child: TicketContainer(
+        clipper: const RectTicketClipper(holeRadius: 16),
+        dashedLinePainter: const DashedLinePainter(
+          dashHeight: 8,
+          dashSpace: 4,
+          strokeWidth: 2,
+          color: Colors.black,
+        ),
+        centerLine: true, // places the dashed line between leading & child
+        spacing: 25,
+        width: width,
+        height: height,
+        leading: _buildLeadingImage(),
+        trailing: const Icon(Icons.chevron_right),
+
+        child: _buildCouponInfo(),
       ),
-      centerLine: true, // places the dashed line between leading & child
-      spacing: 25,
-      width: width,
-      height: height,
-      leading: _buildLeadingImage(),
-      trailing: IconButton(
-        icon: const Icon(Icons.chevron_right),
-        onPressed: onPressed,
-      ),
-      child: _buildCouponInfo(),
     );
   }
 

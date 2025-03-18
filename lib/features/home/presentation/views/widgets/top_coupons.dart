@@ -1,5 +1,5 @@
 import 'package:deals/core/entities/coupon_entity.dart';
-import 'package:deals/core/widgets/coupon_ticket/coupon_ticket.dart';
+import 'package:deals/features/home/presentation/views/widgets/coupon_ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 // import 'coupon_entity.dart'; // wherever you keep your real CouponEntity
