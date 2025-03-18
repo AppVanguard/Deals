@@ -21,13 +21,13 @@ class StoreDetailView extends StatelessWidget {
       builder: (context, state) {
         log("The state is: $state");
         if (state is StoreDetailsInitial) {
-          context.read<StoreDetailCubit>().getStoreById(storeId);
+          context.read<StoreDetailCubit>().getStoreAndCoupons(storeId);
         }
         if (state is StoreDetailsFailure) {
           return buildCustomErrorScreen(
             context: context,
             onRetry: () {
-              context.read<StoreDetailCubit>().getStoreById(storeId);
+              context.read<StoreDetailCubit>().getStoreAndCoupons(storeId);
             },
           );
         }
