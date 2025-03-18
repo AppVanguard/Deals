@@ -1,9 +1,11 @@
+import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:flutter/material.dart';
 
 class CouponsTab extends StatelessWidget {
-  const CouponsTab({super.key, this.storeEntity});
+  const CouponsTab({super.key, this.storeEntity, this.coupons});
   final StoreEntity? storeEntity;
+  final List<CouponEntity>? coupons;
   @override
   Widget build(BuildContext context) {
     // List of coupons or any other data

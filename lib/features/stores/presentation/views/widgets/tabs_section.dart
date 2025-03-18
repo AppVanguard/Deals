@@ -1,3 +1,4 @@
+import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/features/stores/presentation/views/widgets/about_tab.dart';
 import 'package:deals/features/stores/presentation/views/widgets/cash_back_tab.dart';
@@ -5,9 +6,9 @@ import 'package:deals/features/stores/presentation/views/widgets/coupons_tab.dar
 import 'package:flutter/material.dart';
 
 class TabsSection extends StatefulWidget {
-  const TabsSection({super.key, this.store});
+  const TabsSection({super.key, this.store, this.coupons});
   final StoreEntity? store;
-
+  final List<CouponEntity>? coupons;
   @override
   State<TabsSection> createState() => _TabsSectionState();
 }
@@ -50,6 +51,7 @@ class _TabsSectionState extends State<TabsSection>
         );
       case 1:
         return CouponsTab(
+          coupons: widget.coupons,
           storeEntity: widget.store,
         );
       case 2:

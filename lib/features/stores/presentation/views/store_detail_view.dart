@@ -32,6 +32,7 @@ class StoreDetailView extends StatelessWidget {
           );
         }
         var storeDetails = state is StoreDetailsSuccess ? state.store : null;
+        var coupons = state is StoreDetailsSuccess ? state.coupons : null;
         return Skeletonizer(
           enabled: state is StoreDetailsLoading || state is StoreDetailsInitial,
           child: Scaffold(
@@ -56,6 +57,7 @@ class StoreDetailView extends StatelessWidget {
 
                       // 2) Below the image, show the tab bar + content
                       TabsSection(
+                        coupons: coupons,
                         store: storeDetails,
                       ),
                     ],
