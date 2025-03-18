@@ -10,39 +10,44 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CouponsTab extends StatefulWidget {
-  const CouponsTab({super.key, this.storeEntity, this.coupons});
   final StoreEntity? storeEntity;
   final List<CouponEntity>? coupons;
+
+  const CouponsTab({super.key, this.storeEntity, this.coupons});
 
   @override
   State<CouponsTab> createState() => _CouponsTabState();
 }
 
 class _CouponsTabState extends State<CouponsTab> {
-  late ScrollController controller;
+  late final ScrollController _scrollController;
+  final _scrollThreshold = 200.0;
+  final _skeletonItemCount = 5;
+
   @override
   void initState() {
-    controller = ScrollController();
-    controller.addListener(_onScroll);
     super.initState();
+    _scrollController = ScrollController()..addListener(_handleScroll);
   }
 
   @override
   void dispose() {
-    controller.removeListener(_onScroll);
-    controller.dispose();
+    _scrollController
+      ..removeListener(_handleScroll)
+      ..dispose();
     super.dispose();
   }
 
-  void _onScroll() {
+  void _handleScroll() {
     final cubit = context.read<StoreDetailCubit>();
-    final currentState = cubit.state;
-    if (currentState is StoreDetailsSuccess &&
-        !currentState.isLoadingMore &&
-        currentState.pagination.hasNextPage &&
-        controller.position.pixels >=
-            controller.position.maxScrollExtent - 200) {
-      log("Fetching next page of coupons");
+    final state = cubit.state;
+
+    if (state is StoreDetailsSuccess &&
+        !state.isLoadingMore &&
+        state.pagination.hasNextPage &&
+        _scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent - _scrollThreshold) {
+      log("Loading next page of coupons");
       cubit.loadNextPage();
     }
   }
@@ -51,78 +56,60 @@ class _CouponsTabState extends State<CouponsTab> {
   Widget build(BuildContext context) {
     return BlocBuilder<StoreDetailCubit, StoreDetailsState>(
       builder: (context, state) {
-        if (state is StoreDetailsFailure) {
-          return buildCustomErrorScreen(context: context, onRetry: () {});
-        }
-
-        if (state is StoreDetailsInitial || state is StoreDetailsLoading) {
-          return ListView.builder(
-            controller: controller,
-            itemBuilder: (context, index) => _buildCouponCard(isLoading: true),
-            itemCount: 5,
-          );
-        } else if (state is StoreDetailsSuccess) {
-          final coupons = state.coupons;
-          final hasNextPage = state.pagination.hasNextPage;
-
-          return ListView.builder(
-            controller: controller,
-            itemCount: 1 + coupons.length + (hasNextPage ? 1 : 0),
-            itemBuilder: (context, index) {
-              if (index == 0) {
-                return const SizedBox(height: 8); // Adjust spacing as needed
-              } else if (index - 1 < coupons.length) {
-                return _buildCouponCard(
-                  isLoading: false,
-                  coupon: coupons[index - 1],
-                );
-              } else {
-                // Loading indicator with skeletons
-                return ListView(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: List.generate(
-                    5,
-                    (index) => _buildCouponCard(isLoading: true),
-                  ),
-                );
-              }
-            },
-          );
-        } else {
-          return buildCustomErrorScreen(context: context, onRetry: () {});
-        }
+        return switch (state) {
+          StoreDetailsInitial() ||
+          StoreDetailsLoading() =>
+            _buildLoadingState(),
+          StoreDetailsSuccess() =>
+            _buildSuccessState(state.coupons, state.pagination.hasNextPage),
+          StoreDetailsFailure() => _buildErrorState(context),
+          _ => _buildErrorState(context),
+        };
       },
     );
   }
 
-  Widget _buildCouponCard({
-    required bool isLoading,
-    CouponEntity? coupon,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-      child: Skeletonizer(
-        enabled: isLoading,
-        child: _buildCouponTicket(context, coupon),
-      ),
+  Widget _buildLoadingState() {
+    return ListView.builder(
+      controller: _scrollController,
+      itemCount: _skeletonItemCount,
+      itemBuilder: (_, index) => const CouponItemSkeleton(),
     );
   }
 
-  Widget _buildCouponTicket(BuildContext context, CouponEntity? coupon) {
-    // If coupon is null => placeholder
-    if (coupon == null) {
-      return CouponTicket(
-        title: 'Loading...',
-        code: 'Loading...',
-        width: MediaQuery.of(context).size.width * 0.8,
-        height: 150,
-        onPressed: () {},
-      );
-    } else {
-      // If you have real fields, cast and pass them here
-      // final c = coupon as CouponEntity;
-      return CouponTicket(
+  Widget _buildSuccessState(List<CouponEntity> coupons, bool hasNextPage) {
+    return ListView.builder(
+      controller: _scrollController,
+      itemCount: coupons.length + (hasNextPage ? 1 : 0),
+      itemBuilder: (context, index) {
+        if (index >= coupons.length) {
+          return const CouponItemSkeleton();
+        }
+        return CouponItem(coupon: coupons[index]);
+      },
+    );
+  }
+
+  Widget _buildErrorState(BuildContext context) {
+    return buildCustomErrorScreen(
+      context: context,
+      onRetry: () => context
+          .read<StoreDetailCubit>()
+          .getStoreAndCoupons(widget.storeEntity?.id ?? ''),
+    );
+  }
+}
+
+class CouponItem extends StatelessWidget {
+  final CouponEntity coupon;
+
+  const CouponItem({super.key, required this.coupon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      child: CouponTicket(
         title: coupon.title,
         code: coupon.code,
         discountValue: coupon.discountValue,
@@ -130,10 +117,32 @@ class _CouponsTabState extends State<CouponsTab> {
         expiryDate: coupon.expiryDate,
         width: MediaQuery.of(context).size.width * 0.8,
         height: 150,
-        onPressed: () {
-          // handle click
-        },
-      );
-    }
+        onPressed: _handleCouponPress,
+      ),
+    );
+  }
+
+  void _handleCouponPress() {
+    // Handle coupon press action
+  }
+}
+
+class CouponItemSkeleton extends StatelessWidget {
+  const CouponItemSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      child: Skeletonizer(
+        child: CouponTicket(
+          title: 'Loading...',
+          code: 'Loading...',
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: 150,
+          onPressed: () {},
+        ),
+      ),
+    );
   }
 }
