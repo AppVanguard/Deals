@@ -49,45 +49,49 @@ class _CouponsTabState extends State<CouponsTab> {
 
   @override
   Widget build(BuildContext context) {
-    // List of coupons or any other data
     return BlocBuilder<StoreDetailCubit, StoreDetailsState>(
       builder: (context, state) {
         if (state is StoreDetailsFailure) {
           return buildCustomErrorScreen(context: context, onRetry: () {});
         }
-        if (state is StoreDetailsLoading) {
-          ListView.builder(
-              controller: controller,
-              itemBuilder: (context, index) {
-                return _buildCouponCard(isLoading: true);
-              },
-              itemCount: 5);
+
+        if (state is StoreDetailsInitial || state is StoreDetailsLoading) {
+          return ListView.builder(
+            controller: controller,
+            itemBuilder: (context, index) => _buildCouponCard(isLoading: true),
+            itemCount: 5,
+          );
         } else if (state is StoreDetailsSuccess) {
           final coupons = state.coupons;
+          final hasNextPage = state.pagination.hasNextPage;
 
           return ListView.builder(
-              controller: controller,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return const SizedBox();
-                }
-                final couponIndex = index - 1;
-                if (couponIndex < coupons.length) {
-                  return _buildCouponCard(
-                    isLoading: false,
-                    coupon: coupons[couponIndex],
-                  );
-                } else if (state.pagination.hasNextPage) {
-                  return _buildCouponCard(isLoading: true);
-                }
-                return Container();
-              },
-              itemCount: (widget.coupons!.length +
-                  (state.pagination.hasNextPage ? 1 : 0)));
+            controller: controller,
+            itemCount: 1 + coupons.length + (hasNextPage ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return const SizedBox(height: 8); // Adjust spacing as needed
+              } else if (index - 1 < coupons.length) {
+                return _buildCouponCard(
+                  isLoading: false,
+                  coupon: coupons[index - 1],
+                );
+              } else {
+                // Loading indicator with skeletons
+                return ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: List.generate(
+                    5,
+                    (index) => _buildCouponCard(isLoading: true),
+                  ),
+                );
+              }
+            },
+          );
         } else {
           return buildCustomErrorScreen(context: context, onRetry: () {});
         }
-        return buildCustomErrorScreen(context: context, onRetry: () {});
       },
     );
   }
@@ -100,42 +104,35 @@ class _CouponsTabState extends State<CouponsTab> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: Skeletonizer(
         enabled: isLoading,
-        child: _buildCouponTicket(context, coupon, isLoading),
+        child: _buildCouponTicket(context, coupon),
       ),
     );
   }
 
-  Widget _buildCouponTicket(
-      BuildContext context, CouponEntity? coupon, bool isLoading) {
+  Widget _buildCouponTicket(BuildContext context, CouponEntity? coupon) {
     // If coupon is null => placeholder
     if (coupon == null) {
-      return Skeletonizer(
-        enabled: isLoading,
-        child: CouponTicket(
-          title: 'Loading...',
-          code: 'Loading...',
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: 150,
-          onPressed: () {},
-        ),
+      return CouponTicket(
+        title: 'Loading...',
+        code: 'Loading...',
+        width: MediaQuery.of(context).size.width * 0.8,
+        height: 150,
+        onPressed: () {},
       );
     } else {
       // If you have real fields, cast and pass them here
       // final c = coupon as CouponEntity;
-      return Skeletonizer(
-        enabled: isLoading,
-        child: CouponTicket(
-          title: coupon.title,
-          code: coupon.code,
-          discountValue: coupon.discountValue,
-          imageUrl: coupon.image,
-          expiryDate: coupon.expiryDate,
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: 150,
-          onPressed: () {
-            // handle click
-          },
-        ),
+      return CouponTicket(
+        title: coupon.title,
+        code: coupon.code,
+        discountValue: coupon.discountValue,
+        imageUrl: coupon.image,
+        expiryDate: coupon.expiryDate,
+        width: MediaQuery.of(context).size.width * 0.8,
+        height: 150,
+        onPressed: () {
+          // handle click
+        },
       );
     }
   }
