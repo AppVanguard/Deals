@@ -9,36 +9,36 @@ class AboutTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Description or "About" info
-    return Container(
-      constraints: const BoxConstraints(minHeight: 100),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 5,
-            spreadRadius: 5,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16),
-        child: Column(
-          spacing: 8,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "${storeEntity!.title} :",
-              style:
-                  AppTextStyles.semiBold14.copyWith(color: AppColors.primary),
-            ),
-            Text(
-              storeEntity!.description!,
-              style: AppTextStyles.regular16,
+    return SingleChildScrollView(
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 100),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 5,
+              spreadRadius: 5,
+              offset: Offset(0, 4),
             ),
           ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 16),
+          child: Column(
+            children: [
+              Text(
+                "${storeEntity!.title} :",
+                style:
+                    AppTextStyles.semiBold14.copyWith(color: AppColors.primary),
+              ),
+              Text(
+                storeEntity!.description!,
+                style: AppTextStyles.regular16,
+              ),
+            ],
+          ),
         ),
       ),
     );

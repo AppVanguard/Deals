@@ -40,28 +40,31 @@ class StoreDetailView extends StatelessWidget {
             body: Skeletonizer(
               enabled:
                   state is StoreDetailsLoading || state is StoreDetailsInitial,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    children: [
-                      // 1) Big store image
-                      AspectRatio(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: CustomScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  slivers: [
+                    // 1) Big store image
+                    SliverToBoxAdapter(
+                      child: AspectRatio(
                         aspectRatio: 1.4,
                         child: Image.asset(
                           AppImages.assetsImagesTest1,
                           fit: BoxFit.fill,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                    ),
+                    const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
-                      // 2) Below the image, show the tab bar + content
-                      TabsSection(
+                    // 2) Below the image, show the tab bar + content
+                    SliverFillRemaining(
+                      child: TabsSection(
                         coupons: coupons,
                         store: storeDetails,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
