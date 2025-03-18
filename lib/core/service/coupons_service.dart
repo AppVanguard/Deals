@@ -6,14 +6,16 @@ import 'package:deals/features/coupons/data/models/coupons_model.dart';
 import 'package:http/http.dart' as http;
 
 class CouponsService {
-  Future<CouponsModel> getAllCoupons(
-      {String? search,
-      String? sortField = "title",
-      int? page,
-      int? limit,
-      String? sortOrder = "asc",
-      String? category,
-      String? discountType}) async {
+  Future<CouponsModel> getAllCoupons({
+    String? search,
+    String? sortField = "title",
+    int? page,
+    int? limit,
+    String? sortOrder = "asc",
+    String? category,
+    String? discountType,
+    String? storeId,
+  }) async {
     final queryParameters = <String, String>{
       if (search != null) BackendEndpoints.kSearch: search,
       if (sortField != null) BackendEndpoints.kSortField: sortField,
@@ -22,6 +24,7 @@ class CouponsService {
       if (sortOrder != null) BackendEndpoints.kSortOrder: sortOrder,
       if (category != null) BackendEndpoints.kCategoryId: category,
       if (discountType != null) BackendEndpoints.kDiscountType: discountType,
+      if (storeId != null) BackendEndpoints.kStoreId: storeId,
     };
     final url = Uri.parse(BackendEndpoints.coupons)
         .replace(queryParameters: queryParameters);

@@ -29,15 +29,11 @@ class CouponsCubit extends Cubit<CouponsState> {
       _currentPage = 1;
     }
 
-    // When loading more pages, check the current state.
+    // Handle loading more pages
     if (state is CouponsSuccess && !isRefresh) {
       final currentState = state as CouponsSuccess;
       if (!currentState.pagination.hasNextPage) return;
-      emit(CouponsSuccess(
-        coupons: currentState.coupons,
-        pagination: currentState.pagination,
-        isLoadingMore: true,
-      ));
+      emit(currentState.copyWith(isLoadingMore: true));
     } else {
       emit(CouponsLoading());
     }
@@ -56,24 +52,16 @@ class CouponsCubit extends Cubit<CouponsState> {
       result.fold(
         (failure) => emit(CouponsFailure(message: failure.message)),
         (couponsWithPagination) {
-          List<CouponEntity> updatedCoupons = [];
-          if (isRefresh || state is! CouponsSuccess) {
-            // Fresh load (or refresh) replaces the current list.
-            updatedCoupons = couponsWithPagination.coupons;
-          } else if (state is CouponsSuccess) {
-            // Append new items to the existing list.
-            final currentState = state as CouponsSuccess;
-            updatedCoupons = List.from(currentState.coupons)
-              ..addAll(couponsWithPagination.coupons);
-          }
+          final updatedCoupons = _getUpdatedCouponsList(
+            couponsWithPagination.coupons,
+            isRefresh,
+          );
 
           emit(CouponsSuccess(
             coupons: updatedCoupons,
             pagination: couponsWithPagination.pagination,
-            isLoadingMore: false,
           ));
 
-          // If more pages are available, increment the page.
           if (couponsWithPagination.pagination.hasNextPage) {
             _currentPage++;
           }
@@ -81,6 +69,19 @@ class CouponsCubit extends Cubit<CouponsState> {
       );
     } catch (e) {
       emit(CouponsFailure(message: e.toString()));
+    }
+  }
+
+  /// Helper method to get the updated coupons list
+  List<CouponEntity> _getUpdatedCouponsList(
+    List<CouponEntity> newCoupons,
+    bool isRefresh,
+  ) {
+    if (isRefresh || state is! CouponsSuccess) {
+      return newCoupons;
+    } else {
+      final currentState = state as CouponsSuccess;
+      return List.from(currentState.coupons)..addAll(newCoupons);
     }
   }
 

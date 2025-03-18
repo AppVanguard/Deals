@@ -24,6 +24,7 @@ class CouponsRepoImpl implements CouponsRepo {
     String? sortOrder,
     String? category,
     String? discountType,
+    String? storeId,
   }) async {
     try {
       final CouponsModel couponsModel = await couponsService.getAllCoupons(
@@ -34,6 +35,7 @@ class CouponsRepoImpl implements CouponsRepo {
         sortOrder: sortOrder,
         category: category,
         discountType: discountType,
+        storeId: storeId,
       );
       final List<CouponEntity> couponEntities =
           CouponsMapper.mapToEntities(couponsModel);

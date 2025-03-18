@@ -3,6 +3,7 @@ import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer_cubit/otp_resend_timer_cubit.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
+import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
 import 'package:deals/features/search/presentation/views/search_view.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
@@ -167,6 +168,7 @@ class AppRouter {
           return BlocProvider(
             create: (_) => StoreDetailCubit(
               storesRepo: getIt<StoresRepo>(),
+              couponsRepo: getIt<CouponsRepo>(),
             ),
             child: StoreDetailView(
               storeId: id ?? '',
