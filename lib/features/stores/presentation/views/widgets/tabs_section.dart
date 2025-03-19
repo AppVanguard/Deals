@@ -57,10 +57,8 @@ class _TabsSectionState extends State<TabsSection>
           ),
         );
       case 2:
-        return Expanded(
-          child: AboutTab(
-            storeEntity: widget.store,
-          ),
+        return AboutTab(
+          storeEntity: widget.store,
         );
       default:
         return const SizedBox();
