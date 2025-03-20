@@ -6,13 +6,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 AppBar buildStoreDetailsAppBar(StoreDetailsState state) {
   return AppBar(
     elevation: 0,
+    backgroundColor: Colors.transparent,
+    centerTitle: true,
     title: state is StoreDetailsSuccess
         ? Text(
             state.store.title,
             style: AppTextStyles.bold18,
           )
         : const Text('Unknown Store'),
-    centerTitle: true,
     actions: [
       IconButton(
         onPressed: () {},
@@ -21,9 +22,6 @@ AppBar buildStoreDetailsAppBar(StoreDetailsState state) {
           size: 24,
         ),
       ),
-      // const SizedBox(
-      //   width: 24,
-      // ),
       IconButton(
         onPressed: () {},
         icon: const Icon(
@@ -31,10 +29,7 @@ AppBar buildStoreDetailsAppBar(StoreDetailsState state) {
           size: 24,
         ),
       ),
-      const SizedBox(
-        width: 16,
-      ),
+      const SizedBox(width: 16),
     ],
-    backgroundColor: Colors.transparent,
   );
 }

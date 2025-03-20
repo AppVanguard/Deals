@@ -1,9 +1,10 @@
+import 'package:deals/features/coupons/presentation/views/widgets/coupon_ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
+import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
-import 'package:deals/features/coupons/presentation/views/widgets/coupon_ticket.dart';
+
 
 class CouponsTabSliver extends StatelessWidget {
   const CouponsTabSliver({
@@ -23,36 +24,36 @@ class CouponsTabSliver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // If loading and no coupons => show skeleton
+    // If loading with no coupons => skeleton items
     if (isLoading && coupons.isEmpty) {
       return SliverList(
         delegate: SliverChildBuilderDelegate(
-          (context, index) => const CouponItemSkeleton(),
+          (ctx, idx) => const CouponItemSkeleton(),
           childCount: 5,
         ),
       );
     }
 
-    // If we have no store data and no coupons and not loading => local error
+    // If we have no data, show error or fallback
     if (!isLoading && storeEntity == null && coupons.isEmpty) {
       return SliverFillRemaining(
         child: buildCustomErrorScreen(
           context: context,
           onRetry: () {
-            // Possibly fetch store & coupons again
+            // Possibly fetch again
           },
         ),
       );
     }
 
-    // Otherwise build a SliverList
+    // Otherwise build the real list
     final itemCount = coupons.length + (hasNextPage && isLoadingMore ? 1 : 0);
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (context, index) {
-          // If at the bottom and we still have next page => show skeleton
+        (ctx, index) {
           if (index >= coupons.length) {
+            // Show skeleton row if we are still loading more
             return const CouponItemSkeleton();
           }
           final coupon = coupons[index];
@@ -80,13 +81,11 @@ class CouponItem extends StatelessWidget {
         expiryDate: coupon.expiryDate,
         width: MediaQuery.of(context).size.width * 0.8,
         height: 150,
-        onPressed: _handleCouponPress,
+        onPressed: () {
+          // handle coupon pressed
+        },
       ),
     );
-  }
-
-  void _handleCouponPress() {
-    // Handle coupon press
   }
 }
 
