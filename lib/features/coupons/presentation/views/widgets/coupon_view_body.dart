@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import 'coupon_ticket.dart';
+import 'coupons_coupon_ticket.dart';
 
 class CouponViewBody extends StatefulWidget {
   final String selectedCategory;
@@ -141,7 +141,7 @@ class _CouponViewBodyState extends State<CouponViewBody> {
     if (coupon == null) {
       return Skeletonizer(
         enabled: isLoading,
-        child: CouponTicket(
+        child: CouponsCouponTicket(
           title: 'Loading...',
           code: 'Loading...',
           width: MediaQuery.of(context).size.width * 0.8,
@@ -154,7 +154,7 @@ class _CouponViewBodyState extends State<CouponViewBody> {
       // final c = coupon as CouponEntity;
       return Skeletonizer(
         enabled: isLoading,
-        child: CouponTicket(
+        child: CouponsCouponTicket(
           title: coupon.title,
           code: coupon.code,
           discountValue: coupon.discountValue,

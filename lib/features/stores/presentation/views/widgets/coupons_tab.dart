@@ -3,7 +3,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
-import 'package:deals/features/coupons/presentation/views/widgets/coupon_ticket.dart';
+import 'package:deals/features/coupons/presentation/views/widgets/coupons_coupon_ticket.dart';
 
 class CouponsTabSliver extends StatelessWidget {
   const CouponsTabSliver({
@@ -72,7 +72,7 @@ class CouponItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-      child: CouponTicket(
+      child: CouponsCouponTicket(
         title: coupon.title,
         code: coupon.code,
         discountValue: coupon.discountValue,
@@ -98,7 +98,7 @@ class CouponItemSkeleton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: Skeletonizer(
-        child: CouponTicket(
+        child: CouponsCouponTicket(
           title: 'Loading...',
           code: 'Loading...',
           width: MediaQuery.of(context).size.width * 0.8,

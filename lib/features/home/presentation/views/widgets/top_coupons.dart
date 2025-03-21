@@ -1,5 +1,5 @@
 import 'package:deals/core/entities/coupon_entity.dart';
-import 'package:deals/features/home/presentation/views/widgets/coupon_ticket.dart';
+import 'package:deals/features/home/presentation/views/widgets/home_coupon_ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 // import 'coupon_entity.dart'; // wherever you keep your real CouponEntity
@@ -119,7 +119,7 @@ class _TopCouponsState extends State<TopCoupons> {
     if (coupon == null) {
       return Skeletonizer(
         enabled: isLoading,
-        child: CouponTicket(
+        child: HomeCouponTicket(
           title: 'Loading...',
           code: 'Loading...',
           width: MediaQuery.of(context).size.width * 0.8,
@@ -132,7 +132,7 @@ class _TopCouponsState extends State<TopCoupons> {
       // final c = coupon as CouponEntity;
       return Skeletonizer(
         enabled: isLoading,
-        child: CouponTicket(
+        child: HomeCouponTicket(
           title: coupon.title,
           code: coupon.code,
           discountValue: coupon.discountValue,

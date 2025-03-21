@@ -6,7 +6,7 @@ import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
 
 /// A specialized coupon widget that uses [TicketContainer].
 /// Here we accept coupon-related data.
-class CouponTicket extends StatelessWidget {
+class HomeCouponTicket extends StatelessWidget {
   final String title;
   final String code;
   final num? discountValue;
@@ -20,7 +20,7 @@ class CouponTicket extends StatelessWidget {
   /// Callback for the trailing icon button
   final VoidCallback? onPressed;
 
-  const CouponTicket({
+  const HomeCouponTicket({
     super.key,
     required this.title,
     required this.code,
