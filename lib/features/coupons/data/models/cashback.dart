@@ -6,8 +6,7 @@ class Cashback {
 
   factory Cashback.fromJson(Map<String, dynamic> json) => Cashback(
         rate: json['rate'] as int?,
-        terms:
-            (json['terms'] as List<dynamic>?)?.map((e) => e as String).toList(),
+        terms: json['terms'] as List<String>?,
       );
 
   Map<String, dynamic> toJson() => {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:deals/core/utils/backend_endpoints.dart';
+import 'package:deals/features/coupons/data/models/coupons_data.dart';
 import 'package:deals/features/coupons/data/models/coupons_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -51,7 +52,11 @@ class CouponsService {
           await http.get(url, headers: BackendEndpoints.jsonHeaders);
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
-        return CouponsModel.fromJson(jsonMap);
+        final singleCoupon = CouponsData.fromJson(jsonMap);
+        return CouponsModel(
+          data: [singleCoupon],
+          pagination: null,
+        );
       } else {
         log('Error fetching coupon by id: ${response.statusCode} ${response.body}');
         throw Exception('Failed to fetch coupon by id: ${response.body}');

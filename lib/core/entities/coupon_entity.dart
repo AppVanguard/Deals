@@ -6,10 +6,12 @@ class CouponEntity {
   final DateTime? expiryDate;
   final num? discountValue;
   final String? image;
+  final List<String>? termsAndConditions;
 
   // etc. Add discountValue, usageCount, successRate, etc. if needed
 
   const CouponEntity({
+    this.termsAndConditions,
     this.image,
     this.discountValue,
     required this.id,

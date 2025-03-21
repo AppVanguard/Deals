@@ -4,6 +4,8 @@ import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer
 import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
+import 'package:deals/features/coupons/presentation/manager/cubits/coupon_details_cubit/coupon_detail_cubit.dart';
+import 'package:deals/features/coupons/presentation/views/coupon_details_view.dart';
 import 'package:deals/features/search/presentation/views/search_view.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
@@ -191,7 +193,21 @@ class AppRouter {
             ),
           )
         ], child: const SearchView()),
-      )
+      ),
+      GoRoute(
+          path: CouponDetailsView.routeName,
+          name: CouponDetailsView.routeName,
+          builder: (context, state) {
+            final id = state.extra as String?;
+            return BlocProvider(
+              create: (_) => CouponDetailCubit(
+                couponsRepo: getIt<CouponsRepo>(),
+              ),
+              child: CouponDetailsView(
+                couponId: id ?? '',
+              ),
+            );
+          }),
     ],
   );
 }

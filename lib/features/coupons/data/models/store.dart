@@ -7,7 +7,6 @@ class Store {
   Image? image;
   String? storeUrl;
   String? category;
-  Cashback? cashback;
   int? averageSavings;
   int? totalCoupons;
   int? activeCoupons;
@@ -18,6 +17,8 @@ class Store {
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
+  String? description;
+  Cashback? cashback;
 
   Store({
     this.id,
@@ -25,7 +26,6 @@ class Store {
     this.image,
     this.storeUrl,
     this.category,
-    this.cashback,
     this.averageSavings,
     this.totalCoupons,
     this.activeCoupons,
@@ -36,6 +36,8 @@ class Store {
     this.createdAt,
     this.updatedAt,
     this.v,
+    this.description,
+    this.cashback,
   });
 
   factory Store.fromJson(Map<String, dynamic> json) => Store(
@@ -46,9 +48,6 @@ class Store {
             : Image.fromJson(json['image'] as Map<String, dynamic>),
         storeUrl: json['store_url'] as String?,
         category: json['category'] as String?,
-        cashback: json['cashback'] == null
-            ? null
-            : Cashback.fromJson(json['cashback'] as Map<String, dynamic>),
         averageSavings: json['average_savings'] as int?,
         totalCoupons: json['total_coupons'] as int?,
         activeCoupons: json['active_coupons'] as int?,
@@ -63,6 +62,10 @@ class Store {
             ? null
             : DateTime.parse(json['updatedAt'] as String),
         v: json['__v'] as int?,
+        description: json['description'] as String?,
+        cashback: json['cashback'] == null
+            ? null
+            : Cashback.fromJson(json['cashback'] as Map<String, dynamic>),
       );
 
   Map<String, dynamic> toJson() => {
@@ -71,7 +74,6 @@ class Store {
         'image': image?.toJson(),
         'store_url': storeUrl,
         'category': category,
-        'cashback': cashback?.toJson(),
         'average_savings': averageSavings,
         'total_coupons': totalCoupons,
         'active_coupons': activeCoupons,
@@ -82,5 +84,7 @@ class Store {
         'createdAt': createdAt?.toIso8601String(),
         'updatedAt': updatedAt?.toIso8601String(),
         '__v': v,
+        'description': description,
+        'cashback': cashback?.toJson(),
       };
 }

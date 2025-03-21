@@ -14,6 +14,7 @@ class StoreCouponTicket extends StatelessWidget {
   final DateTime? expiryDate;
   final String buttonText; // Dynamic button text
   final String expirationText; // Dynamic expiration text
+  final Color buttonColor;
 
   /// Sizing
   final double? width;
@@ -34,6 +35,7 @@ class StoreCouponTicket extends StatelessWidget {
     this.width,
     this.height = 120,
     this.onPressed,
+    required this.buttonColor,
   });
 
   @override
@@ -101,29 +103,32 @@ class StoreCouponTicket extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Get Code Button with dynamic button text
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: ShapeDecoration(
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                        color: AppColors.accent, // Red border
-                      ),
-                      borderRadius:
-                          BorderRadius.circular(21), // Rounded corners
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        buttonText, // Dynamic button text
-                        style: AppTextStyles.bold14.copyWith(
-                          color:
-                              AppColors.accent, // Red color for the button text
+                GestureDetector(
+                  onTap: onPressed, // Dynamic onPressed callback
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: buttonColor, // Red border
                         ),
+                        borderRadius:
+                            BorderRadius.circular(21), // Rounded corners
                       ),
-                    ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          buttonText, // Dynamic button text
+                          style: AppTextStyles.bold14.copyWith(
+                            color: AppColors
+                                .accent, // Red color for the button text
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8), // Spacing between button and text
@@ -133,9 +138,10 @@ class StoreCouponTicket extends StatelessWidget {
                   width: 118,
                   child: Text(
                     expirationText, // Dynamic expiration text
-                    textAlign: TextAlign.right,
-                    style: AppTextStyles.regular13
-                        .copyWith(color: AppColors.secondaryText),
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.regular13.copyWith(
+                      color: AppColors.secondaryText,
+                    ),
                   ),
                 ),
               ],

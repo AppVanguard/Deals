@@ -17,6 +17,8 @@ class CouponsMapper {
       discountValue: couponModel.discountValue ?? 0,
       expiryDate: couponModel.expiryDate,
       startDate: couponModel.startDate,
+      image: couponModel.store?.image?.url ?? '',
+      termsAndConditions: couponModel.termsAndConditions ?? [],
     );
   }
 }

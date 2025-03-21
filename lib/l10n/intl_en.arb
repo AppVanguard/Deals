@@ -165,5 +165,6 @@
       "cashback": "cashback",
       "CashbackC": "Cashback",
       "isActivatedNow": "is Activated now!",
-      "continueTo": "Continue to"
+      "continueTo": "Continue to",
+      "getCode": "Get Code"
 }

@@ -1,5 +1,9 @@
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/features/coupons/presentation/views/coupon_details_view.dart';
 import 'package:deals/features/stores/presentation/views/widgets/store_coupon_ticket.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/entities/store_entity.dart';
@@ -80,7 +84,8 @@ class CouponItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: StoreCouponTicket(
-        buttonText: 'Get Code',
+        buttonColor: AppColors.accent,
+        buttonText: S.of(context).getCode,
         expirationText: _buildExpirationText(coupon.expiryDate),
         title: coupon.title,
         code: coupon.code,
@@ -90,7 +95,10 @@ class CouponItem extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.8,
         height: 150,
         onPressed: () {
-          // Handle coupon press
+          context.pushNamed(
+            CouponDetailsView.routeName,
+            extra: coupon.id,
+          );
         },
       ),
     );
@@ -120,8 +128,9 @@ class CouponItemSkeleton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: Skeletonizer(
         child: StoreCouponTicket(
-          buttonText: '',
-          expirationText: '',
+          buttonColor: AppColors.tertiaryText,
+          buttonText: 'Loading...',
+          expirationText: 'Loading...',
           title: 'Loading...',
           code: 'Loading...',
           width: MediaQuery.of(context).size.width * 0.8,

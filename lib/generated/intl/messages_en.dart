@@ -205,6 +205,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("The account already exists."),
         "existing_customers_discount":
             MessageLookupByLibrary.simpleMessage("Existing customers discount"),
+        "getCode": MessageLookupByLibrary.simpleMessage("Get Code"),
         "help": MessageLookupByLibrary.simpleMessage("Help"),
         "internalError":
             MessageLookupByLibrary.simpleMessage("An error occurred."),
