@@ -48,7 +48,7 @@ class TicketContainer extends StatelessWidget {
   final double holeRadius;
 
   const TicketContainer({
-    Key? key,
+    super.key,
     this.elevation = 4.0,
     this.backgroundColor = Colors.white,
     this.dashedLinePainter,
@@ -61,7 +61,7 @@ class TicketContainer extends StatelessWidget {
     this.width,
     this.height,
     this.holeRadius = 14.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
