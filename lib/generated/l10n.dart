@@ -1659,6 +1659,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Shop now and get `
+  String get shopNowAndGet {
+    return Intl.message(
+      'Shop now and get ',
+      name: 'shopNowAndGet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop now`
+  String get shopNow {
+    return Intl.message(
+      'Shop now',
+      name: 'shopNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cashback`
+  String get cashback {
+    return Intl.message(
+      'cashback',
+      name: 'cashback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cashback`
+  String get CashbackC {
+    return Intl.message(
+      'Cashback',
+      name: 'CashbackC',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `is Activated now!`
+  String get isActivatedNow {
+    return Intl.message(
+      'is Activated now!',
+      name: 'isActivatedNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue to`
+  String get continueTo {
+    return Intl.message(
+      'Continue to',
+      name: 'continueTo',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

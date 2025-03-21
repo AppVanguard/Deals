@@ -159,5 +159,11 @@
       "upTo": "Up to",
       "cashBack": "cashback",
       "cashbackTerms": "Cashback terms",
-      "noCashbackTermsAvailable": "No cashback terms available"
+      "noCashbackTermsAvailable": "No cashback terms available",
+      "shopNowAndGet": "Shop now and get ",
+      "shopNow": "Shop now",
+      "cashback": "cashback",
+      "CashbackC": "Cashback",
+      "isActivatedNow": "is Activated now!",
+      "continueTo": "Continue to"
 }

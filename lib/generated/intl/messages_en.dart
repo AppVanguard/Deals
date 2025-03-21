@@ -30,6 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter your birthday."),
         "Bookmarks": MessageLookupByLibrary.simpleMessage("Bookmarks"),
         "CashBackRate": MessageLookupByLibrary.simpleMessage("Cashback rate :"),
+        "CashbackC": MessageLookupByLibrary.simpleMessage("Cashback"),
         "Categories": MessageLookupByLibrary.simpleMessage("Categories"),
         "Category": MessageLookupByLibrary.simpleMessage("Category"),
         "City": MessageLookupByLibrary.simpleMessage("City/Town"),
@@ -192,8 +193,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancelledPopupRequest": MessageLookupByLibrary.simpleMessage(
             "The popup request was canceled."),
         "cashBack": MessageLookupByLibrary.simpleMessage("cashback"),
+        "cashback": MessageLookupByLibrary.simpleMessage("cashback"),
         "cashbackTerms": MessageLookupByLibrary.simpleMessage("Cashback terms"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact us"),
+        "continueTo": MessageLookupByLibrary.simpleMessage("Continue to"),
         "createAccount": MessageLookupByLibrary.simpleMessage("Create account"),
         "credentialAlreadyInUse": MessageLookupByLibrary.simpleMessage(
             "The credential is already in use."),
@@ -213,6 +216,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "The verification code is invalid."),
         "invalidVerificationId": MessageLookupByLibrary.simpleMessage(
             "The verification ID is invalid."),
+        "isActivatedNow":
+            MessageLookupByLibrary.simpleMessage("is Activated now!"),
         "logOut": MessageLookupByLibrary.simpleMessage("Log out"),
         "networkRequestFailed":
             MessageLookupByLibrary.simpleMessage("No internet connection."),
@@ -252,6 +257,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "requiresRecentLogin": MessageLookupByLibrary.simpleMessage(
             "Please log in again to complete the operation."),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "shopNow": MessageLookupByLibrary.simpleMessage("Shop now"),
+        "shopNowAndGet":
+            MessageLookupByLibrary.simpleMessage("Shop now and get "),
         "specific_items_discount":
             MessageLookupByLibrary.simpleMessage("Specific items discount"),
         "termsAndConditions":
