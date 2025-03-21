@@ -1,17 +1,21 @@
+import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/coupon_ticket/ticket_container.dart';
 import '../../../../../core/widgets/coupon_ticket/rect_ticket_clipper.dart';
 import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
 
 /// A specialized coupon widget that uses [TicketContainer].
-/// Here we accept coupon-related data.
+/// This widget takes coupon-related data and uses the ticket container to display it.
 class StoreCouponTicket extends StatelessWidget {
   final String title;
   final String code;
   final num? discountValue;
   final String? imageUrl;
   final DateTime? expiryDate;
+  final String buttonText; // Dynamic button text
+  final String expirationText; // Dynamic expiration text
 
   /// Sizing
   final double? width;
@@ -24,6 +28,8 @@ class StoreCouponTicket extends StatelessWidget {
     super.key,
     required this.title,
     required this.code,
+    required this.buttonText,
+    required this.expirationText,
     this.discountValue,
     this.imageUrl,
     this.expiryDate,
@@ -40,117 +46,100 @@ class StoreCouponTicket extends StatelessWidget {
         dashHeight: 8,
         dashSpace: 4,
         strokeWidth: 2,
-        color: Colors.black,
       ),
       centerLine: true, // places the dashed line between leading & child
-      spacing: 25,
+      spacing: 20, // Adjusted for better alignment
       width: width,
       height: height,
       leading: _buildLeadingContent(),
-      // trailing: IconButton(
-      //   icon: const Icon(Icons.chevron_right),
-      //   onPressed: onPressed,
-      // ),
-      child: _buildCouponInfo(),
+      child: _buildGetCodeButton(),
     );
   }
 
+  // Builds the leading content, including title and description.
   Widget _buildLeadingContent() {
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 80, maxHeight: 80),
+      constraints: BoxConstraints(
+        maxWidth:
+            width! * 0.6, // Restrict leading content to 60% of the ticket width
+      ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 8,
         children: [
-          SizedBox(
-            width: 187,
-            child: Text(
-              'Extra discount to 10%',
-              style: TextStyle(
-                color: const Color(0xFF1D241F),
-                fontSize: 14,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w700,
-              ),
+          Text(
+            title,
+            style: AppTextStyles.bold14.copyWith(
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-          Container(
-            width: double.infinity,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 8,
-              children: [
-                SizedBox(
-                  width: 187,
-                  child: Text(
-                    'offer might end before the specialized date',
-                    style: TextStyle(
-                      color: const Color(0xFF1D241F),
-                      fontSize: 13,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w400,
-                      height: 1.50,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 187,
-                  child: Text(
-                    'applied only if you purchase above 600\$',
-                    style: TextStyle(
-                      color: const Color(0xFF1D241F),
-                      fontSize: 13,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w400,
-                      height: 1.50,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          const SizedBox(height: 8),
+          Text(code,
+              style: AppTextStyles.regular13.copyWith(
+                color:
+                    AppColors.secondaryText, // Grey color for the description
+                overflow: TextOverflow.ellipsis,
+              )),
+          const SizedBox(height: 8),
+          if (discountValue != null)
+            Text('$discountValue% OFF',
+                style: AppTextStyles.bold14.copyWith(
+                  color: AppColors.accent, // Red color for the discount value
+                )),
         ],
       ),
     );
   }
 
-  Widget _buildCouponInfo() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+  // Builds the "Get Code" button and expiration text.
+  Widget _buildGetCodeButton() {
+    return Center(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            title.isNotEmpty ? title : 'Placeholder Title',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            code.isNotEmpty ? code : 'Placeholder Code',
-            style: const TextStyle(fontSize: 13),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          if (discountValue != null) ...[
-            const SizedBox(height: 4),
-            Text(
-              '$discountValue% OFF',
-              style: const TextStyle(
-                  color: Colors.red, fontWeight: FontWeight.bold),
+          SizedBox(
+            width: 118,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Get Code Button with dynamic button text
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                        color: AppColors.accent, // Red border
+                      ),
+                      borderRadius:
+                          BorderRadius.circular(21), // Rounded corners
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        buttonText, // Dynamic button text
+                        style: AppTextStyles.bold14.copyWith(
+                          color:
+                              AppColors.accent, // Red color for the button text
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8), // Spacing between button and text
+
+                // Expiration text with dynamic content
+                SizedBox(
+                  width: 118,
+                  child: Text(expirationText, // Dynamic expiration text
+                      textAlign: TextAlign.right,
+                      style: AppTextStyles.regular13
+                          .copyWith(color: AppColors.secondaryText)),
+                ),
+              ],
             ),
-          ],
-          const SizedBox(height: 4),
-          Text(
-            expiryDate != null
-                ? 'Valid until ${expiryDate!.toIso8601String().split("T")[0]}'
-                : 'Valid until ...',
-            style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
           ),
         ],
       ),

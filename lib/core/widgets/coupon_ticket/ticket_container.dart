@@ -105,7 +105,10 @@ class TicketContainer extends StatelessWidget {
             ),
             SizedBox(width: adjustedSpacing),
           ],
-          if (child != null) Expanded(child: child!),
+          if (child != null) ...[
+            Expanded(child: child!),
+            SizedBox(width: adjustedSpacing),
+          ],
           if (dashedLinePainter != null && !centerLine) ...[
             SizedBox(width: adjustedSpacing),
             SizedBox(
@@ -129,6 +132,7 @@ class TicketContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (leading != null) ...[
+            SizedBox(height: adjustedSpacing),
             leading!,
             SizedBox(height: adjustedSpacing),
           ],
@@ -143,7 +147,10 @@ class TicketContainer extends StatelessWidget {
             ),
             SizedBox(height: adjustedSpacing),
           ],
-          if (child != null) Expanded(child: child!),
+          if (child != null) ...[
+            Expanded(child: child!),
+            SizedBox(height: adjustedSpacing),
+          ],
           if (dashedLinePainter != null && !centerLine) ...[
             SizedBox(height: adjustedSpacing),
             SizedBox(
@@ -158,6 +165,9 @@ class TicketContainer extends StatelessWidget {
           if (trailing != null) ...[
             SizedBox(height: adjustedSpacing),
             trailing!,
+            SizedBox(
+              height: adjustedSpacing,
+            )
           ],
         ],
       );

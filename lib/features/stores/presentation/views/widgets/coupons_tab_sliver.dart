@@ -74,6 +74,8 @@ class CouponItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: StoreCouponTicket(
+        buttonText: 'Get Code',
+        expirationText: 'd',
         title: coupon.title,
         code: coupon.code,
         discountValue: coupon.discountValue,
@@ -98,6 +100,8 @@ class CouponItemSkeleton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: Skeletonizer(
         child: StoreCouponTicket(
+          buttonText: '',
+          expirationText: '',
           title: 'Loading...',
           code: 'Loading...',
           width: MediaQuery.of(context).size.width * 0.8,
