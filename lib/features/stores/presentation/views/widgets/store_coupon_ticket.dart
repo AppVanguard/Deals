@@ -131,10 +131,12 @@ class StoreCouponTicket extends StatelessWidget {
                 // Expiration text with dynamic content
                 SizedBox(
                   width: 118,
-                  child: Text(expirationText, // Dynamic expiration text
-                      textAlign: TextAlign.right,
-                      style: AppTextStyles.regular13
-                          .copyWith(color: AppColors.secondaryText)),
+                  child: Text(
+                    expirationText, // Dynamic expiration text
+                    textAlign: TextAlign.right,
+                    style: AppTextStyles.regular13
+                        .copyWith(color: AppColors.secondaryText),
+                  ),
                 ),
               ],
             ),
