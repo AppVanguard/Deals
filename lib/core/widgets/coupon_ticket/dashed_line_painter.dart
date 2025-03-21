@@ -27,7 +27,6 @@ class DashedLinePainter extends CustomPainter {
   /// Whether the line is drawn vertically or horizontally.
   final Axis axis;
 
-  /// Creates a new [DashedLinePainter] with the given configuration.
   const DashedLinePainter({
     this.color = Colors.grey,
     this.dashHeight = 5,
@@ -43,7 +42,6 @@ class DashedLinePainter extends CustomPainter {
       ..strokeWidth = strokeWidth;
 
     if (axis == Axis.vertical) {
-      // Draw a vertical dashed line
       double startY = 0;
       while (startY < size.height) {
         canvas.drawLine(
@@ -54,7 +52,7 @@ class DashedLinePainter extends CustomPainter {
         startY += dashHeight + dashSpace;
       }
     } else {
-      // Draw a horizontal dashed line
+      // axis == Axis.horizontal
       double startX = 0;
       while (startX < size.width) {
         canvas.drawLine(
@@ -68,5 +66,11 @@ class DashedLinePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(DashedLinePainter oldDelegate) => false;
+  bool shouldRepaint(covariant DashedLinePainter oldDelegate) {
+    return color != oldDelegate.color ||
+        dashHeight != oldDelegate.dashHeight ||
+        dashSpace != oldDelegate.dashSpace ||
+        strokeWidth != oldDelegate.strokeWidth ||
+        axis != oldDelegate.axis;
+  }
 }

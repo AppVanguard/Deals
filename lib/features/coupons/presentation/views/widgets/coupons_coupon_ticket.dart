@@ -37,7 +37,7 @@ class CouponsCouponTicket extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: TicketContainer(
-        clipper: const RectTicketClipper(holeRadius: 16),
+        holeRadius: 16,
         dashedLinePainter: const DashedLinePainter(
           dashHeight: 8,
           dashSpace: 4,

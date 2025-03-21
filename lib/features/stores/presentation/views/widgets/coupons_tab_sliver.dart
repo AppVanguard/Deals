@@ -23,7 +23,7 @@ class CouponsTabSliver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // If loading with no coupons, show skeleton items.
+    // 1) Initial loading with no coupons => show 5 skeleton items.
     if (isLoading && coupons.isEmpty) {
       return SliverList(
         delegate: SliverChildBuilderDelegate(
@@ -33,7 +33,7 @@ class CouponsTabSliver extends StatelessWidget {
       );
     }
 
-    // If we have no data, show an error or fallback screen.
+    // 2) If we have no data (and not loading), show an error/fallback screen.
     if (!isLoading && storeEntity == null && coupons.isEmpty) {
       return SliverFillRemaining(
         child: buildCustomErrorScreen(
@@ -45,20 +45,22 @@ class CouponsTabSliver extends StatelessWidget {
       );
     }
 
-    // Calculate the number of items (coupons plus an optional loading row).
-    final itemCount = coupons.length + (hasNextPage && isLoadingMore ? 1 : 0);
+    // 3) Otherwise, build the list of coupons.
+    //    When loading more (pagination), add 3 skeleton items at the end.
+    final skeletonCount = (hasNextPage && isLoadingMore) ? 3 : 0;
+    final itemCount = coupons.length + skeletonCount;
 
-    // Wrap the SliverList with a SliverPadding to add 24 pixels at the bottom.
+    // Increase the bottom padding (e.g. 120) so the last item isn't hidden.
     return SliverPadding(
-      padding: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.only(bottom: 200, top: 10),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (ctx, index) {
-            // If index is for the "loading more" skeleton row:
+            // If we're in the skeleton portion at the end:
             if (index >= coupons.length) {
               return const CouponItemSkeleton();
             }
-            // Otherwise, return a real coupon item.
+            // Otherwise, show a real coupon
             final coupon = coupons[index];
             return CouponItem(coupon: coupon);
           },
@@ -88,7 +90,7 @@ class CouponItem extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.8,
         height: 150,
         onPressed: () {
-          // Handle coupon press.
+          // Handle coupon press
         },
       ),
     );

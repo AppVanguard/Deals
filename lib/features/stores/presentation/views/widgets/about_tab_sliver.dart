@@ -31,45 +31,48 @@ class AboutTabSliver extends StatelessWidget {
     final title = storeEntity?.title ?? 'Store';
     final desc = storeEntity?.description ?? 'No Description';
 
-    return SliverToBoxAdapter(
-      child: Container(
-        margin: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 3,
-              blurRadius: 12,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "About $title",
-                style: AppTextStyles.bold16.copyWith(
-                  color: AppColors.primary,
-                  letterSpacing: 0.8,
-                  height: 1.3,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                desc,
-                style: AppTextStyles.regular16.copyWith(
-                  color: Colors.grey.shade800,
-                  height: 1.6,
-                  wordSpacing: 1.1,
-                ),
+    return SliverPadding(
+      padding: const EdgeInsets.only(bottom: 200, top: 10),
+      sliver: SliverToBoxAdapter(
+        child: Container(
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: const [
+              BoxShadow(
+                color: AppColors.tertiaryText,
+                spreadRadius: 3,
+                blurRadius: 12,
+                offset: Offset(0, 4),
               ),
             ],
+          ),
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "About $title",
+                  style: AppTextStyles.bold16.copyWith(
+                    color: AppColors.primary,
+                    letterSpacing: 0.8,
+                    height: 1.3,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  desc,
+                  style: AppTextStyles.regular16.copyWith(
+                    color: Colors.grey.shade800,
+                    height: 1.6,
+                    wordSpacing: 1.1,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

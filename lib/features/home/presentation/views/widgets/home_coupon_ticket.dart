@@ -36,7 +36,7 @@ class HomeCouponTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TicketContainer(
-      clipper: const RectTicketClipper(holeRadius: 16),
+      holeRadius: 16,
       dashedLinePainter: const DashedLinePainter(
         dashHeight: 8,
         dashSpace: 4,

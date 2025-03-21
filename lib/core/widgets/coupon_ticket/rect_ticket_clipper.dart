@@ -1,47 +1,65 @@
 import 'package:flutter/material.dart';
 
 /// A [CustomClipper] that creates a classic "ticket" shape by cutting out
-/// circular holes on the left and right edges of a rectangle.
+/// circular holes on the left/right edges (horizontal) or top/bottom edges (vertical).
 ///
 /// The [holeRadius] controls how large each circular cutout is.
-/// The clip is performed in [getClip], and the final shape is returned.
+/// The [axis] determines whether we cut holes horizontally or vertically.
 class RectTicketClipper extends CustomClipper<Path> {
-  /// The radius of each circular "hole" cut out on the left and right edges.
+  /// The radius of each circular "hole" cut out.
   final double holeRadius;
 
-  /// Creates a new [RectTicketClipper] with the given [holeRadius].
-  const RectTicketClipper({this.holeRadius = 14.0});
+  /// Whether the ticket is horizontal (left/right holes) or vertical (top/bottom holes).
+  final Axis axis;
+
+  const RectTicketClipper({
+    this.holeRadius = 14.0,
+    this.axis = Axis.horizontal,
+  });
 
   @override
   Path getClip(Size size) {
-    // Start with a full rectangle that covers the entire size.
     final rectPath = Path()
       ..addRect(Rect.fromLTWH(0, 0, size.width, size.height));
 
-    final centerY = size.height / 2;
+    final holesPath = Path();
 
-    // Create circular holes (ovals) on the left and right edges.
-    final leftHoleRect = Rect.fromCircle(
-      center: Offset(0, centerY),
-      radius: holeRadius,
-    );
-    final rightHoleRect = Rect.fromCircle(
-      center: Offset(size.width, centerY),
-      radius: holeRadius,
-    );
+    if (axis == Axis.horizontal) {
+      // Left/right holes
+      final centerY = size.height / 2;
+      final leftHoleRect = Rect.fromCircle(
+        center: Offset(0, centerY),
+        radius: holeRadius,
+      );
+      final rightHoleRect = Rect.fromCircle(
+        center: Offset(size.width, centerY),
+        radius: holeRadius,
+      );
+      holesPath
+        ..addOval(leftHoleRect)
+        ..addOval(rightHoleRect);
+    } else {
+      // Top/bottom holes
+      final centerX = size.width / 2;
+      final topHoleRect = Rect.fromCircle(
+        center: Offset(centerX, 0),
+        radius: holeRadius,
+      );
+      final bottomHoleRect = Rect.fromCircle(
+        center: Offset(centerX, size.height),
+        radius: holeRadius,
+      );
+      holesPath
+        ..addOval(topHoleRect)
+        ..addOval(bottomHoleRect);
+    }
 
-    // Add both holes to a path.
-    final holesPath = Path()
-      ..addOval(leftHoleRect)
-      ..addOval(rightHoleRect);
-
-    // Subtract the holes from the original rectangle to get the final ticket shape.
+    // Subtract the holes from the rectangle
     return Path.combine(PathOperation.difference, rectPath, holesPath);
   }
 
   @override
-  bool shouldReclip(RectTicketClipper oldClipper) {
-    // Reclip only if the holeRadius has changed.
-    return holeRadius != oldClipper.holeRadius;
+  bool shouldReclip(covariant RectTicketClipper oldClipper) {
+    return holeRadius != oldClipper.holeRadius || axis != oldClipper.axis;
   }
 }

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'rect_ticket_clipper.dart';
+import 'dashed_line_painter.dart';
 
 /// A generic container widget that applies a "ticket" shape via a [CustomClipper],
 /// optionally draws a dashed line, and arranges its [leading], [child], and [trailing]
 /// widgets in either a horizontal row or vertical column layout.
 /// This widget now supports responsive behavior by adjusting spacing and widget sizes
 /// based on the screen width.
+///
+/// Pass [horizontalLayout] = false for a vertical ticket (top/bottom holes),
+/// or true for a horizontal ticket (left/right holes).
 class TicketContainer extends StatelessWidget {
-  /// A [CustomClipper<Path>] that defines the ticket shape. For example,
-  /// you can use [RectTicketClipper] to clip holes on the left and right edges.
-  final CustomClipper<Path> clipper;
-
   /// The elevation of the resulting [PhysicalShape].
   final double elevation;
 
@@ -43,9 +44,11 @@ class TicketContainer extends StatelessWidget {
   /// Optional height for the entire ticket container. If null, it tries to size to its content.
   final double? height;
 
+  /// The radius of the circular holes in the ticket shape.
+  final double holeRadius;
+
   const TicketContainer({
-    super.key,
-    required this.clipper,
+    Key? key,
     this.elevation = 4.0,
     this.backgroundColor = Colors.white,
     this.dashedLinePainter,
@@ -57,20 +60,22 @@ class TicketContainer extends StatelessWidget {
     this.spacing = 12.0,
     this.width,
     this.height,
-  });
+    this.holeRadius = 14.0,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PhysicalShape(
-      clipper: clipper,
+      clipper: RectTicketClipper(
+        holeRadius: holeRadius,
+        axis: horizontalLayout ? Axis.horizontal : Axis.vertical,
+      ),
       clipBehavior: Clip.antiAlias,
       color: backgroundColor,
       elevation: elevation,
       child: SizedBox(
-        width: width ??
-            MediaQuery.of(context).size.width * 0.8, // Responsive width
-        height: height ??
-            MediaQuery.of(context).size.height * 0.15, // Responsive height
+        width: width ?? MediaQuery.of(context).size.width * 0.8,
+        height: height ?? MediaQuery.of(context).size.height * 0.15,
         child: _buildLayout(context),
       ),
     );
@@ -81,12 +86,15 @@ class TicketContainer extends StatelessWidget {
   Widget _buildLayout(BuildContext context) {
     double adjustedSpacing = spacing;
 
+    // Slightly reduce spacing if the screen is narrow.
     if (MediaQuery.of(context).size.width < 400) {
-      adjustedSpacing =
-          8.0; // Reduced spacing on small screens for better layout
+      adjustedSpacing = 8.0;
     }
 
     if (horizontalLayout) {
+      // -----------------------------------------
+      // HORIZONTAL LAYOUT (LEFT/RIGHT ticket holes)
+      // -----------------------------------------
       return Row(
         children: [
           if (leading != null) ...[
@@ -94,6 +102,7 @@ class TicketContainer extends StatelessWidget {
             leading!,
             SizedBox(width: adjustedSpacing),
           ],
+          // Dashed line in the center or after the child, depending on centerLine
           if (dashedLinePainter != null && centerLine) ...[
             SizedBox(
               height: height ?? 80,
@@ -128,6 +137,9 @@ class TicketContainer extends StatelessWidget {
         ],
       );
     } else {
+      // --------------------------------------
+      // VERTICAL LAYOUT (TOP/BOTTOM ticket holes)
+      // --------------------------------------
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -136,6 +148,7 @@ class TicketContainer extends StatelessWidget {
             leading!,
             SizedBox(height: adjustedSpacing),
           ],
+          // Dashed line in the center or after the child, depending on centerLine
           if (dashedLinePainter != null && centerLine) ...[
             SizedBox(
               height: 1,
@@ -165,9 +178,7 @@ class TicketContainer extends StatelessWidget {
           if (trailing != null) ...[
             SizedBox(height: adjustedSpacing),
             trailing!,
-            SizedBox(
-              height: adjustedSpacing,
-            )
+            SizedBox(height: adjustedSpacing),
           ],
         ],
       );
