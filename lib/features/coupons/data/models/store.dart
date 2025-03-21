@@ -1,5 +1,5 @@
-import 'cashback.dart';
 import 'image.dart';
+import 'cashback.dart';
 
 class Store {
   String? id;
@@ -48,20 +48,28 @@ class Store {
             : Image.fromJson(json['image'] as Map<String, dynamic>),
         storeUrl: json['store_url'] as String?,
         category: json['category'] as String?,
-        averageSavings: json['average_savings'] as int?,
-        totalCoupons: json['total_coupons'] as int?,
-        activeCoupons: json['active_coupons'] as int?,
+        averageSavings: json['average_savings'] == null
+            ? null
+            : (json['average_savings'] as num).toInt(),
+        totalCoupons: json['total_coupons'] == null
+            ? null
+            : (json['total_coupons'] as num).toInt(),
+        activeCoupons: json['active_coupons'] == null
+            ? null
+            : (json['active_coupons'] as num).toInt(),
         isFeatured: json['is_featured'] as bool?,
         isActive: json['is_active'] as bool?,
-        popularityScore: json['popularity_score'] as int?,
-        deletedAt: json['deleted_at'] as dynamic,
+        popularityScore: json['popularity_score'] == null
+            ? null
+            : (json['popularity_score'] as num).toInt(),
+        deletedAt: json['deleted_at'],
         createdAt: json['createdAt'] == null
             ? null
             : DateTime.parse(json['createdAt'] as String),
         updatedAt: json['updatedAt'] == null
             ? null
             : DateTime.parse(json['updatedAt'] as String),
-        v: json['__v'] as int?,
+        v: json['__v'] == null ? null : (json['__v'] as num).toInt(),
         description: json['description'] as String?,
         cashback: json['cashback'] == null
             ? null

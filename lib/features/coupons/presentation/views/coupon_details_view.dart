@@ -12,6 +12,7 @@ class CouponDetailsView extends StatelessWidget {
         backgroundColor: AppColors.background,
         elevation: 0,
       ),
+      body: Center(child: Text(couponId)),
     );
   }
 }

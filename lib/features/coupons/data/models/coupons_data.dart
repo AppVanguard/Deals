@@ -67,13 +67,15 @@ class CouponsData {
             : Store.fromJson(json['store'] as Map<String, dynamic>),
         title: json['title'] as String?,
         discountType: json['discount_type'] as String?,
-        discountValue: json['discount_value'] as int?,
+        discountValue: json['discount_value'] == null
+            ? null
+            : (json['discount_value'] as num).toInt(),
         minimumPurchase: json['minimum_purchase'] == null
             ? null
             : MinimumPurchase.fromJson(
                 json['minimum_purchase'] as Map<String, dynamic>),
-        termsAndConditions: (json['terms_and_conditions'] as List<dynamic>?)
-            ?.map((e) => e as String)
+        termsAndConditions: (json['terms_and_conditions'] as List?)
+            ?.map((item) => item.toString())
             .toList(),
         validFor: json['valid_for'] as String?,
         startDate: json['start_date'] == null
@@ -82,18 +84,24 @@ class CouponsData {
         expiryDate: json['expiry_date'] == null
             ? null
             : DateTime.parse(json['expiry_date'] as String),
-        usageCount: json['usage_count'] as int?,
-        successRate: json['success_rate'] as int?,
+        usageCount: json['usage_count'] == null
+            ? null
+            : (json['usage_count'] as num).toInt(),
+        successRate: json['success_rate'] == null
+            ? null
+            : (json['success_rate'] as num).toInt(),
         averageSavings: json['average_savings'] == null
             ? null
             : AverageSavings.fromJson(
                 json['average_savings'] as Map<String, dynamic>),
-        popularityScore: json['popularity_score'] as int?,
+        popularityScore: json['popularity_score'] == null
+            ? null
+            : (json['popularity_score'] as num).toInt(),
         isVerified: json['is_verified'] as bool?,
         isFeatured: json['is_featured'] as bool?,
         isActive: json['is_active'] as bool?,
         status: json['status'] as String?,
-        deletedAt: json['deleted_at'] as dynamic,
+        deletedAt: json['deleted_at'],
         verifiedBy: json['verified_by'] as List<dynamic>?,
         reportedNotWorking: json['reported_not_working'] as List<dynamic>?,
         createdAt: json['createdAt'] == null
@@ -102,7 +110,7 @@ class CouponsData {
         updatedAt: json['updatedAt'] == null
             ? null
             : DateTime.parse(json['updatedAt'] as String),
-        v: json['__v'] as int?,
+        v: json['__v'] == null ? null : (json['__v'] as num).toInt(),
         description: json['description'] as String?,
       );
 
