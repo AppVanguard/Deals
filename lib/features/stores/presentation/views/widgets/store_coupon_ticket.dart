@@ -5,9 +5,8 @@ import '../../../../../core/widgets/coupon_ticket/rect_ticket_clipper.dart';
 import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
 
 /// A specialized coupon widget that uses [TicketContainer].
-/// This widget takes coupon-related data and uses the ticket container to display it.
-/// The dashed line is drawn after the leading widget to create a more cohesive design.
-class HomeCouponTicket extends StatelessWidget {
+/// Here we accept coupon-related data.
+class StoreCouponTicket extends StatelessWidget {
   final String title;
   final String code;
   final num? discountValue;
@@ -21,7 +20,7 @@ class HomeCouponTicket extends StatelessWidget {
   /// Callback for the trailing icon button
   final VoidCallback? onPressed;
 
-  const HomeCouponTicket({
+  const StoreCouponTicket({
     super.key,
     required this.title,
     required this.code,
@@ -47,21 +46,74 @@ class HomeCouponTicket extends StatelessWidget {
       spacing: 25,
       width: width,
       height: height,
-      leading: _buildLeadingImage(),
+      leading: _buildLeadingContent(),
+      // trailing: IconButton(
+      //   icon: const Icon(Icons.chevron_right),
+      //   onPressed: onPressed,
+      // ),
       child: _buildCouponInfo(),
     );
   }
 
-  Widget _buildLeadingImage() {
+  Widget _buildLeadingContent() {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 80, maxHeight: 80),
-      child: Image.network(
-        imageUrl ?? '',
-        fit: BoxFit.contain,
-        errorBuilder: (ctx, error, stack) => Container(
-          color: Colors.grey.shade200,
-          child: Image.asset(AppImages.assetsImagesTest1),
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 8,
+        children: [
+          SizedBox(
+            width: 187,
+            child: Text(
+              'Extra discount to 10%',
+              style: TextStyle(
+                color: const Color(0xFF1D241F),
+                fontSize: 14,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 8,
+              children: [
+                SizedBox(
+                  width: 187,
+                  child: Text(
+                    'offer might end before the specialized date',
+                    style: TextStyle(
+                      color: const Color(0xFF1D241F),
+                      fontSize: 13,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w400,
+                      height: 1.50,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 187,
+                  child: Text(
+                    'applied only if you purchase above 600\$',
+                    style: TextStyle(
+                      color: const Color(0xFF1D241F),
+                      fontSize: 13,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w400,
+                      height: 1.50,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:deals/features/coupons/presentation/views/widgets/coupons_coupon_ticket.dart';
+import 'package:deals/features/stores/presentation/views/widgets/store_coupon_ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
@@ -72,7 +73,7 @@ class CouponItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-      child: CouponsCouponTicket(
+      child: StoreCouponTicket(
         title: coupon.title,
         code: coupon.code,
         discountValue: coupon.discountValue,
@@ -96,7 +97,7 @@ class CouponItemSkeleton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: Skeletonizer(
-        child: CouponsCouponTicket(
+        child: StoreCouponTicket(
           title: 'Loading...',
           code: 'Loading...',
           width: MediaQuery.of(context).size.width * 0.8,
