@@ -1,9 +1,14 @@
 import 'dart:developer';
-import 'package:deals/features/stores/presentation/views/widgets/build_store_details_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
+import 'package:deals/core/entities/coupon_entity.dart';
+import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
+
+// Local widgets
+import 'widgets/build_store_details_app_bar.dart';
 import 'widgets/activated_bar.dart';
 import 'widgets/cashback_tab_sliver.dart';
 import 'widgets/coupons_tab_sliver.dart';
@@ -11,17 +16,12 @@ import 'widgets/about_tab_sliver.dart';
 import 'widgets/pinned_tab_bar_header_delegate.dart';
 import 'widgets/shop_now_bar.dart';
 
-import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
-import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/core/entities/coupon_entity.dart';
 
 class StoreDetailView extends StatefulWidget {
   const StoreDetailView({super.key, required this.storeId});
-
   final String storeId;
   static const routeName = '/store-detail';
-
   @override
   State<StoreDetailView> createState() => _StoreDetailViewState();
 }
@@ -31,9 +31,10 @@ class _StoreDetailViewState extends State<StoreDetailView>
   late TabController _tabController;
   final ScrollController _scrollController = ScrollController();
 
-  /// Controls whether the activated bar is showing.
-  bool _isCashbackActivated = false;
+  /// Whether the ActivatedBar is currently visible
+  bool _activatedBarVisible = false;
 
+  /// Animation controller & tween for the ActivatedBar slide-in/out
   late AnimationController _slideController;
   late Animation<Offset> _slideAnimation;
 
@@ -44,15 +45,14 @@ class _StoreDetailViewState extends State<StoreDetailView>
     _tabController.addListener(() => setState(() {}));
     _scrollController.addListener(_handleScroll);
 
-    // Initialize the animation controller for sliding the activated bar
+    // Setup the animation for the ActivatedBar
     _slideController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-
     _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 1), // Start from bottom (off-screen)
-      end: Offset.zero, // End at position (0,0) (fully visible)
+      begin: const Offset(0, 1), // Start off-screen at bottom
+      end: Offset.zero, // Slide fully into view
     ).animate(CurvedAnimation(
       parent: _slideController,
       curve: Curves.easeInOut,
@@ -60,7 +60,7 @@ class _StoreDetailViewState extends State<StoreDetailView>
   }
 
   void _handleScroll() {
-    // For pagination in the Coupons tab.
+    // For pagination in the Coupons tab:
     if (_tabController.index == 1) {
       final position = _scrollController.position;
       if (position.maxScrollExtent - position.pixels < 200.0) {
@@ -76,13 +76,27 @@ class _StoreDetailViewState extends State<StoreDetailView>
     }
   }
 
+  /// Show the ActivatedBar with a forward slide animation
+  void _openActivatedBar() {
+    setState(() => _activatedBarVisible = true);
+    _slideController.forward();
+  }
+
+  /// Reverse the slide animation, then remove the bar from the tree
+  Future<void> _closeActivatedBar() async {
+    await _slideController.reverse();
+    if (mounted) {
+      setState(() => _activatedBarVisible = false);
+    }
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
     _scrollController
       ..removeListener(_handleScroll)
       ..dispose();
-    _slideController.dispose(); // Dispose of the animation controller
+    _slideController.dispose();
     super.dispose();
   }
 
@@ -90,12 +104,12 @@ class _StoreDetailViewState extends State<StoreDetailView>
   Widget build(BuildContext context) {
     return BlocBuilder<StoreDetailCubit, StoreDetailsState>(
       builder: (context, state) {
-        // Trigger initial fetch.
+        // Trigger initial fetch if needed
         if (state is StoreDetailsInitial) {
           context.read<StoreDetailCubit>().getStoreAndCoupons(widget.storeId);
         }
 
-        // Show error screen if needed.
+        // Show error screen if there's a failure
         if (state is StoreDetailsFailure) {
           return buildCustomErrorScreen(
             context: context,
@@ -107,7 +121,7 @@ class _StoreDetailViewState extends State<StoreDetailView>
           );
         }
 
-        // Extract data.
+        // Extract data
         final isLoading =
             state is StoreDetailsInitial || state is StoreDetailsLoading;
         final storeEntity = state is StoreDetailsSuccess ? state.store : null;
@@ -122,14 +136,13 @@ class _StoreDetailViewState extends State<StoreDetailView>
           enabled: isLoading,
           child: Scaffold(
             appBar: buildStoreDetailsAppBar(state),
-
-            // Use a Stack to overlay the bottom bars.
             body: Stack(
               children: [
-                // Main content.
+                // MAIN CONTENT: CustomScrollView for store details & coupons
                 CustomScrollView(
                   controller: _scrollController,
                   slivers: [
+                    // Top image
                     SliverToBoxAdapter(
                       child: AspectRatio(
                         aspectRatio: 1.4,
@@ -139,6 +152,7 @@ class _StoreDetailViewState extends State<StoreDetailView>
                         ),
                       ),
                     ),
+                    // TabBar
                     SliverPersistentHeader(
                       pinned: true,
                       delegate: TabBarHeaderDelegate(
@@ -157,6 +171,7 @@ class _StoreDetailViewState extends State<StoreDetailView>
                         ),
                       ),
                     ),
+                    // Slivers for each tab
                     if (_tabController.index == 0)
                       CashbackTabSliver(
                         storeEntity: storeEntity,
@@ -178,54 +193,43 @@ class _StoreDetailViewState extends State<StoreDetailView>
                   ],
                 ),
 
-                // When activated, add a full-screen transparent GestureDetector.
-                if (_isCashbackActivated)
+                // The ShopNowBar pinned at bottom (behind the ActivatedBar).
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: ShopNowBar(
+                    discountValue: storeEntity?.cashBackRate?.toString(),
+                    onPressed: _openActivatedBar,
+                  ),
+                ),
+
+                // If the ActivatedBar is visible, we show it with the SlideTransition
+                // and a transparent GestureDetector behind it (no dark overlay).
+                if (_activatedBarVisible) ...[
+                  // 1) Capture taps outside the bar to close it, but keep the background normal
                   Positioned.fill(
                     child: GestureDetector(
-                      onTap: () {
-                        // Tapping outside the ActivatedBar dismisses it.
-                        setState(() => _isCashbackActivated = false);
-                        _slideController.reverse(); // Slide down the bar
-                      },
+                      onTap: _closeActivatedBar,
+                      // Transparent so we do NOT darken the background
                       child: Container(color: Colors.transparent),
                     ),
                   ),
-
-                // Always show the ShopNowBar at the bottom.
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: ShopNowBar(
-                    discountValue: storeEntity?.cashBackRate.toString(),
-                    onPressed: () {
-                      // When pressed, show the ActivatedBar.
-                      setState(() => _isCashbackActivated = true);
-                      _slideController.forward(); // Slide up the bar
-                    },
-                  ),
-                ),
-
-                // Overlay the ActivatedBar.
-                // It slides in from bottom (offset from (0, 1) to Offset.zero)
-                // and slides out (back to Offset(0, 1)) when dismissed.
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: SlideTransition(
-                    position: _slideAnimation,
-                    child: ActivatedBar(
-                      storeTittle: storeEntity?.title,
-                      discountValue: storeEntity?.cashBackRate.toString(),
-                      onPressed: () {
-                        // Button in the ActivatedBar can also dismiss it.
-                        setState(() => _isCashbackActivated = false);
-                        _slideController.reverse(); // Slide down the bar
-                      },
+                  // 2) The ActivatedBar sliding up on top
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: ActivatedBar(
+                        discountValue: storeEntity?.cashBackRate?.toString(),
+                        storeTittle: storeEntity?.title,
+                        onPressed: _closeActivatedBar,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ],
             ),
           ),

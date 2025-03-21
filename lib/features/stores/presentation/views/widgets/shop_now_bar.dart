@@ -13,9 +13,11 @@ class ShopNowBar extends StatelessWidget {
 
   final VoidCallback onPressed;
   final String? discountValue;
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      // No fixed height – it adjusts to its children.
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.only(
@@ -24,10 +26,9 @@ class ShopNowBar extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color:
-                Colors.black.withValues(alpha: .5, red: 0, green: 0, blue: 0),
+            color: Colors.black.withValues(alpha: .5),
             blurRadius: 8,
-            offset: const Offset(0, 2), // Shadow position
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -35,7 +36,7 @@ class ShopNowBar extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // "Shop now and get 20% cashback"
+          // "Shop now and get X% cashback"
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
@@ -54,7 +55,6 @@ class ShopNowBar extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-
           CustomButton(
             onPressed: onPressed,
             text: S.of(context).shopNow,

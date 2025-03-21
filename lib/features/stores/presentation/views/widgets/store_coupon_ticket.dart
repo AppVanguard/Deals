@@ -1,5 +1,4 @@
 import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/coupon_ticket/ticket_container.dart';

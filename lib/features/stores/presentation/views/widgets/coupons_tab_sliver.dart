@@ -1,4 +1,3 @@
-import 'package:deals/features/coupons/presentation/views/widgets/coupons_coupon_ticket.dart';
 import 'package:deals/features/stores/presentation/views/widgets/store_coupon_ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -24,7 +23,7 @@ class CouponsTabSliver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // If loading with no coupons => skeleton items
+    // If loading with no coupons, show skeleton items.
     if (isLoading && coupons.isEmpty) {
       return SliverList(
         delegate: SliverChildBuilderDelegate(
@@ -34,32 +33,37 @@ class CouponsTabSliver extends StatelessWidget {
       );
     }
 
-    // If we have no data, show error or fallback
+    // If we have no data, show an error or fallback screen.
     if (!isLoading && storeEntity == null && coupons.isEmpty) {
       return SliverFillRemaining(
         child: buildCustomErrorScreen(
           context: context,
           onRetry: () {
-            // Possibly fetch again
+            // Possibly trigger a refetch.
           },
         ),
       );
     }
 
-    // Otherwise build the real list
+    // Calculate the number of items (coupons plus an optional loading row).
     final itemCount = coupons.length + (hasNextPage && isLoadingMore ? 1 : 0);
 
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (ctx, index) {
-          if (index >= coupons.length) {
-            // Show skeleton row if we are still loading more
-            return const CouponItemSkeleton();
-          }
-          final coupon = coupons[index];
-          return CouponItem(coupon: coupon);
-        },
-        childCount: itemCount,
+    // Wrap the SliverList with a SliverPadding to add 24 pixels at the bottom.
+    return SliverPadding(
+      padding: const EdgeInsets.only(bottom: 24),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (ctx, index) {
+            // If index is for the "loading more" skeleton row:
+            if (index >= coupons.length) {
+              return const CouponItemSkeleton();
+            }
+            // Otherwise, return a real coupon item.
+            final coupon = coupons[index];
+            return CouponItem(coupon: coupon);
+          },
+          childCount: itemCount,
+        ),
       ),
     );
   }
@@ -75,7 +79,7 @@ class CouponItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: StoreCouponTicket(
         buttonText: 'Get Code',
-        expirationText: 'd',
+        expirationText: _buildExpirationText(coupon.expiryDate),
         title: coupon.title,
         code: coupon.code,
         discountValue: coupon.discountValue,
@@ -84,10 +88,24 @@ class CouponItem extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.8,
         height: 150,
         onPressed: () {
-          // handle coupon pressed
+          // Handle coupon press.
         },
       ),
     );
+  }
+
+  String _buildExpirationText(DateTime? expiryDate) {
+    if (expiryDate == null) {
+      return '';
+    }
+    final now = DateTime.now();
+    final difference = expiryDate.difference(now).inDays;
+    if (difference <= 0) {
+      return 'Expired';
+    } else {
+      final dayString = difference == 1 ? 'day' : 'days';
+      return 'Expires in $difference $dayString';
+    }
   }
 }
 
