@@ -1,7 +1,6 @@
 import 'package:deals/core/utils/app_images.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/coupon_ticket/ticket_container.dart';
-import '../../../../../core/widgets/coupon_ticket/rect_ticket_clipper.dart';
 import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
 
 /// A specialized coupon widget that uses [TicketContainer].
