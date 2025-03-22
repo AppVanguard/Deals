@@ -144,7 +144,7 @@ class TicketContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (leading != null) ...[
-            SizedBox(height: adjustedSpacing),
+            SizedBox(height: adjustedSpacing * 2),
             leading!,
             SizedBox(height: adjustedSpacing),
           ],
@@ -178,7 +178,7 @@ class TicketContainer extends StatelessWidget {
           if (trailing != null) ...[
             SizedBox(height: adjustedSpacing),
             trailing!,
-            SizedBox(height: adjustedSpacing),
+            SizedBox(height: adjustedSpacing * 2),
           ],
         ],
       );

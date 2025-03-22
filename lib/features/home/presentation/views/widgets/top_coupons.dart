@@ -1,6 +1,8 @@
 import 'package:deals/core/entities/coupon_entity.dart';
+import 'package:deals/features/coupons/presentation/views/coupon_details_view.dart';
 import 'package:deals/features/home/presentation/views/widgets/home_coupon_ticket.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 // import 'coupon_entity.dart'; // wherever you keep your real CouponEntity
 
@@ -141,7 +143,10 @@ class _TopCouponsState extends State<TopCoupons> {
           width: MediaQuery.of(context).size.width * 0.8,
           height: 150,
           onPressed: () {
-            // handle click
+            context.pushNamed(
+              CouponDetailsView.routeName,
+              extra: coupon.id,
+            );
           },
         ),
       );
