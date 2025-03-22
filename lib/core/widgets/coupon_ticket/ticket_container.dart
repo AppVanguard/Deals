@@ -45,9 +45,6 @@ class TicketContainer extends StatelessWidget {
   /// Tap callback.
   final VoidCallback? onTap;
 
-  /// Outermost margin around the ticket. Helps show the cut shape clearly.
-  final EdgeInsetsGeometry margin;
-
   const TicketContainer({
     super.key,
     this.elevation = 4.0,
@@ -63,7 +60,6 @@ class TicketContainer extends StatelessWidget {
     this.height,
     this.holeRadius = 14.0,
     this.onTap,
-    this.margin = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
   });
 
   @override
@@ -107,6 +103,7 @@ class TicketContainer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (leading != null) ...[
+              SizedBox(width: holeRadius),
               SizedBox(width: adjustedSpacing),
               leading!,
               SizedBox(width: adjustedSpacing),
@@ -128,6 +125,7 @@ class TicketContainer extends StatelessWidget {
             if (trailing != null) ...[
               SizedBox(width: adjustedSpacing),
               trailing!,
+              SizedBox(width: holeRadius),
               SizedBox(width: adjustedSpacing),
             ],
           ],
@@ -143,7 +141,8 @@ class TicketContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (leading != null) ...[
-            SizedBox(height: adjustedSpacing * 2),
+            SizedBox(height: holeRadius),
+            SizedBox(height: adjustedSpacing),
             leading!,
             SizedBox(height: adjustedSpacing),
           ],
@@ -162,7 +161,8 @@ class TicketContainer extends StatelessWidget {
           if (trailing != null) ...[
             SizedBox(height: adjustedSpacing),
             trailing!,
-            SizedBox(height: adjustedSpacing * 2),
+            SizedBox(height: holeRadius),
+            SizedBox(height: adjustedSpacing),
           ],
         ],
       );
@@ -172,7 +172,7 @@ class TicketContainer extends StatelessWidget {
   /// Builds a vertical dashed line (1dp wide) that stretches to fill
   /// the parent's height. We rely on crossAxisAlignment.stretch + IntrinsicHeight.
   Widget _buildVerticalDashedLine({double padding = 0}) {
-    if (dashedLinePainter == null) return SizedBox.shrink();
+    if (dashedLinePainter == null) return const SizedBox.shrink();
 
     // If we can cast to DashedLinePainter, override axis. Otherwise, use original.
     final forcedPainter = (dashedLinePainter is DashedLinePainter)
@@ -181,7 +181,7 @@ class TicketContainer extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: padding),
-      child: Container(
+      child: SizedBox(
         // 1dp wide line, the height is stretched by crossAxisAlignment.stretch
         width: 1,
         child: CustomPaint(painter: forcedPainter),
@@ -192,7 +192,7 @@ class TicketContainer extends StatelessWidget {
   /// Builds a horizontal dashed line (1dp high) that stretches across
   /// the parent's width.
   Widget _buildHorizontalDashedLine({double padding = 0}) {
-    if (dashedLinePainter == null) return SizedBox.shrink();
+    if (dashedLinePainter == null) return const SizedBox.shrink();
 
     final forcedPainter = (dashedLinePainter is DashedLinePainter)
         ? (dashedLinePainter as DashedLinePainter)

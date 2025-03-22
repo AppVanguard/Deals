@@ -61,9 +61,10 @@ class SingleCouponTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TicketContainer(
+      elevation: 5,
       // Force vertical layout so holes are at top & bottom
       horizontalLayout: false,
-      holeRadius: 16,
+      holeRadius: 36,
       // Places dashed line between leading & child
       centerLine: true,
       dashedLinePainter: const DashedLinePainter(
