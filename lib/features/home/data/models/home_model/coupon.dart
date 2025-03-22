@@ -6,7 +6,7 @@ class Coupon {
   Store? store;
   String? title;
   String? discountType;
-  double? discountValue;
+  num? discountValue;
   DateTime? startDate;
   DateTime? expiryDate;
   DateTime? createdAt;

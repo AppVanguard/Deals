@@ -67,12 +67,12 @@ class SingleCouponTicket extends StatelessWidget {
       // Places dashed line between leading & child
       centerLine: true,
       dashedLinePainter: const DashedLinePainter(
-        dashHeight: 8,
+        dashHeight: 16,
         dashSpace: 4,
         strokeWidth: 2,
       ),
-      width: width ?? MediaQuery.of(context).size.width * 0.8,
-      height: height ?? 400,
+      // width: width ?? MediaQuery.of(context).size.width * 0.8,
+      // height: height ?? 400,
       // Top portion
       leading: _buildLeadingSection(context),
       // Bottom portion (CTA button)

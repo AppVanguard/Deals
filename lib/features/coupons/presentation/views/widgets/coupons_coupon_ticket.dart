@@ -33,25 +33,23 @@ class CouponsCouponTicket extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TicketContainer(
       onTap: onPressed,
-      child: TicketContainer(
-        holeRadius: 16,
-        dashedLinePainter: const DashedLinePainter(
-          dashHeight: 8,
-          dashSpace: 4,
-          strokeWidth: 2,
-          color: Colors.black,
-        ),
-        centerLine: true, // places the dashed line between leading & child
-        spacing: 25,
-        width: width,
-        height: height,
-        leading: _buildLeadingImage(),
-        trailing: const Icon(Icons.chevron_right),
-
-        child: _buildCouponInfo(),
+      holeRadius: 16,
+      dashedLinePainter: const DashedLinePainter(
+        dashHeight: 10,
+        dashSpace: 4,
+        strokeWidth: 3,
+        color: Colors.black,
       ),
+      centerLine: true, // places the dashed line between leading & child
+      spacing: 25,
+      // width: width,
+      height: height,
+      leading: _buildLeadingImage(),
+      trailing: const Icon(Icons.chevron_right),
+
+      child: _buildCouponInfo(),
     );
   }
 

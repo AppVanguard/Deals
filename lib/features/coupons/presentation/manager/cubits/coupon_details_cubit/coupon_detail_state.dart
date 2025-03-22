@@ -12,13 +12,13 @@ class CouponDetailLoading extends CouponDetailState {}
 /// Success state containing the fetched coupon details.
 class CouponDetailSuccess extends CouponDetailState {
   final CouponEntity coupon;
-  
+
   CouponDetailSuccess({required this.coupon});
 }
 
 /// Failure state with an error [message].
 class CouponDetailFailure extends CouponDetailState {
   final String message;
-  
+
   CouponDetailFailure({required this.message});
 }

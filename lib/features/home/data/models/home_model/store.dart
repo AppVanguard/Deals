@@ -8,12 +8,12 @@ class Store {
   String? title;
   String? storeUrl;
   String? category;
-  int? averageSavings;
+  num? averageSavings;
   int? totalCoupons;
   int? activeCoupons;
   bool? isFeatured;
   bool? isActive;
-  int? popularityScore;
+  num? popularityScore;
   dynamic deletedAt;
   DateTime? createdAt;
   DateTime? updatedAt;

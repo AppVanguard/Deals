@@ -4,8 +4,10 @@ import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:deals/core/widgets/category_tab_bar.dart';
 import 'package:deals/features/coupons/presentation/manager/cubits/coupons_cubit/coupons_cubit.dart';
+import 'package:deals/features/coupons/presentation/views/coupon_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'coupons_coupon_ticket.dart';
@@ -163,7 +165,10 @@ class _CouponViewBodyState extends State<CouponViewBody> {
           width: MediaQuery.of(context).size.width * 0.8,
           height: 150,
           onPressed: () {
-            // handle click
+            context.pushNamed(
+              CouponDetailsView.routeName,
+              extra: coupon.id,
+            );
           },
         ),
       );

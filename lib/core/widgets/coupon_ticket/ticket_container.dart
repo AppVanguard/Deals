@@ -2,50 +2,51 @@ import 'package:flutter/material.dart';
 import 'rect_ticket_clipper.dart';
 import 'dashed_line_painter.dart';
 
-/// A generic container widget that applies a "ticket" shape via a [CustomClipper],
-/// optionally draws a dashed line, and arranges its [leading], [child], and [trailing]
-/// widgets in either a horizontal row or vertical column layout.
-/// This widget now supports responsive behavior by adjusting spacing and widget sizes
-/// based on the screen width.
-///
-/// Pass [horizontalLayout] = false for a vertical ticket (top/bottom holes),
-/// or true for a horizontal ticket (left/right holes).
+/// A ticket-shaped container with optional dashed divider,
+/// supporting horizontal or vertical layout.
 class TicketContainer extends StatelessWidget {
-  /// The elevation of the resulting [PhysicalShape].
+  /// Ticket material elevation (shadow).
   final double elevation;
 
-  /// The background color of the ticket container.
+  /// Ticket background color.
   final Color backgroundColor;
 
-  /// An optional dashed line painter, typically a [DashedLinePainter].
+  /// Optional dashed line painter (e.g. [DashedLinePainter]).
   final CustomPainter? dashedLinePainter;
 
-  /// If `true`, the dashed line (when present) is placed between the [leading] and [child].
+  /// Place the dashed line between [leading] and [child] if true,
+  /// otherwise between [child] and [trailing].
   final bool centerLine;
 
-  /// An optional widget placed at the start (left in horizontal layout, top in vertical layout).
+  /// Leading widget (left side in horizontal, top in vertical).
   final Widget? leading;
 
-  /// An optional widget placed at the end (right in horizontal layout, bottom in vertical layout).
+  /// Trailing widget (right side in horizontal, bottom in vertical).
   final Widget? trailing;
 
-  /// The main content widget, typically displayed between the [leading] and [trailing].
+  /// Main child placed between leading and trailing.
   final Widget? child;
 
-  /// Determines whether the layout is a horizontal [Row] (`true`) or vertical [Column] (`false`).
+  /// Whether this is a horizontal coupon (left/right holes) or vertical coupon (top/bottom holes).
   final bool horizontalLayout;
 
-  /// Spacing between the elements (leading, dashed line, child, trailing).
+  /// Spacing between elements in the ticket.
   final double spacing;
 
-  /// Optional width for the entire ticket container. If null, it tries to size to its content.
+  /// Optional fixed width. If null, fits content horizontally (or parent constraints).
   final double? width;
 
-  /// Optional height for the entire ticket container. If null, it tries to size to its content.
+  /// Optional fixed height. If null, fits content vertically (or parent constraints).
   final double? height;
 
-  /// The radius of the circular holes in the ticket shape.
+  /// Radius of the circular ticket holes.
   final double holeRadius;
+
+  /// Tap callback.
+  final VoidCallback? onTap;
+
+  /// Outermost margin around the ticket. Helps show the cut shape clearly.
+  final EdgeInsetsGeometry margin;
 
   const TicketContainer({
     super.key,
@@ -61,86 +62,84 @@ class TicketContainer extends StatelessWidget {
     this.width,
     this.height,
     this.holeRadius = 14.0,
+    this.onTap,
+    this.margin = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
   });
 
   @override
   Widget build(BuildContext context) {
-    return PhysicalShape(
-      clipper: RectTicketClipper(
-        holeRadius: holeRadius,
-        axis: horizontalLayout ? Axis.horizontal : Axis.vertical,
-      ),
-      clipBehavior: Clip.antiAlias,
-      color: backgroundColor,
-      elevation: elevation,
-      child: SizedBox(
-        width: width ?? MediaQuery.of(context).size.width * 0.8,
-        height: height ?? MediaQuery.of(context).size.height * 0.15,
-        child: _buildLayout(context),
+    return GestureDetector(
+      onTap: onTap,
+      child: PhysicalShape(
+        clipper: RectTicketClipper(
+          holeRadius: holeRadius,
+          axis: horizontalLayout ? Axis.horizontal : Axis.vertical,
+        ),
+        clipBehavior: Clip.antiAlias,
+        color: backgroundColor,
+        elevation: elevation,
+        // If width/height are not provided, let layout grow/shrink by content.
+        child: (width == null && height == null)
+            ? _buildLayout(context)
+            : SizedBox(
+                width: width,
+                height: height,
+                child: _buildLayout(context),
+              ),
       ),
     );
   }
 
-  /// Builds either a horizontal [Row] or a vertical [Column], placing [leading],
-  /// an optional dashed line, [child], and [trailing] with flexible spacing.
   Widget _buildLayout(BuildContext context) {
     double adjustedSpacing = spacing;
-
-    // Slightly reduce spacing if the screen is narrow.
     if (MediaQuery.of(context).size.width < 400) {
-      adjustedSpacing = 8.0;
+      adjustedSpacing = 8.0; // Example of minor responsiveness
     }
 
     if (horizontalLayout) {
-      // -----------------------------------------
-      // HORIZONTAL LAYOUT (LEFT/RIGHT ticket holes)
-      // -----------------------------------------
-      return Row(
-        children: [
-          if (leading != null) ...[
-            SizedBox(width: adjustedSpacing),
-            leading!,
-            SizedBox(width: adjustedSpacing),
+      // -------------------------------------
+      // HORIZONTAL TICKET => vertical dashed line
+      // Use IntrinsicHeight + crossAxisAlignment.stretch so the
+      // dashed line can fill the full ticket height.
+      // -------------------------------------
+      return IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (leading != null) ...[
+              SizedBox(width: adjustedSpacing),
+              leading!,
+              SizedBox(width: adjustedSpacing),
+            ],
+            if (dashedLinePainter != null && centerLine) ...[
+              _buildVerticalDashedLine(padding: 16.0),
+              SizedBox(width: adjustedSpacing),
+            ],
+            if (child != null) ...[
+              // Optionally wrap in Expanded if you want to fill horizontally.
+              // Otherwise, omit Expanded to let it shrink-wrap.
+              Expanded(child: child!),
+              SizedBox(width: adjustedSpacing),
+            ],
+            if (dashedLinePainter != null && !centerLine) ...[
+              SizedBox(width: adjustedSpacing),
+              _buildVerticalDashedLine(padding: 8.0),
+            ],
+            if (trailing != null) ...[
+              SizedBox(width: adjustedSpacing),
+              trailing!,
+              SizedBox(width: adjustedSpacing),
+            ],
           ],
-          // Dashed line in the center or after the child, depending on centerLine
-          if (dashedLinePainter != null && centerLine) ...[
-            SizedBox(
-              height: height ?? 80,
-              width: 1,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: CustomPaint(painter: dashedLinePainter),
-              ),
-            ),
-            SizedBox(width: adjustedSpacing),
-          ],
-          if (child != null) ...[
-            Expanded(child: child!),
-            SizedBox(width: adjustedSpacing),
-          ],
-          if (dashedLinePainter != null && !centerLine) ...[
-            SizedBox(width: adjustedSpacing),
-            SizedBox(
-              height: height ?? 80,
-              width: 1,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: CustomPaint(painter: dashedLinePainter),
-              ),
-            ),
-          ],
-          if (trailing != null) ...[
-            SizedBox(width: adjustedSpacing),
-            trailing!,
-            SizedBox(width: adjustedSpacing),
-          ],
-        ],
+        ),
       );
     } else {
-      // --------------------------------------
-      // VERTICAL LAYOUT (TOP/BOTTOM ticket holes)
-      // --------------------------------------
+      // -------------------------------------
+      // VERTICAL TICKET => horizontal dashed line
+      // A simple Column with crossAxisAlignment.stretch suffices.
+      // -------------------------------------
       return Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (leading != null) ...[
@@ -148,32 +147,17 @@ class TicketContainer extends StatelessWidget {
             leading!,
             SizedBox(height: adjustedSpacing),
           ],
-          // Dashed line in the center or after the child, depending on centerLine
           if (dashedLinePainter != null && centerLine) ...[
-            SizedBox(
-              height: 1,
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: CustomPaint(painter: dashedLinePainter),
-              ),
-            ),
+            _buildHorizontalDashedLine(padding: 8.0),
             SizedBox(height: adjustedSpacing),
           ],
           if (child != null) ...[
-            Expanded(child: child!),
+            child!,
             SizedBox(height: adjustedSpacing),
           ],
           if (dashedLinePainter != null && !centerLine) ...[
             SizedBox(height: adjustedSpacing),
-            SizedBox(
-              height: 1,
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: CustomPaint(painter: dashedLinePainter),
-              ),
-            ),
+            _buildHorizontalDashedLine(padding: 8.0),
           ],
           if (trailing != null) ...[
             SizedBox(height: adjustedSpacing),
@@ -183,5 +167,45 @@ class TicketContainer extends StatelessWidget {
         ],
       );
     }
+  }
+
+  /// Builds a vertical dashed line (1dp wide) that stretches to fill
+  /// the parent's height. We rely on crossAxisAlignment.stretch + IntrinsicHeight.
+  Widget _buildVerticalDashedLine({double padding = 0}) {
+    if (dashedLinePainter == null) return SizedBox.shrink();
+
+    // If we can cast to DashedLinePainter, override axis. Otherwise, use original.
+    final forcedPainter = (dashedLinePainter is DashedLinePainter)
+        ? (dashedLinePainter as DashedLinePainter).copyWith(axis: Axis.vertical)
+        : dashedLinePainter;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: padding),
+      child: Container(
+        // 1dp wide line, the height is stretched by crossAxisAlignment.stretch
+        width: 1,
+        child: CustomPaint(painter: forcedPainter),
+      ),
+    );
+  }
+
+  /// Builds a horizontal dashed line (1dp high) that stretches across
+  /// the parent's width.
+  Widget _buildHorizontalDashedLine({double padding = 0}) {
+    if (dashedLinePainter == null) return SizedBox.shrink();
+
+    final forcedPainter = (dashedLinePainter is DashedLinePainter)
+        ? (dashedLinePainter as DashedLinePainter)
+            .copyWith(axis: Axis.horizontal)
+        : dashedLinePainter;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: padding),
+      child: SizedBox(
+        width: double.infinity,
+        height: 1,
+        child: CustomPaint(painter: forcedPainter),
+      ),
+    );
   }
 }

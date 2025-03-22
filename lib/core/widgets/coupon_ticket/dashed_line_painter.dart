@@ -1,30 +1,17 @@
 import 'package:flutter/material.dart';
 
-/// A [CustomPainter] that draws a dashed line either vertically or horizontally,
-/// depending on the provided [axis].
+/// A [CustomPainter] that draws a dashed line in either [Axis.horizontal]
+/// or [Axis.vertical].
 ///
-/// The dash pattern is determined by [dashHeight], [dashSpace], and [strokeWidth].
 /// - [dashHeight] is the length of each dash.
 /// - [dashSpace] is the space between dashes.
-/// - [strokeWidth] controls the thickness of the dashes.
-/// - [color] sets the color of the dashed line.
-///
-/// When [axis] is [Axis.vertical], it draws a vertical dashed line from top to bottom.
-/// When [axis] is [Axis.horizontal], it draws a horizontal dashed line from left to right.
+/// - [strokeWidth] is the thickness of the dashes.
+/// - [axis] chooses horizontal vs. vertical line.
 class DashedLinePainter extends CustomPainter {
-  /// The color of the dashed line.
   final Color color;
-
-  /// The length of each individual dash.
   final double dashHeight;
-
-  /// The space between consecutive dashes.
   final double dashSpace;
-
-  /// The thickness of the dashed line.
   final double strokeWidth;
-
-  /// Whether the line is drawn vertically or horizontally.
   final Axis axis;
 
   const DashedLinePainter({
@@ -35,6 +22,23 @@ class DashedLinePainter extends CustomPainter {
     this.axis = Axis.vertical,
   });
 
+  /// Handy helper to clone with a new axis but same style.
+  DashedLinePainter copyWith({
+    Color? color,
+    double? dashHeight,
+    double? dashSpace,
+    double? strokeWidth,
+    Axis? axis,
+  }) {
+    return DashedLinePainter(
+      color: color ?? this.color,
+      dashHeight: dashHeight ?? this.dashHeight,
+      dashSpace: dashSpace ?? this.dashSpace,
+      strokeWidth: strokeWidth ?? this.strokeWidth,
+      axis: axis ?? this.axis,
+    );
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -44,9 +48,10 @@ class DashedLinePainter extends CustomPainter {
     if (axis == Axis.vertical) {
       double startY = 0;
       while (startY < size.height) {
+        final endY = (startY + dashHeight).clamp(0, size.height).toDouble();
         canvas.drawLine(
           Offset(0, startY),
-          Offset(0, startY + dashHeight),
+          Offset(0, endY),
           paint,
         );
         startY += dashHeight + dashSpace;
@@ -55,9 +60,10 @@ class DashedLinePainter extends CustomPainter {
       // axis == Axis.horizontal
       double startX = 0;
       while (startX < size.width) {
+        final endX = (startX + dashHeight).clamp(0, size.width).toDouble();
         canvas.drawLine(
           Offset(startX, 0),
-          Offset(startX + dashHeight, 0),
+          Offset(endX, 0),
           paint,
         );
         startX += dashHeight + dashSpace;
@@ -66,7 +72,7 @@ class DashedLinePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant DashedLinePainter oldDelegate) {
+  bool shouldRepaint(DashedLinePainter oldDelegate) {
     return color != oldDelegate.color ||
         dashHeight != oldDelegate.dashHeight ||
         dashSpace != oldDelegate.dashSpace ||

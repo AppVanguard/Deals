@@ -66,6 +66,7 @@ class HomeMapper {
       startDate: couponModel.startDate,
       expiryDate: couponModel.expiryDate,
       discountValue: couponModel.discountValue ?? 0,
+      image: couponModel.store?.image?.url,
     );
   }
 }
