@@ -148,7 +148,7 @@ class _StoreCard extends StatelessWidget {
               );
             },
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.7,
+              width: 150,
               height: 90,
               decoration: BoxDecoration(
                 color: AppColors.tertiaryText,
@@ -158,7 +158,9 @@ class _StoreCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
                   store.imageUrl ?? '',
-                  fit: BoxFit.fitHeight,
+                  width: 90,
+                  height: 90,
+                  fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) => Image.asset(
                       AppImages.assetsImagesTest1,
                       fit: BoxFit.fill),

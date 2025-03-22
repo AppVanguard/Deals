@@ -45,8 +45,12 @@ class GenericCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 image: DecorationImage(
-                  image: AssetImage(imagePath),
+                  image: NetworkImage(imagePath),
                   fit: BoxFit.cover,
+                  onError: (exception, stackTrace) => const Icon(
+                    Icons.error,
+                    size: 32,
+                  ),
                 ),
               ),
             ),
@@ -63,8 +67,9 @@ class GenericCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     subtitle,
-                    style: AppTextStyles.semiBold12
-                        .copyWith(color: AppColors.accent),
+                    style: AppTextStyles.semiBold12.copyWith(
+                      color: AppColors.accent,
+                    ),
                   ),
                 ],
               ),
@@ -73,8 +78,10 @@ class GenericCard extends StatelessWidget {
             Container(
               height: 24,
               padding: const EdgeInsets.symmetric(vertical: 5),
-              child:
-                  const Icon(Icons.arrow_forward_ios, color: AppColors.accent),
+              child: const Icon(
+                Icons.arrow_forward_ios,
+                color: AppColors.accent,
+              ),
             ),
           ],
         ),

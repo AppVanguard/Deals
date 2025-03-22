@@ -1,4 +1,3 @@
-import 'package:deals/core/utils/app_images.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/coupon_ticket/ticket_container.dart';
 import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
@@ -57,9 +56,9 @@ class HomeCouponTicket extends StatelessWidget {
       child: Image.network(
         imageUrl ?? '',
         fit: BoxFit.contain,
-        errorBuilder: (ctx, error, stack) => Container(
-          color: Colors.grey.shade200,
-          child: Image.asset(AppImages.assetsImagesTest1),
+        errorBuilder: (ctx, error, stack) => const Icon(
+          Icons.error,
+          size: 32,
         ),
       ),
     );

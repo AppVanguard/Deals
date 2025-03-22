@@ -146,9 +146,21 @@ class _StoreDetailViewState extends State<StoreDetailView>
                     SliverToBoxAdapter(
                       child: AspectRatio(
                         aspectRatio: 1.4,
-                        child: Image.asset(
-                          AppImages.assetsImagesTest1,
+                        child: Image.network(
+                          storeEntity?.imageUrl ?? '',
                           fit: BoxFit.fill,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Container(
+                            width: double.infinity,
+                            height: 200,
+                            color: Colors.grey[200],
+                            child: Image.asset(
+                              AppImages.assetsImagesTest3,
+                              fit: BoxFit.fill,
+                              width: double.infinity,
+                              height: 200,
+                            ),
+                          ),
                         ),
                       ),
                     ),

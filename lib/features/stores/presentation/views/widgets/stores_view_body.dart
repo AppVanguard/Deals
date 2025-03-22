@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
-import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:deals/core/widgets/category_tab_bar.dart';
 import 'package:deals/core/widgets/generic_card.dart';
@@ -143,7 +142,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     required bool isLoading,
     StoreEntity? store,
   }) {
-    final imagePath = AppImages.assetsImagesTest2;
+    final imagePath = store?.imageUrl;
     final title = isLoading ? '' : (store?.title ?? '');
     final subtitle = isLoading
         ? ''
@@ -151,7 +150,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     return Skeletonizer(
       enabled: isLoading,
       child: GenericCard(
-        imagePath: imagePath,
+        imagePath: imagePath ?? '',
         title: title,
         subtitle: subtitle,
         onTap: () {
