@@ -2,7 +2,6 @@ import 'package:deals/features/stores/presentation/views/store_detail_view.dart'
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
