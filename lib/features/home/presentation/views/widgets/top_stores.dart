@@ -6,6 +6,7 @@ import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:cached_network_image/cached_network_image.dart'; // <-- new
 
 class TopStores extends StatefulWidget {
   final List<StoreEntity> stores;
@@ -156,14 +157,27 @@ class _StoreCard extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  store.imageUrl ?? '',
-                  width: 90,
+                child: CachedNetworkImage(
+                  imageUrl: store.imageUrl ?? '',
+                  width: 150,
                   height: 90,
                   fit: BoxFit.fill,
-                  errorBuilder: (context, error, stackTrace) => Image.asset(
-                      AppImages.assetsImagesTest1,
-                      fit: BoxFit.fill),
+                  // placeholder: (context, url) => SizedBox(
+                  //   height: 90,
+                  //   width: 150,
+                  //   child: Center(
+                  //       child: Skeletonizer(
+                  //     child: Container(
+                  //       width: 90,
+                  //       height: 90,
+                  //       color: AppColors.tertiaryText,
+                  //     ),
+                  //   )),
+                  // ),
+                  errorWidget: (context, url, error) => Image.asset(
+                    AppImages.assetsImagesTest1,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),

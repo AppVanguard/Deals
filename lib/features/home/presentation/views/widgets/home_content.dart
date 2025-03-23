@@ -67,7 +67,6 @@ class HomeContent extends StatelessWidget {
             ),
           ),
         ),
-        // Our custom widget for stores
         TopStores(
           stores: stores,
           isLoading: isLoading,

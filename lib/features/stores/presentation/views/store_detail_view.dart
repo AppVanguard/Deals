@@ -8,7 +8,6 @@ import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
 
-// Local widgets
 import 'widgets/build_store_details_app_bar.dart';
 import 'widgets/activated_bar.dart';
 import 'widgets/cashback_tab_sliver.dart';

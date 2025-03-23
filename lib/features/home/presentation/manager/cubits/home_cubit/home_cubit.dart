@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart'; // <-- new import
 
 import 'package:deals/core/errors/faliure.dart';
 import 'package:deals/features/home/domain/entities/home_entity.dart';
@@ -21,6 +22,8 @@ class HomeCubit extends Cubit<HomeState> {
     // If user explicitly refreshes, show loading to display a spinner at the top
     if (isRefresh) {
       emit(HomeLoading());
+      // Clear all cached images before re-fetching fresh data
+      await DefaultCacheManager().emptyCache();
     }
 
     // 1) Try reading cached data
@@ -29,7 +32,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     cacheResult.fold(
       (failure) {
-        // If there's no cache, remain in or switch to loading while fetching remote
+        // If there's no cache, remain in (or switch to) loading while fetching remote
         if (!isRefresh) {
           emit(HomeLoading());
         }
@@ -59,7 +62,6 @@ class HomeCubit extends Cubit<HomeState> {
         if (state is HomeInitial || state is HomeLoading) {
           emit(HomeFailure(errorMessage: failure.message));
         }
-        // If we were showing cached data, you can keep the old data or handle partial updates
       },
       (freshEntity) {
         // Overwrite with new data

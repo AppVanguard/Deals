@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/coupon_ticket/ticket_container.dart';
 import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
+import 'package:cached_network_image/cached_network_image.dart'; // <-- new
 
 /// A specialized coupon widget that uses [TicketContainer].
 /// This widget takes coupon-related data and uses the ticket container to display it.
@@ -56,10 +57,15 @@ class HomeCouponTicket extends StatelessWidget {
   Widget _buildLeadingImage() {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 80, maxHeight: 80),
-      child: Image.network(
-        imageUrl ?? '',
+      child: CachedNetworkImage(
+        imageUrl: imageUrl ?? '',
         fit: BoxFit.contain,
-        errorBuilder: (ctx, error, stack) => const Icon(
+        // placeholder: (ctx, url) => const SizedBox(
+        //   width: 80,
+        //   height: 80,
+        //   child: Center(child: CircularProgressIndicator()),
+        // ),
+        errorWidget: (ctx, url, error) => const Icon(
           Icons.error,
           size: 32,
         ),
@@ -91,7 +97,9 @@ class HomeCouponTicket extends StatelessWidget {
             Text(
               '$discountValue% OFF',
               style: const TextStyle(
-                  color: Colors.red, fontWeight: FontWeight.bold),
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
           const SizedBox(height: 4),

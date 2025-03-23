@@ -4,10 +4,8 @@ import 'package:deals/features/home/presentation/views/widgets/home_coupon_ticke
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-// import 'coupon_entity.dart'; // wherever you keep your real CouponEntity
 
 class TopCoupons extends StatefulWidget {
-  // Replace `dynamic` with your actual CouponEntity type
   final List<dynamic> coupons;
   final bool isLoading;
 
@@ -58,7 +56,6 @@ class _TopCouponsState extends State<TopCoupons> {
         ? List.generate(4, (_) => null) // placeholders
         : widget.coupons;
 
-    // Build two rows: first row => ceil(count/2), second row => floor(count/2)
     final firstRowCount = (displayCoupons.length / 2).ceil();
     final secondRowCount = (displayCoupons.length / 2).floor();
 
@@ -130,8 +127,6 @@ class _TopCouponsState extends State<TopCoupons> {
         ),
       );
     } else {
-      // If you have real fields, cast and pass them here
-      // final c = coupon as CouponEntity;
       return Skeletonizer(
         enabled: isLoading,
         child: HomeCouponTicket(

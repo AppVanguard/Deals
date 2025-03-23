@@ -5,6 +5,7 @@ import 'package:deals/core/utils/app_images.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:deals/core/entities/announcement_entity.dart';
+import 'package:cached_network_image/cached_network_image.dart'; // <-- new
 
 class SalesCarousel extends StatefulWidget {
   final List<AnnouncementEntity> announcements;
@@ -30,15 +31,16 @@ class _SalesCarouselState extends State<SalesCarousel> {
   List<AnnouncementEntity> get displayAnnouncements {
     if (widget.announcements.isEmpty || widget.isLoading) {
       return List.generate(
-          4,
-          (_) => const AnnouncementEntity(
-                id: '',
-                imageUrl: '',
-                title: '',
-                deletedAt: '',
-                description: '',
-                isActive: false,
-              ));
+        4,
+        (_) => const AnnouncementEntity(
+          id: '',
+          imageUrl: '',
+          title: '',
+          deletedAt: '',
+          description: '',
+          isActive: false,
+        ),
+      );
     }
     return widget.announcements;
   }
@@ -129,12 +131,17 @@ class _SalesCarouselState extends State<SalesCarousel> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
-                      child: Image.network(
-                        ann.imageUrl ?? '',
+                      child: CachedNetworkImage(
+                        imageUrl: ann.imageUrl ?? '',
                         fit: BoxFit.cover,
-                        errorBuilder: (ctx, obj, st) => Image.asset(
-                            AppImages.assetsImagesTest3,
-                            fit: BoxFit.fill),
+                        // placeholder: (ctx, url) => const Center(
+                        //   child: Skeletonizer(
+                        //       child: SizedBox(width: 200, height: 146)),
+                        // ),
+                        errorWidget: (ctx, url, error) => Image.asset(
+                          AppImages.assetsImagesTest3,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                   ),
