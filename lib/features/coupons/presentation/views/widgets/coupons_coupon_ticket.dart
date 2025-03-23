@@ -34,6 +34,7 @@ class CouponsCouponTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TicketContainer(
+      elevation: 15,
       onTap: onPressed,
       holeRadius: 16,
       dashedLinePainter: const DashedLinePainter(
