@@ -1,12 +1,13 @@
-import 'package:deals/core/widgets/custom_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // <-- For Clipboard
-import 'package:deals/core/widgets/coupon_ticket/dashed_line_painter.dart';
-import 'package:deals/core/widgets/coupon_ticket/ticket_container.dart';
-
-// Example colors & text styles - replace with your own
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/coupon_ticket/dashed_line_painter.dart';
+import 'package:deals/core/widgets/coupon_ticket/ticket_container.dart';
+import 'package:deals/core/widgets/custom_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // For Clipboard
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:deals/generated/l10n.dart';
 
 class SingleCouponTicket extends StatefulWidget {
   final String code;
@@ -76,7 +77,7 @@ class _SingleCouponTicketState extends State<SingleCouponTicket> {
   Widget build(BuildContext context) {
     return TicketContainer(
       spacing: 16,
-      elevation: 5,
+      elevation: 15,
       horizontalLayout: false, // vertical ticket layout
       holeRadius: 36,
       centerLine: true,
@@ -104,29 +105,39 @@ class _SingleCouponTicketState extends State<SingleCouponTicket> {
             Container(
               width: 160,
               height: 160,
-              decoration: ShapeDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(widget.imageUrl!),
-                  onError: (exception, stackTrace) => Container(
-                    color: AppColors.tertiaryText,
-                    child: Container(
-                      width: 160,
-                      height: 160,
-                      color: AppColors.tertiaryText,
-                    ),
-                  ),
-                  fit: BoxFit.cover,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                shadows: const [
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: const [
                   BoxShadow(
                     color: Color(0x3F000000),
                     blurRadius: 5,
                     offset: Offset(0, 2),
                   ),
                 ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: CachedNetworkImage(
+                  imageUrl: widget.imageUrl!,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Skeletonizer(
+                    enabled: true,
+                    child: Container(
+                      width: 160,
+                      height: 160,
+                      color: AppColors.tertiaryText,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    width: 160,
+                    height: 160,
+                    color: AppColors.tertiaryText,
+                    child: const Icon(
+                      Icons.image,
+                      size: 32,
+                    ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -179,7 +190,6 @@ class _SingleCouponTicketState extends State<SingleCouponTicket> {
 
   /// Middle portion: code + "copy" button or "Copied" button
   Widget _buildCodeSection(BuildContext context) {
-    // If _copied is true, show "Copied" in green with a double-check icon
     final bool isCopied = _copied;
     final String buttonText = isCopied ? 'Copied' : widget.codeLabel;
     final Color buttonColor = isCopied ? Colors.green : const Color(0xFF1D241F);
@@ -193,7 +203,6 @@ class _SingleCouponTicketState extends State<SingleCouponTicket> {
             width: double.infinity,
             child: Row(
               children: [
-                // The code block on the left
                 Expanded(
                   child: Container(
                     height: 48,
@@ -218,7 +227,6 @@ class _SingleCouponTicketState extends State<SingleCouponTicket> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                // "Copy code" button or "Copied" button
                 GestureDetector(
                   onTap: _handleCopyCode,
                   child: Container(

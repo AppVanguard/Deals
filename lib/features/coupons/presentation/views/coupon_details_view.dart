@@ -59,9 +59,11 @@ class CouponDetailsView extends StatelessWidget {
                     expirationText: coupon != null
                         ? _buildExpirationText(coupon.expiryDate)
                         : '',
-                    description: coupon?.description ?? '',
-                    bulletPoints: coupon?.termsAndConditions ?? const [],
-                    code: coupon?.code ?? 'Loading...',
+                    description:
+                        coupon?.description ?? 'There is no description',
+                    bulletPoints: coupon?.termsAndConditions ??
+                        const ['no terms', 'no conditions'],
+                    code: coupon?.code ?? 'no code',
                     codeLabel: S.of(context).copyCode,
                     ctaButtonText:
                         '${S.of(context).shopNowAndGet} ${S.of(context).upTo} ${coupon?.cashBak ?? 0}% ${S.of(context).cashBack}',
