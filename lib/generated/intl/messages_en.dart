@@ -44,9 +44,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "Country": MessageLookupByLibrary.simpleMessage("Country"),
         "CountryValidator":
             MessageLookupByLibrary.simpleMessage("Please enter your country."),
+        "Coupon": MessageLookupByLibrary.simpleMessage("Coupon"),
         "Coupon_Active": MessageLookupByLibrary.simpleMessage("Coupon Active"),
         "Coupon_Expired":
             MessageLookupByLibrary.simpleMessage("Coupon Expired"),
+        "Coupons": MessageLookupByLibrary.simpleMessage("Coupons"),
         "CreateNewAccount":
             MessageLookupByLibrary.simpleMessage("Create New Account"),
         "Deals": MessageLookupByLibrary.simpleMessage("Deals"),

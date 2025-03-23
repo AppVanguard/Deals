@@ -6,6 +6,7 @@ import 'package:deals/core/widgets/category_tab_bar.dart';
 import 'package:deals/core/widgets/generic_card.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -146,7 +147,13 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     final title = isLoading ? '' : (store?.title ?? '');
     final subtitle = isLoading
         ? ''
-        : 'Coupons: ${store?.totalCoupons ?? 0} • Savings: ${store?.cashBackRate ?? 0}';
+        : store?.cashBackRate != 0 && store?.totalCoupons != 0
+            ? "${S.of(context).upTo} ${store!.cashBackRate}% ${S.of(context).CashbackC} + ${store.totalCoupons} ${S.of(context).Coupons}"
+            : store?.cashBackRate == 0 && store?.totalCoupons != 0
+                ? "${store!.totalCoupons} ${S.of(context).Coupons}"
+                : store?.cashBackRate != 0 && store?.totalCoupons == 0
+                    ? "${S.of(context).upTo} ${store!.cashBackRate}% ${S.of(context).CashbackC}"
+                    : 'No cashback or coupons';
     return Skeletonizer(
       enabled: isLoading,
       child: GenericCard(

@@ -171,5 +171,7 @@
       "Expired": "Expired",
       "ExpiresIn": "Expires in",
       "day": "day",
-      "days": "days"
+      "days": "days",
+      "Coupons": "Coupons",
+      "Coupon": "Coupon"
 }

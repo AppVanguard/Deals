@@ -1779,6 +1779,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Coupons`
+  String get Coupons {
+    return Intl.message(
+      'Coupons',
+      name: 'Coupons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupon`
+  String get Coupon {
+    return Intl.message(
+      'Coupon',
+      name: 'Coupon',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

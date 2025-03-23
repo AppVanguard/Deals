@@ -1,6 +1,8 @@
-import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/core/utils/app_colors.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class GenericCard extends StatelessWidget {
   final String title;
@@ -33,29 +35,39 @@ class GenericCard extends StatelessWidget {
               color: Color(0x3F000000),
               blurRadius: 5,
               offset: Offset(0, 2),
-            )
+            ),
           ],
         ),
         child: Row(
           children: [
-            // Leading image.
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
-                  image: NetworkImage(imagePath),
+            // Leading image with CachedNetworkImage
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: imagePath,
                   fit: BoxFit.cover,
-                  onError: (exception, stackTrace) => const Icon(
-                    Icons.error,
+                  placeholder: (context, url) => Skeletonizer(
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      color: AppColors.lightGray,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.image,
                     size: 32,
                   ),
                 ),
               ),
             ),
             const SizedBox(width: 12),
-            // Title and subtitle.
+            // Title and subtitle
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +86,7 @@ class GenericCard extends StatelessWidget {
                 ],
               ),
             ),
-            // Trailing icon.
+            // Trailing icon
             Container(
               height: 24,
               padding: const EdgeInsets.symmetric(vertical: 5),
