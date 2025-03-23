@@ -7,7 +7,6 @@ import 'package:deals/core/widgets/coupon_ticket/ticket_container.dart';
 // Example colors & text styles - replace with your own
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SingleCouponTicket extends StatefulWidget {
   final String code;
