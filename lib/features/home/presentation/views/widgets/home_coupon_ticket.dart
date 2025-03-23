@@ -1,4 +1,5 @@
 import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -62,24 +63,30 @@ class HomeCouponTicket extends StatelessWidget {
         const SizedBox(
           width: 8,
         ),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 80, maxHeight: 80),
-          child: CachedNetworkImage(
-            imageUrl: imageUrl ?? '',
-            fit: BoxFit.contain,
-            placeholder: (ctx, url) => Skeletonizer(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Container(
-                  width: 66,
-                  height: 66,
-                  color: AppColors.lightGray,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 80, maxHeight: 80),
+            child: CachedNetworkImage(
+              imageUrl: imageUrl ?? '',
+              fit: BoxFit.contain,
+              placeholder: (ctx, url) => Skeletonizer(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    width: 66,
+                    height: 66,
+                    color: AppColors.lightGray,
+                  ),
                 ),
               ),
-            ),
-            errorWidget: (ctx, url, error) => const Icon(
-              Icons.image,
-              size: 32,
+              errorWidget: (ctx, url, error) => ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  AppImages.assetsImagesTest3,
+                  fit: BoxFit.fill,
+                ),
+              ),
             ),
           ),
         ),
@@ -101,16 +108,14 @@ class HomeCouponTicket extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        if (discountValue != null) ...[
-          const SizedBox(height: 4),
-          Text(
-            '$discountValue% OFF',
-            style: const TextStyle(
-              color: Colors.red,
-              fontWeight: FontWeight.bold,
-            ),
+        const SizedBox(height: 4),
+        Text(
+          '${discountValue ?? 0}% OFF',
+          style: const TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
           ),
-        ],
+        ),
         const SizedBox(height: 4),
         Text(
           expiryDate != null

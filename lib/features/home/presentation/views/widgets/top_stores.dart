@@ -1,3 +1,4 @@
+import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -168,7 +169,10 @@ class _StoreCard extends StatelessWidget {
                       color: AppColors.lightGray,
                     ),
                   ),
-                  errorWidget: (context, url, error) => const Icon(Icons.image),
+                  errorWidget: (context, url, error) => Image.asset(
+                    AppImages.assetsImagesTest3,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),

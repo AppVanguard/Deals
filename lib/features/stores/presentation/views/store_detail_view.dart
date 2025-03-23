@@ -51,10 +51,12 @@ class _StoreDetailViewState extends State<StoreDetailView>
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 1), // Start off-screen at bottom
       end: Offset.zero, // Slide fully into view
-    ).animate(CurvedAnimation(
-      parent: _slideController,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _slideController,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
 
   void _handleScroll() {

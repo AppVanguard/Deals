@@ -144,9 +144,9 @@ class _StoresViewBodyState extends State<StoresViewBody> {
     StoreEntity? store,
   }) {
     final imagePath = store?.imageUrl;
-    final title = isLoading ? '' : (store?.title ?? '');
+    final title = isLoading ? 'unknown' : (store?.title ?? 'unknown');
     final subtitle = isLoading
-        ? ''
+        ? 'unknown'
         : store?.cashBackRate != 0 && store?.totalCoupons != 0
             ? "${S.of(context).upTo} ${store!.cashBackRate}% ${S.of(context).CashbackC} + ${store.totalCoupons} ${S.of(context).Coupons}"
             : store?.cashBackRate == 0 && store?.totalCoupons != 0

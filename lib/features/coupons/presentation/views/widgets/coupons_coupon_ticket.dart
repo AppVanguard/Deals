@@ -1,5 +1,4 @@
 import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -104,25 +103,23 @@ class CouponsCouponTicket extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        if (discountValue != null) ...[
-          const SizedBox(height: 4),
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: '${S.current.Get} ',
-                  style: AppTextStyles.semiBold12,
+        const SizedBox(height: 4),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: '${S.current.Get} ',
+                style: AppTextStyles.semiBold12,
+              ),
+              TextSpan(
+                text: '${discountValue ?? 0}% ${S.current.off}',
+                style: AppTextStyles.semiBold12.copyWith(
+                  color: AppColors.accent,
                 ),
-                TextSpan(
-                  text: '$discountValue% ${S.current.off}',
-                  style: AppTextStyles.semiBold12.copyWith(
-                    color: AppColors.accent,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
         const SizedBox(height: 4),
         Text(
           active
