@@ -17,8 +17,6 @@ import 'widgets/about_tab_sliver.dart';
 import 'widgets/pinned_tab_bar_header_delegate.dart';
 import 'widgets/shop_now_bar.dart';
 
-import 'package:deals/core/utils/app_images.dart';
-
 class StoreDetailView extends StatefulWidget {
   const StoreDetailView({super.key, required this.storeId});
   final String storeId;
