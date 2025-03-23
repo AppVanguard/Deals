@@ -7,7 +7,6 @@ import 'package:deals/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For Clipboard
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:deals/generated/l10n.dart';
 
 class SingleCouponTicket extends StatefulWidget {
   final String code;
@@ -121,7 +120,6 @@ class _SingleCouponTicketState extends State<SingleCouponTicket> {
                   imageUrl: widget.imageUrl!,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Skeletonizer(
-                    enabled: true,
                     child: Container(
                       width: 160,
                       height: 160,
