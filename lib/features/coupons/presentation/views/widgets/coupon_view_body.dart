@@ -144,8 +144,8 @@ class _CouponViewBodyState extends State<CouponViewBody> {
       return Skeletonizer(
         enabled: isLoading,
         child: CouponsCouponTicket(
+          active: false,
           title: 'Loading...',
-          code: 'Loading...',
           width: MediaQuery.of(context).size.width * 0.8,
           height: 150,
           onPressed: () {},
@@ -157,8 +157,8 @@ class _CouponViewBodyState extends State<CouponViewBody> {
       return Skeletonizer(
         enabled: isLoading,
         child: CouponsCouponTicket(
+          active: coupon.active!,
           title: coupon.title,
-          code: coupon.code,
           discountValue: coupon.discountValue,
           imageUrl: coupon.image,
           expiryDate: coupon.expiryDate,

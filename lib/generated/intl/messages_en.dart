@@ -84,6 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Forget password"),
         "FullName": MessageLookupByLibrary.simpleMessage("Full Name"),
         "Gender": MessageLookupByLibrary.simpleMessage("Gender"),
+        "Get": MessageLookupByLibrary.simpleMessage("Get"),
         "GetStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
         "GoogleError": MessageLookupByLibrary.simpleMessage(
             "Google login failed or was cancelled"),
@@ -233,6 +234,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("New customers discount"),
         "noCashbackTermsAvailable":
             MessageLookupByLibrary.simpleMessage("No cashback terms available"),
+        "off": MessageLookupByLibrary.simpleMessage("off"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Registration is not enabled."),
         "operationNotSupportedInThisEnvironment":

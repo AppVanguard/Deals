@@ -173,5 +173,7 @@
       "day": "day",
       "days": "days",
       "Coupons": "Coupons",
-      "Coupon": "Coupon"
+      "Coupon": "Coupon",
+      "off": "off",
+      "Get": "Get"
 }

@@ -9,10 +9,12 @@ class CouponEntity {
   final List<String>? termsAndConditions;
   final String? description;
   final num? cashBak;
+  final bool? active;
 
   // etc. Add discountValue, usageCount, successRate, etc. if needed
 
   const CouponEntity({
+    this.active,
     this.cashBak,
     this.description,
     this.termsAndConditions,

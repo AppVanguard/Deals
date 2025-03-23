@@ -1,16 +1,22 @@
+import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
 import '../../../../../core/widgets/coupon_ticket/ticket_container.dart';
 import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 /// A specialized coupon widget that uses [TicketContainer].
 /// Here we accept coupon-related data.
 class CouponsCouponTicket extends StatelessWidget {
   final String title;
-  final String code;
   final num? discountValue;
   final String? imageUrl;
   final DateTime? expiryDate;
+  final bool active;
 
   /// Sizing
   final double? width;
@@ -22,13 +28,13 @@ class CouponsCouponTicket extends StatelessWidget {
   const CouponsCouponTicket({
     super.key,
     required this.title,
-    required this.code,
     this.discountValue,
     this.imageUrl,
     this.expiryDate,
     this.width,
     this.height = 120,
     this.onPressed,
+    required this.active,
   });
 
   @override
@@ -40,70 +46,95 @@ class CouponsCouponTicket extends StatelessWidget {
       dashedLinePainter: const DashedLinePainter(
         dashHeight: 10,
         dashSpace: 4,
-        strokeWidth: 3,
+        strokeWidth: 2,
         color: Colors.black,
       ),
       centerLine: true, // places the dashed line between leading & child
       spacing: 25,
-      // width: width,
       height: height,
       leading: _buildLeadingImage(),
-      trailing: const Icon(Icons.chevron_right),
-
+      trailing: const Icon(
+        Icons.chevron_right,
+        color: AppColors.accent,
+        size: 32,
+      ),
       child: _buildCouponInfo(),
     );
   }
 
   Widget _buildLeadingImage() {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 80, maxHeight: 80),
-      child: Image.network(
-        imageUrl ?? '',
-        fit: BoxFit.contain,
-        errorBuilder: (ctx, error, stack) => Container(
-          color: Colors.grey.shade200,
-          child: Image.asset(AppImages.assetsImagesTest1),
+    return Row(
+      children: [
+        const SizedBox(
+          width: 8,
         ),
-      ),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 80, maxHeight: 80),
+          child: CachedNetworkImage(
+            imageUrl: imageUrl ?? '',
+            fit: BoxFit.contain,
+            placeholder: (ctx, url) => Skeletonizer(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  width: 66,
+                  height: 66,
+                  color: AppColors.lightGray,
+                ),
+              ),
+            ),
+            errorWidget: (ctx, url, error) => const Icon(
+              Icons.image,
+              size: 32,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildCouponInfo() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title.isNotEmpty ? title : 'Placeholder Title',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title.isNotEmpty ? title : 'Placeholder Title',
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        if (discountValue != null) ...[
           const SizedBox(height: 4),
-          Text(
-            code.isNotEmpty ? code : 'Placeholder Code',
-            style: const TextStyle(fontSize: 13),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          if (discountValue != null) ...[
-            const SizedBox(height: 4),
-            Text(
-              '$discountValue% OFF',
-              style: const TextStyle(
-                  color: Colors.red, fontWeight: FontWeight.bold),
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: '${S.current.Get} ',
+                  style: AppTextStyles.semiBold12,
+                ),
+                TextSpan(
+                  text: '$discountValue% ${S.current.off}',
+                  style: AppTextStyles.semiBold12.copyWith(
+                    color: AppColors.accent,
+                  ),
+                ),
+              ],
             ),
-          ],
-          const SizedBox(height: 4),
-          Text(
-            expiryDate != null
-                ? 'Valid until ${expiryDate!.toIso8601String().split("T")[0]}'
-                : 'Valid until ...',
-            style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
           ),
         ],
-      ),
+        const SizedBox(height: 4),
+        Text(
+          active
+              ? expiryDate != null
+                  ? 'Valid until ${DateFormat('d MMM').format(expiryDate!)}'
+                  : 'Valid until ...'
+              : S.current.Expired,
+          style: AppTextStyles.regular12.copyWith(
+            color: AppColors.secondaryText,
+          ),
+        ),
+      ],
     );
   }
 }

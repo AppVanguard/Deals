@@ -1,4 +1,5 @@
 import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -115,7 +116,9 @@ class HomeCouponTicket extends StatelessWidget {
           expiryDate != null
               ? 'Valid until ${DateFormat('d MMM').format(expiryDate!)}'
               : 'Valid until ...',
-          style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+          style: AppTextStyles.regular12.copyWith(
+            color: AppColors.secondaryText,
+          ),
         ),
       ],
     );

@@ -21,6 +21,7 @@ class CouponsMapper {
       termsAndConditions: couponModel.termsAndConditions ?? [],
       description: couponModel.description ?? '',
       cashBak: couponModel.store?.cashback?.rate ?? 0,
+      active: couponModel.status == "ACTIVE",
     );
   }
 }

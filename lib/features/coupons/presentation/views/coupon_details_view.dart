@@ -58,21 +58,9 @@ class CouponDetailsView extends StatelessWidget {
                     // Use the helper to build expiration text:
                     expirationText: coupon != null
                         ? _buildExpirationText(coupon.expiryDate)
-                        : 'Loading...',
-                    description: coupon?.description ??
-                        'Lorem ipsum dolor sit amet consectetur.\nPellentesque sed turpis cursus suspendisse sapien augue.',
-                    bulletPoints: coupon?.termsAndConditions ??
-                        const [
-                          'applied only if you purchase above 600\$',
-                          'offer might end before the specialized date',
-                          'applied only if you purchase above 600\$',
-                          'offer might end before the specialized date',
-                          'applied only if you purchase above 600\$',
-                          'offer might end before the specialized date',
-                          'applied only if you purchase above 600\$',
-                          'offer might end before the specialized date',
-                          'applied only if you purchase above 600\$',
-                        ],
+                        : '',
+                    description: coupon?.description ?? '',
+                    bulletPoints: coupon?.termsAndConditions ?? const [],
                     code: coupon?.code ?? 'Loading...',
                     codeLabel: S.of(context).copyCode,
                     ctaButtonText:
