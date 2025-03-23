@@ -1,5 +1,6 @@
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/widgets/coupon_ticket/ticket_container.dart';
 import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
@@ -10,7 +11,6 @@ import 'package:cached_network_image/cached_network_image.dart'; // <-- new
 /// The dashed line is drawn after the leading widget to create a more cohesive design.
 class HomeCouponTicket extends StatelessWidget {
   final String title;
-  final String code;
   final num? discountValue;
   final String? imageUrl;
   final DateTime? expiryDate;
@@ -25,7 +25,6 @@ class HomeCouponTicket extends StatelessWidget {
   const HomeCouponTicket({
     super.key,
     required this.title,
-    required this.code,
     this.discountValue,
     this.imageUrl,
     this.expiryDate,
@@ -88,43 +87,37 @@ class HomeCouponTicket extends StatelessWidget {
   }
 
   Widget _buildCouponInfo() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title.isNotEmpty ? title : 'Placeholder Title',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      // mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(
+          height: 28,
+        ),
+        Text(
+          title.isNotEmpty ? title : 'Placeholder Title',
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        if (discountValue != null) ...[
           const SizedBox(height: 4),
           Text(
-            code.isNotEmpty ? code : 'Placeholder Code',
-            style: const TextStyle(fontSize: 13),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          if (discountValue != null) ...[
-            const SizedBox(height: 4),
-            Text(
-              '$discountValue% OFF',
-              style: const TextStyle(
-                color: Colors.red,
-                fontWeight: FontWeight.bold,
-              ),
+            '$discountValue% OFF',
+            style: const TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
             ),
-          ],
-          const SizedBox(height: 4),
-          Text(
-            expiryDate != null
-                ? 'Valid until ${expiryDate!.toIso8601String().split("T")[0]}'
-                : 'Valid until ...',
-            style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
           ),
         ],
-      ),
+        const SizedBox(height: 4),
+        Text(
+          expiryDate != null
+              ? 'Valid until ${DateFormat('d MMM').format(expiryDate!)}'
+              : 'Valid until ...',
+          style: TextStyle(fontSize: 12, color: Colors.grey.shade700),
+        ),
+      ],
     );
   }
 }

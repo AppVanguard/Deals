@@ -120,7 +120,6 @@ class _TopCouponsState extends State<TopCoupons> {
         enabled: isLoading,
         child: HomeCouponTicket(
           title: 'Loading...',
-          code: 'Loading...',
           width: MediaQuery.of(context).size.width * 0.8,
           height: 150,
           onPressed: () {},
@@ -131,7 +130,6 @@ class _TopCouponsState extends State<TopCoupons> {
         enabled: isLoading,
         child: HomeCouponTicket(
           title: coupon.title,
-          code: coupon.code,
           discountValue: coupon.discountValue,
           imageUrl: coupon.image,
           expiryDate: coupon.expiryDate,
