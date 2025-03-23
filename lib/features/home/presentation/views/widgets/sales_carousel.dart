@@ -134,10 +134,13 @@ class _SalesCarouselState extends State<SalesCarousel> {
                       child: CachedNetworkImage(
                         imageUrl: ann.imageUrl ?? '',
                         fit: BoxFit.cover,
-                        // placeholder: (ctx, url) => const Center(
-                        //   child: Skeletonizer(
-                        //       child: SizedBox(width: 200, height: 146)),
-                        // ),
+                        placeholder: (ctx, url) => Skeletonizer(
+                          child: Container(
+                            width: 313,
+                            height: 146,
+                            color: AppColors.lightGray,
+                          ),
+                        ),
                         errorWidget: (ctx, url, error) => Image.asset(
                           AppImages.assetsImagesTest3,
                           fit: BoxFit.fill,

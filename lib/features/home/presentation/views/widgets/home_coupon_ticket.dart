@@ -1,4 +1,6 @@
+import 'package:deals/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../../../../../core/widgets/coupon_ticket/ticket_container.dart';
 import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
 import 'package:cached_network_image/cached_network_image.dart'; // <-- new
@@ -55,21 +57,33 @@ class HomeCouponTicket extends StatelessWidget {
   }
 
   Widget _buildLeadingImage() {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 80, maxHeight: 80),
-      child: CachedNetworkImage(
-        imageUrl: imageUrl ?? '',
-        fit: BoxFit.contain,
-        // placeholder: (ctx, url) => const SizedBox(
-        //   width: 80,
-        //   height: 80,
-        //   child: Center(child: CircularProgressIndicator()),
-        // ),
-        errorWidget: (ctx, url, error) => const Icon(
-          Icons.error,
-          size: 32,
+    return Row(
+      children: [
+        const SizedBox(
+          width: 8,
         ),
-      ),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 80, maxHeight: 80),
+          child: CachedNetworkImage(
+            imageUrl: imageUrl ?? '',
+            fit: BoxFit.contain,
+            placeholder: (ctx, url) => Skeletonizer(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  width: 66,
+                  height: 66,
+                  color: AppColors.lightGray,
+                ),
+              ),
+            ),
+            errorWidget: (ctx, url, error) => const Icon(
+              Icons.image,
+              size: 32,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

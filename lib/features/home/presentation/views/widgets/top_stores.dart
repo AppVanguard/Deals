@@ -162,22 +162,14 @@ class _StoreCard extends StatelessWidget {
                   width: 150,
                   height: 90,
                   fit: BoxFit.fill,
-                  // placeholder: (context, url) => SizedBox(
-                  //   height: 90,
-                  //   width: 150,
-                  //   child: Center(
-                  //       child: Skeletonizer(
-                  //     child: Container(
-                  //       width: 90,
-                  //       height: 90,
-                  //       color: AppColors.tertiaryText,
-                  //     ),
-                  //   )),
-                  // ),
-                  errorWidget: (context, url, error) => Image.asset(
-                    AppImages.assetsImagesTest1,
-                    fit: BoxFit.fill,
+                  placeholder: (context, url) => Skeletonizer(
+                    child: Container(
+                      width: 150,
+                      height: 90,
+                      color: AppColors.lightGray,
+                    ),
                   ),
+                  errorWidget: (context, url, error) => const Icon(Icons.image),
                 ),
               ),
             ),
