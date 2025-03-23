@@ -66,6 +66,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter the 4-digit code"),
         "EnterYourEmail":
             MessageLookupByLibrary.simpleMessage("Enter your email address"),
+        "Expired": MessageLookupByLibrary.simpleMessage("Expired"),
+        "ExpiresIn": MessageLookupByLibrary.simpleMessage("Expires in"),
         "FNValidator": MessageLookupByLibrary.simpleMessage(
             "Please enter your full name."),
         "FacebookError": MessageLookupByLibrary.simpleMessage(
@@ -197,9 +199,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "cashbackTerms": MessageLookupByLibrary.simpleMessage("Cashback terms"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact us"),
         "continueTo": MessageLookupByLibrary.simpleMessage("Continue to"),
+        "copyCode": MessageLookupByLibrary.simpleMessage("Copy code"),
         "createAccount": MessageLookupByLibrary.simpleMessage("Create account"),
         "credentialAlreadyInUse": MessageLookupByLibrary.simpleMessage(
             "The credential is already in use."),
+        "day": MessageLookupByLibrary.simpleMessage("day"),
+        "days": MessageLookupByLibrary.simpleMessage("days"),
         "earnings": MessageLookupByLibrary.simpleMessage("Earnings"),
         "emailAlreadyInUse":
             MessageLookupByLibrary.simpleMessage("The account already exists."),

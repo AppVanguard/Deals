@@ -7,10 +7,14 @@ class CouponEntity {
   final num? discountValue;
   final String? image;
   final List<String>? termsAndConditions;
+  final String? description;
+  final num? cashBak;
 
   // etc. Add discountValue, usageCount, successRate, etc. if needed
 
   const CouponEntity({
+    this.cashBak,
+    this.description,
     this.termsAndConditions,
     this.image,
     this.discountValue,

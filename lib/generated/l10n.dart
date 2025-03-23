@@ -1729,6 +1729,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Copy code`
+  String get copyCode {
+    return Intl.message(
+      'Copy code',
+      name: 'copyCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expired`
+  String get Expired {
+    return Intl.message(
+      'Expired',
+      name: 'Expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expires in`
+  String get ExpiresIn {
+    return Intl.message(
+      'Expires in',
+      name: 'ExpiresIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `day`
+  String get day {
+    return Intl.message(
+      'day',
+      name: 'day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `days`
+  String get days {
+    return Intl.message(
+      'days',
+      name: 'days',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

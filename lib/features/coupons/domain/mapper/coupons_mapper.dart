@@ -19,6 +19,8 @@ class CouponsMapper {
       startDate: couponModel.startDate,
       image: couponModel.store?.image?.url ?? '',
       termsAndConditions: couponModel.termsAndConditions ?? [],
+      description: couponModel.description ?? '',
+      cashBak: couponModel.store?.cashback?.rate ?? 0,
     );
   }
 }

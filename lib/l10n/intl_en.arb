@@ -166,5 +166,10 @@
       "CashbackC": "Cashback",
       "isActivatedNow": "is Activated now!",
       "continueTo": "Continue to",
-      "getCode": "Get Code"
+      "getCode": "Get Code",
+      "copyCode": "Copy code",
+      "Expired": "Expired",
+      "ExpiresIn": "Expires in",
+      "day": "day",
+      "days": "days"
 }

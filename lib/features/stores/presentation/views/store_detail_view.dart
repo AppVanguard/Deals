@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:deals/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -142,7 +143,6 @@ class _StoreDetailViewState extends State<StoreDetailView>
                 CustomScrollView(
                   controller: _scrollController,
                   slivers: [
-                    // Top image
                     SliverToBoxAdapter(
                       child: AspectRatio(
                         aspectRatio: 1.4,
@@ -153,18 +153,11 @@ class _StoreDetailViewState extends State<StoreDetailView>
                               Container(
                             width: double.infinity,
                             height: 200,
-                            color: Colors.grey[200],
-                            child: Image.asset(
-                              AppImages.assetsImagesTest3,
-                              fit: BoxFit.fill,
-                              width: double.infinity,
-                              height: 200,
-                            ),
+                            color: AppColors.tertiaryText,
                           ),
                         ),
                       ),
                     ),
-                    // TabBar
                     SliverPersistentHeader(
                       pinned: true,
                       delegate: TabBarHeaderDelegate(

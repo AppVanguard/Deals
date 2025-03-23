@@ -104,7 +104,7 @@ class TicketContainer extends StatelessWidget {
           children: [
             if (leading != null) ...[
               SizedBox(width: holeRadius),
-              SizedBox(width: adjustedSpacing),
+              // SizedBox(width: adjustedSpacing),
               leading!,
               SizedBox(width: adjustedSpacing),
             ],
@@ -126,7 +126,7 @@ class TicketContainer extends StatelessWidget {
               SizedBox(width: adjustedSpacing),
               trailing!,
               SizedBox(width: holeRadius),
-              SizedBox(width: adjustedSpacing),
+              // SizedBox(width: adjustedSpacing),
             ],
           ],
         ),
@@ -142,7 +142,7 @@ class TicketContainer extends StatelessWidget {
         children: [
           if (leading != null) ...[
             SizedBox(height: holeRadius),
-            SizedBox(height: adjustedSpacing),
+            // SizedBox(height: adjustedSpacing),
             leading!,
             SizedBox(height: adjustedSpacing),
           ],
@@ -162,7 +162,7 @@ class TicketContainer extends StatelessWidget {
             SizedBox(height: adjustedSpacing),
             trailing!,
             SizedBox(height: holeRadius),
-            SizedBox(height: adjustedSpacing),
+            // SizedBox(height: adjustedSpacing),
           ],
         ],
       );

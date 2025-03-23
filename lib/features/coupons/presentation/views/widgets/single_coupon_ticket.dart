@@ -1,19 +1,19 @@
+import 'package:deals/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // <-- For Clipboard
 import 'package:deals/core/widgets/coupon_ticket/dashed_line_painter.dart';
 import 'package:deals/core/widgets/coupon_ticket/ticket_container.dart';
 
-// Example colors and text styles - replace with your own
+// Example colors & text styles - replace with your own
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SingleCouponTicket extends StatelessWidget {
+class SingleCouponTicket extends StatefulWidget {
   final String code;
   final String? imageUrl;
 
-  /// Shown at the top, e.g. "Alibaba.com".
-  final String mainTitle;
-
-  /// Middle title or short subtitle, e.g. "Lorem ipsum dolor sit amet..."
+  /// Middle title or short subtitle, e.g. "Lorem ipsum..."
   final String description;
 
   /// Bullet points
@@ -22,20 +22,17 @@ class SingleCouponTicket extends StatelessWidget {
   /// Expiration display text, e.g. "Expires in 14 days"
   final String expirationText;
 
-  /// The label shown on the code or near the code
+  /// The label shown on the code or near the code (e.g. "Copy code")
   final String codeLabel;
 
-  /// The main call-to-action button text, e.g. "Shop now and get up to 20% cashback"
+  /// The main call-to-action button text, e.g. "Shop now and get 20%..."
   final String ctaButtonText;
 
   /// Color for the main CTA button background
   final Color ctaButtonColor;
 
-  /// Callback for "Copy code" button
-  final VoidCallback? onCopyCode;
-
   /// Callback for CTA button
-  final VoidCallback? onCtaPressed;
+  final VoidCallback onCtaPressed;
 
   /// Overall sizing
   final double? width;
@@ -43,87 +40,121 @@ class SingleCouponTicket extends StatelessWidget {
 
   const SingleCouponTicket({
     super.key,
-    required this.mainTitle,
+    required this.code,
     required this.description,
     required this.bulletPoints,
     required this.expirationText,
-    required this.code,
     required this.codeLabel,
     required this.ctaButtonText,
     required this.ctaButtonColor,
-    this.onCopyCode,
-    this.onCtaPressed,
     this.imageUrl,
+    required this.onCtaPressed,
     this.width,
     this.height,
   });
 
   @override
+  State<SingleCouponTicket> createState() => _SingleCouponTicketState();
+}
+
+class _SingleCouponTicketState extends State<SingleCouponTicket> {
+  /// Whether the code has just been copied
+  bool _copied = false;
+
+  /// Copy the code to the clipboard, then switch the button to "Copied"
+  Future<void> _handleCopyCode() async {
+    await Clipboard.setData(ClipboardData(text: widget.code));
+    setState(() {
+      _copied = true;
+    });
+    // Optional: revert back to "Copy code" after a delay
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   setState(() => _copied = false);
+    // });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TicketContainer(
+      spacing: 16,
       elevation: 5,
-      // Force vertical layout so holes are at top & bottom
-      horizontalLayout: false,
+      horizontalLayout: false, // vertical ticket layout
       holeRadius: 36,
-      // Places dashed line between leading & child
       centerLine: true,
       dashedLinePainter: const DashedLinePainter(
         dashHeight: 16,
         dashSpace: 4,
         strokeWidth: 2,
       ),
-      // width: width ?? MediaQuery.of(context).size.width * 0.8,
-      // height: height ?? 400,
-      // Top portion
+      width: widget.width,
+      height: widget.height,
       leading: _buildLeadingSection(context),
-      // Bottom portion (CTA button)
       trailing: _buildTrailingSection(context),
-      // Middle portion (the code row)
       child: _buildCodeSection(context),
     );
   }
 
-  // Top: logo, main title, description, bullet points, expiration
+  /// Top portion: image, description, bullet points, and expiration text
   Widget _buildLeadingSection(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          // If you have an image/logo:
-          if (imageUrl != null) ...[
-            Image.asset(
-              imageUrl!,
-              height: 50,
-              fit: BoxFit.contain,
+          const SizedBox(height: 60),
+          if (widget.imageUrl != null) ...[
+            Container(
+              width: 160,
+              height: 160,
+              decoration: ShapeDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(widget.imageUrl!),
+                  onError: (exception, stackTrace) => Container(
+                    color: AppColors.tertiaryText,
+                    child: Container(
+                      width: 160,
+                      height: 160,
+                      color: AppColors.tertiaryText,
+                    ),
+                  ),
+                  fit: BoxFit.cover,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                shadows: const [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 5,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 12),
+          ] else ...[
+            SizedBox(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  color: AppColors.tertiaryText,
+                  width: 160,
+                  height: 160,
+                ),
+              ),
+            ),
           ],
-
-          // Main Title
+          const SizedBox(height: 8),
           Text(
-            mainTitle,
-            style: AppTextStyles.bold16.copyWith(color: Colors.black),
+            widget.description,
+            style: AppTextStyles.bold15,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
-
-          // Description
-          Text(
-            description,
-            style: AppTextStyles.regular14.copyWith(color: Colors.black87),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 8),
-
-          // Bullet points
-          ...bulletPoints.map(
-            (bullet) => Row(
+          ...widget.bulletPoints.map((bullet) {
+            return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '• ',
-                  style: TextStyle(fontSize: 14),
-                ),
+                const Text('• ', style: AppTextStyles.regular14),
                 Expanded(
                   child: Text(
                     bullet,
@@ -133,13 +164,11 @@ class SingleCouponTicket extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
+            );
+          }),
           const SizedBox(height: 8),
-
-          // Expiration
           Text(
-            expirationText,
+            widget.expirationText,
             style: AppTextStyles.regular13.copyWith(
               color: AppColors.secondaryText,
             ),
@@ -149,49 +178,84 @@ class SingleCouponTicket extends StatelessWidget {
     );
   }
 
-  // Middle: The code and "Copy code" button
+  /// Middle portion: code + "copy" button or "Copied" button
   Widget _buildCodeSection(BuildContext context) {
+    // If _copied is true, show "Copied" in green with a double-check icon
+    final bool isCopied = _copied;
+    final String buttonText = isCopied ? 'Copied' : widget.codeLabel;
+    final Color buttonColor = isCopied ? Colors.green : const Color(0xFF1D241F);
+    final IconData buttonIcon = isCopied ? Icons.done_all : Icons.copy;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          // The code in a container
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 8,
-            ),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(6),
-              color: Colors.white70,
-            ),
-            child: Text(
-              code,
-              style: AppTextStyles.bold14.copyWith(color: Colors.black),
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // Copy code button
-          GestureDetector(
-            onTap: onCopyCode,
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 8,
-              ),
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.accent),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: Text(
-                codeLabel,
-                style: AppTextStyles.bold14.copyWith(
-                  color: AppColors.accent,
+          SizedBox(
+            width: double.infinity,
+            child: Row(
+              children: [
+                // The code block on the left
+                Expanded(
+                  child: Container(
+                    height: 48,
+                    padding: const EdgeInsets.all(16),
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFEEF0EE),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        widget.code,
+                        style: const TextStyle(
+                          color: Color(0xFF1D241F),
+                          fontSize: 14,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(width: 10),
+                // "Copy code" button or "Copied" button
+                GestureDetector(
+                  onTap: _handleCopyCode,
+                  child: Container(
+                    height: 48,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: buttonColor,
+                        ),
+                        borderRadius: BorderRadius.circular(22),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          buttonText,
+                          style: TextStyle(
+                            color: buttonColor,
+                            fontSize: 12,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          buttonIcon,
+                          size: 16,
+                          color: buttonColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -199,27 +263,17 @@ class SingleCouponTicket extends StatelessWidget {
     );
   }
 
-  // Bottom: The large CTA button
+  /// Bottom portion: CTA button and extra spacing
   Widget _buildTrailingSection(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          onPressed: onCtaPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: ctaButtonColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 14),
-          ),
-          child: Text(
-            ctaButtonText,
-            style: AppTextStyles.bold16.copyWith(color: Colors.white),
-          ),
+    return Column(
+      children: [
+        CustomButton(
+          onPressed: widget.onCtaPressed,
+          text: widget.ctaButtonText,
+          width: double.infinity,
         ),
-      ),
+        const SizedBox(height: 60),
+      ],
     );
   }
 }
