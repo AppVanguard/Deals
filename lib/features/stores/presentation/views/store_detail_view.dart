@@ -227,6 +227,7 @@ class _StoreDetailViewState extends State<StoreDetailView>
                     child: SlideTransition(
                       position: _slideAnimation,
                       child: ActivatedBar(
+                        imageUrl: storeEntity?.imageUrl,
                         discountValue: storeEntity?.cashBackRate?.toString(),
                         storeTittle: storeEntity?.title,
                         onPressed: _closeActivatedBar,

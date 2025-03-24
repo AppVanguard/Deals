@@ -84,12 +84,11 @@ class CouponItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: StoreCouponTicket(
+        terms: coupon.termsAndConditions,
         buttonColor: AppColors.accent,
         buttonText: S.of(context).getCode,
         expirationText: _buildExpirationText(coupon.expiryDate),
-        title: coupon.title,
-        code: coupon.code,
-        discountValue: coupon.discountValue,
+        discountValue: coupon.discountValue ?? 0,
         imageUrl: coupon.image,
         expiryDate: coupon.expiryDate,
         width: MediaQuery.of(context).size.width * 0.8,
@@ -128,11 +127,11 @@ class CouponItemSkeleton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
       child: Skeletonizer(
         child: StoreCouponTicket(
+          terms: const ['Loading...', 'Loading...'],
           buttonColor: AppColors.tertiaryText,
           buttonText: 'Loading...',
           expirationText: 'Loading...',
-          title: 'Loading...',
-          code: 'Loading...',
+          discountValue: 0,
           width: MediaQuery.of(context).size.width * 0.8,
           height: 150,
           onPressed: () {},

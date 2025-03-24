@@ -1,5 +1,6 @@
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import '../../../../../core/widgets/coupon_ticket/ticket_container.dart';
 import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
@@ -7,14 +8,15 @@ import '../../../../../core/widgets/coupon_ticket/dashed_line_painter.dart';
 /// A specialized coupon widget that uses [TicketContainer].
 /// This widget takes coupon-related data and uses the ticket container to display it.
 class StoreCouponTicket extends StatelessWidget {
-  final String title;
-  final String code;
-  final num? discountValue;
+  final num discountValue;
   final String? imageUrl;
   final DateTime? expiryDate;
-  final String buttonText; // Dynamic button text
-  final String expirationText; // Dynamic expiration text
+  final String buttonText;
+  final String expirationText;
   final Color buttonColor;
+
+  /// List of terms to display under the discount value
+  final List<String>? terms;
 
   /// Sizing
   final double? width;
@@ -25,17 +27,16 @@ class StoreCouponTicket extends StatelessWidget {
 
   const StoreCouponTicket({
     super.key,
-    required this.title,
-    required this.code,
+    required this.discountValue,
     required this.buttonText,
     required this.expirationText,
-    this.discountValue,
+    required this.buttonColor,
     this.imageUrl,
     this.expiryDate,
     this.width,
     this.height = 120,
     this.onPressed,
-    required this.buttonColor,
+    this.terms,
   });
 
   @override
@@ -48,44 +49,56 @@ class StoreCouponTicket extends StatelessWidget {
         strokeWidth: 2,
       ),
       centerLine: true, // places the dashed line between leading & child
-      spacing: 20, // Adjusted for better alignment
+      spacing: 20, // Adjust for better alignment
       width: width,
       height: height,
-      leading: _buildLeadingContent(),
+      leading: _buildLeadingContent(context),
       child: _buildGetCodeButton(),
     );
   }
 
-  // Builds the leading content, including title and description.
-  Widget _buildLeadingContent() {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth:
-            width! * 0.6, // Restrict leading content to 60% of the ticket width
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: AppTextStyles.bold14.copyWith(
+  // Builds the leading content (discount text + bullet terms).
+  Widget _buildLeadingContent(BuildContext context) {
+    // 1) Convert your list of terms into a single string with line breaks.
+    //    Each bullet is on its own line, e.g. "• Term1\n• Term2\n• Term3"
+    final bulletText = (terms != null && terms!.isNotEmpty)
+        ? terms!.map((term) => '• $term').join('\n')
+        : '';
+
+    return SizedBox(
+      width: width! * .6,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Extra top padding if desired
+            const SizedBox(height: 8),
+
+            // Discount text (truncate to 1 line if it's really long)
+            Text(
+              "${S.current.ExtraDiscountTo} $discountValue%",
+              style: AppTextStyles.bold14.copyWith(
+                overflow: TextOverflow.ellipsis,
+              ),
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(code,
-              style: AppTextStyles.regular13.copyWith(
-                color:
-                    AppColors.secondaryText, // Grey color for the description
+            const SizedBox(height: 8),
+
+            // Terms as a single multi-line text block
+            if (bulletText.isNotEmpty)
+              Text(
+                bulletText,
+                style: AppTextStyles.regular13.copyWith(
+                  color: AppColors.secondaryText,
+                ),
+                // Limit the number of lines to prevent overflow
+                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-              )),
-          const SizedBox(height: 8),
-          if (discountValue != null)
-            Text('$discountValue% OFF',
-                style: AppTextStyles.bold14.copyWith(
-                  color: AppColors.accent, // Red color for the discount value
-                )),
-        ],
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -102,18 +115,16 @@ class StoreCouponTicket extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Get Code Button with dynamic button text
                 GestureDetector(
-                  onTap: onPressed, // Dynamic onPressed callback
+                  onTap: onPressed,
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
-                          color: buttonColor, // Red border
+                          color: buttonColor,
                         ),
-                        borderRadius:
-                            BorderRadius.circular(21), // Rounded corners
+                        borderRadius: BorderRadius.circular(21),
                       ),
                     ),
                     child: Row(
@@ -121,23 +132,20 @@ class StoreCouponTicket extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          buttonText, // Dynamic button text
+                          buttonText,
                           style: AppTextStyles.bold14.copyWith(
-                            color: AppColors
-                                .accent, // Red color for the button text
+                            color: AppColors.accent,
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 8), // Spacing between button and text
-
-                // Expiration text with dynamic content
+                const SizedBox(height: 8),
                 SizedBox(
                   width: 118,
                   child: Text(
-                    expirationText, // Dynamic expiration text
+                    expirationText,
                     textAlign: TextAlign.center,
                     style: AppTextStyles.regular13.copyWith(
                       color: AppColors.secondaryText,

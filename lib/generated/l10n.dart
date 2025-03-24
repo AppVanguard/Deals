@@ -1819,6 +1819,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Valid until`
+  String get ValidUntil {
+    return Intl.message(
+      'Valid until',
+      name: 'ValidUntil',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extra discount to`
+  String get ExtraDiscountTo {
+    return Intl.message(
+      'Extra discount to',
+      name: 'ExtraDiscountTo',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

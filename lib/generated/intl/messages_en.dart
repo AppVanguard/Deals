@@ -70,6 +70,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter your email address"),
         "Expired": MessageLookupByLibrary.simpleMessage("Expired"),
         "ExpiresIn": MessageLookupByLibrary.simpleMessage("Expires in"),
+        "ExtraDiscountTo":
+            MessageLookupByLibrary.simpleMessage("Extra discount to"),
         "FNValidator": MessageLookupByLibrary.simpleMessage(
             "Please enter your full name."),
         "FacebookError": MessageLookupByLibrary.simpleMessage(
@@ -188,6 +190,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "UnexpectedErrorRetry": MessageLookupByLibrary.simpleMessage(
             "An unexpected error has occurred. Please try again later."),
         "UnknowError": MessageLookupByLibrary.simpleMessage("Unknow error"),
+        "ValidUntil": MessageLookupByLibrary.simpleMessage("Valid until"),
         "Verify": MessageLookupByLibrary.simpleMessage("Verify"),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(

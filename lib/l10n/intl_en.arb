@@ -175,5 +175,7 @@
       "Coupons": "Coupons",
       "Coupon": "Coupon",
       "off": "off",
-      "Get": "Get"
+      "Get": "Get",
+      "ValidUntil": "Valid until",
+      "ExtraDiscountTo": "Extra discount to"
 }
