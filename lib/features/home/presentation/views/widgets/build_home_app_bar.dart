@@ -1,3 +1,4 @@
+import 'package:deals/features/notifications/presentation/views/notifications_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:deals/constants.dart';
@@ -42,10 +43,15 @@ AppBar buildHomeAppBar(BuildContext context) {
             context.pushNamed(SearchView.routeName);
           },
         ),
-        const Icon(
-          Icons.notifications_none_outlined,
-          size: 32,
-          color: AppColors.primary,
+        GestureDetector(
+          onTap: () {
+            context.pushNamed(NotificationsView.routeName);
+          },
+          child: const Icon(
+            Icons.notifications_none_outlined,
+            size: 32,
+            color: AppColors.primary,
+          ),
         )
       ],
     ),

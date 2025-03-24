@@ -121,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "NoSearchResults":
             MessageLookupByLibrary.simpleMessage("No search results found"),
         "NoStores": MessageLookupByLibrary.simpleMessage("No stores found"),
+        "Notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "OTPSent": MessageLookupByLibrary.simpleMessage(
             "A 4-digit code has been sent to "),
         "OTPValidator": MessageLookupByLibrary.simpleMessage(
