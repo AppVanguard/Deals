@@ -6,6 +6,8 @@ import 'package:deals/features/auth/presentation/manager/cubits/reset_password_c
 import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
 import 'package:deals/features/coupons/presentation/manager/cubits/coupon_details_cubit/coupon_detail_cubit.dart';
 import 'package:deals/features/coupons/presentation/views/coupon_details_view.dart';
+import 'package:deals/features/notifications/domain/repos/notifications_repo.dart';
+import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:deals/features/notifications/presentation/views/notifications_view.dart';
 import 'package:deals/features/search/presentation/views/search_view.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
@@ -213,7 +215,19 @@ class AppRouter {
       GoRoute(
         path: NotificationsView.routeName,
         name: NotificationsView.routeName,
-        builder: (context, state) => const NotificationsView(),
+        builder: (context, state) {
+          // Extract the userId from the route extra arguments.
+          // If it's not provided, you can either fallback to a default value or handle the error.
+          final userId = state.extra as String? ?? 'defaultUserId';
+
+          return BlocProvider(
+            create: (_) => NotificationsCubit(
+              notificationsRepo: getIt<NotificationsRepo>(),
+              userId: userId,
+            ),
+            child: NotificationsView(userId: userId),
+          );
+        },
       ),
     ],
   );

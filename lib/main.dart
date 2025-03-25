@@ -1,6 +1,7 @@
 // lib/main.dart
 
 import 'package:deals/core/helper_functions/app_router.dart';
+import 'package:deals/features/notifications/data/data_source/notification_local.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/firebase_options.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -21,6 +23,9 @@ void main() async {
 
   // Load environment variables
   await dotenv.load();
+  await Hive.initFlutter();
+  Hive.registerAdapter(NotificationLocalAdapter());
+  await Hive.openBox<NotificationLocal>('notificationsBox');
 
   // Initialize Firebase and SharedPreferences
   await Firebase.initializeApp(

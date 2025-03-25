@@ -19,6 +19,8 @@ class BackendEndpoints {
   static String stores = "$apiPath/stores";
   static String categories = "$apiPath/categories";
   static String coupons = "$apiPath/coupons";
+  static String notifications = "$apiPath/notifications";
+  static String notificationsRead = "$apiPath/notifications/read";
 // Home endpoints.
   static String homeMobile = "$apiPath/home/mobile";
   // Collection names.

@@ -3,9 +3,13 @@ import 'package:deals/core/repos/implementation/categories_repo_impl.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/core/service/category_service.dart';
 import 'package:deals/core/service/coupons_service.dart';
+import 'package:deals/core/service/notifications_service.dart';
 import 'package:deals/core/service/stores_service.dart';
 import 'package:deals/features/coupons/data/repos/coupons_repo_impl.dart';
 import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
+import 'package:deals/features/notifications/data/data_source/notifications_local_data_source.dart';
+import 'package:deals/features/notifications/data/repos/notifiacation_repo_impl.dart';
+import 'package:deals/features/notifications/domain/repos/notifications_repo.dart';
 import 'package:deals/features/stores/data/repos/stores_repo_impl.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:get_it/get_it.dart';
@@ -33,6 +37,8 @@ void setupGetit() {
   getIt.registerSingleton<StoresService>(StoresService());
   getIt.registerSingleton<CategoriesService>(CategoriesService());
   getIt.registerSingleton<CouponsService>(CouponsService());
+  getIt.registerSingleton<NotificationsService>(NotificationsService());
+
   getIt.registerSingleton<AuthRepo>(
     AuthRepoImpl(
       authApiService: getIt<AuthApiService>(),
@@ -61,6 +67,9 @@ void setupGetit() {
       localDataSource: getIt<HomeLocalDataSource>(),
     ),
   );
+  getIt.registerSingleton<NotificationsLocalDataSource>(
+    NotificationsLocalDataSource(),
+  );
   getIt.registerSingleton<StoresRepo>(
     StoresRepoImpl(
       storesService: getIt<StoresService>(),
@@ -74,6 +83,12 @@ void setupGetit() {
   getIt.registerSingleton<CouponsRepo>(
     CouponsRepoImpl(
       couponsService: getIt<CouponsService>(),
+    ),
+  );
+  getIt.registerSingleton<NotificationsRepo>(
+    NotificationsRepoImpl(
+      service: getIt<NotificationsService>(),
+      localDataSource: getIt<NotificationsLocalDataSource>(),
     ),
   );
 }
