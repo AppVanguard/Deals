@@ -1390,10 +1390,10 @@ class S {
     );
   }
 
-  /// `Email not verified`
+  /// `Cannot read properties of null (reading 'is_active')`
   String get Emain_not_verified {
     return Intl.message(
-      'Email not verified',
+      'Cannot read properties of null (reading \'is_active\')',
       name: 'Emain_not_verified',
       desc: '',
       args: [],

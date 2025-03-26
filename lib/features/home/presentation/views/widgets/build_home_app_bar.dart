@@ -1,3 +1,4 @@
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
 import 'package:deals/features/notifications/presentation/views/notifications_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,7 +9,8 @@ import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/features/search/presentation/views/search_view.dart';
 import 'package:go_router/go_router.dart';
 
-AppBar buildHomeAppBar(BuildContext context) {
+AppBar buildHomeAppBar(
+    {required BuildContext context, required UserEntity userData}) {
   return AppBar(
     bottom: const PreferredSize(
       preferredSize: Size(0, 1),
@@ -45,7 +47,13 @@ AppBar buildHomeAppBar(BuildContext context) {
         ),
         GestureDetector(
           onTap: () {
-            context.pushNamed(NotificationsView.routeName);
+            context.pushNamed(
+              NotificationsView.routeName,
+              extra: {
+                'userId': userData.uId,
+                'token': userData.token,
+              },
+            );
           },
           child: const Icon(
             Icons.notifications_none_outlined,

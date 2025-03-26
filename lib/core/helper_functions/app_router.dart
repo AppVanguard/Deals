@@ -216,16 +216,21 @@ class AppRouter {
         path: NotificationsView.routeName,
         name: NotificationsView.routeName,
         builder: (context, state) {
-          // Extract the userId from the route extra arguments.
-          // If it's not provided, you can either fallback to a default value or handle the error.
-          final userId = state.extra as String? ?? 'defaultUserId';
+          // Expect a Map with { "userId": "...", "token": "..." }
+          
+          final args = state.extra as Map<String, String>?;
+          final userId = args?['userId'] ?? 'defaultUserId';
+          final token = args?['token'] ?? '';
 
           return BlocProvider(
             create: (_) => NotificationsCubit(
               notificationsRepo: getIt<NotificationsRepo>(),
               userId: userId,
             ),
-            child: NotificationsView(userId: userId),
+            child: NotificationsView(
+              userId: userId,
+              token: token,
+            ),
           );
         },
       ),

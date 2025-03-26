@@ -1,24 +1,24 @@
+import 'dart:developer';
+
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
-import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 
 class NotificationsView extends StatelessWidget {
   final String userId;
-  const NotificationsView({super.key, required this.userId});
+  final String token;
+  const NotificationsView(
+      {super.key, required this.userId, required this.token});
   static const routeName = '/notifications';
-
-  String _timeAgo(DateTime? dateTime) {
-    if (dateTime == null) return '';
-    final diff = DateTime.now().difference(dateTime);
-    if (diff.inDays > 0) return '${diff.inDays}d ago';
-    if (diff.inHours > 0) return '${diff.inHours}h ago';
-    if (diff.inMinutes > 0) return '${diff.inMinutes}m ago';
-    return 'Just now';
-  }
 
   @override
   Widget build(BuildContext context) {
+    log("userId: $userId, token: $token");
+    // On first build, we fetch notifications.
+    // Alternatively, you could do this in initState if this was a StatefulWidget.
+    context.read<NotificationsCubit>().fetchNotifications(token);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notifications'),
@@ -39,7 +39,7 @@ class NotificationsView extends StatelessWidget {
             return buildCustomErrorScreen(
                 context: context,
                 onRetry: () {
-                  context.read<NotificationsCubit>().fetchNotifications();
+                  context.read<NotificationsCubit>().fetchNotifications(token);
                 });
           } else if (state is NotificationsSuccess) {
             final notifications = state.notifications;
@@ -53,8 +53,6 @@ class NotificationsView extends StatelessWidget {
                 final notif = notifications[index];
                 final isRead = notif.read ?? false;
                 return ListTile(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   leading: CircleAvatar(
                     backgroundColor:
                         isRead ? Colors.grey[300] : Colors.green[100],
@@ -75,10 +73,10 @@ class NotificationsView extends StatelessWidget {
                   ),
                   tileColor: isRead ? Colors.white : Colors.green[50],
                   onTap: () {
-                    if (!(notif.read ?? false) && notif.id != null) {
+                    if (!isRead && notif.id != null) {
                       context
                           .read<NotificationsCubit>()
-                          .markNotificationAsRead(notif.id!);
+                          .markNotificationAsRead(notif.id!, token);
                     }
                   },
                 );
@@ -89,5 +87,14 @@ class NotificationsView extends StatelessWidget {
         },
       ),
     );
+  }
+
+  String _timeAgo(DateTime? dateTime) {
+    if (dateTime == null) return '';
+    final diff = DateTime.now().difference(dateTime);
+    if (diff.inDays > 0) return '${diff.inDays}d ago';
+    if (diff.inHours > 0) return '${diff.inHours}h ago';
+    if (diff.inMinutes > 0) return '${diff.inMinutes}m ago';
+    return 'Just now';
   }
 }

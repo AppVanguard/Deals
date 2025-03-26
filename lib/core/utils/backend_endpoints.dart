@@ -52,9 +52,16 @@ class BackendEndpoints {
   // JSON keys for response payloads.
   static const String keyUserId = "userId";
   static const String kFirbaseUid = "firebase_uid";
-
+  static const String kAuthorization = "Authorization";
+  static const String kContentType = "Content-Type";
   // Common Headers.
   static const Map<String, String> jsonHeaders = {
-    'Content-Type': 'application/json',
+    kContentType: 'application/json',
   };
+  static Map<String, String> authJsonHeaders(String token) {
+    return {
+      ...jsonHeaders,
+      // kAuthorization: 'Bearer $token',
+    };
+  }
 }

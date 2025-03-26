@@ -133,7 +133,7 @@
       "existing_customers_discount": "Existing customers discount",
       "new_customers_discount": "New customers discount",
       "specific_items_discount": "Specific items discount",
-      "Emain_not_verified": "Email not verified",
+      "Emain_not_verified": "Cannot read properties of null (reading 'is_active')",
       "Filters": "Filters",
       "Ordered_by": "Ordered by",
       "Offers": "Offers",

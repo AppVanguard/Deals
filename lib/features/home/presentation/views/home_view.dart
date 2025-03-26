@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:deals/features/auth/domain/entities/user_entity.dart';
 import 'package:deals/features/home/presentation/views/widgets/build_home_app_bar.dart';
@@ -13,9 +15,15 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("User Data: ${userData.uId}");
     return Scaffold(
-      appBar: buildHomeAppBar(context),
-      drawer: CustomAppDrawerBlocProvider(userData: userData),
+      appBar: buildHomeAppBar(
+        context: context,
+        userData: userData,
+      ),
+      drawer: CustomAppDrawerBlocProvider(
+        userData: userData,
+      ),
       body: const HomeViewBody(),
     );
   }
