@@ -4,6 +4,7 @@ import 'package:deals/features/notifications/domain/entities/notification_entity
 class NotificationMapper {
   static NotificationEntity mapToEntity(Notification model) {
     return NotificationEntity(
+      image: model.data?.image ?? '',
       id: model.id ?? '',
       userId: model.userId ?? '',
       title: model.title ?? '',

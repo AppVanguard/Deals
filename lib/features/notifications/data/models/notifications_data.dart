@@ -1,14 +1,14 @@
 import 'notification.dart';
 import 'pagination.dart';
 
-class NotificationData {
+class NotificationsData {
   List<Notification>? notifications;
   Pagination? pagination;
 
-  NotificationData({this.notifications, this.pagination});
+  NotificationsData({this.notifications, this.pagination});
 
-  factory NotificationData.fromJson(Map<String, dynamic> json) =>
-      NotificationData(
+  factory NotificationsData.fromJson(Map<String, dynamic> json) =>
+      NotificationsData(
         notifications: (json['notifications'] as List<dynamic>?)
             ?.map((e) => Notification.fromJson(e as Map<String, dynamic>))
             .toList(),

@@ -1,5 +1,7 @@
+// lib/features/notifications/presentation/views/notification_tile.dart
 import 'package:deals/features/notifications/domain/entities/notification_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class NotificationTile extends StatelessWidget {
   final NotificationEntity notification;
@@ -24,9 +26,22 @@ class NotificationTile extends StatelessWidget {
       leading: CircleAvatar(
         backgroundColor:
             notification.read ? Colors.grey[300] : Colors.green[100],
-        child: Icon(
-          Icons.notifications,
-          color: notification.read ? Colors.grey : Colors.green,
+        child: ClipOval(
+          child: notification.image != null && notification.image!.isNotEmpty
+              ? CachedNetworkImage(
+                  imageUrl: notification.image!,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                  placeholder: (context, url) =>
+                      const Icon(Icons.notifications, color: Colors.grey),
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.error, color: Colors.red),
+                )
+              : const Icon(
+                  Icons.notifications,
+                  color: Colors.green,
+                ),
         ),
       ),
       title: Text(notification.title),

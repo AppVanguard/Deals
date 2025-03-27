@@ -1,19 +1,18 @@
-import 'notification_data.dart';
+import 'notifications_data.dart';
 
 class NotificationsModel {
   bool? success;
-  NotificationData? data;
+  NotificationsData? data;
 
   NotificationsModel({this.success, this.data});
 
-  factory NotificationsModel.fromJson(Map<String, dynamic> json) {
-    return NotificationsModel(
-      success: json['success'] as bool?,
-      data: json['data'] == null
-          ? null
-          : NotificationData.fromJson(json['data'] as Map<String, dynamic>),
-    );
-  }
+  factory NotificationsModel.fromJson(Map<String, dynamic> json) =>
+      NotificationsModel(
+        success: json['success'] as bool?,
+        data: json['data'] == null
+            ? null
+            : NotificationsData.fromJson(json['data'] as Map<String, dynamic>),
+      );
 
   Map<String, dynamic> toJson() => {
         'success': success,
