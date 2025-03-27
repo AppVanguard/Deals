@@ -217,7 +217,6 @@ class AppRouter {
         name: NotificationsView.routeName,
         builder: (context, state) {
           // Expect a Map with { "userId": "...", "token": "..." }
-          
           final args = state.extra as Map<String, String>?;
           final userId = args?['userId'] ?? 'defaultUserId';
           final token = args?['token'] ?? '';

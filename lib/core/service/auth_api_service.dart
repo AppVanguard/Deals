@@ -60,8 +60,9 @@ class AuthApiService {
       final Map<String, dynamic> responseData = jsonDecode(response.body);
       log("sendOtp response: $responseData");
       return UserEntity(
+        id: responseData[BackendEndpoints.kId],
         token: '',
-        uId: responseData[BackendEndpoints.kId],
+        uId: responseData[BackendEndpoints.kFirbaseUid],
         email: responseData[BackendEndpoints.keyEmail],
         name: responseData[BackendEndpoints.keyFullName],
         phone: responseData[BackendEndpoints.keyPhone],

@@ -9,7 +9,12 @@ class NotificationsLoading extends NotificationsState {}
 
 class NotificationsSuccess extends NotificationsState {
   final List<Notification> notifications;
-  NotificationsSuccess({required this.notifications});
+  final bool isRefreshing; // For partial skeleton overlays if desired
+
+  NotificationsSuccess({
+    required this.notifications,
+    this.isRefreshing = false,
+  });
 }
 
 class NotificationsFailure extends NotificationsState {

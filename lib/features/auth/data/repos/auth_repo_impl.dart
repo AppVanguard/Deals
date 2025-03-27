@@ -34,6 +34,7 @@ class AuthRepoImpl extends AuthRepo {
         password: password,
       );
       final userEntity = UserEntity(
+        id: BackendEndpoints.kId,
         token: '',
         uId: userResponse[BackendEndpoints.keyUserId],
         email: userResponse[BackendEndpoints.keyEmail] ?? email,
@@ -64,6 +65,7 @@ class AuthRepoImpl extends AuthRepo {
       log('Token: $token');
       final userResponse = await authApiService.sendOAuthToken(token: token!);
       final userEntity = UserEntity(
+        id: userResponse[BackendEndpoints.kId],
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? email,
@@ -97,6 +99,7 @@ class AuthRepoImpl extends AuthRepo {
       log('Token: $token');
       final userResponse = await authApiService.sendOAuthToken(token: token!);
       final userEntity = UserEntity(
+        id: userResponse[BackendEndpoints.kId],
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
@@ -124,6 +127,7 @@ class AuthRepoImpl extends AuthRepo {
       final token = await user.getIdToken();
       final userResponse = await authApiService.sendOAuthToken(token: token!);
       final userEntity = UserEntity(
+        id: userResponse[BackendEndpoints.kId],
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
@@ -151,6 +155,7 @@ class AuthRepoImpl extends AuthRepo {
       final token = await user.getIdToken();
       final userResponse = await authApiService.sendOAuthToken(token: token!);
       final userEntity = UserEntity(
+        id: userResponse[BackendEndpoints.kId],
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
@@ -178,6 +183,7 @@ class AuthRepoImpl extends AuthRepo {
     try {
       final response = await authApiService.sendOtp(email: email, otp: otp);
       final userEntity = UserEntity(
+        id: response.id,
         token: '',
         uId: response.uId,
         email: response.email,

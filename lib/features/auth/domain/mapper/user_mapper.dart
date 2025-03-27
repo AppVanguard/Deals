@@ -4,6 +4,7 @@ import 'package:deals/features/auth/domain/entities/user_entity.dart';
 class UserMapper {
   static UserEntity mapToEntitiy(UserModel model) {
     return UserEntity(
+      id: model.id.toString(),
       email: model.email.toString(),
       name: model.fullName.toString(),
       phone: model.phone.toString(),

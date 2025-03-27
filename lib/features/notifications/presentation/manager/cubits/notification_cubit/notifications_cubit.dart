@@ -14,30 +14,59 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     required this.notificationsRepo,
     required this.userId,
   }) : super(NotificationsInitial()) {
-    // Optionally, you can initialize a fetch here if you have a token at construction time.
-    // fetchNotifications(token);
-    // Listen to push messages if you want auto-refresh:
+    // Listen for FCM push in foreground. Insert new notifications on the fly.
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // If you want to auto-refresh, call fetchNotifications with a valid token here.
+      _handleNewFcmMessage(message);
     });
   }
 
+  void _handleNewFcmMessage(RemoteMessage message) {
+    try {
+      final newNotification = Notification.fromRemoteMessage(message);
+      if (state is NotificationsSuccess) {
+        final currentList = List<Notification>.from(
+            (state as NotificationsSuccess).notifications);
+
+        // Only add if not already present
+        if (!currentList.any((n) => n.id == newNotification.id)) {
+          currentList.insert(0, newNotification);
+          emit(NotificationsSuccess(
+              notifications: currentList, isRefreshing: false));
+        }
+      }
+    } catch (e) {
+      print('Error parsing FCM: $e');
+    }
+  }
+
+  /// Called once to load notifications (or on user-initiated refresh).
   Future<void> fetchNotifications(String token) async {
-    emit(NotificationsLoading());
+    if (state is NotificationsInitial) {
+      // Show a loading if we have absolutely no data
+      emit(NotificationsLoading());
+    } else if (state is NotificationsSuccess) {
+      // If we already have data, just set isRefreshing = true for partial skeleton
+      final current = (state as NotificationsSuccess).notifications;
+      emit(NotificationsSuccess(notifications: current, isRefreshing: true));
+    }
+
     final result = await notificationsRepo.getNotificationsByUserId(
       userId: userId,
       token: token,
     );
     result.fold(
       (failure) => emit(NotificationsFailure(error: failure.message)),
-      (notifications) =>
-          emit(NotificationsSuccess(notifications: notifications)),
+      (fetchedList) {
+        // If we had old data, merge or replace as needed. Example: replace with new.
+        emit(NotificationsSuccess(
+            notifications: fetchedList, isRefreshing: false));
+      },
     );
   }
 
+  /// Mark a single notification as read, then refresh from repo
   Future<void> markNotificationAsRead(
       String notificationId, String token) async {
-    // We can show a loading or keep the same state while marking as read
     final result = await notificationsRepo.markNotificationsAsRead(
       userId: userId,
       notificationIds: [notificationId],
@@ -45,7 +74,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     );
     result.fold(
       (failure) => emit(NotificationsFailure(error: failure.message)),
-      (_) => fetchNotifications(token), // Refresh after update
+      (_) => fetchNotifications(token),
     );
   }
 }

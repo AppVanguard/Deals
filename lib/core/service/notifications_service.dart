@@ -38,6 +38,8 @@ class NotificationsService {
     required List<String> notificationIds,
     required String token,
   }) async {
+    log("userId in markAsRead: $userId");
+    log("notificationIds in markAsRead: $notificationIds");
     final url = Uri.parse(BackendEndpoints.notificationsRead);
     try {
       final body = jsonEncode({
@@ -49,7 +51,7 @@ class NotificationsService {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
+          // 'Authorization': 'Bearer $token',
         },
         body: body,
       );
