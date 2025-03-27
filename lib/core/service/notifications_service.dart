@@ -8,10 +8,10 @@ class NotificationsService {
   /// GET /notifications/:userId
   /// Requires Bearer token in the header.
   Future<NotificationsModel> getNotifications({
-    required String userId,
+    required String firebaseUid,
     required String token,
   }) async {
-    final url = Uri.parse('${BackendEndpoints.notifications}/$userId');
+    final url = Uri.parse('${BackendEndpoints.notifications}/$firebaseUid');
     try {
       final response = await http.get(
         url,
@@ -34,25 +34,22 @@ class NotificationsService {
   /// PATCH /notifications/read
   /// Also requires Bearer token in the header.
   Future<void> markAsRead({
-    required String userId,
+    required String firebaseUid,
     required List<String> notificationIds,
     required String token,
   }) async {
-    log("userId in markAsRead: $userId");
+    log("userId in markAsRead: $firebaseUid");
     log("notificationIds in markAsRead: $notificationIds");
     final url = Uri.parse(BackendEndpoints.notificationsRead);
     try {
       final body = jsonEncode({
-        "userId": userId,
+        BackendEndpoints.kFirebaseUid: firebaseUid,
         "notificationIds": notificationIds,
       });
 
       final response = await http.patch(
         url,
-        headers: {
-          'Content-Type': 'application/json',
-          // 'Authorization': 'Bearer $token',
-        },
+        headers: BackendEndpoints.authJsonHeaders(token),
         body: body,
       );
 

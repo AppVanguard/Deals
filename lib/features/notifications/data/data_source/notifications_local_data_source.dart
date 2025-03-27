@@ -14,7 +14,6 @@ class NotificationsLocalDataSource {
     return Hive.box<NotificationLocal>(boxName);
   }
 
-  /// Save or update a list of remote notifications for a user.
   Future<void> cacheNotifications(
       String userId, List<Notification> notifications) async {
     final box = await _openBox();
@@ -37,7 +36,6 @@ class NotificationsLocalDataSource {
     }
   }
 
-  /// Retrieve all notifications for a given user.
   Future<List<Notification>> getCachedNotifications(String userId) async {
     final box = await _openBox();
     final records = box.values.where((n) => n.userId == userId).toList();
@@ -46,7 +44,6 @@ class NotificationsLocalDataSource {
       try {
         final map = jsonDecode(local.rawJson) as Map<String, dynamic>;
         final notif = Notification.fromJson(map);
-        // Overwrite local fields with cached values
         notif.read = local.read;
         notif.createdAt = local.createdAt;
         result.add(notif);
@@ -58,7 +55,6 @@ class NotificationsLocalDataSource {
     return result;
   }
 
-  /// Mark specific notifications as read.
   Future<void> markLocalNotificationsRead({
     required String userId,
     required List<String> notificationIds,
@@ -70,6 +66,15 @@ class NotificationsLocalDataSource {
         local.read = true;
         await local.save();
       }
+    }
+  }
+
+  /// New: Delete a notification from local cache.
+  Future<void> deleteNotification(String userId, String notificationId) async {
+    final box = await _openBox();
+    final local = box.get(notificationId);
+    if (local != null && local.userId == userId) {
+      await box.delete(notificationId);
     }
   }
 }

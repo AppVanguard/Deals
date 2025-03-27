@@ -126,7 +126,7 @@ class SigninCubit extends Cubit<SigninState> {
       try {
         final permissionService = NotificationsPermissionService();
         await permissionService.allowNotifications(
-          userId: user.uId,
+          firebaseUid: user.uId,
           deviceToken: fcmToken,
           authToken: user.token,
         );

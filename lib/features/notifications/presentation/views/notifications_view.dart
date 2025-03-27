@@ -1,20 +1,17 @@
 import 'dart:developer';
+import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
+import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:deals/features/notifications/presentation/views/widgets/notifications_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
-import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class NotificationsView extends StatefulWidget {
   final String userId;
   final String token;
+  const NotificationsView({Key? key, required this.userId, required this.token})
+      : super(key: key);
   static const routeName = '/notifications';
-
-  const NotificationsView({
-    super.key,
-    required this.userId,
-    required this.token,
-  });
 
   @override
   State<NotificationsView> createState() => _NotificationsViewState();
@@ -25,12 +22,11 @@ class _NotificationsViewState extends State<NotificationsView> {
   void initState() {
     super.initState();
     final cubit = context.read<NotificationsCubit>();
-    // If the cubit's state is initial, fetch once.
     if (cubit.state is NotificationsInitial) {
-      log('NotificationsCubit is initial -> fetch from server/local DB');
       cubit.fetchNotifications(widget.token);
+      log('Fetching notifications for the first time.');
     } else {
-      log('NotificationsCubit already has data -> no fetch needed');
+      log('Using cached notifications.');
     }
   }
 
@@ -57,23 +53,45 @@ class _NotificationsViewState extends State<NotificationsView> {
             if (notifications.isEmpty) {
               return const Center(child: Text('No notifications.'));
             }
-            return ListView.separated(
-              itemCount: notifications.length,
-              separatorBuilder: (_, __) => const Divider(height: 1),
-              itemBuilder: (context, index) {
-                final notif = notifications[index];
-                return NotificationListTile(
-                  notif: notif,
-                  isRefreshing: state.isRefreshing,
-                  onTap: () {
-                    if (!(notif.read ?? false) && notif.id != null) {
+            return Skeletonizer(
+              enabled: state.isRefreshing,
+              child: ListView.builder(
+                itemCount: notifications.length,
+                itemBuilder: (context, index) {
+                  final notif = notifications[index];
+                  return Dismissible(
+                    key: ValueKey(notif.id),
+                    direction: DismissDirection.horizontal,
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(left: 20),
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    secondaryBackground: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      child: const Icon(Icons.delete, color: Colors.white),
+                    ),
+                    onDismissed: (_) {
                       context
                           .read<NotificationsCubit>()
-                          .markNotificationAsRead(notif.id!, widget.token);
-                    }
-                  },
-                );
-              },
+                          .removeNotification(notif.id);
+                    },
+                    child: NotificationTile(
+                      notification: notif,
+                      onTap: () {
+                        if (!notif.read && notif.id.isNotEmpty) {
+                          context
+                              .read<NotificationsCubit>()
+                              .markNotificationAsRead(notif.id, widget.token);
+                        }
+                      },
+                    ),
+                  );
+                },
+              ),
             );
           } else if (state is NotificationsFailure) {
             return buildCustomErrorScreen(
@@ -85,8 +103,7 @@ class _NotificationsViewState extends State<NotificationsView> {
               },
             );
           }
-          // If it's initial but we haven't done anything yet, show a placeholder.
-          return _buildSkeletonList();
+          return Container();
         },
       ),
     );

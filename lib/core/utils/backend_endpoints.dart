@@ -50,6 +50,7 @@ class BackendEndpoints {
   static const String kSortOrder = 'sortOrder';
   static const String kCategoryId = 'category';
   static const String kDiscountType = 'discount_type';
+  static const String kFirebaseUid = 'firebase_uid';
   static const String kStoreId = 'store';
   // JSON keys for response payloads.
   static const String keyUserId = "userId";

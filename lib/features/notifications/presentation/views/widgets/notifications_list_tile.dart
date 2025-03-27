@@ -1,23 +1,16 @@
-import 'package:deals/features/notifications/data/models/notification.dart'
-    as Remote;
+import 'package:deals/features/notifications/domain/entities/notification_entity.dart';
 import 'package:flutter/material.dart';
 
-class NotificationListTile extends StatelessWidget {
-  final Remote.Notification notif;
-
-  /// When isRefreshing is true, overlay a subtle skeleton effect.
-  final bool isRefreshing;
+class NotificationTile extends StatelessWidget {
+  final NotificationEntity notification;
   final VoidCallback onTap;
-
-  const NotificationListTile({
+  const NotificationTile({
     super.key,
-    required this.notif,
-    required this.isRefreshing,
+    required this.notification,
     required this.onTap,
   });
 
-  String _timeAgo(DateTime? dateTime) {
-    if (dateTime == null) return '';
+  String _timeAgo(DateTime dateTime) {
     final diff = DateTime.now().difference(dateTime);
     if (diff.inDays > 0) return '${diff.inDays}d ago';
     if (diff.inHours > 0) return '${diff.inHours}h ago';
@@ -27,45 +20,27 @@ class NotificationListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ListTile(
-          key: ValueKey(notif.id),
-          leading: CircleAvatar(
-            backgroundColor:
-                (notif.read ?? false) ? Colors.grey[300] : Colors.green[100],
-            child: Icon(
-              Icons.notifications,
-              color: (notif.read ?? false) ? Colors.grey : Colors.green,
-            ),
-          ),
-          title: Text(notif.title ?? 'No Title'),
-          subtitle: Text(
-            notif.body ?? '',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          trailing: Text(
-            _timeAgo(notif.createdAt),
-            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-          ),
-          tileColor: (notif.read ?? false) ? Colors.white : Colors.green[50],
-          onTap: onTap,
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor:
+            notification.read ? Colors.grey[300] : Colors.green[100],
+        child: Icon(
+          Icons.notifications,
+          color: notification.read ? Colors.grey : Colors.green,
         ),
-        if (isRefreshing)
-          Positioned.fill(
-            child: Container(
-              color: Colors.grey.withValues(alpha: .3),
-              child: const Center(
-                child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                ),
-              ),
-            ),
-          ),
-      ],
+      ),
+      title: Text(notification.title),
+      subtitle: Text(
+        notification.body,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+      trailing: Text(
+        _timeAgo(notification.createdAt),
+        style: const TextStyle(fontSize: 12, color: Colors.grey),
+      ),
+      tileColor: notification.read ? Colors.white : Colors.green[50],
+      onTap: onTap,
     );
   }
 }

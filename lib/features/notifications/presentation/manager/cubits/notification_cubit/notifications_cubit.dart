@@ -1,4 +1,4 @@
-import 'package:deals/features/notifications/data/models/notification.dart';
+import 'package:deals/features/notifications/domain/entities/notification_entity.dart';
 import 'package:deals/features/notifications/domain/repos/notifications_repo.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +14,6 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     required this.notificationsRepo,
     required this.userId,
   }) : super(NotificationsInitial()) {
-    // Listen for FCM push in foreground. Insert new notifications on the fly.
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       _handleNewFcmMessage(message);
     });
@@ -22,34 +21,35 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
   void _handleNewFcmMessage(RemoteMessage message) {
     try {
-      final newNotification = Notification.fromRemoteMessage(message);
+      final Map<String, dynamic> data = {
+        'id': message.messageId,
+        'title': message.notification?.title,
+        'body': message.notification?.body,
+      };
+      final newEntity = NotificationEntity.fromRemoteMessage(data);
       if (state is NotificationsSuccess) {
-        final currentList = List<Notification>.from(
+        final currentList = List<NotificationEntity>.from(
             (state as NotificationsSuccess).notifications);
-
-        // Only add if not already present
-        if (!currentList.any((n) => n.id == newNotification.id)) {
-          currentList.insert(0, newNotification);
+        if (!currentList.any((n) => n.id == newEntity.id)) {
+          currentList.insert(0, newEntity);
           emit(NotificationsSuccess(
               notifications: currentList, isRefreshing: false));
         }
       }
     } catch (e) {
-      print('Error parsing FCM: $e');
+      print('Error parsing FCM message: $e');
     }
   }
 
-  /// Called once to load notifications (or on user-initiated refresh).
   Future<void> fetchNotifications(String token) async {
-    if (state is NotificationsInitial) {
-      // Show a loading if we have absolutely no data
+    List<NotificationEntity> currentList = [];
+    if (state is NotificationsSuccess) {
+      currentList = (state as NotificationsSuccess).notifications;
+      emit(
+          NotificationsSuccess(notifications: currentList, isRefreshing: true));
+    } else {
       emit(NotificationsLoading());
-    } else if (state is NotificationsSuccess) {
-      // If we already have data, just set isRefreshing = true for partial skeleton
-      final current = (state as NotificationsSuccess).notifications;
-      emit(NotificationsSuccess(notifications: current, isRefreshing: true));
     }
-
     final result = await notificationsRepo.getNotificationsByUserId(
       userId: userId,
       token: token,
@@ -57,14 +57,18 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     result.fold(
       (failure) => emit(NotificationsFailure(error: failure.message)),
       (fetchedList) {
-        // If we had old data, merge or replace as needed. Example: replace with new.
+        final newEntities = fetchedList
+            .where((entity) =>
+                !currentList.any((existing) => existing.id == entity.id))
+            .toList();
+        final mergedList = [...newEntities, ...currentList];
+        mergedList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
         emit(NotificationsSuccess(
-            notifications: fetchedList, isRefreshing: false));
+            notifications: mergedList, isRefreshing: false));
       },
     );
   }
 
-  /// Mark a single notification as read, then refresh from repo
   Future<void> markNotificationAsRead(
       String notificationId, String token) async {
     final result = await notificationsRepo.markNotificationsAsRead(
@@ -74,7 +78,47 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     );
     result.fold(
       (failure) => emit(NotificationsFailure(error: failure.message)),
-      (_) => fetchNotifications(token),
+      (_) {
+        if (state is NotificationsSuccess) {
+          final currentList = List<NotificationEntity>.from(
+              (state as NotificationsSuccess).notifications);
+          final index = currentList.indexWhere((n) => n.id == notificationId);
+          if (index != -1) {
+            final old = currentList[index];
+            final updated = NotificationEntity(
+              id: old.id,
+              userId: old.userId,
+              title: old.title,
+              body: old.body,
+              read: true,
+              createdAt: old.createdAt,
+            );
+            currentList[index] = updated;
+            emit(NotificationsSuccess(
+                notifications: currentList, isRefreshing: false));
+          }
+        }
+      },
+    );
+  }
+
+  /// New: Remove a notification (swiped away) from local cache and update state.
+  Future<void> removeNotification(String notificationId) async {
+    final result = await notificationsRepo.deleteNotification(
+      userId: userId,
+      notificationId: notificationId,
+    );
+    result.fold(
+      (failure) => emit(NotificationsFailure(error: failure.message)),
+      (_) {
+        if (state is NotificationsSuccess) {
+          final currentList = List<NotificationEntity>.from(
+              (state as NotificationsSuccess).notifications);
+          currentList.removeWhere((n) => n.id == notificationId);
+          emit(NotificationsSuccess(
+              notifications: currentList, isRefreshing: false));
+        }
+      },
     );
   }
 }

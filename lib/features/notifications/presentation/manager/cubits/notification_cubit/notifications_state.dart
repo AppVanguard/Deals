@@ -8,9 +8,8 @@ class NotificationsInitial extends NotificationsState {}
 class NotificationsLoading extends NotificationsState {}
 
 class NotificationsSuccess extends NotificationsState {
-  final List<Notification> notifications;
-  final bool isRefreshing; // For partial skeleton overlays if desired
-
+  final List<NotificationEntity> notifications;
+  final bool isRefreshing;
   NotificationsSuccess({
     required this.notifications,
     this.isRefreshing = false,
