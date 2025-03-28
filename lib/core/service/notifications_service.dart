@@ -1,3 +1,5 @@
+// lib/core/service/notifications_service.dart
+
 import 'dart:convert';
 import 'dart:developer';
 import 'package:deals/features/notifications/data/models/notifications_model.dart';
@@ -5,13 +7,21 @@ import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
 
 class NotificationsService {
-  /// GET /notifications/:userId
+  /// GET /notifications/:userId?limit=20&offset=0
   /// Requires Bearer token in the header.
   Future<NotificationsModel> getNotifications({
     required String firebaseUid,
     required String token,
+    required int limit,
+    required int offset,
   }) async {
-    final url = Uri.parse('${BackendEndpoints.notifications}/$firebaseUid');
+    final baseUrl = '${BackendEndpoints.notifications}/$firebaseUid';
+    final queryParams = {
+      'limit': limit.toString(),
+      'offset': offset.toString(),
+    };
+    final url = Uri.parse(baseUrl).replace(queryParameters: queryParams);
+
     try {
       final response = await http.get(
         url,

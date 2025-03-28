@@ -1,9 +1,10 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/errors/faliure.dart';
-import 'package:deals/features/notifications/data/data_source/notifications_local_data_source.dart';
 import 'package:deals/core/service/notifications_service.dart';
-import 'package:deals/features/notifications/data/models/notification.dart';
+import 'package:deals/features/notifications/data/data_source/notifications_local_data_source.dart';
+import 'package:deals/features/notifications/data/models/notification.dart'
+    as DataModel;
 import 'package:deals/features/notifications/data/models/notifications_model.dart';
 import 'package:deals/features/notifications/domain/entities/notification_entity.dart';
 import 'package:deals/features/notifications/domain/mappers/notification_mapper.dart';
@@ -23,16 +24,22 @@ class NotificationsRepoImpl implements NotificationsRepo {
   Future<Either<Failure, List<NotificationEntity>>> getNotificationsByUserId({
     required String userId,
     required String token,
+    required int limit,
+    required int offset,
   }) async {
     try {
-      final NotificationsModel remoteModel =
-          await service.getNotifications(firebaseUid: userId, token: token);
-      final List<Notification> remoteList =
+      // 1) Fetch from remote with limit/offset
+      final NotificationsModel remoteModel = await service.getNotifications(
+        firebaseUid: userId,
+        token: token,
+        limit: limit,
+        offset: offset,
+      );
+      final List<DataModel.Notification> remoteList =
           remoteModel.data?.notifications ?? [];
 
+      // 2) Merge read state from local
       final localList = await localDataSource.getCachedNotifications(userId);
-
-      // Merge read state from local cache.
       for (var remote in remoteList) {
         final localMatch = localList.firstWhereOrNull((l) => l.id == remote.id);
         if (localMatch != null && localMatch.read == true) {
@@ -40,8 +47,10 @@ class NotificationsRepoImpl implements NotificationsRepo {
         }
       }
 
+      // 3) Cache them
       await localDataSource.cacheNotifications(userId, remoteList);
 
+      // 4) Convert to domain
       final domainList = remoteList
           .map((dataModel) => NotificationMapper.mapToEntity(dataModel))
           .toList();
@@ -49,6 +58,7 @@ class NotificationsRepoImpl implements NotificationsRepo {
       return Right(domainList);
     } catch (e) {
       log('Remote fetch failed: $e');
+      // fallback to local
       final localList = await localDataSource.getCachedNotifications(userId);
       if (localList.isNotEmpty) {
         final domainList = localList

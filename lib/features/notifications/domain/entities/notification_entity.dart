@@ -1,3 +1,5 @@
+// lib/features/notifications/domain/entities/notification_entity.dart
+
 class NotificationEntity {
   final String id;
   final String userId;
@@ -6,7 +8,6 @@ class NotificationEntity {
   final bool read;
   final DateTime createdAt;
   final String? image;
-  final String? coupon; // Unique coupon id returned by backend
 
   NotificationEntity({
     required this.id,
@@ -16,22 +17,38 @@ class NotificationEntity {
     required this.read,
     required this.createdAt,
     this.image,
-    this.coupon,
   });
 
-  /// Create a NotificationEntity from FCM message data.
-  /// Expects that the backend sends the complete notification details
-  /// (including '_id', 'coupon', and 'image') in the data payload.
+  // If you parse FCM data or something similar, you might have a constructor like:
   factory NotificationEntity.fromRemoteMessage(Map<String, dynamic> data) {
     return NotificationEntity(
-      id: data['_id'] ?? data['id'] ?? '',
+      id: data['_id'] ?? '',
       userId: data['userId'] ?? '',
       title: data['title'] ?? '',
       body: data['body'] ?? '',
       read: false,
       createdAt: DateTime.now(),
       image: data['image'] as String?,
-      coupon: data['coupon'] as String?,
+    );
+  }
+
+  NotificationEntity copyWith({
+    String? id,
+    String? userId,
+    String? title,
+    String? body,
+    bool? read,
+    DateTime? createdAt,
+    String? image,
+  }) {
+    return NotificationEntity(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      title: title ?? this.title,
+      body: body ?? this.body,
+      read: read ?? this.read,
+      createdAt: createdAt ?? this.createdAt,
+      image: image ?? this.image,
     );
   }
 }
