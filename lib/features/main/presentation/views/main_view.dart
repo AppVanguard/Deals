@@ -1,17 +1,20 @@
-import 'package:deals/core/service/get_it_service.dart';
+// lib/features/main/presentation/views/main_view.dart
+
 import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
 import 'package:deals/features/coupons/presentation/manager/cubits/coupons_cubit/coupons_cubit.dart';
-import 'package:deals/features/coupons/presentation/views/coupon_view.dart';
 import 'package:deals/features/home/domain/repos/home_repo.dart';
 import 'package:deals/features/home/presentation/manager/cubits/home_cubit/home_cubit.dart';
+import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/features/auth/domain/entities/user_entity.dart';
-import 'package:deals/features/main/presentation/views/widgets/custom_bottom_navigation_bar.dart';
 import 'package:deals/features/home/presentation/views/home_view.dart';
 import 'package:deals/features/stores/presentation/views/stores_view.dart';
+import 'package:deals/features/coupons/presentation/views/coupon_view.dart';
+import 'package:deals/core/service/get_it_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:deals/features/main/presentation/views/widgets/custom_bottom_navigation_bar.dart';
 
 class MainView extends StatefulWidget {
   final UserEntity userData;
@@ -25,38 +28,38 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   int _selectedIndex = 0;
   int _previousIndex = 0;
-
   late final List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
+    // Immediately fetch notifications in MainView so that the Home AppBar can update.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final token = widget.userData.token;
+      if (token.isNotEmpty) {
+        context.read<NotificationsCubit>().fetchNotifications(token);
+      }
+    });
 
     _pages = [
       KeyedSubtree(
         key: const ValueKey('Home'),
         child: BlocProvider(
-          create: (_) => HomeCubit(
-            homeRepo: getIt<HomeRepo>(),
-          ),
+          create: (_) => HomeCubit(homeRepo: getIt<HomeRepo>()),
           child: HomeView(userData: widget.userData),
         ),
       ),
       KeyedSubtree(
         key: const ValueKey('Stores'),
         child: BlocProvider(
-          create: (_) => StoresCubit(
-            storesRepo: getIt<StoresRepo>(),
-          ),
+          create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
           child: const StoresView(),
         ),
       ),
       KeyedSubtree(
         key: const ValueKey('Coupons'),
         child: BlocProvider(
-          create: (_) => CouponsCubit(
-            couponsRepo: getIt<CouponsRepo>(),
-          ),
+          create: (_) => CouponsCubit(couponsRepo: getIt<CouponsRepo>()),
           child: const CouponView(),
         ),
       ),

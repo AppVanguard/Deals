@@ -1849,6 +1849,16 @@ class S {
       args: [],
     );
   }
+
+  /// `No notifications.`
+  String get NoNotifications {
+    return Intl.message(
+      'No notifications.',
+      name: 'NoNotifications',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

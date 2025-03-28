@@ -178,5 +178,6 @@
       "Get": "Get",
       "ValidUntil": "Valid until",
       "ExtraDiscountTo": "Extra discount to",
-      "Notifications": "Notifications"
+      "Notifications": "Notifications",
+      "NoNotifications": "No notifications."
 }

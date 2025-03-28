@@ -1,4 +1,6 @@
-// get_it_service.dart
+// lib/core/service/get_it_service.dart
+
+import 'package:get_it/get_it.dart';
 import 'package:deals/core/repos/implementation/categories_repo_impl.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/core/service/category_service.dart';
@@ -12,7 +14,6 @@ import 'package:deals/features/notifications/data/repos/notifiacation_repo_impl.
 import 'package:deals/features/notifications/domain/repos/notifications_repo.dart';
 import 'package:deals/features/stores/data/repos/stores_repo_impl.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
-import 'package:get_it/get_it.dart';
 import 'package:deals/core/service/auth_api_service.dart';
 import 'package:deals/core/service/firebase_auth_service.dart';
 import 'package:deals/core/service/user_service.dart';
@@ -27,11 +28,12 @@ import 'package:deals/features/home/domain/repos/menu_repo.dart';
 import 'package:deals/core/service/home_api_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart'; // import Prefs
 import 'package:deals/features/home/data/datasources/home_local_data_source.dart';
+import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 
-final getIt = GetIt.instance;
+final GetIt getIt = GetIt.instance;
 
 void setupGetit() {
-  // 1. Existing singletons
+  // 1. Register core services as lazy singletons.
   getIt.registerSingleton<FirebaseAuthService>(FirebaseAuthService());
   getIt.registerSingleton<AuthApiService>(AuthApiService());
   getIt.registerSingleton<StoresService>(StoresService());
@@ -39,34 +41,38 @@ void setupGetit() {
   getIt.registerSingleton<CouponsService>(CouponsService());
   getIt.registerSingleton<NotificationsService>(NotificationsService());
 
+  // 2. Register Auth and User repositories.
   getIt.registerSingleton<AuthRepo>(
     AuthRepoImpl(
       authApiService: getIt<AuthApiService>(),
       firebaseAuthService: getIt<FirebaseAuthService>(),
     ),
   );
-
   getIt.registerSingleton<UserService>(UserService());
   getIt.registerSingleton<UserRepo>(
     UserRepoImpl(userService: getIt<UserService>()),
   );
+
+  // 3. Register additional repositories.
   getIt.registerSingleton<MenuRepo>(
     MenuRepoImpl(authApiService: getIt<AuthApiService>()),
   );
   getIt.registerSingleton<HomeService>(HomeService());
 
-  // 2. The new local data source, passing Prefs.prefs
+  // 4. Register local data sources (using Prefs.prefs).
   getIt.registerSingleton<HomeLocalDataSource>(
     HomeLocalDataSource(Prefs.prefs),
   );
 
-  // 3. The HomeRepo that depends on both remote service & local data source
+  // 5. Register HomeRepo.
   getIt.registerSingleton<HomeRepo>(
     HomeRepoImpl(
       homeService: getIt<HomeService>(),
       localDataSource: getIt<HomeLocalDataSource>(),
     ),
   );
+
+  // 6. Register Notifications local data source and repositories.
   getIt.registerSingleton<NotificationsLocalDataSource>(
     NotificationsLocalDataSource(),
   );
@@ -91,4 +97,24 @@ void setupGetit() {
       localDataSource: getIt<NotificationsLocalDataSource>(),
     ),
   );
+}
+
+/// After a successful login, register NotificationsCubit as a singleton.
+/// Call this with the logged-in user's ID.
+void registerNotificationsCubitSingleton(String userId) {
+  if (!getIt.isRegistered<NotificationsCubit>()) {
+    getIt.registerSingleton<NotificationsCubit>(
+      NotificationsCubit(
+        notificationsRepo: getIt<NotificationsRepo>(),
+        userId: userId,
+      ),
+    );
+  }
+}
+
+/// Optionally, unregister NotificationsCubit (for logout).
+void unregisterNotificationsCubitSingleton() {
+  if (getIt.isRegistered<NotificationsCubit>()) {
+    getIt.unregister<NotificationsCubit>();
+  }
 }

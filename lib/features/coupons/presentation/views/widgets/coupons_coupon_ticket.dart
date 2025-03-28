@@ -39,7 +39,7 @@ class CouponsCouponTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TicketContainer(
-      elevation: 15,
+      // elevation: 10,
       onTap: onPressed,
       holeRadius: 16,
       dashedLinePainter: const DashedLinePainter(
@@ -52,11 +52,11 @@ class CouponsCouponTicket extends StatelessWidget {
       spacing: 25,
       height: height,
       leading: _buildLeadingImage(),
-      trailing: const Icon(
-        Icons.chevron_right,
-        color: AppColors.accent,
-        size: 32,
-      ),
+      // trailing: const Icon(
+      //   Icons.chevron_right,
+      //   color: AppColors.accent,
+      //   size: 32,
+      // ),
       child: _buildCouponInfo(),
     );
   }

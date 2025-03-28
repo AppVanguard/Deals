@@ -1,3 +1,5 @@
+// lib/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart
+
 import 'dart:developer';
 import 'package:deals/features/notifications/domain/entities/notification_entity.dart';
 import 'package:deals/features/notifications/domain/repos/notifications_repo.dart';
@@ -10,74 +12,42 @@ part 'notifications_state.dart';
 class NotificationsCubit extends Cubit<NotificationsState> {
   final NotificationsRepo notificationsRepo;
   final String userId;
+  String? _cachedToken; // store the token from fetchNotifications
 
   NotificationsCubit({
     required this.notificationsRepo,
     required this.userId,
   }) : super(NotificationsInitial()) {
+    // Listen to FCM messages in the foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       log("Foreground FCM message received: ${message.data}");
-      _handleNewFcmMessage(message);
+      _handleNewFcmMessage();
     });
   }
 
-  void _handleNewFcmMessage(RemoteMessage message) {
-    try {
-      // Build a data map from FCM message:
-      // Use backend provided '_id' if available; fallback to message.messageId.
-      final Map<String, dynamic> data = {
-        '_id': message.data['_id'] ?? message.messageId,
-        'title': message.notification?.title ?? message.data['title'],
-        'body': message.notification?.body ?? message.data['body'],
-        'image': message.data['image'],
-        'coupon': message.data['coupon'],
-      };
-
-      final newEntity = NotificationEntity.fromRemoteMessage(data);
-      log("Parsed FCM message: image: ${newEntity.image} title: ${newEntity.title} body: ${newEntity.body} id: ${newEntity.id} coupon: ${newEntity.coupon}");
-
-      if (state is NotificationsSuccess) {
-        final currentList = List<NotificationEntity>.from(
-            (state as NotificationsSuccess).notifications);
-        // If a notification with the same coupon already exists, update it.
-        final index = currentList.indexWhere(
-            (n) => n.coupon == newEntity.coupon && newEntity.coupon != null);
-        if (index != -1) {
-          final old = currentList[index];
-          final updated = NotificationEntity(
-            id: newEntity.id, // update with real id from backend
-            userId: old.userId,
-            title: old.title,
-            body: old.body,
-            read: old.read,
-            createdAt: old.createdAt,
-            image: newEntity.image, // update image if available
-            coupon: newEntity.coupon,
-          );
-          currentList[index] = updated;
-          emit(NotificationsSuccess(
-              notifications: currentList, isRefreshing: false));
-        } else if (!currentList.any((n) => n.id == newEntity.id)) {
-          // Otherwise, insert the new notification if it's not already present.
-          currentList.insert(0, newEntity);
-          emit(NotificationsSuccess(
-              notifications: currentList, isRefreshing: false));
-        }
-      }
-    } catch (e) {
-      log('Error parsing FCM message: $e');
+  void _handleNewFcmMessage() async {
+    // Always do a forced fetch if we have a token
+    if (_cachedToken != null) {
+      log("Forcing a fetch to ensure unread badge updates immediately...");
+      await fetchNotifications(_cachedToken!);
+    } else {
+      log("No cached token. Can't fetch yet. Will remain as is until user fetches.");
     }
   }
 
   Future<void> fetchNotifications(String token) async {
+    _cachedToken = token; // store the token
     List<NotificationEntity> currentList = [];
     if (state is NotificationsSuccess) {
       currentList = (state as NotificationsSuccess).notifications;
-      emit(
-          NotificationsSuccess(notifications: currentList, isRefreshing: true));
+      emit(NotificationsSuccess(
+        notifications: currentList,
+        isRefreshing: true,
+      ));
     } else {
       emit(NotificationsLoading());
     }
+
     final result = await notificationsRepo.getNotificationsByUserId(
       userId: userId,
       token: token,
@@ -92,7 +62,9 @@ class NotificationsCubit extends Cubit<NotificationsState> {
         final mergedList = [...newEntities, ...currentList];
         mergedList.sort((a, b) => b.createdAt.compareTo(a.createdAt));
         emit(NotificationsSuccess(
-            notifications: mergedList, isRefreshing: false));
+          notifications: mergedList,
+          isRefreshing: false,
+        ));
       },
     );
   }
@@ -109,7 +81,8 @@ class NotificationsCubit extends Cubit<NotificationsState> {
       (_) {
         if (state is NotificationsSuccess) {
           final currentList = List<NotificationEntity>.from(
-              (state as NotificationsSuccess).notifications);
+            (state as NotificationsSuccess).notifications,
+          );
           final index = currentList.indexWhere((n) => n.id == notificationId);
           if (index != -1) {
             final old = currentList[index];
@@ -121,11 +94,12 @@ class NotificationsCubit extends Cubit<NotificationsState> {
               read: true,
               createdAt: old.createdAt,
               image: old.image,
-              coupon: old.coupon,
             );
             currentList[index] = updated;
             emit(NotificationsSuccess(
-                notifications: currentList, isRefreshing: false));
+              notifications: currentList,
+              isRefreshing: false,
+            ));
           }
         }
       },
@@ -142,10 +116,13 @@ class NotificationsCubit extends Cubit<NotificationsState> {
       (_) {
         if (state is NotificationsSuccess) {
           final currentList = List<NotificationEntity>.from(
-              (state as NotificationsSuccess).notifications);
+            (state as NotificationsSuccess).notifications,
+          );
           currentList.removeWhere((n) => n.id == notificationId);
           emit(NotificationsSuccess(
-              notifications: currentList, isRefreshing: false));
+            notifications: currentList,
+            isRefreshing: false,
+          ));
         }
       },
     );

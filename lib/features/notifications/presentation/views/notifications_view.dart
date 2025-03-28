@@ -1,7 +1,9 @@
+// lib/features/notifications/presentation/views/notifications_view.dart
+
 import 'dart:developer';
-import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:deals/features/notifications/presentation/views/widgets/notifications_list_tile.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -9,8 +11,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 class NotificationsView extends StatefulWidget {
   final String userId;
   final String token;
-  const NotificationsView({Key? key, required this.userId, required this.token})
-      : super(key: key);
+  const NotificationsView(
+      {super.key, required this.userId, required this.token});
   static const routeName = '/notifications';
 
   @override
@@ -22,19 +24,18 @@ class _NotificationsViewState extends State<NotificationsView> {
   void initState() {
     super.initState();
     final cubit = context.read<NotificationsCubit>();
-    if (cubit.state is NotificationsInitial) {
-      cubit.fetchNotifications(widget.token);
-      log('Fetching notifications for the first time.');
-    } else {
-      log('Using cached notifications.');
-    }
+    // When NotificationsView is opened, we don't force a fetch here since
+    // MainView already loaded notifications.
+    log('NotificationsView initState: using cached notifications.');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notifications'),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: Text(S.of(context).Notifications),
         centerTitle: true,
       ),
       body: BlocConsumer<NotificationsCubit, NotificationsState>(
@@ -51,7 +52,9 @@ class _NotificationsViewState extends State<NotificationsView> {
           } else if (state is NotificationsSuccess) {
             final notifications = state.notifications;
             if (notifications.isEmpty) {
-              return const Center(child: Text('No notifications.'));
+              return Center(
+                child: Text(S.of(context).NoNotifications),
+              );
             }
             return Skeletonizer(
               enabled: state.isRefreshing,
@@ -61,7 +64,6 @@ class _NotificationsViewState extends State<NotificationsView> {
                   final notif = notifications[index];
                   return Dismissible(
                     key: ValueKey(notif.id),
-                    direction: DismissDirection.horizontal,
                     background: Container(
                       color: Colors.red,
                       alignment: Alignment.centerLeft,
@@ -95,14 +97,7 @@ class _NotificationsViewState extends State<NotificationsView> {
               ),
             );
           } else if (state is NotificationsFailure) {
-            return buildCustomErrorScreen(
-              context: context,
-              onRetry: () {
-                context
-                    .read<NotificationsCubit>()
-                    .fetchNotifications(widget.token);
-              },
-            );
+            return Center(child: Text(state.error));
           }
           return Container();
         },
