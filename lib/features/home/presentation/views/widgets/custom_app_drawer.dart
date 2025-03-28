@@ -1,4 +1,3 @@
-import 'package:deals/core/service/get_it_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -96,7 +95,6 @@ class CustomAppDrawer extends StatelessWidget {
                         context: context, message: state.message);
                   }
                   if (state is MenuLogoutSuccess) {
-                    unregisterNotificationsCubitSingleton();
                     // When logout is successful, navigate to SigninView and clear history.
                     context.goNamed(SigninView.routeName);
                   }
