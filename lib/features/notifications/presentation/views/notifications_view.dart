@@ -1,4 +1,3 @@
-// lib/features/notifications/presentation/views/notifications_view.dart
 import 'dart:developer';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
@@ -10,8 +9,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 class NotificationsView extends StatefulWidget {
   final String userId;
   final String token;
-  const NotificationsView(
-      {super.key, required this.userId, required this.token});
+  const NotificationsView({Key? key, required this.userId, required this.token})
+      : super(key: key);
   static const routeName = '/notifications';
 
   @override
@@ -23,7 +22,6 @@ class _NotificationsViewState extends State<NotificationsView> {
   void initState() {
     super.initState();
     final cubit = context.read<NotificationsCubit>();
-    // Only fetch if state is initial.
     if (cubit.state is NotificationsInitial) {
       cubit.fetchNotifications(widget.token);
       log('Fetching notifications for the first time.');

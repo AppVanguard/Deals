@@ -1,4 +1,3 @@
-// lib/features/notifications/presentation/views/notification_tile.dart
 import 'package:deals/features/notifications/domain/entities/notification_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';

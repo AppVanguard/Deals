@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:deals/features/notifications/domain/entities/notification_entity.dart';
 import 'package:deals/features/notifications/domain/repos/notifications_repo.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -15,29 +16,56 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     required this.userId,
   }) : super(NotificationsInitial()) {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      log("Foreground FCM message received: ${message.data}");
       _handleNewFcmMessage(message);
     });
   }
 
   void _handleNewFcmMessage(RemoteMessage message) {
     try {
+      // Build a data map from FCM message:
+      // Use backend provided '_id' if available; fallback to message.messageId.
       final Map<String, dynamic> data = {
-        'id': message.messageId,
-        'title': message.notification?.title,
-        'body': message.notification?.body,
+        '_id': message.data['_id'] ?? message.messageId,
+        'title': message.notification?.title ?? message.data['title'],
+        'body': message.notification?.body ?? message.data['body'],
+        'image': message.data['image'],
+        'coupon': message.data['coupon'],
       };
+
       final newEntity = NotificationEntity.fromRemoteMessage(data);
+      log("Parsed FCM message: image: ${newEntity.image} title: ${newEntity.title} body: ${newEntity.body} id: ${newEntity.id} coupon: ${newEntity.coupon}");
+
       if (state is NotificationsSuccess) {
         final currentList = List<NotificationEntity>.from(
             (state as NotificationsSuccess).notifications);
-        if (!currentList.any((n) => n.id == newEntity.id)) {
+        // If a notification with the same coupon already exists, update it.
+        final index = currentList.indexWhere(
+            (n) => n.coupon == newEntity.coupon && newEntity.coupon != null);
+        if (index != -1) {
+          final old = currentList[index];
+          final updated = NotificationEntity(
+            id: newEntity.id, // update with real id from backend
+            userId: old.userId,
+            title: old.title,
+            body: old.body,
+            read: old.read,
+            createdAt: old.createdAt,
+            image: newEntity.image, // update image if available
+            coupon: newEntity.coupon,
+          );
+          currentList[index] = updated;
+          emit(NotificationsSuccess(
+              notifications: currentList, isRefreshing: false));
+        } else if (!currentList.any((n) => n.id == newEntity.id)) {
+          // Otherwise, insert the new notification if it's not already present.
           currentList.insert(0, newEntity);
           emit(NotificationsSuccess(
               notifications: currentList, isRefreshing: false));
         }
       }
     } catch (e) {
-      print('Error parsing FCM message: $e');
+      log('Error parsing FCM message: $e');
     }
   }
 
@@ -92,6 +120,8 @@ class NotificationsCubit extends Cubit<NotificationsState> {
               body: old.body,
               read: true,
               createdAt: old.createdAt,
+              image: old.image,
+              coupon: old.coupon,
             );
             currentList[index] = updated;
             emit(NotificationsSuccess(
@@ -102,7 +132,6 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     );
   }
 
-  /// New: Remove a notification (swiped away) from local cache and update state.
   Future<void> removeNotification(String notificationId) async {
     final result = await notificationsRepo.deleteNotification(
       userId: userId,

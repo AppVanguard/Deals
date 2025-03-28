@@ -1,4 +1,3 @@
-// lib/core/entities/notification_entity.dart
 class NotificationEntity {
   final String id;
   final String userId;
@@ -6,7 +5,8 @@ class NotificationEntity {
   final String body;
   final bool read;
   final DateTime createdAt;
-  final String? image; // URL of the notification image
+  final String? image;
+  final String? coupon; // Unique coupon id returned by backend
 
   NotificationEntity({
     required this.id,
@@ -16,19 +16,22 @@ class NotificationEntity {
     required this.read,
     required this.createdAt,
     this.image,
+    this.coupon,
   });
 
-  /// Create a NotificationEntity from an FCM payload.
-  /// Here, we expect that the data contains an 'image' key.
+  /// Create a NotificationEntity from FCM message data.
+  /// Expects that the backend sends the complete notification details
+  /// (including '_id', 'coupon', and 'image') in the data payload.
   factory NotificationEntity.fromRemoteMessage(Map<String, dynamic> data) {
     return NotificationEntity(
-      id: data['id'] ?? '',
+      id: data['_id'] ?? data['id'] ?? '',
       userId: data['userId'] ?? '',
       title: data['title'] ?? '',
       body: data['body'] ?? '',
       read: false,
       createdAt: DateTime.now(),
-      image: data['image'] as String?, // may be null
+      image: data['image'] as String?,
+      coupon: data['coupon'] as String?,
     );
   }
 }
