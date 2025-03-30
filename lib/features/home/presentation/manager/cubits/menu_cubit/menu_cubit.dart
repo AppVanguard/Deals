@@ -1,9 +1,10 @@
 import 'dart:developer';
-import 'package:deals/core/service/get_it_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta/meta.dart';
+import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/features/home/domain/repos/menu_repo.dart';
-import 'package:meta/meta.dart';
+
 part 'menu_state.dart';
 
 class MenuCubit extends Cubit<MenuState> {
@@ -20,9 +21,13 @@ class MenuCubit extends Cubit<MenuState> {
         log("Logout failed: ${failure.message}");
         emit(MenuLogoutFailure(message: failure.message));
       },
-      (message) {
+      (message) async {
+        // 1) Unregister the old NotificationsCubit singleton
         unregisterNotificationsCubitSingleton();
-        SecureStorageService.deleteUserEntity();
+
+        // 2) Clear user data from secure storage if any
+        await SecureStorageService.deleteUserEntity();
+
         log("Logout succeeded: $message");
         emit(MenuLogoutSuccess(message: message));
       },

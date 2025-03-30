@@ -17,7 +17,9 @@ import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:deals/features/auth/presentation/views/signup_view.dart';
 import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
 import 'package:deals/features/coupons/presentation/manager/cubits/coupon_details_cubit/coupon_detail_cubit.dart';
+import 'package:deals/features/coupons/presentation/manager/cubits/coupons_cubit/coupons_cubit.dart';
 import 'package:deals/features/coupons/presentation/views/coupon_details_view.dart';
+import 'package:deals/features/coupons/presentation/views/coupon_view.dart';
 import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:deals/features/notifications/presentation/views/notifications_view.dart';
 import 'package:deals/features/on_boarding/presentation/views/on_boarding_view.dart';
@@ -28,6 +30,7 @@ import 'package:deals/features/stores/presentation/manager/cubits/store_details_
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
 import 'package:deals/features/main/presentation/views/main_view.dart';
+import 'package:deals/features/stores/presentation/views/stores_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -72,7 +75,6 @@ class AppRouter {
           );
         },
       ),
-      // MainView Route: Provide NotificationsCubit once here.
       GoRoute(
         path: MainView.routeName,
         name: MainView.routeName,
@@ -80,17 +82,17 @@ class AppRouter {
           final userEntity = state.extra as UserEntity?;
           if (userEntity == null) {
             return const Scaffold(
-                body: Center(child: Text('User data missing')));
+              body: Center(child: Text('User data missing')),
+            );
           }
+          // Fallback check:
           if (!getIt.isRegistered<NotificationsCubit>()) {
             registerNotificationsCubitSingleton(userEntity.uId);
           }
+
           return MultiBlocProvider(
             providers: [
-              BlocProvider<CategoriesCubit>(
-                create: (_) => CategoriesCubit(
-                    categoriesRepo: getIt.get<CategoriesRepo>()),
-              ),
+              // e.g. CategoriesCubit
               BlocProvider.value(
                 value: getIt<NotificationsCubit>(),
               ),
@@ -198,6 +200,42 @@ class AppRouter {
               ),
             ],
             child: const SearchView(),
+          );
+        },
+      ),
+      GoRoute(
+        path: StoresView.routeName,
+        name: StoresView.routeName,
+        builder: (context, state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
+              ),
+              BlocProvider(
+                create: (_) => CategoriesCubit(
+                    categoriesRepo: getIt.get<CategoriesRepo>()),
+              ),
+            ],
+            child: const StoresView(),
+          );
+        },
+      ),
+      GoRoute(
+        path: CouponView.routeName,
+        name: CouponView.routeName,
+        builder: (context, state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => CouponsCubit(couponsRepo: getIt<CouponsRepo>()),
+              ),
+              BlocProvider(
+                create: (_) => CategoriesCubit(
+                    categoriesRepo: getIt.get<CategoriesRepo>()),
+              ),
+            ],
+            child: const CouponView(),
           );
         },
       ),

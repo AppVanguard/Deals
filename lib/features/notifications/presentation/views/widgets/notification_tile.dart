@@ -1,3 +1,4 @@
+import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/features/notifications/domain/entities/notification_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -25,7 +26,7 @@ class NotificationTile extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor:
-            notification.read ? Colors.grey[300] : Colors.green[100],
+            notification.read ? AppColors.lightGray : AppColors.lightPrimary,
         child: ClipOval(
           child: (notification.image != null && notification.image!.isNotEmpty)
               ? CachedNetworkImage(
@@ -33,6 +34,14 @@ class NotificationTile extends StatelessWidget {
                   width: 46,
                   height: 46,
                   fit: BoxFit.cover,
+                  errorWidget: (context, url, error) {
+                    return const Icon(Icons.error, color: Colors.red);
+                  },
+                  placeholder: (context, url) {
+                    return const CircularProgressIndicator(
+                      color: Colors.green,
+                    );
+                  },
                 )
               : const Icon(Icons.notifications, color: Colors.green),
         ),
