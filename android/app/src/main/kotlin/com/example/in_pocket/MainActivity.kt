@@ -1,4 +1,4 @@
-package com.example.in_pocket
+package com.example.deals
 
 import io.flutter.embedding.android.FlutterActivity
 

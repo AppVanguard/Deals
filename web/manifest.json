@@ -1,6 +1,6 @@
 {
-    "name": "in_pocket",
-    "short_name": "in_pocket",
+    "name": "deals",
+    "short_name": "deals",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

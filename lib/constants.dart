@@ -1,0 +1,17 @@
+const appTittle = "DEALS";
+const splashSubTittle = 'KEEP IT IN POCKET';
+const kIsOnBoardingViewSeen = 'isOnBoardingViewSeen';
+const kSpacing = 16.0;
+const kUserData = 'userData';
+const kRememberMe = 'rememberMe';
+const kEmail = 'email';
+const kImage = 'image';
+const kNextRoute = 'nextRoute';
+const kId = 'id';
+const kFullName = 'fullName';
+const kPhone = 'phone';
+const kBasicData = 'basicData';
+const kOtp = 'otp';
+const kIsRegister = 'isRegister';
+const kUserEntity = 'userEntity';
+const kErrorAnimation = 'assets/animations/error.json';

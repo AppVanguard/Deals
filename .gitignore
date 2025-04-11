@@ -43,7 +43,13 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-# Ignore environment variables file
+android/app/.cxx/
+android/app/.cxx/Debug/101i4t91/arm64-v8a/
 
-.env
+sentry.properties
+
+sentry.properties
+
+sentry.properties
 sentry-wizard.exe
+.env

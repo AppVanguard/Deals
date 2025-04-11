@@ -1,0 +1,46 @@
+platform :ios, '13.0'
+
+# Disable CocoaPods analytics
+ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+project 'Runner', {
+  'Debug' => :debug,
+  'Profile' => :release,
+  'Release' => :release,
+}
+
+# This function reads the FLUTTER_ROOT from the Generated.xcconfig file.
+def flutter_root
+  generated_xcconfig = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
+  unless File.exist?(generated_xcconfig)
+    raise "#{generated_xcconfig} must exist. Try running 'flutter build ios' locally to generate it."
+  end
+
+  File.foreach(generated_xcconfig) do |line|
+    matches = line.match(/FLUTTER_ROOT\=(.*)/)
+    return matches[1].strip if matches
+  end
+
+  raise "FLUTTER_ROOT not found in #{generated_xcconfig}."
+end
+
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  # Define the pod helper path by checking both possible file names.
+  pod_helper_path = File.join(flutter_root, 'packages', 'flutter_tools', 'bin', 'pod_helper.rb')
+  unless File.exist?(pod_helper_path)
+    pod_helper_path = File.join(flutter_root, 'packages', 'flutter_tools', 'bin', 'podhelper.rb')
+  end
+
+  # If the file still isn't found, raise an error.
+  unless File.exist?(pod_helper_path)
+    raise "Flutter pod helper not found. Expected at #{pod_helper_path}"
+  end
+
+  # Load Flutter's pod helper
+  load pod_helper_path
+
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+end

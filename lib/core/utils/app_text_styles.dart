@@ -1,123 +1,103 @@
 import 'package:flutter/material.dart';
 
 abstract class AppTextStyles {
-  static const TextStyle headingH146pxBold = TextStyle(
+  static const TextStyle bold46 = TextStyle(
     fontSize: 46,
     fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle headingH232pxBold = TextStyle(
+  static const TextStyle bold32 = TextStyle(
     fontSize: 32,
     fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle headingH232pxSemibold = TextStyle(
+  static const TextStyle semiBold32 = TextStyle(
     fontSize: 32,
-    fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle headingH324pxBold = TextStyle(
+  static const TextStyle bold24 = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle headingH423pxLight = TextStyle(
+  static const TextStyle light23 = TextStyle(
     fontSize: 23,
-    fontWeight: FontWeight.w400,
-    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w300,
   );
 
-  static const TextStyle headingH522pxBold = TextStyle(
+  static const TextStyle bold22 = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle headingH620pxBold = TextStyle(
+  static const TextStyle bold20 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle headingH620pxRegular = TextStyle(
+  static const TextStyle regular20 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w400,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle paragraphP118pxBold = TextStyle(
+  static const TextStyle bold18 = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle paragraphP216pxBold = TextStyle(
+  static const TextStyle bold16 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle paragraphP216pxRegular = TextStyle(
+  static const TextStyle regular16 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w400,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle paragraphP315pxBold = TextStyle(
+  static const TextStyle bold15 = TextStyle(
     fontSize: 15,
     fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle paragraphP414pxBold = TextStyle(
+  static const TextStyle bold14 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle paragraphP414pxSemibold = TextStyle(
+  static const TextStyle semiBold14 = TextStyle(
     fontSize: 14,
-    fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle paragraphP414pxRegular = TextStyle(
+  static const TextStyle regular14 = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle paragraphP513pxSemibold = TextStyle(
+  static const TextStyle semiBold13 = TextStyle(
     fontSize: 13,
-    fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle paragraphP513pxRegular = TextStyle(
+  static const TextStyle regular13 = TextStyle(
     fontSize: 13,
     fontWeight: FontWeight.w400,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle captionCaption12pxSemibold = TextStyle(
+  static const TextStyle semiBold12 = TextStyle(
     fontSize: 12,
-    fontWeight: FontWeight.w700,
-    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w600,
   );
 
-  static const TextStyle captionCaption12pxMedium = TextStyle(
+  static const TextStyle medium12 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w500,
-    fontStyle: FontStyle.normal,
   );
 
-  static const TextStyle captionCaption12pxRegular = TextStyle(
+  static const TextStyle regular12 = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
-    fontStyle: FontStyle.normal,
   );
 }
