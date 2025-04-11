@@ -13,8 +13,8 @@ class ActiveItem extends StatelessWidget {
       children: [
         Container(
           width: 90,
-          height: 70,
-          padding: const EdgeInsets.only(top: 8, bottom: 6),
+          height: 80,
+          padding: const EdgeInsets.only(top: 2, bottom: 6),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -25,7 +25,7 @@ class ActiveItem extends StatelessWidget {
                 children: [
                   Container(
                     width: 64,
-                    height: 32,
+                    height: 50,
                     clipBehavior: Clip.antiAlias,
                     decoration: ShapeDecoration(
                       color: const Color(0xFFE0FFEA),
@@ -39,7 +39,7 @@ class ActiveItem extends StatelessWidget {
                       children: [
                         Container(
                           width: 20,
-                          height: 20,
+                          height: 32,
                           clipBehavior: Clip.antiAlias,
                           decoration: const BoxDecoration(),
                           child: Column(
@@ -52,11 +52,13 @@ class ActiveItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(title,
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.semiBold12.copyWith(
-                        color: AppColors.primary,
-                      )),
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.semiBold12.copyWith(
+                      color: AppColors.primary,
+                    ),
+                  ),
                 ],
               ),
             ],

@@ -1,5 +1,8 @@
 // lib/core/service/get_it_service.dart
 
+import 'package:deals/core/repos/implementation/notifications_permission_repo_impl.dart';
+import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
+import 'package:deals/core/service/notifications_permission_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:deals/core/repos/implementation/categories_repo_impl.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
@@ -97,11 +100,22 @@ void setupGetit() {
       localDataSource: getIt<NotificationsLocalDataSource>(),
     ),
   );
+  getIt.registerSingleton<NotificationsPermissionService>(
+    NotificationsPermissionService(),
+  );
+
+  // Now register the new repo that wraps the service
+  getIt.registerSingleton<NotificationsPermissionRepo>(
+    NotificationsPermissionRepoImpl(
+      service: getIt<NotificationsPermissionService>(),
+    ),
+  );
 }
 
-/// After a successful login, register NotificationsCubit as a singleton.
-/// Call this with the logged-in user's ID.
+/// Called after a successful login, if we want the cubit
+/// for that user's ID
 void registerNotificationsCubitSingleton(String userId) {
+  // Only register if not present
   if (!getIt.isRegistered<NotificationsCubit>()) {
     getIt.registerSingleton<NotificationsCubit>(
       NotificationsCubit(
@@ -112,8 +126,10 @@ void registerNotificationsCubitSingleton(String userId) {
   }
 }
 
-/// Optionally, unregister NotificationsCubit (for logout).
 void unregisterNotificationsCubitSingleton() {
+  // If it's registered, remove it.
+  // You can wrap in a check, or just call 'unregister' –
+  // but watch for if it's not registered at all.
   if (getIt.isRegistered<NotificationsCubit>()) {
     getIt.unregister<NotificationsCubit>();
   }

@@ -1,8 +1,7 @@
-// lib/core/helper_functions/app_router.dart
-
 import 'package:deals/constants.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
+import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:deals/features/auth/domain/entities/user_entity.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer_cubit/otp_resend_timer_cubit.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
@@ -59,7 +58,10 @@ class AppRouter {
         name: SigninView.routeName,
         builder: (context, state) {
           return BlocProvider(
-            create: (_) => SigninCubit(getIt.get<AuthRepo>()),
+            create: (_) => SigninCubit(
+              getIt.get<AuthRepo>(),
+              getIt.get<NotificationsPermissionRepo>(),
+            ),
             child: const SigninView(),
           );
         },
@@ -82,17 +84,14 @@ class AppRouter {
           final userEntity = state.extra as UserEntity?;
           if (userEntity == null) {
             return const Scaffold(
-              body: Center(child: Text('User data missing')),
-            );
+                body: Center(child: Text('User data missing')));
           }
           // Fallback check:
           if (!getIt.isRegistered<NotificationsCubit>()) {
             registerNotificationsCubitSingleton(userEntity.uId);
           }
-
           return MultiBlocProvider(
             providers: [
-              // e.g. CategoriesCubit
               BlocProvider.value(
                 value: getIt<NotificationsCubit>(),
               ),

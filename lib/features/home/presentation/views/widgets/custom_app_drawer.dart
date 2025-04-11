@@ -1,14 +1,17 @@
+// lib/features/home/presentation/views/widgets/custom_app_drawer.dart
+
+import 'package:deals/core/service/get_it_service.dart'; // for the getIt usage if needed
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/features/auth/presentation/views/signin_view.dart';
+import 'package:deals/features/home/presentation/manager/cubits/menu_cubit/menu_cubit.dart';
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';
 import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/core/widgets/app_version_text.dart';
-import 'package:deals/features/auth/domain/entities/user_entity.dart';
-import 'package:deals/features/auth/presentation/views/signin_view.dart';
-import 'package:deals/features/home/presentation/manager/cubits/menu_cubit/menu_cubit.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,14 +21,13 @@ class CustomAppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context); // For localized strings
+    final s = S.of(context);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Align(
       alignment: Alignment.topLeft,
       child: SizedBox(
-        // Drawer takes 80% width & 80% height
         height: screenHeight * 0.80,
         width: screenWidth * 0.80,
         child: Drawer(
@@ -40,46 +42,47 @@ class CustomAppDrawer extends StatelessWidget {
             children: [
               // 1) Header
               _buildDrawerHeader(context),
-              // 2) Body (Scrollable list of ListTiles)
+
+              // 2) Body (scrollable)
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    spacing: 10, // vertical spacing between children
+                    spacing: 10,
                     children: [
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesEarning,
+                        iconPath: 'assets/images/earning.svg',
                         text: s.earnings,
                         onTap: () {},
                       ),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesPersonalData,
+                        iconPath: 'assets/images/personal_data.svg',
                         text: s.personalData,
                         onTap: () {},
                       ),
                       _buildDivider(),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesTermsConditions,
+                        iconPath: 'assets/images/terms_conditions.svg',
                         text: s.termsAndConditions,
                         onTap: () {},
                       ),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesPrivacyIcon,
+                        iconPath: 'assets/images/privacy_icon.svg',
                         text: s.privacyPolicy,
                         onTap: () {},
                       ),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesSettings,
+                        iconPath: 'assets/images/settings.svg',
                         text: s.settings,
                         onTap: () {},
                       ),
                       _buildDivider(),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesHelp,
+                        iconPath: 'assets/images/help.svg',
                         text: s.help,
                         onTap: () {},
                       ),
                       _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesContact,
+                        iconPath: 'assets/images/contact.svg',
                         text: s.contactUs,
                         onTap: () {},
                       ),
@@ -87,7 +90,8 @@ class CustomAppDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-              // 3) Footer (Log Out + App Version)
+
+              // 3) Footer (Logout + version)
               BlocListener<MenuCubit, MenuState>(
                 listener: (context, state) {
                   if (state is MenuLogoutFailure) {
@@ -95,7 +99,7 @@ class CustomAppDrawer extends StatelessWidget {
                         context: context, message: state.message);
                   }
                   if (state is MenuLogoutSuccess) {
-                    // When logout is successful, navigate to SigninView and clear history.
+                    // user is now logged out => go to sign-in
                     context.goNamed(SigninView.routeName);
                   }
                 },
@@ -105,14 +109,17 @@ class CustomAppDrawer extends StatelessWidget {
                   textStyle:
                       AppTextStyles.bold14.copyWith(color: AppColors.accent),
                   onTap: () {
-                    context.read<MenuCubit>().logout(firebaseUid: userData.uId);
+                    context.read<MenuCubit>().logout(
+                          firebaseUid: userData.uId,
+                          authToken: userData.token,
+                        );
                   },
                 ),
               ),
               const SizedBox(height: 10),
               const Padding(
                 padding: EdgeInsets.only(bottom: 10),
-                child: AppVersionText(), // dynamically shows the app version
+                child: AppVersionText(),
               ),
             ],
           ),
@@ -121,14 +128,13 @@ class CustomAppDrawer extends StatelessWidget {
     );
   }
 
-  /// Builds the green header portion of the drawer
   Widget _buildDrawerHeader(BuildContext context) {
     return Container(
       color: AppColors.darkPrimary,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
       child: Column(
-        spacing: 4, // Space between name & email
+        spacing: 4,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -150,7 +156,6 @@ class CustomAppDrawer extends StatelessWidget {
     );
   }
 
-  /// Reusable ListTile builder for drawer items
   Widget _buildDrawerTile({
     required String iconPath,
     required String text,
@@ -168,7 +173,6 @@ class CustomAppDrawer extends StatelessWidget {
     );
   }
 
-  /// Thin divider with horizontal padding
   Widget _buildDivider() {
     return const Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),

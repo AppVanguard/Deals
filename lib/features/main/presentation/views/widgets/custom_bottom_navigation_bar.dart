@@ -17,7 +17,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 375, // You can change this to double.infinity if needed.
-      height: 80,
+      height: 90,
       decoration: const ShapeDecoration(
         color: AppColors.background,
         shape: RoundedRectangleBorder(

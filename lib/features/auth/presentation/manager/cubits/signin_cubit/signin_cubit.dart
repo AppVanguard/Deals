@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
@@ -12,9 +13,11 @@ import 'package:meta/meta.dart';
 part 'signin_state.dart';
 
 class SigninCubit extends Cubit<SigninState> {
-  SigninCubit(this.authRepo) : super(SigninInitial());
+  SigninCubit(this.authRepo, this.notificationsPermissionRepo)
+      : super(SigninInitial());
 
   final AuthRepo authRepo;
+  final NotificationsPermissionRepo notificationsPermissionRepo;
 
   Future<void> signInWithEmailAndPassword({
     required String email,
@@ -28,7 +31,7 @@ class SigninCubit extends Cubit<SigninState> {
     );
     result.fold(
       (failure) {
-        if (failure.message.contains(S.current.Emain_not_verified)) {
+        if (failure.message.contains(S.current.Email_not_verified)) {
           final userEntity = UserEntity(
             id: '',
             token: '',
@@ -120,22 +123,25 @@ class SigninCubit extends Cubit<SigninState> {
       log("Notifications already registered for this user: ${user.uId}");
       return;
     }
+
     final fcmToken = await FirebaseMessaging.instance.getToken();
     log("FCM token: $fcmToken");
     if (fcmToken != null && fcmToken.isNotEmpty) {
-      try {
-        final permissionService = NotificationsPermissionService();
-        await permissionService.allowNotifications(
-          firebaseUid: user.uId,
-          deviceToken: fcmToken,
-          authToken: user.token,
-        );
-        // Mark as registered so we don't repeat this call for the same account on this device.
-        Prefs.setBool(registrationKey, true);
-        log("Notifications registered successfully for user: ${user.uId}");
-      } catch (e) {
-        log("Error registering notifications for user: ${user.uId} -> $e");
-      }
+      // Now call the domain repo
+      final result = await notificationsPermissionRepo.allowNotifications(
+        firebaseUid: user.uId,
+        deviceToken: fcmToken,
+        authToken: user.token,
+      );
+      result.fold(
+        (failure) {
+          log("Error registering notifications for user: ${user.uId} -> ${failure.message}");
+        },
+        (_) {
+          Prefs.setBool(registrationKey, true);
+          log("Notifications registered successfully for user: ${user.uId}");
+        },
+      );
     } else {
       log("FCM token is null; unable to register notifications.");
     }
