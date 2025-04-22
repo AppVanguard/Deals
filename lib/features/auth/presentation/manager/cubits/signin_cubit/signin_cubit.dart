@@ -1,76 +1,81 @@
 import 'dart:developer';
-import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:deals/constants.dart';
+import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/features/auth/domain/entities/user_entity.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
-import 'package:deals/core/service/notifications_permission_service.dart';
-import 'package:deals/generated/l10n.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:deals/generated/l10n.dart';
+
 part 'signin_state.dart';
 
 class SigninCubit extends Cubit<SigninState> {
-  SigninCubit(this.authRepo, this.notificationsPermissionRepo)
+  SigninCubit(this._authRepo, this._notificationsPermissionRepo)
       : super(SigninInitial());
 
-  final AuthRepo authRepo;
-  final NotificationsPermissionRepo notificationsPermissionRepo;
+  final AuthRepo _authRepo;
+  final NotificationsPermissionRepo _notificationsPermissionRepo;
 
+  // ──────────────── public helpers ────────────────
+  void clearError() => emit(SigninResetError());
+
+  // ──────────────── email / pass ────────────────
   Future<void> signInWithEmailAndPassword({
     required String email,
     required String password,
     required bool rememberMe,
   }) async {
     emit(SigninLoading());
-    final result = await authRepo.signInWithEmailAndPassword(
+
+    final result = await _authRepo.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
+
     result.fold(
       (failure) {
         if (failure.message.contains(S.current.Email_not_verified)) {
-          final userEntity = UserEntity(
-            id: '',
-            token: '',
-            uId: '',
-            email: email,
-            name: '',
-            phone: '',
-          );
           emit(SigninOtpRequired(
-              userEntity: userEntity, message: failure.message));
+            userEntity: UserEntity(
+              id: '',
+              token: '',
+              uId: '',
+              email: email,
+              name: '',
+              phone: '',
+            ),
+            message: failure.message,
+          ));
         } else {
           emit(SigninFailure(message: failure.message));
         }
       },
       (user) async {
-        if (rememberMe) {
-          log('Remember me is true');
-          // Save user data securely
+        if (rememberMe)
           await SecureStorageService.saveUserEntity(user.toJson());
-        }
         Prefs.setBool(kRememberMe, rememberMe);
+
         emit(SigninSuccess(
             userEntity: user, message: S.current.SuccessSigningIn));
 
-        // Register notifications for this account on this device if not already registered.
         await _registerNotifications(user);
       },
     );
   }
 
+  // ──────────────── Google ────────────────
   Future<void> signInWithGoogle({required bool rememberMe}) async {
     emit(SigninLoading());
-    final result = await authRepo.signInWithGoogle();
+    final result = await _authRepo.signInWithGoogle();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        if (rememberMe) {
+        if (rememberMe)
           await SecureStorageService.saveUserEntity(user.toJson());
-        }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(
             userEntity: user, message: S.current.SuccessSigningIn));
@@ -79,15 +84,15 @@ class SigninCubit extends Cubit<SigninState> {
     );
   }
 
+  // ──────────────── Facebook ────────────────
   Future<void> signInWithFacebook({required bool rememberMe}) async {
     emit(SigninLoading());
-    final result = await authRepo.signInWithFacebook();
+    final result = await _authRepo.signInWithFacebook();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        if (rememberMe) {
+        if (rememberMe)
           await SecureStorageService.saveUserEntity(user.toJson());
-        }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(
             userEntity: user, message: S.current.SuccessSigningIn));
@@ -96,15 +101,15 @@ class SigninCubit extends Cubit<SigninState> {
     );
   }
 
+  // ──────────────── Apple ────────────────
   Future<void> signInWithApple({required bool rememberMe}) async {
     emit(SigninLoading());
-    final result = await authRepo.signInWithApple();
+    final result = await _authRepo.signInWithApple();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        if (rememberMe) {
+        if (rememberMe)
           await SecureStorageService.saveUserEntity(user.toJson());
-        }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(
             userEntity: user, message: S.current.SuccessSigningIn));
@@ -113,37 +118,26 @@ class SigninCubit extends Cubit<SigninState> {
     );
   }
 
-  /// Private helper to register push notifications for the current user.
-  /// This will retrieve the FCM token and call the backend allow endpoint.
-  /// Registration occurs only once per account on this device.
+  // ──────────────── private ────────────────
   Future<void> _registerNotifications(UserEntity user) async {
-    final String registrationKey = "notificationsRegistered_${user.uId}";
-    final alreadyRegistered = Prefs.getBool(registrationKey) ?? false;
-    if (alreadyRegistered) {
-      log("Notifications already registered for this user: ${user.uId}");
-      return;
-    }
+    final key = 'notificationsRegistered_${user.uId}';
+    if (Prefs.getBool(key) ?? false) return;
 
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    log("FCM token: $fcmToken");
-    if (fcmToken != null && fcmToken.isNotEmpty) {
-      // Now call the domain repo
-      final result = await notificationsPermissionRepo.allowNotifications(
-        firebaseUid: user.uId,
-        deviceToken: fcmToken,
-        authToken: user.token,
-      );
-      result.fold(
-        (failure) {
-          log("Error registering notifications for user: ${user.uId} -> ${failure.message}");
-        },
-        (_) {
-          Prefs.setBool(registrationKey, true);
-          log("Notifications registered successfully for user: ${user.uId}");
-        },
-      );
-    } else {
-      log("FCM token is null; unable to register notifications.");
-    }
+    final token = await FirebaseMessaging.instance.getToken();
+    if (token == null || token.isEmpty) return;
+
+    final res = await _notificationsPermissionRepo.allowNotifications(
+      firebaseUid: user.uId,
+      deviceToken: token,
+      authToken: user.token,
+    );
+
+    res.fold(
+      (f) => log('Notification error: ${f.message}'),
+      (_) {
+        Prefs.setBool(key, true);
+        log('Notifications registered for ${user.uId}');
+      },
+    );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:deals/core/widgets/error_banner.dart';
+import 'package:deals/core/widgets/v_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/constants.dart';
@@ -14,10 +16,18 @@ import 'package:deals/features/auth/presentation/views/widgets/auth_divider.dart
 import 'package:deals/features/auth/presentation/views/widgets/remember_password.dart';
 import 'package:deals/features/auth/presentation/views/widgets/third_party_auth.dart';
 import 'package:deals/generated/l10n.dart';
+
 import 'package:go_router/go_router.dart';
 
 class SigninViewBody extends StatefulWidget {
-  const SigninViewBody({super.key});
+  const SigninViewBody({
+    super.key,
+    required this.serverError,
+    required this.onTyping,
+  });
+
+  final String? serverError;
+  final VoidCallback onTyping;
 
   @override
   State<SigninViewBody> createState() => _SigninViewBodyState();
@@ -25,93 +35,88 @@ class SigninViewBody extends StatefulWidget {
 
 class _SigninViewBodyState extends State<SigninViewBody> {
   late String email, password;
-  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  late GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  late bool rememberMe = false;
+  final formKey = GlobalKey<FormState>();
+  bool rememberMe = false;
 
   @override
   Widget build(BuildContext context) {
+    final hasError = widget.serverError != null;
+
     return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Form(
         key: formKey,
-        autovalidateMode: autovalidateMode,
         child: Column(
-          spacing: 20,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 76),
-            Text(
-              appTittle,
-              style: AppTextStyles.bold46.copyWith(
-                color: AppColors.primary,
-              ),
+            const VGap(76),
+            Center(
+              child: Text(appTittle,
+                  style:
+                      AppTextStyles.bold46.copyWith(color: AppColors.primary)),
             ),
-            const SizedBox(),
+            const VGap(32),
+            if (hasError) ErrorBanner(message: widget.serverError!),
             CustomTextFormField(
-              onSaved: (value) => email = value!,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return S.of(context).EPValidator;
-                }
-                return null;
-              },
-              hintText: S.of(context).EmailOrPhone,
               textInputType: TextInputType.text,
+              onSaved: (v) => email = v!,
+              onChanged: (_) => widget.onTyping(),
+              validator: (v) =>
+                  (v == null || v.isEmpty) ? S.of(context).EPValidator : null,
+              hintText: S.of(context).EmailOrPhone,
               label: S.of(context).Email,
+              borderColor: hasError ? Colors.red : null,
             ),
+            const VGap(20),
             CustomPasswordField(
-              onSaved: (value) => password = value!,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return S.of(context).PasswordValidator;
-                }
-                return null;
-              },
+              onSaved: (v) => password = v!,
+              onChanged: (_) => widget.onTyping(),
+              validator: (v) => (v == null || v.isEmpty)
+                  ? S.of(context).PasswordValidator
+                  : null,
               label: S.of(context).Password,
+              borderColor: hasError ? Colors.red : null,
             ),
+            const VGap(12),
             RememberPassword(
-              onTap: () {
-                context.pushNamed(ForgetPasswordView.routeName);
-              },
-              onChecked: (value) {
-                rememberMe = value;
-              },
+              onChecked: (v) => rememberMe = v,
+              onTap: () => context.pushNamed(ForgetPasswordView.routeName),
             ),
+            const VGap(24),
             CustomButton(
               width: double.infinity,
+              text: S.of(context).Login,
               onPressed: () {
                 if (formKey.currentState!.validate()) {
                   formKey.currentState!.save();
                   context.read<SigninCubit>().signInWithEmailAndPassword(
-                        rememberMe: rememberMe,
                         email: email,
                         password: password,
+                        rememberMe: rememberMe,
                       );
                 }
               },
-              text: S.of(context).Login,
             ),
-            AuthDivider(
-              text: S.of(context).LoginWith,
-            ),
-            ThirdPartyAuth(
-              googleOnTap: () {
-                context
+            const VGap(32),
+            AuthDivider(text: S.of(context).LoginWith),
+            const VGap(24),
+            Center(
+              child: ThirdPartyAuth(
+                googleOnTap: () => context
                     .read<SigninCubit>()
-                    .signInWithGoogle(rememberMe: rememberMe);
-              },
-              facebookOnTap: () {
-                context
+                    .signInWithGoogle(rememberMe: rememberMe),
+                facebookOnTap: () => context
                     .read<SigninCubit>()
-                    .signInWithFacebook(rememberMe: rememberMe);
-              },
+                    .signInWithFacebook(rememberMe: rememberMe),
+              ),
             ),
+            const VGap(24),
             HaveOrNotAccount(
-              onTap: () {
-                context.pushNamed(SignupView.routeName);
-              },
               question: S.of(context).DontHaveAccount,
               action: S.of(context).createAccount,
-            )
+              onTap: () => context.pushNamed(SignupView.routeName),
+            ),
+            const VGap(32),
           ],
         ),
       ),

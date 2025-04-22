@@ -7,14 +7,16 @@ class CustomTextFormField extends StatelessWidget {
     super.key,
     required this.hintText,
     required this.textInputType,
+    required this.label,
+    required this.validator,
     this.suffixIcon,
     this.onSaved,
     this.obscureText = false,
-    required this.label,
-    required this.validator,
     this.onChanged,
     this.onFieldSubmitted,
+    this.borderColor, // NEW
   });
+
   final bool obscureText;
   final String hintText, label;
   final TextInputType textInputType;
@@ -23,45 +25,44 @@ class CustomTextFormField extends StatelessWidget {
   final String? Function(String?) validator;
   final void Function(String)? onChanged;
   final void Function(String)? onFieldSubmitted;
+  final Color? borderColor; // NEW
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: AppTextStyles.regular14.copyWith(color: AppColors.text),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label,
+            style: AppTextStyles.regular14.copyWith(color: AppColors.text)),
+        TextFormField(
+          keyboardType: textInputType,
+          obscureText: obscureText,
+          validator: validator,
+          onSaved: onSaved,
+          onChanged: onChanged,
+          onFieldSubmitted: onFieldSubmitted,
+          decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: AppTextStyles.regular13
+                .copyWith(color: const Color(0xff949d9e)),
+            suffixIcon: suffixIcon,
+            border: _buildBorder(),
+            enabledBorder: _buildBorder(),
+            focusedBorder: _buildBorder(isFocused: true),
+            errorBorder: _buildBorder(color: Colors.red),
+            focusedErrorBorder:
+                _buildBorder(color: Colors.red, isFocused: true),
           ),
-          TextFormField(
-            onFieldSubmitted: onFieldSubmitted,
-            onChanged: onChanged,
-            obscureText: obscureText,
-            onSaved: onSaved,
-            validator: validator,
-            keyboardType: textInputType,
-            decoration: InputDecoration(
-              suffixIcon: suffixIcon,
-              hintStyle: AppTextStyles.regular13
-                  .copyWith(color: const Color(0xff949d9e)),
-              hintText: hintText,
-              // filled: true,
-              // fillColor: const Color(0xfff9fafa),
-              border: buildBorder(),
-              enabledBorder: buildBorder(),
-              focusedBorder: buildBorder(),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
-  OutlineInputBorder buildBorder() {
+  OutlineInputBorder _buildBorder({Color? color, bool isFocused = false}) {
+    final c = color ?? borderColor ?? const Color(0xffd7d9d9);
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: c, width: isFocused ? 1.8 : 1.2),
     );
   }
 }
