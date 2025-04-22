@@ -53,7 +53,7 @@ class OTPVeficationBlocConsumer extends StatelessWidget {
                 );
               } else {
                 // e.g. PersonalDataView.routeName or any other route
-                context.goNamed(
+                context.pushNamed(
                   path,
                   extra: state.userEntity!.uId,
                 );

@@ -24,7 +24,7 @@ class SignupBlocConsumer extends StatelessWidget {
         if (state is SignupSuccess) {
           log(state.userEntity.uId);
           // Pass a map containing the user data
-          context.goNamed(
+          context.pushNamed(
             OtpVerficationView.routeName,
             extra: {
               kEmail: state.userEntity.email,

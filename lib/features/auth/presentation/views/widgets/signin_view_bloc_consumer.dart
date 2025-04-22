@@ -26,7 +26,7 @@ class SigninViewBlocConsumer extends StatelessWidget {
             serverError = null;
           case SigninOtpRequired():
             serverError = state.message; // نظهر الخطأ + انتقل لـ OTP
-            context.goNamed(OtpVerficationView.routeName, extra: {
+            context.pushNamed(OtpVerficationView.routeName, extra: {
               kEmail: state.userEntity.email,
               kImage: AppImages.assetsImagesOTB,
               kNextRoute: SigninView.routeName,
