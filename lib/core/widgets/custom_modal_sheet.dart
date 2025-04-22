@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:deals/core/widgets/custom_button.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomModalSheet extends StatelessWidget {
   final String message;
@@ -102,7 +103,7 @@ class CustomModalSheet extends StatelessWidget {
             buttonRadius: 32,
             width: double.infinity,
             onPressed: () {
-              Navigator.pop(context);
+              context.pop();
               onTap();
             },
             text: buttonText,

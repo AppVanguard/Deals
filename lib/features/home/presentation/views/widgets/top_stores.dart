@@ -1,18 +1,22 @@
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
+import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/features/home/domain/entities/store_entity.dart';
+import 'package:deals/core/entities/store_entity.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:cached_network_image/cached_network_image.dart'; // <-- new
 
 class TopStores extends StatefulWidget {
   final List<StoreEntity> stores;
   final bool isLoading;
 
   const TopStores({
-    Key? key,
+    super.key,
     required this.stores,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   State<TopStores> createState() => _TopStoresState();
@@ -71,7 +75,7 @@ class _TopStoresState extends State<TopStores> {
                         padding: const EdgeInsets.only(right: 16.0),
                         child: _StoreCard(
                           store: localIsLoading
-                              ? StoreEntity(
+                              ? const StoreEntity(
                                   id: '',
                                   title: '',
                                   storeUrl: '',
@@ -99,7 +103,7 @@ class _TopStoresState extends State<TopStores> {
                           padding: const EdgeInsets.only(right: 16.0),
                           child: _StoreCard(
                             store: localIsLoading
-                                ? StoreEntity(
+                                ? const StoreEntity(
                                     id: '',
                                     title: '',
                                     storeUrl: '',
@@ -137,26 +141,45 @@ class _StoreCard extends StatelessWidget {
       enabled: isLoading,
       child: Column(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            height: 90,
-            decoration: BoxDecoration(
-              color: AppColors.tertiaryText,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image.network(
-                store.imageUrl ?? '',
-                fit: BoxFit.fitHeight,
-                errorBuilder: (context, error, stackTrace) =>
-                    Image.asset(AppImages.assetsImagesTest1, fit: BoxFit.fill),
+          GestureDetector(
+            onTap: () {
+              context.pushNamed(
+                StoreDetailView.routeName,
+                extra: store.id,
+              );
+            },
+            child: Container(
+              width: 150,
+              height: 90,
+              decoration: BoxDecoration(
+                color: AppColors.tertiaryText,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: CachedNetworkImage(
+                  imageUrl: store.imageUrl ?? '',
+                  width: 150,
+                  height: 90,
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) => Skeletonizer(
+                    child: Container(
+                      width: 150,
+                      height: 90,
+                      color: AppColors.lightGray,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Image.asset(
+                    AppImages.assetsImagesTest3,
+                    fit: BoxFit.fill,
+                  ),
+                ),
               ),
             ),
           ),
-          const Text(
-            "Up to 10% Cashback",
-            style: TextStyle(color: AppColors.accent),
+          Text(
+            "${S.of(context).upTo} ${store.cashBackRate}% ${S.of(context).cashBack}",
+            style: const TextStyle(color: AppColors.accent),
           ),
         ],
       ),

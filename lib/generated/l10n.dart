@@ -1150,6 +1150,16 @@ class S {
     );
   }
 
+  /// `Stores`
+  String get Stores {
+    return Intl.message(
+      'Stores',
+      name: 'Stores',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Profile`
   String get Profile {
     return Intl.message(
@@ -1381,10 +1391,470 @@ class S {
   }
 
   /// `Email not verified`
-  String get Emain_not_verified {
+  String get Email_not_verified {
     return Intl.message(
       'Email not verified',
-      name: 'Emain_not_verified',
+      name: 'Email_not_verified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filters`
+  String get Filters {
+    return Intl.message(
+      'Filters',
+      name: 'Filters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ordered by`
+  String get Ordered_by {
+    return Intl.message(
+      'Ordered by',
+      name: 'Ordered_by',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Offers`
+  String get Offers {
+    return Intl.message(
+      'Offers',
+      name: 'Offers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show Results`
+  String get ShowResults {
+    return Intl.message(
+      'Show Results',
+      name: 'ShowResults',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset`
+  String get Reset {
+    return Intl.message(
+      'Reset',
+      name: 'Reset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get All {
+    return Intl.message(
+      'All',
+      name: 'All',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Oops, something went wrong!`
+  String get SomethingWentWrongError {
+    return Intl.message(
+      'Oops, something went wrong!',
+      name: 'SomethingWentWrongError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get Retry {
+    return Intl.message(
+      'Retry',
+      name: 'Retry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No deals found`
+  String get NoDeals {
+    return Intl.message(
+      'No deals found',
+      name: 'NoDeals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No stores found`
+  String get NoStores {
+    return Intl.message(
+      'No stores found',
+      name: 'NoStores',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No coupons found`
+  String get NoCoupons {
+    return Intl.message(
+      'No coupons found',
+      name: 'NoCoupons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No categories found`
+  String get NoCategories {
+    return Intl.message(
+      'No categories found',
+      name: 'NoCategories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No bookmarks found`
+  String get NoBookmarks {
+    return Intl.message(
+      'No bookmarks found',
+      name: 'NoBookmarks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No search results found`
+  String get NoSearchResults {
+    return Intl.message(
+      'No search results found',
+      name: 'NoSearchResults',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No filter results found`
+  String get NoFilterResults {
+    return Intl.message(
+      'No filter results found',
+      name: 'NoFilterResults',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No internet connection`
+  String get NoInternetConnection {
+    return Intl.message(
+      'No internet connection',
+      name: 'NoInternetConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Oops, no internet connection!`
+  String get NoInternetConnectionError {
+    return Intl.message(
+      'Oops, no internet connection!',
+      name: 'NoInternetConnectionError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We encountered an unexpected error while processing your request.`
+  String get UnexpectedError {
+    return Intl.message(
+      'We encountered an unexpected error while processing your request.',
+      name: 'UnexpectedError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An unexpected error has occurred. Please try again later.`
+  String get UnexpectedErrorRetry {
+    return Intl.message(
+      'An unexpected error has occurred. Please try again later.',
+      name: 'UnexpectedErrorRetry',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error Code: 500 - Internal Server Error`
+  String get InternalServerError {
+    return Intl.message(
+      'Error Code: 500 - Internal Server Error',
+      name: 'InternalServerError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If the issue persists, please contact our support team.`
+  String get ContactSupportForFailure {
+    return Intl.message(
+      'If the issue persists, please contact our support team.',
+      name: 'ContactSupportForFailure',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cashback rate :`
+  String get CashBackRate {
+    return Intl.message(
+      'Cashback rate :',
+      name: 'CashBackRate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Up to`
+  String get upTo {
+    return Intl.message(
+      'Up to',
+      name: 'upTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cashback`
+  String get cashBack {
+    return Intl.message(
+      'cashback',
+      name: 'cashBack',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cashback terms`
+  String get cashbackTerms {
+    return Intl.message(
+      'Cashback terms',
+      name: 'cashbackTerms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No cashback terms available`
+  String get noCashbackTermsAvailable {
+    return Intl.message(
+      'No cashback terms available',
+      name: 'noCashbackTermsAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop now and get `
+  String get shopNowAndGet {
+    return Intl.message(
+      'Shop now and get ',
+      name: 'shopNowAndGet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Shop now`
+  String get shopNow {
+    return Intl.message(
+      'Shop now',
+      name: 'shopNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `cashback`
+  String get cashback {
+    return Intl.message(
+      'cashback',
+      name: 'cashback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cashback`
+  String get CashbackC {
+    return Intl.message(
+      'Cashback',
+      name: 'CashbackC',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `is Activated now!`
+  String get isActivatedNow {
+    return Intl.message(
+      'is Activated now!',
+      name: 'isActivatedNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue to`
+  String get continueTo {
+    return Intl.message(
+      'Continue to',
+      name: 'continueTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get Code`
+  String get getCode {
+    return Intl.message(
+      'Get Code',
+      name: 'getCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy code`
+  String get copyCode {
+    return Intl.message(
+      'Copy code',
+      name: 'copyCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expired`
+  String get Expired {
+    return Intl.message(
+      'Expired',
+      name: 'Expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expires in`
+  String get ExpiresIn {
+    return Intl.message(
+      'Expires in',
+      name: 'ExpiresIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `day`
+  String get day {
+    return Intl.message(
+      'day',
+      name: 'day',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `days`
+  String get days {
+    return Intl.message(
+      'days',
+      name: 'days',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupons`
+  String get Coupons {
+    return Intl.message(
+      'Coupons',
+      name: 'Coupons',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coupon`
+  String get Coupon {
+    return Intl.message(
+      'Coupon',
+      name: 'Coupon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `off`
+  String get off {
+    return Intl.message(
+      'off',
+      name: 'off',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get`
+  String get Get {
+    return Intl.message(
+      'Get',
+      name: 'Get',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Valid until`
+  String get ValidUntil {
+    return Intl.message(
+      'Valid until',
+      name: 'ValidUntil',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Extra discount to`
+  String get ExtraDiscountTo {
+    return Intl.message(
+      'Extra discount to',
+      name: 'ExtraDiscountTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notifications`
+  String get Notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'Notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No notifications.`
+  String get NoNotifications {
+    return Intl.message(
+      'No notifications.',
+      name: 'NoNotifications',
       desc: '',
       args: [],
     );

@@ -11,6 +11,7 @@ import 'package:deals/features/auth/presentation/views/widgets/auth_divider.dart
 import 'package:deals/features/auth/presentation/views/widgets/custom_phone_field.dart';
 import 'package:deals/features/auth/presentation/views/widgets/third_party_auth.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
 class SignupViewBody extends StatefulWidget {
@@ -35,14 +36,14 @@ class _SignupViewBodyState extends State<SignupViewBody> {
         child: Column(
           spacing: 20,
           children: [
-            SizedBox(),
+            const SizedBox(),
             Center(
               child: Text(
                 S.of(context).CreateNewAccount,
                 style: AppTextStyles.bold18,
               ),
             ),
-            SizedBox(),
+            const SizedBox(),
             CustomTextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -170,12 +171,12 @@ class _SignupViewBodyState extends State<SignupViewBody> {
             ),
             HaveOrNotAccount(
               onTap: () {
-                Navigator.pop(context);
+                context.pop();
               },
               question: S.of(context).AlreadyHaveAccount,
               action: S.of(context).Login,
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
           ],
         ),
       ),

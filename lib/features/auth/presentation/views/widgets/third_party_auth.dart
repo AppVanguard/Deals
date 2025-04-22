@@ -9,7 +9,6 @@ class ThirdPartyAuth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       spacing: 20,
       children: [

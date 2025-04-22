@@ -1,36 +1,20 @@
-// home_state.dart (part of 'home_cubit.dart')
 part of 'home_cubit.dart';
 
-enum HomeStatus { initial, loading, success, error }
+@immutable
+abstract class HomeState {}
 
-class HomeState {
-  final HomeStatus status;
-  final HomeEntity? homeEntity;
-  final String? errorMessage;
+class HomeInitial extends HomeState {}
 
-  const HomeState({
-    required this.status,
-    this.homeEntity,
-    this.errorMessage,
+class HomeLoading extends HomeState {}
+
+class HomeSuccess extends HomeState {
+  final HomeEntity homeEntity;
+  HomeSuccess({
+    required this.homeEntity,
   });
+}
 
-  factory HomeState.initial() {
-    return const HomeState(
-      status: HomeStatus.initial,
-      homeEntity: null,
-      errorMessage: null,
-    );
-  }
-
-  HomeState copyWith({
-    HomeStatus? status,
-    HomeEntity? homeEntity,
-    String? errorMessage,
-  }) {
-    return HomeState(
-      status: status ?? this.status,
-      homeEntity: homeEntity ?? this.homeEntity,
-      errorMessage: errorMessage,
-    );
-  }
+class HomeFailure extends HomeState {
+  final String errorMessage;
+  HomeFailure({required this.errorMessage});
 }

@@ -4,17 +4,18 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:deals/features/home/domain/entities/announcement_entity.dart';
+import 'package:deals/core/entities/announcement_entity.dart';
+import 'package:cached_network_image/cached_network_image.dart'; // <-- new
 
 class SalesCarousel extends StatefulWidget {
   final List<AnnouncementEntity> announcements;
   final bool isLoading;
 
   const SalesCarousel({
-    Key? key,
+    super.key,
     required this.announcements,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   @override
   State<SalesCarousel> createState() => _SalesCarouselState();
@@ -30,17 +31,16 @@ class _SalesCarouselState extends State<SalesCarousel> {
   List<AnnouncementEntity> get displayAnnouncements {
     if (widget.announcements.isEmpty || widget.isLoading) {
       return List.generate(
-          4,
-          (_) => AnnouncementEntity(
-                id: '',
-                imageUrl: '',
-                title: '',
-                createdAt: '',
-                updatedAt: '',
-                deletedAt: '',
-                description: '',
-                isActive: false,
-              ));
+        4,
+        (_) => const AnnouncementEntity(
+          id: '',
+          imageUrl: '',
+          title: '',
+          deletedAt: '',
+          description: '',
+          isActive: false,
+        ),
+      );
     }
     return widget.announcements;
   }
@@ -131,12 +131,20 @@ class _SalesCarouselState extends State<SalesCarousel> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
-                      child: Image.network(
-                        ann.imageUrl ?? '',
+                      child: CachedNetworkImage(
+                        imageUrl: ann.imageUrl ?? '',
                         fit: BoxFit.cover,
-                        errorBuilder: (ctx, obj, st) => Image.asset(
-                            AppImages.assetsImagesTest3,
-                            fit: BoxFit.fill),
+                        placeholder: (ctx, url) => Skeletonizer(
+                          child: Container(
+                            width: 313,
+                            height: 146,
+                            color: AppColors.lightGray,
+                          ),
+                        ),
+                        errorWidget: (ctx, url, error) => Image.asset(
+                          AppImages.assetsImagesTest3,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
                   ),

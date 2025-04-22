@@ -14,6 +14,7 @@ import 'package:deals/features/auth/presentation/views/widgets/auth_divider.dart
 import 'package:deals/features/auth/presentation/views/widgets/remember_password.dart';
 import 'package:deals/features/auth/presentation/views/widgets/third_party_auth.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 class SigninViewBody extends StatefulWidget {
   const SigninViewBody({super.key});
@@ -37,14 +38,14 @@ class _SigninViewBodyState extends State<SigninViewBody> {
         child: Column(
           spacing: 20,
           children: [
-            SizedBox(height: 76),
+            const SizedBox(height: 76),
             Text(
               appTittle,
               style: AppTextStyles.bold46.copyWith(
                 color: AppColors.primary,
               ),
             ),
-            SizedBox(),
+            const SizedBox(),
             CustomTextFormField(
               onSaved: (value) => email = value!,
               validator: (value) {
@@ -69,7 +70,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             ),
             RememberPassword(
               onTap: () {
-                Navigator.pushNamed(context, ForgetPasswordView.routeName);
+                context.pushNamed(ForgetPasswordView.routeName);
               },
               onChecked: (value) {
                 rememberMe = value;
@@ -106,7 +107,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             ),
             HaveOrNotAccount(
               onTap: () {
-                Navigator.pushNamed(context, SignupView.routeName);
+                context.pushNamed(SignupView.routeName);
               },
               question: S.of(context).DontHaveAccount,
               action: S.of(context).createAccount,

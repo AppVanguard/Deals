@@ -1,6 +1,6 @@
-import 'package:deals/features/home/domain/entities/announcement_entity.dart';
-import 'package:deals/features/home/domain/entities/coupon_entity.dart';
-import 'package:deals/features/home/domain/entities/store_entity.dart';
+import 'package:deals/core/entities/announcement_entity.dart';
+import 'package:deals/core/entities/coupon_entity.dart';
+import 'package:deals/core/entities/store_entity.dart';
 
 class HomeEntity {
   final List<AnnouncementEntity> announcements;

@@ -3,7 +3,8 @@ import 'package:deals/features/on_boarding/presentation/views/widgets/on_boardin
 
 class OnBoardingView extends StatelessWidget {
   const OnBoardingView({super.key});
-  static const String routeName = 'onBoarding';
+  static const String routeName = '/onBoarding';
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

@@ -34,6 +34,7 @@ class AuthRepoImpl extends AuthRepo {
         password: password,
       );
       final userEntity = UserEntity(
+        id: BackendEndpoints.kId,
         token: '',
         uId: userResponse[BackendEndpoints.keyUserId],
         email: userResponse[BackendEndpoints.keyEmail] ?? email,
@@ -64,6 +65,7 @@ class AuthRepoImpl extends AuthRepo {
       log('Token: $token');
       final userResponse = await authApiService.sendOAuthToken(token: token!);
       final userEntity = UserEntity(
+        id: userResponse[BackendEndpoints.kId],
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? email,
@@ -87,6 +89,7 @@ class AuthRepoImpl extends AuthRepo {
     try {
       user = await firebaseAuthService.signInWithGoogle();
       // final userEntity = UserEntity(
+      //   token: '',
       //   uId: user.uid,
       //   email: user.email ?? '',
       //   name: user.displayName ?? '',
@@ -96,6 +99,7 @@ class AuthRepoImpl extends AuthRepo {
       log('Token: $token');
       final userResponse = await authApiService.sendOAuthToken(token: token!);
       final userEntity = UserEntity(
+        id: userResponse[BackendEndpoints.kId],
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
@@ -106,10 +110,10 @@ class AuthRepoImpl extends AuthRepo {
       );
       return right(userEntity);
     } on CustomExeption catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       log('Error in signInWithGoogle: ${e.toString()}');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
@@ -123,6 +127,7 @@ class AuthRepoImpl extends AuthRepo {
       final token = await user.getIdToken();
       final userResponse = await authApiService.sendOAuthToken(token: token!);
       final userEntity = UserEntity(
+        id: userResponse[BackendEndpoints.kId],
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
@@ -133,10 +138,10 @@ class AuthRepoImpl extends AuthRepo {
       );
       return right(userEntity);
     } on CustomExeption catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       log('Error in signInWithFacebook: ${e.toString()}');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
@@ -150,6 +155,7 @@ class AuthRepoImpl extends AuthRepo {
       final token = await user.getIdToken();
       final userResponse = await authApiService.sendOAuthToken(token: token!);
       final userEntity = UserEntity(
+        id: userResponse[BackendEndpoints.kId],
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
@@ -160,10 +166,10 @@ class AuthRepoImpl extends AuthRepo {
       );
       return right(userEntity);
     } on CustomExeption catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      await deleteUser(user);
+      // await deleteUser(user);
       log('Error in signInWithApple: ${e.toString()}');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
@@ -177,6 +183,7 @@ class AuthRepoImpl extends AuthRepo {
     try {
       final response = await authApiService.sendOtp(email: email, otp: otp);
       final userEntity = UserEntity(
+        id: response.id,
         token: '',
         uId: response.uId,
         email: response.email,

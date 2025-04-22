@@ -1,3 +1,5 @@
+import 'package:deals/features/coupons/presentation/views/coupon_view.dart';
+import 'package:deals/features/stores/presentation/views/stores_view.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
@@ -6,6 +8,7 @@ import 'package:deals/features/home/presentation/views/widgets/sales_carousel.da
 import 'package:deals/features/home/presentation/views/widgets/top_coupons.dart';
 import 'package:deals/features/home/presentation/views/widgets/top_stores.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeContent extends StatelessWidget {
   final HomeEntity? homeEntity;
@@ -57,17 +60,21 @@ class HomeContent extends StatelessWidget {
                   S.of(context).Top_stores,
                   style: AppTextStyles.bold18,
                 ),
-                Text(
-                  S.of(context).See_All,
-                  style: AppTextStyles.regular14.copyWith(
-                    color: AppColors.primary,
+                GestureDetector(
+                  onTap: () {
+                    context.pushNamed(StoresView.routeName);
+                  },
+                  child: Text(
+                    S.of(context).See_All,
+                    style: AppTextStyles.regular14.copyWith(
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
         ),
-        // Our custom widget for stores
         TopStores(
           stores: stores,
           isLoading: isLoading,
@@ -83,10 +90,15 @@ class HomeContent extends StatelessWidget {
                   S.of(context).Top_coupons,
                   style: AppTextStyles.bold18,
                 ),
-                Text(
-                  S.of(context).See_All,
-                  style: AppTextStyles.regular14.copyWith(
-                    color: AppColors.primary,
+                GestureDetector(
+                  onTap: () {
+                    context.pushNamed(CouponView.routeName);
+                  },
+                  child: Text(
+                    S.of(context).See_All,
+                    style: AppTextStyles.regular14.copyWith(
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
               ],
@@ -97,8 +109,8 @@ class HomeContent extends StatelessWidget {
           coupons: coupons,
           isLoading: isLoading,
         ),
-        SliverToBoxAdapter(
-          child: const SizedBox(height: 24),
+        const SliverToBoxAdapter(
+          child: SizedBox(height: 24),
         ),
       ],
     );

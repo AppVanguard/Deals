@@ -1,3 +1,4 @@
+import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/service/get_it_service.dart';
@@ -17,7 +18,10 @@ class CustomAppDrawerBlocProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MenuCubit(menuRepo: getIt.get<MenuRepo>()),
+      create: (context) => MenuCubit(
+          menuRepo: getIt.get<MenuRepo>(),
+          notificationsPermissionRepo:
+              getIt.get<NotificationsPermissionRepo>()),
       child: CustomAppDrawer(
         userData: userData,
       ),

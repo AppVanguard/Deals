@@ -7,6 +7,7 @@ import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart
 import 'package:deals/features/auth/presentation/views/reset_password_view.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:deals/features/auth/presentation/views/widgets/forget_password_view_body.dart';
+import 'package:go_router/go_router.dart';
 
 class ForgetPasswordBlocConsumer extends StatefulWidget {
   const ForgetPasswordBlocConsumer({super.key});
@@ -26,17 +27,15 @@ class _ForgetPasswordBlocConsumerState
       listener: (context, state) {
         if (state is ResetPasswordEmailSent) {
           if (email != null) {
-            Navigator.pushNamed(
-              context,
+            context.pushNamed(
               OtpVerficationView.routeName,
-              arguments: {
+              extra: {
                 kEmail: email!,
                 kImage: AppImages.assetsImagesOTB,
-                // Next route is the reset password screen.
                 kNextRoute: ResetPasswordView.routeName,
                 // Passing the API's returned message (or OTP) as kId.
                 kId: state.message,
-                kIsRegister: false
+                kIsRegister: false,
               },
             );
           }

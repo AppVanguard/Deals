@@ -29,7 +29,6 @@ class CustomPhoneField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -42,7 +41,7 @@ class CustomPhoneField extends StatelessWidget {
             decoration: InputDecoration(
               // labelText: 'Phone Number',
               border: OutlineInputBorder(
-                borderSide: BorderSide(width: 2),
+                borderSide: const BorderSide(width: 2),
                 borderRadius: BorderRadius.circular(12.0),
               ),
             ),

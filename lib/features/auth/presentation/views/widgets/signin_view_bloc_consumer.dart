@@ -8,12 +8,11 @@ import 'package:deals/features/auth/presentation/manager/cubits/signin_cubit/sig
 import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart';
 import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:deals/features/auth/presentation/views/widgets/signin_view_body.dart';
-import 'package:deals/features/home/presentation/views/home_view.dart';
+import 'package:deals/features/main/presentation/views/main_view.dart';
+import 'package:go_router/go_router.dart';
 
 class SigninViewBlocConsumer extends StatelessWidget {
-  const SigninViewBlocConsumer({
-    super.key,
-  });
+  const SigninViewBlocConsumer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +23,22 @@ class SigninViewBlocConsumer extends StatelessWidget {
         }
         if (state is SigninOtpRequired) {
           customErrorTopSnackBar(context: context, message: state.message);
-          Navigator.pushReplacementNamed(context, OtpVerficationView.routeName,
-              arguments: {
-                kEmail: state.userEntity.email,
-                kImage: AppImages.assetsImagesOTB,
-                kNextRoute: SigninView.routeName,
-                kId: '',
-                kIsRegister: true
-              });
+          context.goNamed(
+            OtpVerficationView.routeName,
+            extra: {
+              kEmail: state.userEntity.email,
+              kImage: AppImages.assetsImagesOTB,
+              kNextRoute: SigninView.routeName,
+              kId: '',
+              kIsRegister: true,
+            },
+          );
         }
         if (state is SigninSuccess) {
-          Navigator.pushReplacementNamed(context, HomeView.routeName,
-              arguments: state.userEntity);
+          context.goNamed(
+            MainView.routeName,
+            extra: state.userEntity,
+          );
         }
       },
       builder: (context, state) {

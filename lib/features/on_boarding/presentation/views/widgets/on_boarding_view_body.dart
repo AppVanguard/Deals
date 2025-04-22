@@ -1,5 +1,9 @@
+// lib/features/on_boarding/presentation/views/widgets/on_boarding_view_body.dart
+
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:deals/constants.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/utils/app_colors.dart';
@@ -19,17 +23,17 @@ class OnBoardingViewBody extends StatefulWidget {
 
 class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
   late PageController pageController;
-  var currentPage = 0;
+  int currentPage = 0;
 
   @override
   void initState() {
+    super.initState();
     pageController = PageController();
     pageController.addListener(() {
       setState(() {
         currentPage = pageController.page!.round();
       });
     });
-    super.initState();
   }
 
   @override
@@ -47,8 +51,7 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(height: 34),
-
+              const SizedBox(height: 34),
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -65,12 +68,12 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
               DotsIndicator(
                 dotsCount: 3,
                 position: currentPage,
-                decorator: DotsDecorator(
+                decorator: const DotsDecorator(
                   activeColor: AppColors.primary,
                   color: AppColors.lightPrimary,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: currentPage == 0
@@ -120,26 +123,27 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
                                         onPressed: () {
                                           Prefs.setBool(
                                               kIsOnBoardingViewSeen, true);
-                                          Navigator.pushReplacementNamed(
-                                              context, SigninView.routeName);
+                                          // go_router replace
+                                          context.goNamed(SigninView.routeName);
                                         },
                                         text: S.of(context).JoinNow,
                                       )
-                                    : SizedBox(),
+                                    : const SizedBox(),
                           ),
                         ],
                       ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               HaveOrNotAccount(
                 question: S.of(context).HaveAccount,
                 action: S.of(context).Login,
                 onTap: () {
                   Prefs.setBool(kIsOnBoardingViewSeen, true);
-                  Navigator.pushReplacementNamed(context, SigninView.routeName);
+                  // go_router replace
+                  context.goNamed(SigninView.routeName);
                 },
               ),
-              SizedBox(height: 20), // Ensure spacing at the bottom
+              const SizedBox(height: 20),
             ],
           ),
         ),

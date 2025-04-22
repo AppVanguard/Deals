@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/constants.dart';
@@ -10,6 +9,7 @@ import 'package:deals/features/auth/presentation/manager/cubits/signup_cubit/sig
 import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart';
 import 'package:deals/features/auth/presentation/views/personal_data_view.dart';
 import 'package:deals/features/auth/presentation/views/widgets/signup_view_body.dart';
+import 'package:go_router/go_router.dart';
 
 class SignupBlocConsumer extends StatelessWidget {
   const SignupBlocConsumer({super.key});
@@ -23,16 +23,15 @@ class SignupBlocConsumer extends StatelessWidget {
         }
         if (state is SignupSuccess) {
           log(state.userEntity.uId);
-          // Pass a map containing the basic user data returned from registration.
-          Navigator.pushReplacementNamed(
-            context,
+          // Pass a map containing the user data
+          context.goNamed(
             OtpVerficationView.routeName,
-            arguments: {
+            extra: {
               kEmail: state.userEntity.email,
               kImage: AppImages.assetsImagesOTB,
               kNextRoute: PersonalDataView.routeName,
               kId: state.userEntity.uId,
-              kIsRegister: true
+              kIsRegister: true,
             },
           );
         }

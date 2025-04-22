@@ -1,45 +1,34 @@
-// lib/features/search/presentation/views/search_view.dart
-
-import 'package:deals/features/search/presentation/views/widgets/build_search_app_bar.dart';
+import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
+import 'package:deals/core/repos/interface/categories_repo.dart';
+import 'package:deals/core/service/get_it_service.dart';
+import 'package:deals/features/stores/domain/repos/stores_repo.dart';
+import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
+import 'package:deals/features/stores/presentation/views/stores_view.dart';
 import 'package:flutter/material.dart';
-import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/features/search/presentation/views/widgets/deal.dart';
-import 'package:deals/features/search/presentation/views/widgets/search_view_body.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchView extends StatefulWidget {
+class SearchView extends StatelessWidget {
   const SearchView({super.key});
 
-  static const String routeName = 'search';
-
-  @override
-  State<SearchView> createState() => _SearchViewState();
-}
-
-class _SearchViewState extends State<SearchView> {
-  final TextEditingController _searchController = TextEditingController();
+  static const String routeName = '/search';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildSearchAppBar(context, _searchController),
-      body: const SearchViewBody(
-        deals: [
-          Deal(
-            title: 'Deal',
-            subtitle: 'Subtitle',
-            imagePath: AppImages.assetsImagesTest2,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => StoresCubit(
+            storesRepo: getIt<StoresRepo>(),
           ),
-          Deal(
-            title: 'Deal',
-            subtitle: 'Subtitle',
-            imagePath: AppImages.assetsImagesTest2,
+        ),
+        BlocProvider(
+          create: (context) => CategoriesCubit(
+            categoriesRepo: getIt<CategoriesRepo>(),
           ),
-          Deal(
-            title: 'Deal',
-            subtitle: 'Subtitle',
-            imagePath: AppImages.assetsImagesTest2,
-          ),
-        ],
+        ),
+      ],
+      child: Builder(
+        builder: (context) => const StoresView(),
       ),
     );
   }

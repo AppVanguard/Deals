@@ -1,24 +1,53 @@
-// home_cubit.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dartz/dartz.dart';
+import 'package:meta/meta.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart'; // <-- new import
+
 import 'package:deals/core/errors/faliure.dart';
 import 'package:deals/features/home/domain/entities/home_entity.dart';
 import 'package:deals/features/home/domain/repos/home_repo.dart';
+
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final HomeRepo homeRepo;
 
-  HomeCubit({required this.homeRepo}) : super(HomeState.initial()) {
-    // Optionally trigger fetch on creation
+  HomeCubit({required this.homeRepo}) : super(HomeInitial()) {
+    // Automatically fetch data on creation
     fetchHomeData();
   }
 
-  Future<void> fetchHomeData() async {
-    emit(state.copyWith(status: HomeStatus.loading));
+  /// Fetch fresh data, optionally indicating if it's a full "refresh".
+  Future<void> fetchHomeData({bool isRefresh = false}) async {
+    // If user explicitly refreshes, show loading to display a spinner at the top
+    if (isRefresh) {
+      emit(HomeLoading());
+      // Clear all cached images before re-fetching fresh data
+      await DefaultCacheManager().emptyCache();
+    }
 
-    final Either<Failure, HomeEntity> eitherOrFailure =
-        await homeRepo.getHomeData(
+    // 1) Try reading cached data
+    final Either<Failure, HomeEntity> cacheResult =
+        await homeRepo.getCachedData();
+
+    cacheResult.fold(
+      (failure) {
+        // If there's no cache, remain in (or switch to) loading while fetching remote
+        if (!isRefresh) {
+          emit(HomeLoading());
+        }
+      },
+      (cachedEntity) {
+        // If we have cached data and it's not a forced refresh, show it immediately
+        if (!isRefresh) {
+          emit(HomeSuccess(homeEntity: cachedEntity));
+        }
+      },
+    );
+
+    // 2) Regardless of cache, fetch from remote in the background
+    final Either<Failure, HomeEntity> remoteResult =
+        await homeRepo.getFreshData(
       announcementsPage: 1,
       announcementsCount: 4,
       storesPage: 1,
@@ -27,19 +56,17 @@ class HomeCubit extends Cubit<HomeState> {
       couponsCount: 10,
     );
 
-    eitherOrFailure.fold(
-      (failure) => emit(
-        state.copyWith(
-          status: HomeStatus.error,
-          errorMessage: failure.message,
-        ),
-      ),
-      (homeEntity) => emit(
-        state.copyWith(
-          status: HomeStatus.success,
-          homeEntity: homeEntity,
-        ),
-      ),
+    remoteResult.fold(
+      (failure) {
+        // If remote fails and we had no data before, show error
+        if (state is HomeInitial || state is HomeLoading) {
+          emit(HomeFailure(errorMessage: failure.message));
+        }
+      },
+      (freshEntity) {
+        // Overwrite with new data
+        emit(HomeSuccess(homeEntity: freshEntity));
+      },
     );
   }
 }

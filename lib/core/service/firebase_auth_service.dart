@@ -64,12 +64,21 @@ class FirebaseAuthService {
   /// Sign in with Google using [GoogleSignIn].
   Future<User> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      final googleSignIn = GoogleSignIn();
+
+      // Force a full sign-out to guarantee the account chooser shows up:
+      await googleSignIn.signOut();
+
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        // The user canceled the sign-in flow
+        throw CustomExeption(S.current.SomethingWentWrong);
+      }
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
       return (await FirebaseAuth.instance.signInWithCredential(credential))
           .user!;

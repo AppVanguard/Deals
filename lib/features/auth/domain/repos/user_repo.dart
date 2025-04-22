@@ -3,7 +3,6 @@ import 'package:deals/core/errors/faliure.dart';
 import 'package:deals/features/auth/domain/entities/user_entity.dart';
 
 abstract class UserRepo {
-  Future<Either<Failure, List<UserEntity>>> getAllUsers();
   Future<Either<Failure, UserEntity>> getUserById(String id);
   Future<Either<Failure, UserEntity>> updateUserData({
     required String id,

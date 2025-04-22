@@ -1,6 +1,7 @@
+import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:deals/core/utils/app_colors.dart';
+
 import 'package:deals/features/home/presentation/manager/cubits/home_cubit/home_cubit.dart';
 import 'package:deals/features/home/presentation/views/widgets/home_content.dart';
 
@@ -9,46 +10,52 @@ class HomeViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Listen to the cubit's state changes
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        final isLoading = (state.status == HomeStatus.loading);
+        final isLoading = state is HomeLoading;
 
-        switch (state.status) {
-          case HomeStatus.initial:
-            // Show nothing or a placeholder
-            return const SizedBox.shrink();
-
-          case HomeStatus.loading:
-            // Show the structure with placeholders
-            return HomeContent(
-              homeEntity: null,
-              isLoading: isLoading,
-            );
-
-          case HomeStatus.error:
-            // Show error
-            return Center(
-              child: Text(
-                'Error: ${state.errorMessage}',
-                style: const TextStyle(color: AppColors.accent),
-              ),
-            );
-
-          case HomeStatus.success:
-            // If we have no data for some reason
-            if (state.homeEntity == null) {
-              return const Center(
-                child: Text('No data found'),
-              );
-            } else {
-              return HomeContent(
-                homeEntity: state.homeEntity!,
-                isLoading: isLoading,
-              );
-            }
-        }
+        return RefreshIndicator(
+          // Called when the user drags down to refresh
+          onRefresh: () async {
+            // Force a refresh in the Cubit
+            await context.read<HomeCubit>().fetchHomeData(isRefresh: true);
+          },
+          child: _buildContent(context, state, isLoading),
+        );
       },
     );
+  }
+
+  Widget _buildContent(BuildContext context, HomeState state, bool isLoading) {
+    if (state is HomeInitial) {
+      // Scrollable empty placeholder
+      return ListView();
+    } else if (state is HomeLoading) {
+      return HomeContent(
+        homeEntity: null,
+        isLoading: isLoading,
+      );
+    } else if (state is HomeFailure) {
+      // Wrap the error message in a scrollable view
+      return ListView(
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          buildCustomErrorScreen(
+            context: context,
+            onRetry: () {
+              context.read<HomeCubit>().fetchHomeData(isRefresh: true);
+            },
+          ),
+        ],
+      );
+    } else if (state is HomeSuccess) {
+      return HomeContent(
+        homeEntity: state.homeEntity,
+        isLoading: isLoading,
+      );
+    } else {
+      // Fallback scrollable empty widget
+      return ListView();
+    }
   }
 }

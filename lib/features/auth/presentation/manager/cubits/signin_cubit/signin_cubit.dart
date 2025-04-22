@@ -1,20 +1,23 @@
 import 'dart:developer';
-
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/features/auth/domain/entities/user_entity.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/core/service/notifications_permission_service.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-
 part 'signin_state.dart';
 
 class SigninCubit extends Cubit<SigninState> {
-  SigninCubit(this.authRepo) : super(SigninInitial());
+  SigninCubit(this.authRepo, this.notificationsPermissionRepo)
+      : super(SigninInitial());
 
   final AuthRepo authRepo;
+  final NotificationsPermissionRepo notificationsPermissionRepo;
 
   Future<void> signInWithEmailAndPassword({
     required String email,
@@ -28,8 +31,9 @@ class SigninCubit extends Cubit<SigninState> {
     );
     result.fold(
       (failure) {
-        if (failure.message.contains(S.current.Emain_not_verified)) {
+        if (failure.message.contains(S.current.Email_not_verified)) {
           final userEntity = UserEntity(
+            id: '',
             token: '',
             uId: '',
             email: email,
@@ -51,6 +55,9 @@ class SigninCubit extends Cubit<SigninState> {
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(
             userEntity: user, message: S.current.SuccessSigningIn));
+
+        // Register notifications for this account on this device if not already registered.
+        await _registerNotifications(user);
       },
     );
   }
@@ -67,6 +74,7 @@ class SigninCubit extends Cubit<SigninState> {
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(
             userEntity: user, message: S.current.SuccessSigningIn));
+        await _registerNotifications(user);
       },
     );
   }
@@ -83,6 +91,7 @@ class SigninCubit extends Cubit<SigninState> {
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(
             userEntity: user, message: S.current.SuccessSigningIn));
+        await _registerNotifications(user);
       },
     );
   }
@@ -99,7 +108,42 @@ class SigninCubit extends Cubit<SigninState> {
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(
             userEntity: user, message: S.current.SuccessSigningIn));
+        await _registerNotifications(user);
       },
     );
+  }
+
+  /// Private helper to register push notifications for the current user.
+  /// This will retrieve the FCM token and call the backend allow endpoint.
+  /// Registration occurs only once per account on this device.
+  Future<void> _registerNotifications(UserEntity user) async {
+    final String registrationKey = "notificationsRegistered_${user.uId}";
+    final alreadyRegistered = Prefs.getBool(registrationKey) ?? false;
+    if (alreadyRegistered) {
+      log("Notifications already registered for this user: ${user.uId}");
+      return;
+    }
+
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    log("FCM token: $fcmToken");
+    if (fcmToken != null && fcmToken.isNotEmpty) {
+      // Now call the domain repo
+      final result = await notificationsPermissionRepo.allowNotifications(
+        firebaseUid: user.uId,
+        deviceToken: fcmToken,
+        authToken: user.token,
+      );
+      result.fold(
+        (failure) {
+          log("Error registering notifications for user: ${user.uId} -> ${failure.message}");
+        },
+        (_) {
+          Prefs.setBool(registrationKey, true);
+          log("Notifications registered successfully for user: ${user.uId}");
+        },
+      );
+    } else {
+      log("FCM token is null; unable to register notifications.");
+    }
   }
 }

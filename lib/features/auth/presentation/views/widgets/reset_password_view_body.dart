@@ -8,12 +8,17 @@ import 'package:deals/core/widgets/custom_password_filed.dart';
 import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 class ResetPasswordViewBody extends StatefulWidget {
   final String email;
   final String otp;
-  const ResetPasswordViewBody(
-      {super.key, required this.email, required this.otp});
+
+  const ResetPasswordViewBody({
+    super.key,
+    required this.email,
+    required this.otp,
+  });
 
   @override
   State<ResetPasswordViewBody> createState() => _ResetPasswordViewBodyState();
@@ -29,10 +34,7 @@ class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
     return BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
       listener: (context, state) {
         if (state is ResetPasswordSuccess) {
-          Navigator.popUntil(
-            context,
-            (route) => route.settings.name == SigninView.routeName,
-          );
+          context.goNamed(SigninView.routeName);
         } else if (state is ResetPasswordFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
@@ -41,6 +43,7 @@ class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
       },
       builder: (context, state) {
         bool isLoading = state is ResetPasswordLoading;
+
         return SingleChildScrollView(
           child: Form(
             key: formKey,
@@ -90,7 +93,7 @@ class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
                 CustomButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      log("The args sent now email: ${widget.email}, password: $password, otp: ${widget.otp}");
+                      log("Resetting password for email: ${widget.email}, password: $password, otp: ${widget.otp}");
                       formKey.currentState!.save();
                       context.read<ResetPasswordCubit>().resetPassword(
                             email: widget.email,

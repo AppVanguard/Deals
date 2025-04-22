@@ -4,7 +4,8 @@ import 'package:deals/features/splash/presentation/views/widgets/splash_view_bod
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
-  static const String routeName = 'splash';
+  static const String routeName = '/';
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

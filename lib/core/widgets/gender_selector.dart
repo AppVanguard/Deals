@@ -57,7 +57,6 @@ class _GenderSelectorState extends State<GenderSelector> {
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               _buildRadio(Gender.male, "Male"),
               _buildRadio(Gender.female, "Female"),

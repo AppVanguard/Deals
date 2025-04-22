@@ -1,9 +1,9 @@
 // home_service.dart
 import 'dart:convert';
 import 'dart:developer';
+import 'package:deals/features/home/data/models/home_model/home_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
-import 'package:deals/features/home/data/models/home_model.dart';
 
 class HomeService {
   /// Retrieve home data from `/home/mobile` with pagination parameters
