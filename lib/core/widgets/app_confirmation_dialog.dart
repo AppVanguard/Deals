@@ -1,24 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// A small, material-compliant confirmation dialog.
+/// Generic material confirmation dialog.
 ///
-/// Returns `true` from `Navigator.pop<bool>` when the user confirms,
-/// `false` when they cancel.
-///
-/// ```dart
-/// showDialog<bool>(
-///   context: context,
-///   barrierDismissible: false,
-///   builder: (_) => AppConfirmationDialog(
-///     icon: const Icon(Icons.warning_amber_outlined, size: 28),
-///     title: 'Delete item',
-///     message: 'Are you sure you want to delete this item?',
-///     cancelLabel: 'Cancel',
-///     confirmLabel: 'Delete',
-///     confirmColor: const Color(0xFFD12825),
-///   ),
-/// );
-/// ```
+/// Returns:
+/// * `true`  → user confirmed
+/// * `false` → user cancelled
+/// * `null`  → user tapped outside / pressed back (also treated as cancel)
 class AppConfirmationDialog extends StatelessWidget {
   const AppConfirmationDialog({
     super.key,
@@ -30,45 +17,33 @@ class AppConfirmationDialog extends StatelessWidget {
     required this.confirmColor,
   });
 
-  /// Leading graphic (SVG, PNG, Icon …).
   final Widget icon;
-
-  /// Dialog headline (single line recommended).
   final String title;
-
-  /// Explanatory text (wraps automatically).
   final String message;
-
-  /// Label for the secondary action button.
   final String cancelLabel;
-
-  /// Label for the primary action button.
   final String confirmLabel;
-
-  /// Background color of the primary action button.
   final Color confirmColor;
 
   @override
   Widget build(BuildContext context) {
-    // Use [Dialog] only for the transparent backdrop; real card is inside.
+    // NO Center wrapper → taps outside reach the barrier
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      child: Center(
-        child: _DialogCard(
-          icon: icon,
-          title: title,
-          message: message,
-          cancelLabel: cancelLabel,
-          confirmLabel: confirmLabel,
-          confirmColor: confirmColor,
-        ),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      child: _DialogCard(
+        icon: icon,
+        title: title,
+        message: message,
+        cancelLabel: cancelLabel,
+        confirmLabel: confirmLabel,
+        confirmColor: confirmColor,
       ),
     );
   }
 }
 
-/* ────────────────────────── private UI ────────────────────────── */
+/* ─────────────────── internal UI ─────────────────── */
 
 class _DialogCard extends StatelessWidget {
   const _DialogCard({
@@ -107,8 +82,6 @@ class _DialogCard extends StatelessWidget {
         children: [
           icon,
           const SizedBox(height: 16),
-
-          /// headline
           Text(
             title,
             textAlign: TextAlign.center,
@@ -118,8 +91,6 @@ class _DialogCard extends StatelessWidget {
                 ),
           ),
           const SizedBox(height: 6),
-
-          /// body
           Text(
             message,
             textAlign: TextAlign.center,
@@ -129,8 +100,6 @@ class _DialogCard extends StatelessWidget {
                 ),
           ),
           const SizedBox(height: 16),
-
-          /// actions
           Row(
             children: [
               Expanded(

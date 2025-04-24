@@ -36,11 +36,16 @@ class CustomAppDrawer extends StatelessWidget {
     Future<void> confirmAndLogout() async {
       final bool? approved = await showDialog<bool>(
         context: context,
-        barrierDismissible: false,
+        barrierDismissible: true, // <─ allow tap-outside
         builder: (_) => LogoutConfirmationDialog(s: s),
       );
+
+      //  approved == true  → user pressed “Log out”
+      //  approved == false → user pressed “Cancel”
+      //  approved == null  → user tapped outside / pressed back
       if (approved == true) {
         if (!context.mounted) return;
+
         context.read<MenuCubit>().logout(
               firebaseUid: userData.uId,
               authToken: userData.token,
