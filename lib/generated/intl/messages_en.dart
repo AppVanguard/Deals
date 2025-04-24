@@ -92,6 +92,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Google login failed or was cancelled"),
         "HaveAccount":
             MessageLookupByLibrary.simpleMessage("Already have an account ?"),
+        "Help": MessageLookupByLibrary.simpleMessage("Help"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "InternalServerError": MessageLookupByLibrary.simpleMessage(
             "Error Code: 500 - Internal Server Error"),

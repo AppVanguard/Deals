@@ -183,5 +183,6 @@
       "areYouSureYouWantToLogout": "Are you sure you want to log out?",
       "cancel": "Cancel",
       "TermsAndConditions": "Terms & Conditions",
-      "PrivacyAndPolicy": "Privacy And Policy"
+      "PrivacyAndPolicy": "Privacy And Policy",
+      "Help": "Help"
 }

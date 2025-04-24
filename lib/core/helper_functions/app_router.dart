@@ -19,6 +19,7 @@ import 'package:deals/features/coupons/presentation/manager/cubits/coupon_detail
 import 'package:deals/features/coupons/presentation/manager/cubits/coupons_cubit/coupons_cubit.dart';
 import 'package:deals/features/coupons/presentation/views/coupon_details_view.dart';
 import 'package:deals/features/coupons/presentation/views/coupon_view.dart';
+import 'package:deals/features/faq/presentation/views/faq_view.dart';
 import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:deals/features/notifications/presentation/views/notifications_view.dart';
 import 'package:deals/features/on_boarding/presentation/views/on_boarding_view.dart';
@@ -282,6 +283,13 @@ class AppRouter {
         name: PrivacyAndPolicyView.routeName,
         builder: (context, state) {
           return const PrivacyAndPolicyView();
+        },
+      ),
+      GoRoute(
+        path: FAQView.routeName,
+        name: FAQView.routeName,
+        builder: (context, state) {
+          return const FAQView();
         },
       ),
     ],

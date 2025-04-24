@@ -1,3 +1,4 @@
+import 'package:deals/features/faq/presentation/views/faq_view.dart';
 import 'package:deals/features/privacy_and_policy/presentation/views/privacy_and_policy_view.dart';
 import 'package:deals/features/terms_and_conditions/presentations/views/terms_and_conditions_view.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,9 @@ class CustomAppDrawer extends StatelessWidget {
                       _buildDrawerTile(
                         iconPath: AppImages.assetsImagesHelp,
                         text: s.help,
-                        onTap: () {},
+                        onTap: () {
+                          context.pushNamed(FAQView.routeName);
+                        },
                       ),
                       _buildDrawerTile(
                         iconPath: AppImages.assetsImagesContact,

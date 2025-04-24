@@ -1,0 +1,54 @@
+{
+      "faqs": [
+            {
+                  "question": "How to withdraw ?",
+                  "answer": [
+                        "Your cashback will be added to your wallet within 3 days after your completed purchases.",
+                        "Waffur must be the last link you clicked in order to get cashback.",
+                        "You might not receive cashback for taxes, delivery charges, returns, exchanges, cancellations, reselling or fraud activities."
+                  ]
+            },
+            {
+                  "question": "How to edit my personal data ?",
+                  "answer": [
+                        "Go to the Profile tab, tap Edit, then update your name, email or phone.",
+                        "Don’t forget to save at the bottom!"
+                  ]
+            },
+            {
+                  "question": "How to activate cashback ?",
+                  "answer": [
+                        "Tap on any participating merchant link in Waffur before you shop.",
+                        "Make sure your order goes through that same session."
+                  ]
+            },
+            {
+                  "question": "What is pending money ?",
+                  "answer": [
+                        "Pending money is the cashback that you have earned but not yet received.",
+                        "It will be added to your wallet within 3 days after your completed purchases."
+                  ]
+            },
+            {
+                  "question": "What are cashback terms ?",
+                  "answer": [
+                        "Cashback is only available for new users.",
+                        "Cashback is not available for taxes, delivery charges, returns, exchanges, cancellations, reselling or fraud activities.",
+                        "Cashback is only available for purchases made through Waffur."
+                  ]
+            },
+            {
+                  "question": "How to delete my account ?",
+                  "answer": [
+                        "Go to the Profile tab, tap Edit, then tap Delete Account.",
+                        "You will be asked to confirm your decision."
+                  ]
+            },
+            {
+                  "question": "How to change my password ?",
+                  "answer": [
+                        "Go to the Profile tab, tap Edit, then tap Change Password."
+                  ]
+            }
+      ]
+}
