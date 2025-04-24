@@ -15,7 +15,7 @@ class SigninViewBlocConsumer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? serverError; // يحتفظ بالرسالة
+    String? serverError;
 
     return BlocConsumer<SigninCubit, SigninState>(
       listener: (context, state) {
@@ -25,7 +25,7 @@ class SigninViewBlocConsumer extends StatelessWidget {
           case SigninResetError():
             serverError = null;
           case SigninOtpRequired():
-            serverError = state.message; // نظهر الخطأ + انتقل لـ OTP
+            serverError = state.message;
             context.pushNamed(OtpVerficationView.routeName, extra: {
               kEmail: state.userEntity.email,
               kImage: AppImages.assetsImagesOTB,

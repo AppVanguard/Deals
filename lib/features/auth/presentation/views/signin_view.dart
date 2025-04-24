@@ -7,7 +7,6 @@ class SigninView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // No BlocProvider here, it's in the route builder (app_router.dart)
     return const Scaffold(
       body: SafeArea(
         child: SigninViewBlocConsumer(),

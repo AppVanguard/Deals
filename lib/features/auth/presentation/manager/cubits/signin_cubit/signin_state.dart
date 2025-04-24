@@ -24,5 +24,4 @@ class SigninOtpRequired extends SigninState {
   SigninOtpRequired({required this.userEntity, required this.message});
 }
 
-/// تُستَخدم لمسح رسالة الخطأ عند الكتابة
 class SigninResetError extends SigninState {}

@@ -1,5 +1,4 @@
 import 'package:deals/core/widgets/error_banner.dart';
-import 'package:deals/core/widgets/v_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/constants.dart';
@@ -16,7 +15,6 @@ import 'package:deals/features/auth/presentation/views/widgets/auth_divider.dart
 import 'package:deals/features/auth/presentation/views/widgets/remember_password.dart';
 import 'package:deals/features/auth/presentation/views/widgets/third_party_auth.dart';
 import 'package:deals/generated/l10n.dart';
-
 import 'package:go_router/go_router.dart';
 
 class SigninViewBody extends StatefulWidget {
@@ -49,13 +47,13 @@ class _SigninViewBodyState extends State<SigninViewBody> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const VGap(76),
+            const SizedBox(height: 76),
             Center(
               child: Text(appTittle,
                   style:
                       AppTextStyles.bold46.copyWith(color: AppColors.primary)),
             ),
-            const VGap(32),
+            const SizedBox(height: 32),
             if (hasError) ErrorBanner(message: widget.serverError!),
             CustomTextFormField(
               textInputType: TextInputType.text,
@@ -67,7 +65,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
               label: S.of(context).Email,
               borderColor: hasError ? Colors.red : null,
             ),
-            const VGap(20),
+            const SizedBox(height: 20),
             CustomPasswordField(
               onSaved: (v) => password = v!,
               onChanged: (_) => widget.onTyping(),
@@ -77,12 +75,12 @@ class _SigninViewBodyState extends State<SigninViewBody> {
               label: S.of(context).Password,
               borderColor: hasError ? Colors.red : null,
             ),
-            const VGap(12),
+            const SizedBox(height: 12),
             RememberPassword(
               onChecked: (v) => rememberMe = v,
               onTap: () => context.pushNamed(ForgetPasswordView.routeName),
             ),
-            const VGap(24),
+            const SizedBox(height: 24),
             CustomButton(
               width: double.infinity,
               text: S.of(context).Login,
@@ -97,9 +95,9 @@ class _SigninViewBodyState extends State<SigninViewBody> {
                 }
               },
             ),
-            const VGap(32),
+            const SizedBox(height: 32),
             AuthDivider(text: S.of(context).LoginWith),
-            const VGap(24),
+            const SizedBox(height: 24),
             Center(
               child: ThirdPartyAuth(
                 googleOnTap: () => context
@@ -110,13 +108,13 @@ class _SigninViewBodyState extends State<SigninViewBody> {
                     .signInWithFacebook(rememberMe: rememberMe),
               ),
             ),
-            const VGap(24),
+            const SizedBox(height: 24),
             HaveOrNotAccount(
               question: S.of(context).DontHaveAccount,
               action: S.of(context).createAccount,
               onTap: () => context.pushNamed(SignupView.routeName),
             ),
-            const VGap(32),
+            const SizedBox(height: 32),
           ],
         ),
       ),

@@ -20,10 +20,8 @@ class SigninCubit extends Cubit<SigninState> {
   final AuthRepo _authRepo;
   final NotificationsPermissionRepo _notificationsPermissionRepo;
 
-  // ──────────────── public helpers ────────────────
   void clearError() => emit(SigninResetError());
 
-  // ──────────────── email / pass ────────────────
   Future<void> signInWithEmailAndPassword({
     required String email,
     required String password,
@@ -55,8 +53,11 @@ class SigninCubit extends Cubit<SigninState> {
         }
       },
       (user) async {
-        if (rememberMe)
-          await SecureStorageService.saveUserEntity(user.toJson());
+        if (rememberMe) {
+          await SecureStorageService.saveUserEntity(
+            user.toJson(),
+          );
+        }
         Prefs.setBool(kRememberMe, rememberMe);
 
         emit(SigninSuccess(
@@ -67,15 +68,17 @@ class SigninCubit extends Cubit<SigninState> {
     );
   }
 
-  // ──────────────── Google ────────────────
   Future<void> signInWithGoogle({required bool rememberMe}) async {
     emit(SigninLoading());
     final result = await _authRepo.signInWithGoogle();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        if (rememberMe)
-          await SecureStorageService.saveUserEntity(user.toJson());
+        if (rememberMe) {
+          await SecureStorageService.saveUserEntity(
+            user.toJson(),
+          );
+        }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(
             userEntity: user, message: S.current.SuccessSigningIn));
@@ -84,15 +87,17 @@ class SigninCubit extends Cubit<SigninState> {
     );
   }
 
-  // ──────────────── Facebook ────────────────
   Future<void> signInWithFacebook({required bool rememberMe}) async {
     emit(SigninLoading());
     final result = await _authRepo.signInWithFacebook();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        if (rememberMe)
-          await SecureStorageService.saveUserEntity(user.toJson());
+        if (rememberMe) {
+          await SecureStorageService.saveUserEntity(
+            user.toJson(),
+          );
+        }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(
             userEntity: user, message: S.current.SuccessSigningIn));
@@ -101,15 +106,17 @@ class SigninCubit extends Cubit<SigninState> {
     );
   }
 
-  // ──────────────── Apple ────────────────
   Future<void> signInWithApple({required bool rememberMe}) async {
     emit(SigninLoading());
     final result = await _authRepo.signInWithApple();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        if (rememberMe)
-          await SecureStorageService.saveUserEntity(user.toJson());
+        if (rememberMe) {
+          await SecureStorageService.saveUserEntity(
+            user.toJson(),
+          );
+        }
         Prefs.setBool(kRememberMe, rememberMe);
         emit(SigninSuccess(
             userEntity: user, message: S.current.SuccessSigningIn));
@@ -118,10 +125,9 @@ class SigninCubit extends Cubit<SigninState> {
     );
   }
 
-  // ──────────────── private ────────────────
   Future<void> _registerNotifications(UserEntity user) async {
     final key = 'notificationsRegistered_${user.uId}';
-    if (Prefs.getBool(key) ?? false) return;
+    if (Prefs.getBool(key)) return;
 
     final token = await FirebaseMessaging.instance.getToken();
     if (token == null || token.isEmpty) return;
