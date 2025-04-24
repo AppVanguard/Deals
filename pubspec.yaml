@@ -82,6 +82,8 @@ flutter:
     - assets/images/
     - assets/animations/error.json
     - .env
+    - assets/json/terms_and_conditions.json
+    - assets/json/privacy_policy.json
 
   # Fonts configuration
   fonts:

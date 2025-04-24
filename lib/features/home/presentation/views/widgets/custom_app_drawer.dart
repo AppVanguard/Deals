@@ -1,3 +1,5 @@
+import 'package:deals/features/privacy_and_policy/presentation/views/privacy_and_policy_view.dart';
+import 'package:deals/features/terms_and_conditions/presentations/views/terms_and_conditions_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -68,39 +70,43 @@ class CustomAppDrawer extends StatelessWidget {
                   child: Column(
                     children: [
                       _buildDrawerTile(
-                        iconPath: 'assets/images/earning.svg',
+                        iconPath: AppImages.assetsImagesEarning,
                         text: s.earnings,
                         onTap: () {},
                       ),
                       _buildDrawerTile(
-                        iconPath: 'assets/images/personal_data.svg',
+                        iconPath: AppImages.assetsImagesPersonalData,
                         text: s.personalData,
                         onTap: () {},
                       ),
                       _buildDivider(),
                       _buildDrawerTile(
-                        iconPath: 'assets/images/terms_conditions.svg',
+                        iconPath: AppImages.assetsImagesTermsConditions,
                         text: s.termsAndConditions,
-                        onTap: () {},
+                        onTap: () {
+                          context.pushNamed(TermsAndConditionsView.routeName);
+                        },
                       ),
                       _buildDrawerTile(
-                        iconPath: 'assets/images/privacy_icon.svg',
+                        iconPath: AppImages.assetsImagesPrivacyIcon,
                         text: s.privacyPolicy,
-                        onTap: () {},
+                        onTap: () {
+                          context.pushNamed(PrivacyAndPolicyView.routeName);
+                        },
                       ),
                       _buildDrawerTile(
-                        iconPath: 'assets/images/settings.svg',
+                        iconPath: AppImages.assetsImagesSettings,
                         text: s.settings,
                         onTap: () {},
                       ),
                       _buildDivider(),
                       _buildDrawerTile(
-                        iconPath: 'assets/images/help.svg',
+                        iconPath: AppImages.assetsImagesHelp,
                         text: s.help,
                         onTap: () {},
                       ),
                       _buildDrawerTile(
-                        iconPath: 'assets/images/contact.svg',
+                        iconPath: AppImages.assetsImagesContact,
                         text: s.contactUs,
                         onTap: () {},
                       ),

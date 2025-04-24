@@ -1879,6 +1879,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Terms & Conditions`
+  String get TermsAndConditions {
+    return Intl.message(
+      'Terms & Conditions',
+      name: 'TermsAndConditions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Privacy And Policy`
+  String get PrivacyAndPolicy {
+    return Intl.message(
+      'Privacy And Policy',
+      name: 'PrivacyAndPolicy',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

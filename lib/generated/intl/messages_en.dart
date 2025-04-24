@@ -150,6 +150,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "PleaseSelectGender":
             MessageLookupByLibrary.simpleMessage("Please select your gender."),
         "Previous": MessageLookupByLibrary.simpleMessage("Previous"),
+        "PrivacyAndPolicy":
+            MessageLookupByLibrary.simpleMessage("Privacy And Policy"),
         "Profile": MessageLookupByLibrary.simpleMessage("Profile"),
         "Register": MessageLookupByLibrary.simpleMessage("Register"),
         "RememberMe": MessageLookupByLibrary.simpleMessage("Remember me?"),
@@ -182,6 +184,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Success signing out"),
         "SuccessSigningUp":
             MessageLookupByLibrary.simpleMessage("Success signing up"),
+        "TermsAndConditions":
+            MessageLookupByLibrary.simpleMessage("Terms & Conditions"),
         "Top_cashbacks": MessageLookupByLibrary.simpleMessage("Top cashbacks"),
         "Top_categories":
             MessageLookupByLibrary.simpleMessage("Top categories"),

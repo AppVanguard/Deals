@@ -22,6 +22,7 @@ import 'package:deals/features/coupons/presentation/views/coupon_view.dart';
 import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:deals/features/notifications/presentation/views/notifications_view.dart';
 import 'package:deals/features/on_boarding/presentation/views/on_boarding_view.dart';
+import 'package:deals/features/privacy_and_policy/presentation/views/privacy_and_policy_view.dart';
 import 'package:deals/features/search/presentation/views/search_view.dart';
 import 'package:deals/features/splash/presentation/views/splash_view.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
@@ -30,6 +31,7 @@ import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/s
 import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
 import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:deals/features/stores/presentation/views/stores_view.dart';
+import 'package:deals/features/terms_and_conditions/presentations/views/terms_and_conditions_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -266,6 +268,20 @@ class AppRouter {
             value: getIt<NotificationsCubit>(),
             child: NotificationsView(userId: userId, token: token),
           );
+        },
+      ),
+      GoRoute(
+        path: TermsAndConditionsView.routeName,
+        name: TermsAndConditionsView.routeName,
+        builder: (context, state) {
+          return const TermsAndConditionsView();
+        },
+      ),
+      GoRoute(
+        path: PrivacyAndPolicyView.routeName,
+        name: PrivacyAndPolicyView.routeName,
+        builder: (context, state) {
+          return const PrivacyAndPolicyView();
         },
       ),
     ],

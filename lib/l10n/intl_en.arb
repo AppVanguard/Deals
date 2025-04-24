@@ -180,6 +180,8 @@
       "ExtraDiscountTo": "Extra discount to",
       "Notifications": "Notifications",
       "NoNotifications": "No notifications.",
-      "areYouSureYouWantToLogout":"Are you sure you want to log out?",
-      "cancel":"Cancel"
+      "areYouSureYouWantToLogout": "Are you sure you want to log out?",
+      "cancel": "Cancel",
+      "TermsAndConditions": "Terms & Conditions",
+      "PrivacyAndPolicy": "Privacy And Policy"
 }
