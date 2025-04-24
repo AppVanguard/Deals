@@ -1,35 +1,55 @@
-// lib/features/home/presentation/views/widgets/custom_app_drawer.dart
-
-import 'package:deals/core/service/get_it_service.dart'; // for the getIt usage if needed
-import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/features/auth/presentation/views/signin_view.dart';
-import 'package:deals/features/home/presentation/manager/cubits/menu_cubit/menu_cubit.dart';
-import 'package:deals/features/auth/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';
-import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/core/utils/app_text_styles.dart';
-import 'package:deals/core/widgets/app_version_text.dart';
-import 'package:deals/generated/l10n.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/app_version_text.dart';
+import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';
+import 'package:deals/generated/l10n.dart';
+
+import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/features/auth/presentation/views/signin_view.dart';
+import 'package:deals/features/home/presentation/manager/cubits/menu_cubit/menu_cubit.dart';
+
+import 'logout_confirmation_dialog.dart'; // <- dialog (uses the design spec)
+
 class CustomAppDrawer extends StatelessWidget {
-  const CustomAppDrawer({super.key, required this.userData});
+  const CustomAppDrawer({
+    super.key,
+    required this.userData,
+  });
+
   final UserEntity userData;
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    final Size size = MediaQuery.of(context).size;
+
+    /// opens the confirm dialog and, if approved, fires the cubit
+    Future<void> confirmAndLogout() async {
+      final bool? approved = await showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => LogoutConfirmationDialog(s: s),
+      );
+      if (approved == true) {
+        if (!context.mounted) return;
+        context.read<MenuCubit>().logout(
+              firebaseUid: userData.uId,
+              authToken: userData.token,
+            );
+      }
+    }
 
     return Align(
       alignment: Alignment.topLeft,
       child: SizedBox(
-        height: screenHeight * 0.80,
-        width: screenWidth * 0.80,
+        height: size.height * 0.80,
+        width: size.width * 0.80,
         child: Drawer(
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -40,14 +60,12 @@ class CustomAppDrawer extends StatelessWidget {
           backgroundColor: Colors.white,
           child: Column(
             children: [
-              // 1) Header
               _buildDrawerHeader(context),
 
-              // 2) Body (scrollable)
+              /* BODY ─────────────────────────────────────────── */
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    spacing: 10,
                     children: [
                       _buildDrawerTile(
                         iconPath: 'assets/images/earning.svg',
@@ -91,15 +109,16 @@ class CustomAppDrawer extends StatelessWidget {
                 ),
               ),
 
-              // 3) Footer (Logout + version)
+              /* FOOTER ───────────────────────────────────────── */
               BlocListener<MenuCubit, MenuState>(
                 listener: (context, state) {
                   if (state is MenuLogoutFailure) {
                     customErrorTopSnackBar(
-                        context: context, message: state.message);
+                      context: context,
+                      message: state.message,
+                    );
                   }
                   if (state is MenuLogoutSuccess) {
-                    // user is now logged out => go to sign-in
                     context.goNamed(SigninView.routeName);
                   }
                 },
@@ -108,12 +127,7 @@ class CustomAppDrawer extends StatelessWidget {
                   text: s.logOut,
                   textStyle:
                       AppTextStyles.bold14.copyWith(color: AppColors.accent),
-                  onTap: () {
-                    context.read<MenuCubit>().logout(
-                          firebaseUid: userData.uId,
-                          authToken: userData.token,
-                        );
-                  },
+                  onTap: confirmAndLogout,
                 ),
               ),
               const SizedBox(height: 10),
@@ -128,13 +142,14 @@ class CustomAppDrawer extends StatelessWidget {
     );
   }
 
+  /* ───────────── helpers ───────────── */
+
   Widget _buildDrawerHeader(BuildContext context) {
     return Container(
       color: AppColors.darkPrimary,
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
       child: Column(
-        spacing: 4,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -173,10 +188,8 @@ class CustomAppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildDivider() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      child: Divider(),
-    );
-  }
+  Widget _buildDivider() => const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Divider(),
+      );
 }

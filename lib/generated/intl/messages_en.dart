@@ -199,8 +199,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "The account is registered with a different provider. Please log in with the linked provider."),
         "appVersion": MessageLookupByLibrary.simpleMessage("DEALS version"),
+        "areYouSureYouWantToLogout": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to log out?"),
         "authDomainConfigRequired": MessageLookupByLibrary.simpleMessage(
             "Authentication domain configuration is missing."),
+        "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "cancelledPopupRequest": MessageLookupByLibrary.simpleMessage(
             "The popup request was canceled."),
         "cashBack": MessageLookupByLibrary.simpleMessage("cashback"),

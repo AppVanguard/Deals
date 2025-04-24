@@ -179,5 +179,7 @@
       "ValidUntil": "Valid until",
       "ExtraDiscountTo": "Extra discount to",
       "Notifications": "Notifications",
-      "NoNotifications": "No notifications."
+      "NoNotifications": "No notifications.",
+      "areYouSureYouWantToLogout":"Are you sure you want to log out?",
+      "cancel":"Cancel"
 }
