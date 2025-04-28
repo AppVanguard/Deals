@@ -36,7 +36,6 @@ class CustomAppDrawer extends StatelessWidget {
     Future<void> confirmAndLogout() async {
       final bool? approved = await showDialog<bool>(
         context: context,
-        barrierDismissible: true, // <─ allow tap-outside
         builder: (_) => LogoutConfirmationDialog(s: s),
       );
 
