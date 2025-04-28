@@ -25,33 +25,30 @@ class CustomPhoneField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: AppTextStyles.regular14.copyWith(color: AppColors.text),
-          ),
-          IntlPhoneField(
-            autovalidateMode: autovalidateMode,
-            validator: validator,
-            decoration: InputDecoration(
-              // labelText: 'Phone Number',
-              border: OutlineInputBorder(
-                borderSide: const BorderSide(width: 2),
-                borderRadius: BorderRadius.circular(12.0),
-              ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: AppTextStyles.regular14.copyWith(color: AppColors.text),
+        ),
+        IntlPhoneField(
+          autovalidateMode: autovalidateMode,
+          validator: validator,
+          decoration: InputDecoration(
+            // labelText: 'Phone Number',
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(width: 2),
+              borderRadius: BorderRadius.circular(12.0),
             ),
-            initialCountryCode: 'EG',
-            onChanged: onChanged,
-            onSaved: onSaved,
-            onSubmitted: onSubmitted,
           ),
-        ],
-      ),
+          initialCountryCode: 'EG',
+          onChanged: onChanged,
+          onSaved: onSaved,
+          onSubmitted: onSubmitted,
+        ),
+      ],
     );
   }
 }
