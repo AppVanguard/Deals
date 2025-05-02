@@ -6,7 +6,7 @@ import 'package:deals/core/errors/faliure.dart';
 import 'package:deals/core/service/auth_api_service.dart';
 import 'package:deals/core/service/firebase_auth_service.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';
-import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 import 'package:deals/generated/l10n.dart';
 
@@ -38,7 +38,7 @@ class AuthRepoImpl extends AuthRepo {
         token: '',
         uId: userResponse[BackendEndpoints.keyUserId],
         email: userResponse[BackendEndpoints.keyEmail] ?? email,
-        name: name,
+        fullName: name,
         phone: phone,
       );
       return right(userEntity);
@@ -69,7 +69,7 @@ class AuthRepoImpl extends AuthRepo {
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? email,
-        name: userResponse[BackendEndpoints.keyFullName] ??
+        fullName: userResponse[BackendEndpoints.keyFullName] ??
             user.displayName ??
             '',
         phone: userResponse[BackendEndpoints.keyPhone] ?? '',
@@ -92,7 +92,7 @@ class AuthRepoImpl extends AuthRepo {
       //   token: '',
       //   uId: user.uid,
       //   email: user.email ?? '',
-      //   name: user.displayName ?? '',
+      //   fullName: user.displayName ?? '',
       //   phone: '',
       // );
       final token = await user.getIdToken();
@@ -103,7 +103,7 @@ class AuthRepoImpl extends AuthRepo {
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
-        name: userResponse[BackendEndpoints.keyFullName] ??
+        fullName: userResponse[BackendEndpoints.keyFullName] ??
             user.displayName ??
             '',
         phone: userResponse[BackendEndpoints.keyPhone] ?? '',
@@ -131,7 +131,7 @@ class AuthRepoImpl extends AuthRepo {
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
-        name: userResponse[BackendEndpoints.keyFullName] ??
+        fullName: userResponse[BackendEndpoints.keyFullName] ??
             user.displayName ??
             '',
         phone: userResponse[BackendEndpoints.keyPhone] ?? '',
@@ -159,7 +159,7 @@ class AuthRepoImpl extends AuthRepo {
         token: token,
         uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
         email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
-        name: userResponse[BackendEndpoints.keyFullName] ??
+        fullName: userResponse[BackendEndpoints.keyFullName] ??
             user.displayName ??
             '',
         phone: userResponse[BackendEndpoints.keyPhone] ?? '',
@@ -187,7 +187,7 @@ class AuthRepoImpl extends AuthRepo {
         token: '',
         uId: response.uId,
         email: response.email,
-        name: response.name,
+        fullName: response.fullName,
         phone: response.phone,
       );
       return right(userEntity);

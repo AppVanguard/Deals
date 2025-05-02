@@ -13,7 +13,7 @@ import 'package:deals/core/widgets/app_version_text.dart';
 import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';
 import 'package:deals/generated/l10n.dart';
 
-import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:deals/features/home/presentation/manager/cubits/menu_cubit/menu_cubit.dart';
 
@@ -47,7 +47,7 @@ class CustomAppDrawer extends StatelessWidget {
 
         context.read<MenuCubit>().logout(
               firebaseUid: userData.uId,
-              authToken: userData.token,
+              authToken: userData.token ?? '',
             );
       }
     }
@@ -166,7 +166,7 @@ class CustomAppDrawer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            userData.name,
+            userData.fullName,
             style: Theme.of(context)
                 .textTheme
                 .titleMedium

@@ -10,7 +10,7 @@ import 'package:deals/features/notifications/presentation/manager/cubits/notific
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/home/presentation/views/home_view.dart';
 import 'package:deals/features/stores/presentation/views/stores_view.dart';
 import 'package:deals/features/coupons/presentation/views/coupon_view.dart';

@@ -2,7 +2,7 @@ import 'package:deals/constants.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
-import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer_cubit/otp_resend_timer_cubit.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/reset_password_cubit/reset_password_cubit.dart';
@@ -10,7 +10,7 @@ import 'package:deals/features/auth/presentation/manager/cubits/signin_cubit/sig
 import 'package:deals/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
 import 'package:deals/features/auth/presentation/views/forget_password_view.dart';
 import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart';
-import 'package:deals/features/auth/presentation/views/personal_data_view.dart';
+import 'package:deals/features/auth/presentation/views/user_update_view.dart';
 import 'package:deals/features/auth/presentation/views/reset_password_view.dart';
 import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:deals/features/auth/presentation/views/signup_view.dart';
@@ -23,6 +23,9 @@ import 'package:deals/features/faq/presentation/views/faq_view.dart';
 import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:deals/features/notifications/presentation/views/notifications_view.dart';
 import 'package:deals/features/on_boarding/presentation/views/on_boarding_view.dart';
+import 'package:deals/features/personal_data/data/repos/presonal_data_repo_impl.dart';
+import 'package:deals/features/personal_data/presentation/manager/personal_data_cubit.dart';
+import 'package:deals/features/personal_data/presentation/views/personal_data_view.dart';
 import 'package:deals/features/privacy_and_policy/presentation/views/privacy_and_policy_view.dart';
 import 'package:deals/features/search/presentation/views/search_view.dart';
 import 'package:deals/features/splash/presentation/views/splash_view.dart';
@@ -164,11 +167,11 @@ class AppRouter {
       ),
       // Personal Data Route
       GoRoute(
-        path: PersonalDataView.routeName,
-        name: PersonalDataView.routeName,
+        path: UserUpdateView.routeName,
+        name: UserUpdateView.routeName,
         builder: (context, state) {
           final id = state.extra as String?;
-          return PersonalDataView(id: id ?? '');
+          return UserUpdateView(id: id ?? '');
         },
       ),
       // Store Details Route
@@ -290,6 +293,26 @@ class AppRouter {
         name: FAQView.routeName,
         builder: (context, state) {
           return const FAQView();
+        },
+      ),
+      // Personal Data Route
+      GoRoute(
+        path: PersonalDataView.routeName,
+        name: PersonalDataView.routeName,
+        builder: (context, state) {
+          // Pass the current user's id in `state.extra` when
+          // pushing this route. If you don't, fallback to empty.
+          final id = state.extra as String? ?? '';
+
+          return BlocProvider<PersonalDataCubit>(
+            create: (_) => PersonalDataCubit(
+              repo: PersonalDataRepoImpl(userService: getIt()),
+              userId: id,
+            ),
+            child: PersonalDataView(
+              id: id,
+            ),
+          );
         },
       ),
     ],

@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
-import 'package:deals/features/auth/data/models/user_model.dart';
+import 'package:deals/core/models/user_model/user_model.dart';
 
 class UserService {
   /// Retrieves a single user by id from GET /users/:id
@@ -25,10 +26,12 @@ class UserService {
     }
   }
 
-  /// Updates any subset of the user's optional fields via PATCH /users/:id.
+  /// Updates any subset of the user's editable fields via PATCH /users/:id.
   /// Only non-null parameters will be sent in the body.
   Future<UserModel> updateUserData({
     required String id,
+    String? fullName,
+    String? phone,
     String? country,
     String? city,
     String? dateOfBirth,
@@ -36,6 +39,9 @@ class UserService {
   }) async {
     final url = Uri.parse('${BackendEndpoints.users}/$id');
     final body = <String, dynamic>{};
+
+    if (fullName != null) body['full_name'] = fullName;
+    if (phone != null) body['phone'] = phone;
     if (country != null) body['country'] = country;
     if (city != null) body['city'] = city;
     if (dateOfBirth != null) body['data_of_birth'] = dateOfBirth;

@@ -7,7 +7,7 @@ import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/widgets/custom_progress_hud.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/signup_cubit/signup_cubit.dart';
 import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart';
-import 'package:deals/features/auth/presentation/views/personal_data_view.dart';
+import 'package:deals/features/auth/presentation/views/user_update_view.dart';
 import 'package:deals/features/auth/presentation/views/widgets/signup_view_body.dart';
 import 'package:go_router/go_router.dart';
 
@@ -29,7 +29,7 @@ class SignupBlocConsumer extends StatelessWidget {
             extra: {
               kEmail: state.userEntity.email,
               kImage: AppImages.assetsImagesOTB,
-              kNextRoute: PersonalDataView.routeName,
+              kNextRoute: UserUpdateView.routeName,
               kId: state.userEntity.uId,
               kIsRegister: true,
             },

@@ -1909,6 +1909,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Save success`
+  String get SaveSuccess {
+    return Intl.message(
+      'Save success',
+      name: 'SaveSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your full name.`
+  String get FullNameValidator {
+    return Intl.message(
+      'Please enter your full name.',
+      name: 'FullNameValidator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter your phone number.`
+  String get PhoneNumberValidator {
+    return Intl.message(
+      'Please enter your phone number.',
+      name: 'PhoneNumberValidator',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `City`
+  String get CityHint {
+    return Intl.message(
+      'City',
+      name: 'CityHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Personal data`
+  String get PersonalData {
+    return Intl.message(
+      'Personal data',
+      name: 'PersonalData',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

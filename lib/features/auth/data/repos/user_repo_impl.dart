@@ -2,8 +2,8 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/errors/faliure.dart';
 import 'package:deals/core/service/user_service.dart';
-import 'package:deals/features/auth/domain/entities/user_entity.dart';
-import 'package:deals/features/auth/domain/mapper/user_mapper.dart';
+import 'package:deals/core/entities/user_entity.dart';
+import 'package:deals/core/mappers/user_mapper.dart';
 import 'package:deals/features/auth/domain/repos/user_repo.dart';
 
 class UserRepoImpl extends UserRepo {
@@ -15,7 +15,7 @@ class UserRepoImpl extends UserRepo {
   Future<Either<Failure, UserEntity>> getUserById(String id) async {
     try {
       final user = await userService.getUserById(id);
-      final userEntity = UserMapper.mapToEntitiy(user);
+      final userEntity = UserMapper.mapToEntity(user);
       return right(userEntity);
     } catch (e) {
       log('Error in UserRepoImpl.getUserById: $e');
@@ -39,7 +39,7 @@ class UserRepoImpl extends UserRepo {
         dateOfBirth: dateOfBirth,
         gender: gender,
       );
-      final userEntity = UserMapper.mapToEntitiy(updatedUser);
+      final userEntity = UserMapper.mapToEntity(updatedUser);
       return right(userEntity);
     } catch (e) {
       log('Error in UserRepoImpl.updateUserData: $e');

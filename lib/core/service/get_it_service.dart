@@ -3,6 +3,7 @@
 import 'package:deals/core/repos/implementation/notifications_permission_repo_impl.dart';
 import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:deals/core/service/notifications_permission_service.dart';
+import 'package:deals/features/personal_data/data/repos/presonal_data_repo_impl.dart';
 import 'package:get_it/get_it.dart';
 import 'package:deals/core/repos/implementation/categories_repo_impl.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
@@ -108,6 +109,12 @@ void setupGetit() {
   getIt.registerSingleton<NotificationsPermissionRepo>(
     NotificationsPermissionRepoImpl(
       service: getIt<NotificationsPermissionService>(),
+    ),
+  );
+
+  getIt.registerSingleton<PersonalDataRepoImpl>(
+    PersonalDataRepoImpl(
+      userService: getIt<UserService>(),
     ),
   );
 }

@@ -3,8 +3,8 @@ import 'package:deals/features/stores/presentation/views/stores_view.dart';
 import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/constants.dart';
-import 'package:deals/features/auth/domain/entities/user_entity.dart';
-import 'package:deals/features/auth/presentation/views/personal_data_view.dart';
+import 'package:deals/core/entities/user_entity.dart';
+import 'package:deals/features/auth/presentation/views/user_update_view.dart';
 import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart';
 import 'package:deals/features/auth/presentation/views/forget_password_view.dart';
 import 'package:deals/features/auth/presentation/views/reset_password_view.dart';
@@ -101,11 +101,11 @@ Route<dynamic> onGenerateRoute(RouteSettings settings) {
           otp: otp,
         ),
       );
-    case PersonalDataView.routeName:
+    case UserUpdateView.routeName:
       final id = settings.arguments as String;
       return MaterialPageRoute(
         settings: settings,
-        builder: (context) => PersonalDataView(id: id),
+        builder: (context) => UserUpdateView(id: id),
       );
     case SearchView.routeName:
       return MaterialPageRoute(

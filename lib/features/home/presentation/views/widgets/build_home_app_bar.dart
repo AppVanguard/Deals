@@ -1,6 +1,6 @@
 // lib/features/home/presentation/views/widgets/build_home_app_bar.dart
 
-import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:deals/features/notifications/presentation/views/notifications_view.dart';
 import 'package:deals/features/search/presentation/views/search_view.dart';

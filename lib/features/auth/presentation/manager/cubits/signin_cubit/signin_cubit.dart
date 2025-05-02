@@ -4,7 +4,7 @@ import 'package:deals/constants.dart';
 import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
-import 'package:deals/features/auth/domain/entities/user_entity.dart';
+import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +43,7 @@ class SigninCubit extends Cubit<SigninState> {
               token: '',
               uId: '',
               email: email,
-              name: '',
+              fullName: '',
               phone: '',
             ),
             message: failure.message,
@@ -135,7 +135,7 @@ class SigninCubit extends Cubit<SigninState> {
     final res = await _notificationsPermissionRepo.allowNotifications(
       firebaseUid: user.uId,
       deviceToken: token,
-      authToken: user.token,
+      authToken: user.token ?? '',
     );
 
     res.fold(

@@ -1,14 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_holo_date_picker/date_picker.dart';
 import 'package:intl/intl.dart';
 
 class CustomDatePicker extends StatefulWidget {
+  final DateTime? initialDate; // ← NEW
   final ValueChanged<DateTime> onDateSelected;
   final String? Function(DateTime?)? validator;
 
-  const CustomDatePicker(
-      {super.key, required this.onDateSelected, this.validator});
+  const CustomDatePicker({
+    super.key,
+    this.initialDate, // ← NEW
+    required this.onDateSelected,
+    this.validator,
+  });
 
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
@@ -17,6 +22,13 @@ class CustomDatePicker extends StatefulWidget {
 class _CustomDatePickerState extends State<CustomDatePicker> {
   DateTime? _selectedDate;
   String? _errorText;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = widget.initialDate; // ← PREFILL
+    _errorText = widget.validator?.call(_selectedDate);
+  }
 
   void _showDatePicker() async {
     DateTime now = DateTime.now();
@@ -28,7 +40,6 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       lastDate: now,
       dateFormat: "dd-MMM-yyyy",
     );
-
     if (pickedDate != null) {
       setState(() {
         _selectedDate = pickedDate;
@@ -53,7 +64,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 suffixIcon: const Icon(Icons.arrow_drop_down),
-                errorText: _errorText, // Display validation error
+                errorText: _errorText,
               ),
               child: Row(
                 children: [

@@ -6,24 +6,24 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/widgets/country_selector_field.dart';
 import 'package:deals/core/widgets/custom_button.dart';
 import 'package:deals/core/widgets/custom_text_form_field.dart';
-import 'package:deals/core/widgets/date_picker_field.dart';
+import 'package:deals/core/widgets/custom_date_picker.dart';
 import 'package:deals/core/widgets/gender_selector.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/user_update_cubit/user_update_cubit.dart';
 import 'package:deals/generated/l10n.dart';
 
-class PersonalDataViewBody extends StatefulWidget {
+class UserUpdateViewBody extends StatefulWidget {
   final String id;
   // fullName and phone are not needed for the update now.
-  const PersonalDataViewBody({
+  const UserUpdateViewBody({
     super.key,
     required this.id,
   });
 
   @override
-  State<PersonalDataViewBody> createState() => _PersonalDataViewBodyState();
+  State<UserUpdateViewBody> createState() => _UserUpdateViewBodyState();
 }
 
-class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
+class _UserUpdateViewBodyState extends State<UserUpdateViewBody> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 

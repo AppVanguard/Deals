@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Categories": MessageLookupByLibrary.simpleMessage("Categories"),
         "Category": MessageLookupByLibrary.simpleMessage("Category"),
         "City": MessageLookupByLibrary.simpleMessage("City/Town"),
+        "CityHint": MessageLookupByLibrary.simpleMessage("City"),
         "CityValidator":
             MessageLookupByLibrary.simpleMessage("Please enter your city."),
         "ConfirmPassword":
@@ -85,6 +86,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ForgotPasswordTittle":
             MessageLookupByLibrary.simpleMessage("Forget password"),
         "FullName": MessageLookupByLibrary.simpleMessage("Full Name"),
+        "FullNameValidator": MessageLookupByLibrary.simpleMessage(
+            "Please enter your full name."),
         "Gender": MessageLookupByLibrary.simpleMessage("Gender"),
         "Get": MessageLookupByLibrary.simpleMessage("Get"),
         "GetStarted": MessageLookupByLibrary.simpleMessage("Get Started"),
@@ -145,7 +148,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Password not match."),
         "PasswordValidator":
             MessageLookupByLibrary.simpleMessage("Please enter your password."),
+        "PersonalData": MessageLookupByLibrary.simpleMessage("Personal data"),
         "Phone": MessageLookupByLibrary.simpleMessage("Phone"),
+        "PhoneNumberValidator": MessageLookupByLibrary.simpleMessage(
+            "Please enter your phone number."),
         "PhoneValidator":
             MessageLookupByLibrary.simpleMessage("Please enter your phone."),
         "PleaseSelectGender":
@@ -162,6 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ResetPassword": MessageLookupByLibrary.simpleMessage("Reset password"),
         "Retry": MessageLookupByLibrary.simpleMessage("Retry"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
+        "SaveSuccess": MessageLookupByLibrary.simpleMessage("Save success"),
         "Save_money_with_us":
             MessageLookupByLibrary.simpleMessage("Save money with us"),
         "Search": MessageLookupByLibrary.simpleMessage("Search"),

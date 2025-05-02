@@ -1,16 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:flutter/material.dart';
 
 class CountrySelectorField extends StatefulWidget {
+  final Country? initialCountry; // ← NEW
   final ValueChanged<Country> onCountrySelected;
   final String label;
   final String? Function(Country?)? validator;
 
   const CountrySelectorField({
     super.key,
+    this.initialCountry, // ← NEW
     required this.onCountrySelected,
     required this.label,
     this.validator,
@@ -24,6 +26,13 @@ class _CountrySelectorFieldState extends State<CountrySelectorField> {
   Country? _selectedCountry;
   String? _errorText;
 
+  @override
+  void initState() {
+    super.initState();
+    _selectedCountry = widget.initialCountry; // PREFILL
+    _errorText = widget.validator?.call(_selectedCountry);
+  }
+
   void _openCountryPicker() {
     showCountryPicker(
       context: context,
@@ -34,24 +43,6 @@ class _CountrySelectorFieldState extends State<CountrySelectorField> {
         });
         widget.onCountrySelected(country);
       },
-      countryListTheme: CountryListThemeData(
-        flagSize: 25,
-        backgroundColor: Colors.white,
-        textStyle: const TextStyle(fontSize: 16, color: Colors.black87),
-        bottomSheetHeight: 500,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
-        ),
-        inputDecoration: InputDecoration(
-          labelText: S.of(context).Search,
-          hintText: S.of(context).SearchHint,
-          prefixIcon: const Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
-        ),
-      ),
     );
   }
 
@@ -60,22 +51,19 @@ class _CountrySelectorFieldState extends State<CountrySelectorField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            widget.label,
-            style: AppTextStyles.regular14.copyWith(color: AppColors.text),
-          ),
+          Text(widget.label,
+              style: AppTextStyles.regular14.copyWith(color: AppColors.text)),
+          const SizedBox(height: 4),
           GestureDetector(
             onTap: _openCountryPicker,
             child: InputDecorator(
               decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 suffixIcon: const Icon(Icons.arrow_drop_down),
-                errorText: _errorText, // Display validation error
+                errorText: _errorText,
               ),
               child: Row(
                 children: [

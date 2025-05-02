@@ -184,5 +184,10 @@
       "cancel": "Cancel",
       "TermsAndConditions": "Terms & Conditions",
       "PrivacyAndPolicy": "Privacy And Policy",
-      "Help": "Help"
+      "Help": "Help",
+      "SaveSuccess": "Save success",
+      "FullNameValidator": "Please enter your full name.",
+      "PhoneNumberValidator": "Please enter your phone number.",
+      "CityHint": "City",
+      "PersonalData": "Personal data"
 }
