@@ -1,53 +1,52 @@
-import 'package:deals/features/faq/presentation/views/faq_view.dart';
-import 'package:deals/features/privacy_and_policy/presentation/views/privacy_and_policy_view.dart';
-import 'package:deals/features/terms_and_conditions/presentations/views/terms_and_conditions_view.dart';
+// lib/features/common/widgets/custom_app_drawer.dart
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:deals/generated/l10n.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/core/widgets/app_version_text.dart';
 import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';
-import 'package:deals/generated/l10n.dart';
-
+import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:deals/features/home/presentation/manager/cubits/menu_cubit/menu_cubit.dart';
+import 'package:deals/features/personal_data/presentation/views/personal_data_view.dart';
+import 'package:deals/features/terms_and_conditions/presentations/views/terms_and_conditions_view.dart';
+import 'package:deals/features/privacy_and_policy/presentation/views/privacy_and_policy_view.dart';
+import 'package:deals/features/faq/presentation/views/faq_view.dart';
 
-import 'logout_confirmation_dialog.dart'; // <- dialog (uses the design spec)
+import 'logout_confirmation_dialog.dart';
 
 class CustomAppDrawer extends StatelessWidget {
-  const CustomAppDrawer({
-    super.key,
-    required this.userData,
-  });
-
+  const CustomAppDrawer({super.key, required this.userData});
   final UserEntity userData;
+  Future<UserEntity?> _loadCurrentUser() async {
+    final jsonString = await SecureStorageService.getUserEntity();
+    if (jsonString == null) return null;
+    return UserEntity.fromJson(jsonString);
+  }
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    final Size size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
-    /// opens the confirm dialog and, if approved, fires the cubit
-    Future<void> confirmAndLogout() async {
-      final bool? approved = await showDialog<bool>(
+    Future<void> confirmAndLogout(UserEntity user) async {
+      final approved = await showDialog<bool>(
         context: context,
         builder: (_) => LogoutConfirmationDialog(s: s),
       );
-
-      //  approved == true  → user pressed “Log out”
-      //  approved == false → user pressed “Cancel”
-      //  approved == null  → user tapped outside / pressed back
       if (approved == true) {
-        if (!context.mounted) return;
-
         context.read<MenuCubit>().logout(
-              firebaseUid: userData.uId,
-              authToken: userData.token ?? '',
+              firebaseUid: user.uId,
+              authToken: user.token,
             );
       }
     }
@@ -64,144 +63,150 @@ class CustomAppDrawer extends StatelessWidget {
               bottomRight: Radius.circular(16),
             ),
           ),
-          backgroundColor: Colors.white,
-          child: Column(
-            children: [
-              _buildDrawerHeader(context),
+          child: FutureBuilder<UserEntity?>(
+            future: _loadCurrentUser(),
+            builder: (ctx, snap) {
+              if (snap.connectionState != ConnectionState.done) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final user = snap.data;
+              if (user == null) {
+                // no user in storage → force sign-in
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  context.goNamed(SigninView.routeName);
+                });
+                return const SizedBox.shrink();
+              }
 
-              /* BODY ─────────────────────────────────────────── */
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesEarning,
-                        text: s.earnings,
-                        onTap: () {},
-                      ),
-                      _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesPersonalData,
-                        text: s.personalData,
-                        onTap: () {},
-                      ),
-                      _buildDivider(),
-                      _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesTermsConditions,
-                        text: s.termsAndConditions,
-                        onTap: () {
-                          context.pushNamed(TermsAndConditionsView.routeName);
-                        },
-                      ),
-                      _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesPrivacyIcon,
-                        text: s.privacyPolicy,
-                        onTap: () {
-                          context.pushNamed(PrivacyAndPolicyView.routeName);
-                        },
-                      ),
-                      _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesSettings,
-                        text: s.settings,
-                        onTap: () {},
-                      ),
-                      _buildDivider(),
-                      _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesHelp,
-                        text: s.help,
-                        onTap: () {
-                          context.pushNamed(FAQView.routeName);
-                        },
-                      ),
-                      _buildDrawerTile(
-                        iconPath: AppImages.assetsImagesContact,
-                        text: s.contactUs,
-                        onTap: () {},
-                      ),
-                    ],
+              return Column(
+                children: [
+                  // HEADER
+                  Container(
+                    color: AppColors.darkPrimary,
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 40, horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(user.fullName,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(color: Colors.white)),
+                        const SizedBox(height: 4),
+                        Text(user.email,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: Colors.white70)),
+                      ],
+                    ),
                   ),
-                ),
-              ),
 
-              /* FOOTER ───────────────────────────────────────── */
-              BlocListener<MenuCubit, MenuState>(
-                listener: (context, state) {
-                  if (state is MenuLogoutFailure) {
-                    customErrorTopSnackBar(
-                      context: context,
-                      message: state.message,
-                    );
-                  }
-                  if (state is MenuLogoutSuccess) {
-                    context.goNamed(SigninView.routeName);
-                  }
-                },
-                child: _buildDrawerTile(
-                  iconPath: AppImages.assetsImagesLogOut,
-                  text: s.logOut,
-                  textStyle:
-                      AppTextStyles.bold14.copyWith(color: AppColors.accent),
-                  onTap: confirmAndLogout,
-                ),
-              ),
-              const SizedBox(height: 10),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 10),
-                child: AppVersionText(),
-              ),
-            ],
+                  // BODY
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          _buildTile(
+                            icon: AppImages.assetsImagesEarning,
+                            text: s.earnings,
+                            onTap: () {},
+                          ),
+                          _buildTile(
+                            icon: AppImages.assetsImagesPersonalData,
+                            text: s.personalData,
+                            onTap: () => context.pushNamed(
+                              PersonalDataView.routeName,
+                              extra: userData.uId,
+                            ),
+                          ),
+                          _divider(),
+                          _buildTile(
+                            icon: AppImages.assetsImagesTermsConditions,
+                            text: s.termsAndConditions,
+                            onTap: () => context.pushNamed(
+                              TermsAndConditionsView.routeName,
+                            ),
+                          ),
+                          _buildTile(
+                            icon: AppImages.assetsImagesPrivacyIcon,
+                            text: s.privacyPolicy,
+                            onTap: () => context.pushNamed(
+                              PrivacyAndPolicyView.routeName,
+                            ),
+                          ),
+                          _buildTile(
+                            icon: AppImages.assetsImagesSettings,
+                            text: s.settings,
+                            onTap: () {},
+                          ),
+                          _divider(),
+                          _buildTile(
+                            icon: AppImages.assetsImagesHelp,
+                            text: s.help,
+                            onTap: () => context.pushNamed(
+                              FAQView.routeName,
+                            ),
+                          ),
+                          _buildTile(
+                            icon: AppImages.assetsImagesContact,
+                            text: s.contactUs,
+                            onTap: () {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // FOOTER
+                  BlocListener<MenuCubit, MenuState>(
+                    listener: (ctx, state) {
+                      if (state is MenuLogoutFailure) {
+                        customErrorTopSnackBar(
+                          context: ctx,
+                          message: state.message,
+                        );
+                      } else if (state is MenuLogoutSuccess) {
+                        context.goNamed(SigninView.routeName);
+                      }
+                    },
+                    child: _buildTile(
+                      icon: AppImages.assetsImagesLogOut,
+                      text: s.logOut,
+                      textStyle: AppTextStyles.bold14
+                          .copyWith(color: AppColors.accent),
+                      onTap: () => confirmAndLogout(user),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: AppVersionText(),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
     );
   }
 
-  /* ───────────── helpers ───────────── */
-
-  Widget _buildDrawerHeader(BuildContext context) {
-    return Container(
-      color: AppColors.darkPrimary,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            userData.fullName,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(color: Colors.white),
-          ),
-          Text(
-            userData.email,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: Colors.white70),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDrawerTile({
-    required String iconPath,
+  Widget _buildTile({
+    required String icon,
     required String text,
     TextStyle? textStyle,
     VoidCallback? onTap,
-  }) {
-    return ListTile(
-      leading: SizedBox(
-        height: 24,
-        width: 24,
-        child: SvgPicture.asset(iconPath),
-      ),
-      title: Text(text, style: textStyle),
-      onTap: onTap,
-    );
-  }
+  }) =>
+      ListTile(
+        leading: SvgPicture.asset(icon, height: 24, width: 24),
+        title: Text(text, style: textStyle),
+        onTap: onTap,
+      );
 
-  Widget _buildDivider() => const Padding(
+  Widget _divider() => const Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Divider(),
       );

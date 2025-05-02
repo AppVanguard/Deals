@@ -48,42 +48,39 @@ class _CountrySelectorFieldState extends State<CountrySelectorField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(widget.label,
-              style: AppTextStyles.regular14.copyWith(color: AppColors.text)),
-          const SizedBox(height: 4),
-          GestureDetector(
-            onTap: _openCountryPicker,
-            child: InputDecorator(
-              decoration: InputDecoration(
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                suffixIcon: const Icon(Icons.arrow_drop_down),
-                errorText: _errorText,
-              ),
-              child: Row(
-                children: [
-                  if (_selectedCountry != null)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Text(_selectedCountry!.flagEmoji),
-                    ),
-                  Expanded(
-                    child: Text(
-                      _selectedCountry?.name ?? S.of(context).SelectCountry,
-                      style: const TextStyle(fontSize: 17),
-                    ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(widget.label,
+            style: AppTextStyles.regular14.copyWith(color: AppColors.text)),
+        const SizedBox(height: 4),
+        GestureDetector(
+          onTap: _openCountryPicker,
+          child: InputDecorator(
+            decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              suffixIcon: const Icon(Icons.arrow_drop_down),
+              errorText: _errorText,
+            ),
+            child: Row(
+              children: [
+                if (_selectedCountry != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Text(_selectedCountry!.flagEmoji),
                   ),
-                ],
-              ),
+                Expanded(
+                  child: Text(
+                    _selectedCountry?.name ?? S.of(context).SelectCountry,
+                    style: const TextStyle(fontSize: 17),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

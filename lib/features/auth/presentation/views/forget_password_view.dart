@@ -1,3 +1,4 @@
+import 'package:deals/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/features/auth/presentation/views/widgets/forget_password_bloc_consumer.dart';
 
@@ -9,7 +10,7 @@ class ForgetPasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.background,
       ),
       body: const SafeArea(
         child: ForgetPasswordBlocConsumer(),

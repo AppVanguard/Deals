@@ -1,3 +1,4 @@
+import 'package:deals/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/service/get_it_service.dart';
@@ -19,7 +20,7 @@ class UserUpdateView extends StatelessWidget {
     return BlocProvider(
       create: (context) => UserUpdateCubit(userRepo: getIt.get<UserRepo>()),
       child: Scaffold(
-        appBar: AppBar(backgroundColor: Colors.transparent),
+        appBar: AppBar(backgroundColor: AppColors.background),
         body: UserUpdateBlocConsumer(id: id),
       ),
     );

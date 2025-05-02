@@ -51,39 +51,35 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: GestureDetector(
-        onTap: _showDatePicker,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            InputDecorator(
-              decoration: InputDecoration(
-                labelText: S.of(context).BirthDate,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                suffixIcon: const Icon(Icons.arrow_drop_down),
-                errorText: _errorText,
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.calendar_today,
-                      size: 18, color: Colors.grey),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      _selectedDate != null
-                          ? DateFormat("dd/MM/yyyy").format(_selectedDate!)
-                          : S.of(context).SelectDate,
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  ),
-                ],
-              ),
+    return GestureDetector(
+      onTap: _showDatePicker,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          InputDecorator(
+            decoration: InputDecoration(
+              labelText: S.of(context).BirthDate,
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+              suffixIcon: const Icon(Icons.arrow_drop_down),
+              errorText: _errorText,
             ),
-          ],
-        ),
+            child: Row(
+              children: [
+                const Icon(Icons.calendar_today, size: 18, color: Colors.grey),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    _selectedDate != null
+                        ? DateFormat("dd/MM/yyyy").format(_selectedDate!)
+                        : S.of(context).SelectDate,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

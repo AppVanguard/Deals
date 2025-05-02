@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:deals/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/features/auth/presentation/views/widgets/reset_password_view_body.dart';
 
@@ -18,7 +19,7 @@ class ResetPasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     log("The otp in reset: $otp");
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.transparent),
+      appBar: AppBar(backgroundColor: AppColors.background),
       body: SafeArea(
         child: ResetPasswordViewBody(
           email: email,

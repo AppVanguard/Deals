@@ -15,7 +15,7 @@ AppBar buildCouponsAppBar(
 }) {
   return AppBar(
     elevation: 0,
-    backgroundColor: Colors.transparent,
+    backgroundColor: AppColors.background,
     title: Row(
       children: [
         Expanded(

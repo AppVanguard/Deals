@@ -216,7 +216,7 @@ class _StoreDetailViewState extends State<StoreDetailView>
                     child: GestureDetector(
                       onTap: _closeActivatedBar,
                       // Transparent so we do NOT darken the background
-                      child: Container(color: Colors.transparent),
+                      child: Container(color: AppColors.background),
                     ),
                   ),
                   // 2) The ActivatedBar sliding up on top

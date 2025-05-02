@@ -1,3 +1,4 @@
+import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/features/faq/presentation/views/widgets/faq_view_body.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class FAQView extends StatelessWidget {
           S.of(context).Help,
         ),
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.background,
         centerTitle: true,
       ),
       body: const FAQViewBody(),

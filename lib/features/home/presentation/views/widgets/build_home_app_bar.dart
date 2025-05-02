@@ -23,7 +23,7 @@ AppBar buildHomeAppBar({
       child: Divider(),
     ),
     elevation: 0,
-    backgroundColor: Colors.transparent,
+    backgroundColor: AppColors.background,
     leading: Builder(
       builder: (context) {
         return IconButton(
