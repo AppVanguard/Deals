@@ -3,11 +3,14 @@
 import 'dart:developer';
 
 import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/features/home/presentation/views/home_view.dart';
+import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:deals/features/personal_data/data/repos/presonal_data_repo_impl.dart';
 import 'package:deals/features/personal_data/presentation/manager/personal_data_cubit.dart';
 import 'package:deals/features/personal_data/presentation/views/widgets/personal_data_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'package:deals/generated/l10n.dart';
@@ -29,17 +32,6 @@ class PersonalDataView extends StatelessWidget {
     fullName: '',
     email: '',
     phone: '',
-    profileImageUrl: null,
-    dateOfBirth: null,
-    gender: null,
-    country: null,
-    city: null,
-    totalSavings: 0,
-    favoriteStores: const [],
-    bookmarks: const [],
-    isActive: null,
-    createdAt: null,
-    updatedAt: null,
   );
 
   @override
@@ -61,12 +53,14 @@ class PersonalDataView extends StatelessWidget {
               await SecureStorageService.saveUserEntity(
                 state.user.toJson(),
               );
+              if (!context.mounted) return;
               ScaffoldMessenger.of(ctx).showSnackBar(
                 SnackBar(
                   content: Text(S.of(ctx).SaveSuccess),
                   backgroundColor: AppColors.primary,
                 ),
               );
+              context.goNamed(MainView.routeName, extra: state.user);
             } else if (state is PersonalDataUpdateFailure) {
               ScaffoldMessenger.of(ctx).showSnackBar(
                 SnackBar(
