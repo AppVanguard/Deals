@@ -21,6 +21,7 @@ class NotificationsPermissionService {
       BackendEndpoints.kToken: deviceToken,
     });
     try {
+      log('Allowing notifications for user: $firebaseUid with token: $deviceToken');
       final response = await http.post(
         url,
         headers: {

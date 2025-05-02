@@ -99,19 +99,21 @@ Future<void> main() async {
   // 9) Attach the SINGLE onMessage listener if not attached
   if (!_didAttachFcmListener) {
     _didAttachFcmListener = true;
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      log("Foreground message received: ${message.messageId}");
+    FirebaseMessaging.onMessage.listen(
+      (RemoteMessage message) async {
+        log("Foreground message received: ${message.messageId}");
 
-      // Show local heads-up or tray notification
-      await showLocalNotification(message);
+        // Show local heads-up or tray notification
+        await showLocalNotification(message);
 
-      // If we have a NotificationsCubit, pass the message to it
-      final hasCubit = getIt.isRegistered<NotificationsCubit>();
-      if (hasCubit) {
-        final notificationsCubit = getIt<NotificationsCubit>();
-        notificationsCubit.handleIncomingForegroundMessage(message);
-      }
-    });
+        // If we have a NotificationsCubit, pass the message to it
+        final hasCubit = getIt.isRegistered<NotificationsCubit>();
+        if (hasCubit) {
+          final notificationsCubit = getIt<NotificationsCubit>();
+          notificationsCubit.handleIncomingForegroundMessage(message);
+        }
+      },
+    );
   }
 
   // 10) If user taps a notification that opens the app
