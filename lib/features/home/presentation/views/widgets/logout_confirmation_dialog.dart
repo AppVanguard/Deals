@@ -5,7 +5,6 @@ import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/generated/l10n.dart';
 
-
 class LogoutConfirmationDialog extends AppConfirmationDialog {
   LogoutConfirmationDialog({super.key, required S s})
       : super(

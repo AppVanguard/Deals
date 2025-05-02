@@ -21,5 +21,3 @@ class NotificationsView extends StatelessWidget {
     );
   }
 }
-
-
