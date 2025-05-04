@@ -1,5 +1,3 @@
-// lib/core/service/notifications_service.dart
-
 import 'dart:convert';
 import 'dart:developer';
 import 'package:deals/features/notifications/data/models/notifications_model.dart';
