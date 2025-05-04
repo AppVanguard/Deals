@@ -10,8 +10,8 @@ import 'package:deals/features/auth/presentation/views/widgets/forget_password_v
 import 'package:go_router/go_router.dart';
 
 class ForgetPasswordBlocConsumer extends StatefulWidget {
-  const ForgetPasswordBlocConsumer({super.key});
-
+  const ForgetPasswordBlocConsumer({super.key, required this.finalRoute});
+  final String finalRoute;
   @override
   State<ForgetPasswordBlocConsumer> createState() =>
       _ForgetPasswordBlocConsumerState();
@@ -32,8 +32,8 @@ class _ForgetPasswordBlocConsumerState
               extra: {
                 kEmail: email!,
                 kImage: AppImages.assetsImagesOTB,
-                kNextRoute: ResetPasswordView.routeName,
-                // Passing the API's returned message (or OTP) as kId.
+                kNextRoute: ResetPasswordView.routeName, // first stop
+                kFinalRoute: widget.finalRoute, // eventual destination
                 kId: state.message,
                 kIsRegister: false,
               },

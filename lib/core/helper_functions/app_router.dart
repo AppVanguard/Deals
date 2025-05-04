@@ -118,10 +118,13 @@ class AppRouter {
         name: OtpVerficationView.routeName,
         builder: (context, state) {
           final args = state.extra as Map<String, dynamic>?;
+
           if (args == null) {
             return const Scaffold(
-                body: Center(child: Text('Missing route arguments')));
+              body: Center(child: Text('Missing route arguments')),
+            );
           }
+
           return MultiBlocProvider(
             providers: [
               BlocProvider<OtpVerifyCubit>(
@@ -135,23 +138,31 @@ class AppRouter {
               email: args[kEmail] as String,
               image: args[kImage] as String?,
               nextRoute: args[kNextRoute] as String,
+              finalRoute: args[kFinalRoute] as String? /* nullable */
+                  ??
+                  SigninView.routeName, // sensible default
               id: args[kId] as String,
               isRegister: args[kIsRegister] as bool,
             ),
           );
         },
       ),
+
       // Forget Password Route
       GoRoute(
         path: ForgetPasswordView.routeName,
         name: ForgetPasswordView.routeName,
         builder: (context, state) {
+          final finalRoute =
+              (state.extra as Map<String, dynamic>?)?[kFinalRoute] ??
+                  SigninView.routeName;
           return BlocProvider(
             create: (_) => ResetPasswordCubit(getIt.get<AuthRepo>()),
-            child: const ForgetPasswordView(),
+            child: ForgetPasswordView(finalRoute: finalRoute),
           );
         },
       ),
+
       // Reset Password Route
       GoRoute(
         path: ResetPasswordView.routeName,
@@ -159,14 +170,14 @@ class AppRouter {
         builder: (context, state) {
           final args = state.extra as Map<String, dynamic>?;
           if (args == null) {
-            return const Scaffold(
-                body: Center(child: Text('Missing route arguments')));
+            return const Scaffold(body: Center(child: Text('Missing args')));
           }
           return BlocProvider(
             create: (_) => ResetPasswordCubit(getIt.get<AuthRepo>()),
             child: ResetPasswordView(
               email: args[kEmail] as String,
               otp: args[kOtp] as String,
+              finalRoute: args[kFinalRoute] as String? ?? SigninView.routeName,
             ),
           );
         },

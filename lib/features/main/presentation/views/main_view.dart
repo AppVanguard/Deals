@@ -1,4 +1,3 @@
-// lib/features/main/presentation/views/main_view.dart
 
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';

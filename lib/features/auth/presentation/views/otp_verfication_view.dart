@@ -10,6 +10,7 @@ class OtpVerficationView extends StatelessWidget {
     required this.nextRoute,
     required this.id,
     required this.isRegister,
+    required this.finalRoute,
   });
 
   final String email;
@@ -17,6 +18,7 @@ class OtpVerficationView extends StatelessWidget {
   final String nextRoute; // e.g. 'reset-password' or 'personal_data_view'
   final String id;
   final bool isRegister;
+  final String finalRoute;
 
   static const routeName = '/otp_verfication_view';
 
@@ -29,6 +31,7 @@ class OtpVerficationView extends StatelessWidget {
         image: image,
         email: email,
         path: nextRoute,
+        finalRoute: finalRoute, // pass down
         isRegister: isRegister,
       ),
     );

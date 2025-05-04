@@ -1,16 +1,18 @@
 import 'dart:developer';
+
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/utils/app_text_styles.dart';
+import 'package:deals/core/widgets/custom_button.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer_cubit/otp_resend_timer_cubit.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer_cubit/otp_resend_timer_state.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
+import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_state.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/core/utils/app_text_styles.dart';
-import 'package:deals/core/widgets/custom_button.dart';
-import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_cubit.dart';
-import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer_cubit/otp_resend_timer_cubit.dart';
-import 'package:deals/features/auth/presentation/manager/cubits/otp_resend_timer_cubit/otp_resend_timer_state.dart';
 import 'package:deals/generated/l10n.dart';
 
 class OTPVerificationViewBody extends StatefulWidget {
@@ -30,6 +32,7 @@ class OTPVerificationViewBody extends StatefulWidget {
   final String routeName;
   final String? errorMessage;
   final bool isRegister;
+
   @override
   State<OTPVerificationViewBody> createState() =>
       _OTPVerificationViewBodyState();
@@ -54,6 +57,9 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     super.dispose();
   }
 
+  // ──────────────────────────────────────────────────────────────
+  // Helpers
+  // ──────────────────────────────────────────────────────────────
   void _onChanged(String value, int index) {
     setState(() {
       _hasValue[index] = value.isNotEmpty;
@@ -92,17 +98,18 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
       }
       _showFieldError = hasEmptyFields;
     });
+
     if (!hasEmptyFields) {
       final otpCode = _controllers.map((e) => e.text).join();
       log('Entered OTP: $otpCode');
-      // Here, for reset password flow, call verifyOtpForReset.
-      widget.isRegister
-          ? context
-              .read<OtpVerifyCubit>()
-              .verifyOtpForRegister(email: widget.email, otp: otpCode)
-          : context
-              .read<OtpVerifyCubit>()
-              .verifyOtpForReset(email: widget.email, otp: otpCode);
+
+      // Call correct verify depending on flow
+      final cubit = context.read<OtpVerifyCubit>();
+      if (widget.isRegister) {
+        cubit.verifyOtpForRegister(email: widget.email, otp: otpCode);
+      } else {
+        cubit.verifyOtpForReset(email: widget.email, otp: otpCode);
+      }
     }
   }
 
@@ -111,68 +118,70 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     context.read<OtpResendTimerCubit>().startTimer();
   }
 
-  OutlineInputBorder buildBorder(int index) {
-    Color borderColor;
+  OutlineInputBorder _border(int index, {bool focused = false}) {
+    Color color;
     if (widget.errorMessage != null) {
-      borderColor = Colors.red;
+      color = Colors.red;
+    } else if (_isError[index]) {
+      color = Colors.red;
+    } else if (_hasValue[index]) {
+      color = AppColors.primary;
     } else {
-      borderColor = _isError[index]
-          ? Colors.red
-          : (_hasValue[index] ? AppColors.primary : Colors.grey.shade400);
+      color = Colors.grey.shade400;
     }
-    return OutlineInputBorder(
-      borderSide: BorderSide(color: borderColor, width: 2),
-      borderRadius: BorderRadius.circular(12),
-    );
-  }
 
-  OutlineInputBorder buildFocusedBorder(int index) {
-    final borderColor =
-        widget.errorMessage != null ? Colors.red : AppColors.primary;
     return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
       borderSide: BorderSide(
-        color: _isError[index] ? Colors.red : borderColor,
-        width: 2,
+        color: color,
+        width: focused ? 2 : 2,
       ),
-      borderRadius: BorderRadius.circular(12),
     );
   }
 
+  // ──────────────────────────────────────────────────────────────
+  // UI
+  // ──────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
+    // 1) Check resend-timer
     final timerState = context.watch<OtpResendTimerCubit>().state;
-    bool timerIsRunning = false;
-    int secondsLeft = 0;
-    if (timerState is TimerRunning) {
-      timerIsRunning = true;
-      secondsLeft = timerState.timeLeft;
-    }
+    final bool timerRunning = timerState is TimerRunning;
+    final int secondsLeft =
+        timerRunning ? (timerState as TimerRunning).timeLeft : 0;
+
+    // 2) Check if OTP verification is in-flight
+    final bool isVerifying =
+        context.watch<OtpVerifyCubit>().state is OtpVerifyLoading;
+
     return SingleChildScrollView(
       child: Center(
         child: Column(
           children: [
             const SizedBox(height: 16),
-            if (widget.image != null)
-              SvgPicture.asset(widget.image!)
-            else
-              const SizedBox(),
-            if (widget.image != null)
-              Text(
-                S.of(context).OTPVerification,
-                style: AppTextStyles.bold32,
-              )
-            else
-              Text(
-                S.of(context).EnterCode,
-                style: AppTextStyles.bold32,
-              ),
+
+            // Illustration
+            if (widget.image != null) SvgPicture.asset(widget.image!),
+
+            // Title
             Text(
-              "${S.of(context).OTPSent} \n ${widget.email}",
+              widget.image != null
+                  ? S.of(context).OTPVerification
+                  : S.of(context).EnterCode,
+              style: AppTextStyles.bold32,
+            ),
+
+            // Sub-title
+            Text(
+              '${S.of(context).OTPSent}\n${widget.email}',
               style: AppTextStyles.regular14
                   .copyWith(color: AppColors.secondaryText),
               textAlign: TextAlign.center,
             ),
+
             const SizedBox(height: 20),
+
+            // OTP fields
             Form(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -189,30 +198,34 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                       child: TextFormField(
                         controller: _controllers[index],
                         focusNode: _focusNodes[index],
+                        maxLength: 1,
                         keyboardType: TextInputType.number,
                         textAlign: TextAlign.center,
-                        textAlignVertical: TextAlignVertical.top,
-                        maxLength: 1,
                         cursorHeight: 30,
                         style: AppTextStyles.semiBold32,
                         decoration: InputDecoration(
-                          counterText: "",
-                          enabledBorder: buildBorder(index),
-                          focusedBorder: buildFocusedBorder(index),
-                          border: buildBorder(index),
+                          counterText: '',
+                          border: _border(index),
+                          enabledBorder: _border(index),
+                          focusedBorder: _border(index, focused: true),
                         ),
-                        onChanged: (value) => _onChanged(value, index),
+                        onChanged: (v) => _onChanged(v, index),
                       ),
                     ),
                   );
                 }),
               ),
             ),
+
+            // Empty-field error
             if (_showFieldError)
               Text(
                 S.of(context).OTPValidator,
-                style: AppTextStyles.regular14.copyWith(color: Colors.red),
+                style:
+                    AppTextStyles.regular14.copyWith(color: Colors.redAccent),
               ),
+
+            // Backend error (wrong code)
             if (widget.errorMessage != null)
               Container(
                 width: 122,
@@ -237,16 +250,23 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                   ],
                 ),
               ),
+
             const SizedBox(height: 16),
+
+            // VERIFY button with spinner
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: CustomButton(
                 width: double.infinity,
-                onPressed: _validateFields,
                 text: S.of(context).Verify,
+                onPressed: isVerifying ? () {} : _validateFields,
+                isLoading: isVerifying,
               ),
             ),
+
             const SizedBox(height: 12),
+
+            // Resend link / timer
             Text.rich(
               TextSpan(
                 children: [
@@ -256,23 +276,24 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
                         .copyWith(color: AppColors.secondaryText),
                   ),
                   const TextSpan(text: ' '),
-                  if (timerIsRunning)
-                    TextSpan(
-                      text: '${S.of(context).Resend} ${secondsLeft}s',
-                      style: AppTextStyles.regular14
-                          .copyWith(color: AppColors.primary),
-                    )
-                  else
-                    TextSpan(
-                      recognizer: TapGestureRecognizer()..onTap = _resendOtp,
-                      text: S.of(context).Resend,
-                      style: AppTextStyles.bold14
-                          .copyWith(color: AppColors.primary),
-                    ),
+                  timerRunning
+                      ? TextSpan(
+                          text: '${S.of(context).Resend} ${secondsLeft}s',
+                          style: AppTextStyles.regular14
+                              .copyWith(color: AppColors.primary),
+                        )
+                      : TextSpan(
+                          text: S.of(context).Resend,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = _resendOtp,
+                          style: AppTextStyles.bold14
+                              .copyWith(color: AppColors.primary),
+                        ),
                 ],
               ),
               textAlign: TextAlign.center,
             ),
+
             const SizedBox(height: 20),
           ],
         ),
