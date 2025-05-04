@@ -1959,6 +1959,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Data saved`
+  String get DataSaved {
+    return Intl.message(
+      'Data saved',
+      name: 'DataSaved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OK`
+  String get OK {
+    return Intl.message(
+      'OK',
+      name: 'OK',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

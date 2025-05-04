@@ -52,6 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Coupons": MessageLookupByLibrary.simpleMessage("Coupons"),
         "CreateNewAccount":
             MessageLookupByLibrary.simpleMessage("Create New Account"),
+        "DataSaved": MessageLookupByLibrary.simpleMessage("Data saved"),
         "Deals": MessageLookupByLibrary.simpleMessage("Deals"),
         "DontHaveAccount":
             MessageLookupByLibrary.simpleMessage("Don’t have an account?"),
@@ -128,6 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No search results found"),
         "NoStores": MessageLookupByLibrary.simpleMessage("No stores found"),
         "Notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "OK": MessageLookupByLibrary.simpleMessage("OK"),
         "OTPSent": MessageLookupByLibrary.simpleMessage(
             "A 4-digit code has been sent to "),
         "OTPValidator": MessageLookupByLibrary.simpleMessage(

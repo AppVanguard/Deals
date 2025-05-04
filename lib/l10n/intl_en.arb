@@ -189,5 +189,7 @@
       "FullNameValidator": "Please enter your full name.",
       "PhoneNumberValidator": "Please enter your phone number.",
       "CityHint": "City",
-      "PersonalData": "Personal data"
+      "PersonalData": "Personal data",
+      "DataSaved": "Data saved",
+      "OK": "OK"
 }
