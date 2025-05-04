@@ -143,7 +143,7 @@ class SigninCubit extends Cubit<SigninState> {
     final res = await _notificationsPermissionRepo.allowNotifications(
       firebaseUid: user.uId,
       deviceToken: token,
-      authToken: user.token ?? '',
+      authToken: user.token,
     );
 
     res.fold(
