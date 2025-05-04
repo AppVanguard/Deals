@@ -2009,6 +2009,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Are you sure you want to delete your account? This action cannot be undone.`
+  String get deleteAccountWarning {
+    return Intl.message(
+      'Are you sure you want to delete your account? This action cannot be undone.',
+      name: 'deleteAccountWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I have read the terms and I agree on them`
+  String get iHaveReadTheTermsAndIAgreeOnThem {
+    return Intl.message(
+      'I have read the terms and I agree on them',
+      name: 'iHaveReadTheTermsAndIAgreeOnThem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go to registration`
+  String get goToRegistration {
+    return Intl.message(
+      'Go to registration',
+      name: 'goToRegistration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your account has been deleted. We hope to see you again in Waffur.`
+  String get accountDeleted {
+    return Intl.message(
+      'Your account has been deleted. We hope to see you again in Waffur.',
+      name: 'accountDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account deleted successfully`
+  String get accountDeletedSuccessfully {
+    return Intl.message(
+      'Account deleted successfully',
+      name: 'accountDeletedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

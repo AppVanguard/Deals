@@ -1,30 +1,40 @@
+// lib/features/settings/presentation/manager/cubit/settings_cubit.dart
 
-import 'package:deals/constants.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:developer';
+
+import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
-import 'package:meta/meta.dart';
+import 'package:deals/constants.dart';
+import 'package:deals/core/service/get_it_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:deals/core/errors/faliure.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
-import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
+import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';
 
 part 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   final SettingsRepo _repo;
-
   SettingsCubit({required SettingsRepo repo})
       : _repo = repo,
-        super(SettingsInitial());
+        super(SettingsInitial()) {
+    _loadInitialPushState();
+  }
 
-  /// Toggle notifications on/off
+  /// Reads the saved push setting from prefs.
+  Future<void> _loadInitialPushState() async {
+    final enabled = Prefs.getBool('pushEnabled');
+    emit(SettingsPushSuccess(isEnabled: enabled));
+  }
+
+  /// Toggle server‐side allow/prevent notifications.
   Future<void> togglePush(bool enabled) async {
     emit(SettingsLoading());
 
-    // 1) load current user
+    // load current user
     final json = await SecureStorageService.getUserEntity();
     if (json == null) {
       emit(SettingsPushFailure(message: 'User not found'));
@@ -32,31 +42,87 @@ class SettingsCubit extends Cubit<SettingsState> {
     }
     final user = UserEntity.fromJson(json);
 
-    // 2) get FCM device token for allow() call
-    final deviceToken = await FirebaseMessaging.instance.getToken() ?? '';
+    // get FCM token
+    final deviceToken = await FirebaseMessaging.instance.getToken();
+    if (deviceToken == null) {
+      emit(SettingsPushFailure(message: 'FCM token not available'));
+      return;
+    }
 
-    // 3) call server
     Either<Failure, Unit> res;
     if (enabled) {
       res = await _repo.allowPushNotifications(
         firebaseUid: user.uId,
         deviceToken: deviceToken,
-        authToken: user.token,
+        authToken: user.token!,
       );
     } else {
       res = await _repo.disablePushNotifications(
         firebaseUid: user.uId,
-        authToken: user.token,
+        authToken: user.token!,
       );
     }
 
-    // 4) handle result
     res.fold(
       (f) => emit(SettingsPushFailure(message: f.message)),
       (_) {
-        // persist choice
-        Prefs.setBool(kPushEnabled, enabled);
+        Prefs.setBool('pushEnabled', enabled);
         emit(SettingsPushSuccess(isEnabled: enabled));
+      },
+    );
+  }
+
+  /// Change the current user's password.
+  Future<void> changePassword({
+    required String email,
+    required String currentPassword,
+    required String newPassword,
+    required String authToken,
+  }) async {
+    emit(SettingsLoading());
+
+    final Either<Failure, String> res = await _repo.changePassword(
+      email: email,
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+      authToken: authToken,
+    );
+
+    res.fold(
+      (f) => emit(SettingsChangePasswordFailure(message: f.message)),
+      (msg) => emit(SettingsChangePasswordSuccess(message: msg)),
+    );
+  }
+
+  /// Delete the current user's account.
+  Future<void> deleteAccount({
+    required String firebaseUid,
+    required String authToken,
+  }) async {
+    emit(SettingsLoading());
+
+    final Either<Failure, String> res = await _repo.deleteAccount(
+      firebaseUid: firebaseUid,
+      authToken: authToken,
+    );
+
+    res.fold(
+      (f) => emit(SettingsDeleteAccountFailure(message: f.message)),
+      (msg) async {
+        // 1) Turn off “remember me”
+        Prefs.setBool(kRememberMe, false);
+       
+        // 3) Remove the local “registered” flag
+        await Prefs.remove('notificationsRegistered_$firebaseUid');
+
+        // 5) Unregister the NotificationsCubit singleton
+        unregisterNotificationsCubitSingleton();
+
+        // 6) Clear the secure‐stored user entity
+        await SecureStorageService.deleteUserEntity();
+
+        // Finally emit success
+        emit(SettingsDeleteAccountSuccess(message: msg));
       },
     );
   }

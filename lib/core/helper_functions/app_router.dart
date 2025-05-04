@@ -30,7 +30,9 @@ import 'package:deals/features/privacy_and_policy/presentation/views/privacy_and
 import 'package:deals/features/search/presentation/views/search_view.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';
 import 'package:deals/features/settings/presentation/manager/settings_cubit.dart';
+import 'package:deals/features/settings/presentation/views/delete_account_view.dart';
 import 'package:deals/features/settings/presentation/views/settings_view.dart';
+import 'package:deals/features/settings/presentation/views/widgets/deleted_success_screen.dart';
 import 'package:deals/features/splash/presentation/views/splash_view.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
@@ -318,8 +320,6 @@ class AppRouter {
           );
         },
       ),
-      // within AppRouter.router’s routes list:
-
       GoRoute(
         path: SettingsView.routeName,
         name: SettingsView.routeName,
@@ -331,6 +331,19 @@ class AppRouter {
             child: const SettingsView(),
           );
         },
+      ),
+      GoRoute(
+        path: DeleteAccountView.routeName,
+        name: DeleteAccountView.routeName,
+        builder: (context, state) => BlocProvider(
+          create: (_) => SettingsCubit(repo: getIt<SettingsRepo>()),
+          child: const DeleteAccountView(),
+        ),
+      ),
+      GoRoute(
+        path: DeletedSuccessScreen.routeName,
+        name: DeletedSuccessScreen.routeName,
+        builder: (context, state) => const DeletedSuccessScreen(),
       ),
     ],
   );

@@ -1,6 +1,10 @@
-
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/features/settings/presentation/views/delete_account_view.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsViewBody extends StatelessWidget {
   final bool pushEnabled;
@@ -39,6 +43,7 @@ class SettingsViewBody extends StatelessWidget {
             // Buttons placeholders
             const SizedBox(height: 24),
             Card(
+              color: AppColors.background,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               elevation: 2,
@@ -51,16 +56,19 @@ class SettingsViewBody extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Card(
+              color: AppColors.background,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               elevation: 2,
               child: ListTile(
-                leading: const Icon(Icons.delete_outline, color: Colors.red),
+                leading: SvgPicture.asset(AppImages.assetsImagesDelete),
                 title: Text(s.deleteAccount,
                     style: const TextStyle(color: Colors.red)),
                 trailing: const Icon(Icons.arrow_forward_ios,
                     size: 16, color: Colors.red),
-                onTap: () {}, // no-op for now
+                onTap: () {
+                  context.pushNamed(DeleteAccountView.routeName);
+                }, // no-op for now
               ),
             ),
           ],

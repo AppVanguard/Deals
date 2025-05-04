@@ -194,5 +194,11 @@
       "OK": "OK",
       "pushNotifications": "Push notifications",
       "changePassword": "Change password",
-      "deleteAccount": "Delete account"
+      "deleteAccount": "Delete account",
+      "deleteAccountWarning": "Are you sure you want to delete your account? This action cannot be undone.",
+      "delete": "Delete",
+      "iHaveReadTheTermsAndIAgreeOnThem": "I have read the terms and I agree on them",
+      "goToRegistration": "Go to registration",
+      "accountDeleted": "Your account has been deleted. We hope to see you again in Waffur.",
+      "accountDeletedSuccessfully":"Account deleted successfully"
 }

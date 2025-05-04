@@ -85,6 +85,7 @@ flutter:
     - assets/json/terms_and_conditions.json
     - assets/json/privacy_policy.json
     - assets/json/faq.json
+    - assets/json/delete_account_reasons.json
 
   # Fonts configuration
   fonts:

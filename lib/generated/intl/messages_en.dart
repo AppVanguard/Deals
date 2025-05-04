@@ -209,6 +209,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "UnknowError": MessageLookupByLibrary.simpleMessage("Unknow error"),
         "ValidUntil": MessageLookupByLibrary.simpleMessage("Valid until"),
         "Verify": MessageLookupByLibrary.simpleMessage("Verify"),
+        "accountDeleted": MessageLookupByLibrary.simpleMessage(
+            "Your account has been deleted. We hope to see you again in Waffur."),
+        "accountDeletedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Account deleted successfully"),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(
                 "The account is registered with a different provider. Please log in with the linked provider."),
@@ -233,14 +237,22 @@ class MessageLookup extends MessageLookupByLibrary {
             "The credential is already in use."),
         "day": MessageLookupByLibrary.simpleMessage("day"),
         "days": MessageLookupByLibrary.simpleMessage("days"),
+        "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete account"),
+        "deleteAccountWarning": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete your account? This action cannot be undone."),
         "earnings": MessageLookupByLibrary.simpleMessage("Earnings"),
         "emailAlreadyInUse":
             MessageLookupByLibrary.simpleMessage("The account already exists."),
         "existing_customers_discount":
             MessageLookupByLibrary.simpleMessage("Existing customers discount"),
         "getCode": MessageLookupByLibrary.simpleMessage("Get Code"),
+        "goToRegistration":
+            MessageLookupByLibrary.simpleMessage("Go to registration"),
         "help": MessageLookupByLibrary.simpleMessage("Help"),
+        "iHaveReadTheTermsAndIAgreeOnThem":
+            MessageLookupByLibrary.simpleMessage(
+                "I have read the terms and I agree on them"),
         "internalError":
             MessageLookupByLibrary.simpleMessage("An error occurred."),
         "invalidCredential": MessageLookupByLibrary.simpleMessage(

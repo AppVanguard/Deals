@@ -1,3 +1,4 @@
+import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';
@@ -171,7 +172,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
             ),
             HaveOrNotAccount(
               onTap: () {
-                context.pop();
+                context.goNamed(SigninView.routeName);
               },
               question: S.of(context).AlreadyHaveAccount,
               action: S.of(context).Login,
