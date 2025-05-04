@@ -36,12 +36,13 @@ class CustomAppDrawer extends StatelessWidget {
     final s = S.of(context);
     final size = MediaQuery.of(context).size;
 
-    Future<void> _confirmAndLogout(UserEntity user) async {
+    Future<void> confirmAndLogout(UserEntity user) async {
       final approved = await showDialog<bool>(
         context: context,
         builder: (_) => LogoutConfirmationDialog(s: s),
       );
       if (approved == true) {
+        if (!context.mounted) return; // ignore: unnecessary_null_awareness
         context.read<MenuCubit>().logout(
               firebaseUid: user.uId,
               authToken: user.token,
@@ -171,7 +172,7 @@ class CustomAppDrawer extends StatelessWidget {
                       text: s.logOut,
                       textStyle: AppTextStyles.bold14
                           .copyWith(color: AppColors.accent),
-                      onTap: () => _confirmAndLogout(user),
+                      onTap: () => confirmAndLogout(user),
                     ),
                   ),
                   const SizedBox(height: 10),
