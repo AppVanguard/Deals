@@ -41,12 +41,12 @@ class SettingsCubit extends Cubit<SettingsState> {
       res = await _repo.allowPushNotifications(
         firebaseUid: user.uId,
         deviceToken: deviceToken,
-        authToken: user.token!,
+        authToken: user.token,
       );
     } else {
       res = await _repo.disablePushNotifications(
         firebaseUid: user.uId,
-        authToken: user.token!,
+        authToken: user.token,
       );
     }
 
