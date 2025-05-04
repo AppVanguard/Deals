@@ -2069,6 +2069,96 @@ class S {
       args: [],
     );
   }
+
+  /// `Password must contain at least one number.`
+  String get passwordMustContainNumber {
+    return Intl.message(
+      'Password must contain at least one number.',
+      name: 'passwordMustContainNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must be at least 6 characters long.`
+  String get passwordMustBe6Characters {
+    return Intl.message(
+      'Password must be at least 6 characters long.',
+      name: 'passwordMustBe6Characters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password must contain at least one special character.`
+  String get passwordMustContainSpecial {
+    return Intl.message(
+      'Password must contain at least one special character.',
+      name: 'passwordMustContainSpecial',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password not matching.`
+  String get passwordNotMatching {
+    return Intl.message(
+      'Password not matching.',
+      name: 'passwordNotMatching',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Old password`
+  String get oldPassword {
+    return Intl.message(
+      'Old password',
+      name: 'oldPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forget the password?`
+  String get forgetThePassword {
+    return Intl.message(
+      'Forget the password?',
+      name: 'forgetThePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New password`
+  String get newPassword {
+    return Intl.message(
+      'New password',
+      name: 'newPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm new password`
+  String get confirmNewPassword {
+    return Intl.message(
+      'Confirm new password',
+      name: 'confirmNewPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password changed successfully`
+  String get passwordChangedSuccessfully {
+    return Intl.message(
+      'Password changed successfully',
+      name: 'passwordChangedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

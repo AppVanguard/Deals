@@ -17,7 +17,7 @@ import 'package:deals/core/widgets/gender_selector.dart';
 import 'package:deals/core/widgets/custom_button.dart';
 
 class PersonalDataViewBody extends StatefulWidget {
-  const PersonalDataViewBody({Key? key, required this.user}) : super(key: key);
+  const PersonalDataViewBody({super.key, required this.user});
 
   final UserEntity user;
 

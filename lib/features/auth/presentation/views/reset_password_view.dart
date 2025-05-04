@@ -21,9 +21,12 @@ class ResetPasswordView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(backgroundColor: AppColors.background),
       body: SafeArea(
-        child: ResetPasswordViewBody(
-          email: email,
-          otp: otp,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: ResetPasswordViewBody(
+            email: email,
+            otp: otp,
+          ),
         ),
       ),
     );

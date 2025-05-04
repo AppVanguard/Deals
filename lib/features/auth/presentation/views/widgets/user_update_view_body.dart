@@ -44,9 +44,9 @@ class _UserUpdateViewBodyState extends State<UserUpdateViewBody> {
           children: [
             CountrySelectorField(
               validator: (value) {
-                if (value == null) {
-                  return S.of(context).CountryValidator;
-                }
+                // if (value == null) {
+                //   return S.of(context).CountryValidator;
+                // }
                 return null;
               },
               label: S.of(context).Country,
@@ -64,17 +64,17 @@ class _UserUpdateViewBodyState extends State<UserUpdateViewBody> {
               textInputType: TextInputType.text,
               label: S.of(context).City,
               validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return S.of(context).CityValidator;
-                }
+                // if (value == null || value.isEmpty) {
+                //   return S.of(context).CityValidator;
+                // }
                 return null;
               },
             ),
             CustomDatePicker(
               validator: (value) {
-                if (value == null) {
-                  return S.of(context).BirthdayValidator;
-                }
+                // if (value == null) {
+                //   return S.of(context).BirthdayValidator;
+                // }
                 return null;
               },
               onDateSelected: (value) {
@@ -91,9 +91,9 @@ class _UserUpdateViewBodyState extends State<UserUpdateViewBody> {
               label: S.of(context).Gender,
               // Example validator function that returns a message if gender is not selected:
               validator: (gender) {
-                if (gender == null) {
-                  return S.of(context).PleaseSelectGender;
-                }
+                // if (gender == null) {
+                //   return S.of(context).PleaseSelectGender;
+                // }
                 return null;
               },
             ),

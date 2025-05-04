@@ -31,8 +31,11 @@ class UserUpdateBlocConsumer extends StatelessWidget {
       builder: (context, state) {
         return CustomProgressHud(
           isLoading: state is UserUpdateLoading,
-          child: UserUpdateViewBody(
-            id: id,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: UserUpdateViewBody(
+              id: id,
+            ),
           ),
         );
       },

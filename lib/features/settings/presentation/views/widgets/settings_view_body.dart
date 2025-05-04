@@ -1,5 +1,6 @@
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/features/settings/presentation/views/change_password_view.dart';
 import 'package:deals/features/settings/presentation/views/delete_account_view.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/generated/l10n.dart';
@@ -51,7 +52,9 @@ class SettingsViewBody extends StatelessWidget {
                 leading: const Icon(Icons.lock_outline),
                 title: Text(s.changePassword),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {}, // no-op for now
+                onTap: () {
+                  context.pushNamed(ChangePasswordView.routeName);
+                }, // no-op for now
               ),
             ),
             const SizedBox(height: 12),

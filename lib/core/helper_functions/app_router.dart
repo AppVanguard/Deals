@@ -30,6 +30,7 @@ import 'package:deals/features/privacy_and_policy/presentation/views/privacy_and
 import 'package:deals/features/search/presentation/views/search_view.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';
 import 'package:deals/features/settings/presentation/manager/settings_cubit.dart';
+import 'package:deals/features/settings/presentation/views/change_password_view.dart';
 import 'package:deals/features/settings/presentation/views/delete_account_view.dart';
 import 'package:deals/features/settings/presentation/views/settings_view.dart';
 import 'package:deals/features/settings/presentation/views/widgets/deleted_success_screen.dart';
@@ -344,6 +345,14 @@ class AppRouter {
         path: DeletedSuccessScreen.routeName,
         name: DeletedSuccessScreen.routeName,
         builder: (context, state) => const DeletedSuccessScreen(),
+      ),
+      GoRoute(
+        path: ChangePasswordView.routeName,
+        name: ChangePasswordView.routeName,
+        builder: (context, state) => BlocProvider(
+          create: (_) => SettingsCubit(repo: getIt<SettingsRepo>()),
+          child: const ChangePasswordView(),
+        ),
       ),
     ],
   );

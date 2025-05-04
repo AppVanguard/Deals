@@ -7,6 +7,7 @@ const kRememberMe = 'rememberMe';
 const kEmail = 'email';
 const kImage = 'image';
 const kNextRoute = 'nextRoute';
+const String kNextAfterReset = 'nextAfterReset';
 const kId = 'id';
 const kFullName = 'fullName';
 const kPhone = 'phone';

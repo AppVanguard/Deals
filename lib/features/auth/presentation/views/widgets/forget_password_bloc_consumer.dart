@@ -49,10 +49,13 @@ class _ForgetPasswordBlocConsumerState
         final bool isLoading = state is ResetPasswordLoading;
         return CustomProgressHud(
           isLoading: isLoading,
-          child: ForgetPasswordViewBody(
-            onEmailSaved: (savedEmail) {
-              email = savedEmail;
-            },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ForgetPasswordViewBody(
+              onEmailSaved: (savedEmail) {
+                email = savedEmail;
+              },
+            ),
           ),
         );
       },

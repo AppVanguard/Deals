@@ -229,6 +229,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "cashbackTerms": MessageLookupByLibrary.simpleMessage("Cashback terms"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change password"),
+        "confirmNewPassword":
+            MessageLookupByLibrary.simpleMessage("Confirm new password"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact us"),
         "continueTo": MessageLookupByLibrary.simpleMessage("Continue to"),
         "copyCode": MessageLookupByLibrary.simpleMessage("Copy code"),
@@ -246,6 +248,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("The account already exists."),
         "existing_customers_discount":
             MessageLookupByLibrary.simpleMessage("Existing customers discount"),
+        "forgetThePassword":
+            MessageLookupByLibrary.simpleMessage("Forget the password?"),
         "getCode": MessageLookupByLibrary.simpleMessage("Get Code"),
         "goToRegistration":
             MessageLookupByLibrary.simpleMessage("Go to registration"),
@@ -268,11 +272,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "logOut": MessageLookupByLibrary.simpleMessage("Log out"),
         "networkRequestFailed":
             MessageLookupByLibrary.simpleMessage("No internet connection."),
+        "newPassword": MessageLookupByLibrary.simpleMessage("New password"),
         "new_customers_discount":
             MessageLookupByLibrary.simpleMessage("New customers discount"),
         "noCashbackTermsAvailable":
             MessageLookupByLibrary.simpleMessage("No cashback terms available"),
         "off": MessageLookupByLibrary.simpleMessage("off"),
+        "oldPassword": MessageLookupByLibrary.simpleMessage("Old password"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(
             "Registration is not enabled."),
         "operationNotSupportedInThisEnvironment":
@@ -296,6 +302,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Refer"),
         "p3OnBoardingTittle":
             MessageLookupByLibrary.simpleMessage("Refer and earn"),
+        "passwordChangedSuccessfully": MessageLookupByLibrary.simpleMessage(
+            "Password changed successfully"),
+        "passwordMustBe6Characters": MessageLookupByLibrary.simpleMessage(
+            "Password must be at least 6 characters long."),
+        "passwordMustContainNumber": MessageLookupByLibrary.simpleMessage(
+            "Password must contain at least one number."),
+        "passwordMustContainSpecial": MessageLookupByLibrary.simpleMessage(
+            "Password must contain at least one special character."),
+        "passwordNotMatching":
+            MessageLookupByLibrary.simpleMessage("Password not matching."),
         "personalData": MessageLookupByLibrary.simpleMessage("Personal data"),
         "popupClosedByUser": MessageLookupByLibrary.simpleMessage(
             "The popup window was closed before completing the operation."),

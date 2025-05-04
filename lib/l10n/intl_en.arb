@@ -200,5 +200,14 @@
       "iHaveReadTheTermsAndIAgreeOnThem": "I have read the terms and I agree on them",
       "goToRegistration": "Go to registration",
       "accountDeleted": "Your account has been deleted. We hope to see you again in Waffur.",
-      "accountDeletedSuccessfully":"Account deleted successfully"
+      "accountDeletedSuccessfully": "Account deleted successfully",
+      "passwordMustContainNumber": "Password must contain at least one number.",
+      "passwordMustBe6Characters": "Password must be at least 6 characters long.",
+      "passwordMustContainSpecial": "Password must contain at least one special character.",
+      "passwordNotMatching": "Password not matching.",
+      "oldPassword": "Old password",
+      "forgetThePassword": "Forget the password?",
+      "newPassword": "New password",
+      "confirmNewPassword": "Confirm new password",
+      "passwordChangedSuccessfully": "Password changed successfully"
 }
