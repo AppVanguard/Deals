@@ -1979,6 +1979,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Push notifications`
+  String get pushNotifications {
+    return Intl.message(
+      'Push notifications',
+      name: 'pushNotifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change password`
+  String get changePassword {
+    return Intl.message(
+      'Change password',
+      name: 'changePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete account`
+  String get deleteAccount {
+    return Intl.message(
+      'Delete account',
+      name: 'deleteAccount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

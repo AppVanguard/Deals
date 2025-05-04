@@ -28,6 +28,9 @@ import 'package:deals/features/personal_data/presentation/manager/personal_data_
 import 'package:deals/features/personal_data/presentation/views/personal_data_view.dart';
 import 'package:deals/features/privacy_and_policy/presentation/views/privacy_and_policy_view.dart';
 import 'package:deals/features/search/presentation/views/search_view.dart';
+import 'package:deals/features/settings/domain/repos/settings_repo.dart';
+import 'package:deals/features/settings/presentation/manager/settings_cubit.dart';
+import 'package:deals/features/settings/presentation/views/settings_view.dart';
 import 'package:deals/features/splash/presentation/views/splash_view.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
@@ -312,6 +315,20 @@ class AppRouter {
             child: PersonalDataView(
               id: id,
             ),
+          );
+        },
+      ),
+      // within AppRouter.router’s routes list:
+
+      GoRoute(
+        path: SettingsView.routeName,
+        name: SettingsView.routeName,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (_) => SettingsCubit(
+              repo: getIt<SettingsRepo>(),
+            ),
+            child: const SettingsView(),
           );
         },
       ),

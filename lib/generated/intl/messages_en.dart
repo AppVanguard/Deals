@@ -223,6 +223,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "cashBack": MessageLookupByLibrary.simpleMessage("cashback"),
         "cashback": MessageLookupByLibrary.simpleMessage("cashback"),
         "cashbackTerms": MessageLookupByLibrary.simpleMessage("Cashback terms"),
+        "changePassword":
+            MessageLookupByLibrary.simpleMessage("Change password"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact us"),
         "continueTo": MessageLookupByLibrary.simpleMessage("Continue to"),
         "copyCode": MessageLookupByLibrary.simpleMessage("Copy code"),
@@ -231,6 +233,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "The credential is already in use."),
         "day": MessageLookupByLibrary.simpleMessage("day"),
         "days": MessageLookupByLibrary.simpleMessage("days"),
+        "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete account"),
         "earnings": MessageLookupByLibrary.simpleMessage("Earnings"),
         "emailAlreadyInUse":
             MessageLookupByLibrary.simpleMessage("The account already exists."),
@@ -287,6 +290,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "privacyPolicy": MessageLookupByLibrary.simpleMessage("Privacy policy"),
         "providerAlreadyLinked": MessageLookupByLibrary.simpleMessage(
             "The account is already linked to a provider."),
+        "pushNotifications":
+            MessageLookupByLibrary.simpleMessage("Push notifications"),
         "requiresRecentLogin": MessageLookupByLibrary.simpleMessage(
             "Please log in again to complete the operation."),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),

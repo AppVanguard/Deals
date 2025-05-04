@@ -191,5 +191,8 @@
       "CityHint": "City",
       "PersonalData": "Personal data",
       "DataSaved": "Data saved",
-      "OK": "OK"
+      "OK": "OK",
+      "pushNotifications": "Push notifications",
+      "changePassword": "Change password",
+      "deleteAccount": "Delete account"
 }

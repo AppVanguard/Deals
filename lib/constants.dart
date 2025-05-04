@@ -15,3 +15,4 @@ const kOtp = 'otp';
 const kIsRegister = 'isRegister';
 const kUserEntity = 'userEntity';
 const kErrorAnimation = 'assets/animations/error.json';
+const kPushEnabled = "pushEnabled";

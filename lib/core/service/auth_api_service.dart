@@ -286,13 +286,14 @@ class AuthApiService {
     required String email,
     required String currentPassword,
     required String newPassword,
+    required String authToken,
   }) async {
     final url = Uri.parse(BackendEndpoints.changePassword);
 
     try {
       final response = await http.post(
         url,
-        headers: BackendEndpoints.jsonHeaders,
+        headers: BackendEndpoints.authJsonHeaders(authToken),
         body: jsonEncode({
           BackendEndpoints.keyEmail: email,
           BackendEndpoints.kCurrentPassword: currentPassword,
@@ -300,18 +301,15 @@ class AuthApiService {
         }),
       );
 
-      final responseJson = jsonDecode(response.body);
+      final Map<String, dynamic> body = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        log('Change-password successful: ${response.body}');
-        return responseJson['message'] as String? ??
-            'Password updated successfully';
+        log('Password changed successfully: ${response.body}');
+        return body['message'] as String? ?? 'Password updated';
       } else {
-        log('Change-password error: ${response.statusCode} ${response.body}');
-        throw CustomExeption(
-          responseJson['message'] as String? ??
-              'Error changing password: ${response.statusCode}',
-        );
+        log('Change-password failed (${response.statusCode}): ${response.body}');
+        throw CustomExeption(body['message'] as String? ??
+            'Error changing password: ${response.statusCode}');
       }
     } catch (e) {
       log('Exception in changePassword: $e');

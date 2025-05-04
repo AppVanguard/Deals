@@ -1,3 +1,4 @@
+import 'package:deals/features/settings/presentation/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -135,7 +136,9 @@ class CustomAppDrawer extends StatelessWidget {
                           _tile(
                             icon: AppImages.assetsImagesSettings,
                             text: s.settings,
-                            onTap: () {},
+                            onTap: () {
+                              context.pushNamed(SettingsView.routeName);
+                            },
                           ),
                           _divider(),
                           _tile(

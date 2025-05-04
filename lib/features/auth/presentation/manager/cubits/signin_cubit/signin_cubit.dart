@@ -147,9 +147,14 @@ class SigninCubit extends Cubit<SigninState> {
     );
 
     res.fold(
-      (f) => log('Notification error: ${f.message}'),
+      (f) {
+        log('Notification error: ${f.message}');
+        // if you like, you could also mark pushEnabled=false here:
+        Prefs.setBool(kPushEnabled, false);
+      },
       (_) {
-        Prefs.setBool(key, true);
+        Prefs.setBool(key, true); // your existing guard
+        Prefs.setBool(kPushEnabled, true); // <— mark push ON
         log('Notifications registered for ${user.uId}');
       },
     );
