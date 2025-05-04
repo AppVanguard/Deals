@@ -55,7 +55,7 @@ class PersonalDataView extends StatelessWidget {
 
               // 2) Remove any existing banner
               messenger.hideCurrentMaterialBanner();
-
+              if (!context.mounted) return;
               // 3) Show custom‐shaped banner
               messenger.showMaterialBanner(
                 MaterialBanner(
@@ -121,7 +121,6 @@ class PersonalDataView extends StatelessWidget {
             if (state is PersonalDataInitial ||
                 state is PersonalDataLoadInProgress) {
               return Skeletonizer(
-                enabled: true,
                 child: PersonalDataViewBody(user: _placeholderUser),
               );
             }
