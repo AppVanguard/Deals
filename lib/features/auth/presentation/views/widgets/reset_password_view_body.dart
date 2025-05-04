@@ -13,13 +13,11 @@ import 'package:go_router/go_router.dart';
 class ResetPasswordViewBody extends StatefulWidget {
   final String email;
   final String otp;
-  final String finalRoute; // NEW
 
   const ResetPasswordViewBody({
     super.key,
     required this.email,
     required this.otp,
-    required this.finalRoute,
   });
 
   @override
@@ -37,7 +35,7 @@ class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
       listener: (context, state) {
         if (state is ResetPasswordSuccess) {
           if (!context.mounted) return;
-          context.goNamed(widget.finalRoute);
+          context.pop();
         } else if (state is ResetPasswordFailure) {
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(

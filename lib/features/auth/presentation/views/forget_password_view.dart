@@ -6,10 +6,7 @@ import 'package:deals/features/auth/presentation/views/widgets/forget_password_b
 class ForgetPasswordView extends StatelessWidget {
   const ForgetPasswordView({
     super.key,
-    required this.finalRoute,
   });
-
-  final String finalRoute;
 
   static const routeName = '/forget-password';
 
@@ -17,8 +14,8 @@ class ForgetPasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: AppColors.background),
-      body: SafeArea(
-        child: ForgetPasswordBlocConsumer(finalRoute: finalRoute),
+      body: const SafeArea(
+        child: ForgetPasswordBlocConsumer(),
       ),
     );
   }

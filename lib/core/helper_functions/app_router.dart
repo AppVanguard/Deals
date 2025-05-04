@@ -152,15 +152,10 @@ class AppRouter {
       GoRoute(
         path: ForgetPasswordView.routeName,
         name: ForgetPasswordView.routeName,
-        builder: (context, state) {
-          final finalRoute =
-              (state.extra as Map<String, dynamic>?)?[kFinalRoute] ??
-                  SigninView.routeName;
-          return BlocProvider(
-            create: (_) => ResetPasswordCubit(getIt.get<AuthRepo>()),
-            child: ForgetPasswordView(finalRoute: finalRoute),
-          );
-        },
+        builder: (context, state) => BlocProvider(
+          create: (_) => ResetPasswordCubit(getIt.get<AuthRepo>()),
+          child: const ForgetPasswordView(), // <- no extras needed
+        ),
       ),
 
       // Reset Password Route
@@ -177,7 +172,6 @@ class AppRouter {
             child: ResetPasswordView(
               email: args[kEmail] as String,
               otp: args[kOtp] as String,
-              finalRoute: args[kFinalRoute] as String? ?? SigninView.routeName,
             ),
           );
         },

@@ -1,4 +1,3 @@
-import 'package:deals/features/home/presentation/views/home_view.dart';
 import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +8,6 @@ import 'package:deals/core/widgets/custom_text_form_field.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:deals/features/auth/presentation/views/forget_password_view.dart';
-import 'package:deals/features/settings/presentation/views/settings_view.dart';
 
 /// Pure-UI form; report (oldPw,newPw) through [onSubmit].
 class ChangePasswordViewBody extends StatefulWidget {
@@ -49,7 +47,6 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
     setState(() => _newErrors = errs);
   }
 
-
   void _validateConfirm(String v) {
     final s = S.of(context);
     setState(() {
@@ -81,10 +78,7 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
               Text(s.oldPassword, style: AppTextStyles.bold14),
               TextButton(
                 onPressed: () {
-                  context.pushNamed(
-                    ForgetPasswordView.routeName,
-                    extra: {kFinalRoute: MainView.routeName},
-                  );
+                  context.pushNamed(ForgetPasswordView.routeName);
                 },
                 child: Text(
                   s.forgetThePassword,

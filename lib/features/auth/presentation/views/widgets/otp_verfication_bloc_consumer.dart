@@ -46,12 +46,11 @@ class OTPVeficationBlocConsumer extends StatelessWidget {
             onTap: () {
               if (!context.mounted) return; // guard
               if (path == ResetPasswordView.routeName) {
-                context.goNamed(
+                context.pushReplacementNamed(
                   ResetPasswordView.routeName,
                   extra: {
                     kEmail: email,
                     kOtp: state.otp,
-                    kFinalRoute: finalRoute ?? SigninView.routeName, // fallback
                   },
                 );
               } else {

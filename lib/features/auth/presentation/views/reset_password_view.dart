@@ -6,13 +6,11 @@ import 'package:deals/features/auth/presentation/views/widgets/reset_password_vi
 class ResetPasswordView extends StatelessWidget {
   final String email;
   final String otp;
-  final String finalRoute;
 
   const ResetPasswordView({
     super.key,
     required this.email,
     required this.otp,
-    required this.finalRoute,
   });
 
   static const routeName = '/reset-password';
@@ -28,7 +26,6 @@ class ResetPasswordView extends StatelessWidget {
           child: ResetPasswordViewBody(
             email: email,
             otp: otp,
-            finalRoute: finalRoute,
           ),
         ),
       ),
