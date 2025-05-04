@@ -1,8 +1,3 @@
-// lib/features/settings/presentation/manager/cubit/settings_cubit.dart
-
-import 'dart:developer';
-
-import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/core/service/get_it_service.dart';
@@ -13,6 +8,7 @@ import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'settings_state.dart';
 
@@ -54,12 +50,12 @@ class SettingsCubit extends Cubit<SettingsState> {
       res = await _repo.allowPushNotifications(
         firebaseUid: user.uId,
         deviceToken: deviceToken,
-        authToken: user.token!,
+        authToken: user.token,
       );
     } else {
       res = await _repo.disablePushNotifications(
         firebaseUid: user.uId,
-        authToken: user.token!,
+        authToken: user.token,
       );
     }
 
@@ -111,7 +107,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       (msg) async {
         // 1) Turn off “remember me”
         Prefs.setBool(kRememberMe, false);
-       
+
         // 3) Remove the local “registered” flag
         await Prefs.remove('notificationsRegistered_$firebaseUid');
 
