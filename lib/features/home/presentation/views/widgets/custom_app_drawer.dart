@@ -1,7 +1,3 @@
-// lib/features/common/widgets/custom_app_drawer.dart
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,6 +11,7 @@ import 'package:deals/core/widgets/app_version_text.dart';
 import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/entities/user_entity.dart';
+
 import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:deals/features/home/presentation/manager/cubits/menu_cubit/menu_cubit.dart';
 import 'package:deals/features/personal_data/presentation/views/personal_data_view.dart';
@@ -27,6 +24,7 @@ import 'logout_confirmation_dialog.dart';
 class CustomAppDrawer extends StatelessWidget {
   const CustomAppDrawer({super.key, required this.userData});
   final UserEntity userData;
+
   Future<UserEntity?> _loadCurrentUser() async {
     final jsonString = await SecureStorageService.getUserEntity();
     if (jsonString == null) return null;
@@ -38,7 +36,7 @@ class CustomAppDrawer extends StatelessWidget {
     final s = S.of(context);
     final size = MediaQuery.of(context).size;
 
-    Future<void> confirmAndLogout(UserEntity user) async {
+    Future<void> _confirmAndLogout(UserEntity user) async {
       final approved = await showDialog<bool>(
         context: context,
         builder: (_) => LogoutConfirmationDialog(s: s),
@@ -66,21 +64,17 @@ class CustomAppDrawer extends StatelessWidget {
           child: FutureBuilder<UserEntity?>(
             future: _loadCurrentUser(),
             builder: (ctx, snap) {
-              if (snap.connectionState != ConnectionState.done) {
+              // Use secure-storage copy if present; else fall back to in-memory.
+              final user = snap.data ?? userData;
+
+              if (snap.connectionState != ConnectionState.done &&
+                  snap.data == null) {
                 return const Center(child: CircularProgressIndicator());
-              }
-              final user = snap.data;
-              if (user == null) {
-                // no user in storage → force sign-in
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  context.goNamed(SigninView.routeName);
-                });
-                return const SizedBox.shrink();
               }
 
               return Column(
                 children: [
-                  // HEADER
+                  // ───────────── HEADER ─────────────
                   Container(
                     color: AppColors.darkPrimary,
                     width: double.infinity,
@@ -104,53 +98,53 @@ class CustomAppDrawer extends StatelessWidget {
                     ),
                   ),
 
-                  // BODY
+                  // ───────────── BODY ─────────────
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          _buildTile(
+                          _tile(
                             icon: AppImages.assetsImagesEarning,
                             text: s.earnings,
                             onTap: () {},
                           ),
-                          _buildTile(
+                          _tile(
                             icon: AppImages.assetsImagesPersonalData,
                             text: s.personalData,
                             onTap: () => context.pushNamed(
                               PersonalDataView.routeName,
-                              extra: userData.uId,
+                              extra: user.uId,
                             ),
                           ),
                           _divider(),
-                          _buildTile(
+                          _tile(
                             icon: AppImages.assetsImagesTermsConditions,
                             text: s.termsAndConditions,
                             onTap: () => context.pushNamed(
                               TermsAndConditionsView.routeName,
                             ),
                           ),
-                          _buildTile(
+                          _tile(
                             icon: AppImages.assetsImagesPrivacyIcon,
                             text: s.privacyPolicy,
                             onTap: () => context.pushNamed(
                               PrivacyAndPolicyView.routeName,
                             ),
                           ),
-                          _buildTile(
+                          _tile(
                             icon: AppImages.assetsImagesSettings,
                             text: s.settings,
                             onTap: () {},
                           ),
                           _divider(),
-                          _buildTile(
+                          _tile(
                             icon: AppImages.assetsImagesHelp,
                             text: s.help,
                             onTap: () => context.pushNamed(
                               FAQView.routeName,
                             ),
                           ),
-                          _buildTile(
+                          _tile(
                             icon: AppImages.assetsImagesContact,
                             text: s.contactUs,
                             onTap: () {},
@@ -160,7 +154,7 @@ class CustomAppDrawer extends StatelessWidget {
                     ),
                   ),
 
-                  // FOOTER
+                  // ───────────── FOOTER ─────────────
                   BlocListener<MenuCubit, MenuState>(
                     listener: (ctx, state) {
                       if (state is MenuLogoutFailure) {
@@ -169,15 +163,15 @@ class CustomAppDrawer extends StatelessWidget {
                           message: state.message,
                         );
                       } else if (state is MenuLogoutSuccess) {
-                        context.goNamed(SigninView.routeName);
+                        ctx.goNamed(SigninView.routeName);
                       }
                     },
-                    child: _buildTile(
+                    child: _tile(
                       icon: AppImages.assetsImagesLogOut,
                       text: s.logOut,
                       textStyle: AppTextStyles.bold14
                           .copyWith(color: AppColors.accent),
-                      onTap: () => confirmAndLogout(user),
+                      onTap: () => _confirmAndLogout(user),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -194,7 +188,10 @@ class CustomAppDrawer extends StatelessWidget {
     );
   }
 
-  Widget _buildTile({
+  // ────────────────────────────────────────────────────────────────────────────
+  // Helpers
+  // ────────────────────────────────────────────────────────────────────────────
+  Widget _tile({
     required String icon,
     required String text,
     TextStyle? textStyle,

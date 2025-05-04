@@ -1,16 +1,18 @@
 import 'dart:developer';
-import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
+import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/features/home/domain/repos/menu_repo.dart';
+import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 
 part 'menu_state.dart';
 
 class MenuCubit extends Cubit<MenuState> {
   final MenuRepo menuRepo;
-
   final NotificationsPermissionRepo notificationsPermissionRepo;
 
   MenuCubit({
@@ -18,35 +20,39 @@ class MenuCubit extends Cubit<MenuState> {
     required this.notificationsPermissionRepo,
   }) : super(MenuInitial());
 
-  Future<void> logout(
-      {required String firebaseUid, required String authToken}) async {
+  Future<void> logout({
+    required String firebaseUid,
+    required String authToken,
+  }) async {
     emit(MenuLoading());
-    final result = await menuRepo.logOut(firebaseUid: firebaseUid);
-    result.fold(
-      (failure) {
-        emit(MenuLogoutFailure(message: failure.message));
-      },
-      (message) async {
-        log("Logout succeeded: $message");
 
-        // 1) Prevent notifications on server
+    final result = await menuRepo.logOut(firebaseUid: firebaseUid);
+
+    result.fold(
+      (failure) => emit(MenuLogoutFailure(message: failure.message)),
+      (message) async {
+        // 1) Tell backend to stop pushes
         final preventResult =
             await notificationsPermissionRepo.preventNotifications(
           userId: firebaseUid,
           authToken: authToken,
         );
         preventResult.fold(
-          (failure) =>
-              log("Error preventing notifications: ${failure.message}"),
-          (_) => log(
-              "Notifications prevented successfully for user: $firebaseUid"),
+          (f) => log("Error preventing notifications: ${f.message}"),
+          (_) => log("Notifications prevented for user: $firebaseUid"),
         );
 
-        // 2) Unregister old NotificationsCubit
-        unregisterNotificationsCubitSingleton();
-        log("Unregistered old NotificationsCubit singleton.");
+        // 2) Remove local “registered” flag so next login can register again
+        final flagKey = 'notificationsRegistered_$firebaseUid';
+        await Prefs.remove(flagKey);
 
-        // 3) Clear user data
+        // Optional: force refresh of FCM token on next login
+        // await FirebaseMessaging.instance.deleteToken();
+
+        // 3) Unregister NotificationsCubit singleton
+        unregisterNotificationsCubitSingleton();
+
+        // 4) Clear secure-stored user entity
         await SecureStorageService.deleteUserEntity();
 
         emit(MenuLogoutSuccess(message: message));

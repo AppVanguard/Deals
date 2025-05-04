@@ -22,6 +22,9 @@ class SigninCubit extends Cubit<SigninState> {
 
   void clearError() => emit(SigninResetError());
 
+  // ────────────────────────────────────────────────────────────────────────────
+  // Email + Password
+  // ────────────────────────────────────────────────────────────────────────────
   Future<void> signInWithEmailAndPassword({
     required String email,
     required String password,
@@ -53,35 +56,37 @@ class SigninCubit extends Cubit<SigninState> {
         }
       },
       (user) async {
-        if (rememberMe) {
-          await SecureStorageService.saveUserEntity(
-            user.toJson(),
-          );
-        }
+        // 🔑  Always persist the fresh user (even if rememberMe == false)
+        await SecureStorageService.saveUserEntity(user.toJson());
         Prefs.setBool(kRememberMe, rememberMe);
 
-        emit(SigninSuccess(
-            userEntity: user, message: S.current.SuccessSigningIn));
+        emit(
+          SigninSuccess(userEntity: user, message: S.current.SuccessSigningIn),
+        );
 
         await _registerNotifications(user);
       },
     );
   }
 
+  // ────────────────────────────────────────────────────────────────────────────
+  // Social logins (Google / Facebook / Apple)
+  // Each does the same: persist user unconditionally.
+  // ────────────────────────────────────────────────────────────────────────────
   Future<void> signInWithGoogle({required bool rememberMe}) async {
     emit(SigninLoading());
+
     final result = await _authRepo.signInWithGoogle();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        if (rememberMe) {
-          await SecureStorageService.saveUserEntity(
-            user.toJson(),
-          );
-        }
+        await SecureStorageService.saveUserEntity(user.toJson());
         Prefs.setBool(kRememberMe, rememberMe);
-        emit(SigninSuccess(
-            userEntity: user, message: S.current.SuccessSigningIn));
+
+        emit(
+          SigninSuccess(userEntity: user, message: S.current.SuccessSigningIn),
+        );
+
         await _registerNotifications(user);
       },
     );
@@ -89,18 +94,18 @@ class SigninCubit extends Cubit<SigninState> {
 
   Future<void> signInWithFacebook({required bool rememberMe}) async {
     emit(SigninLoading());
+
     final result = await _authRepo.signInWithFacebook();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        if (rememberMe) {
-          await SecureStorageService.saveUserEntity(
-            user.toJson(),
-          );
-        }
+        await SecureStorageService.saveUserEntity(user.toJson());
         Prefs.setBool(kRememberMe, rememberMe);
-        emit(SigninSuccess(
-            userEntity: user, message: S.current.SuccessSigningIn));
+
+        emit(
+          SigninSuccess(userEntity: user, message: S.current.SuccessSigningIn),
+        );
+
         await _registerNotifications(user);
       },
     );
@@ -108,23 +113,26 @@ class SigninCubit extends Cubit<SigninState> {
 
   Future<void> signInWithApple({required bool rememberMe}) async {
     emit(SigninLoading());
+
     final result = await _authRepo.signInWithApple();
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        if (rememberMe) {
-          await SecureStorageService.saveUserEntity(
-            user.toJson(),
-          );
-        }
+        await SecureStorageService.saveUserEntity(user.toJson());
         Prefs.setBool(kRememberMe, rememberMe);
-        emit(SigninSuccess(
-            userEntity: user, message: S.current.SuccessSigningIn));
+
+        emit(
+          SigninSuccess(userEntity: user, message: S.current.SuccessSigningIn),
+        );
+
         await _registerNotifications(user);
       },
     );
   }
 
+  // ────────────────────────────────────────────────────────────────────────────
+  // Push-notification registration
+  // ────────────────────────────────────────────────────────────────────────────
   Future<void> _registerNotifications(UserEntity user) async {
     final key = 'notificationsRegistered_${user.uId}';
     if (Prefs.getBool(key)) return;
