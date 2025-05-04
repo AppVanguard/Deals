@@ -277,4 +277,45 @@ class AuthApiService {
       rethrow;
     }
   }
+
+  /// Changes a user’s password.
+  ///
+  /// Throws [CustomExeption] on error and returns the backend’s success
+  /// message on 200.
+  Future<String> changePassword({
+    required String email,
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    final url = Uri.parse(BackendEndpoints.changePassword);
+
+    try {
+      final response = await http.post(
+        url,
+        headers: BackendEndpoints.jsonHeaders,
+        body: jsonEncode({
+          BackendEndpoints.keyEmail: email,
+          BackendEndpoints.kCurrentPassword: currentPassword,
+          BackendEndpoints.kNewPassword: newPassword,
+        }),
+      );
+
+      final responseJson = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        log('Change-password successful: ${response.body}');
+        return responseJson['message'] as String? ??
+            'Password updated successfully';
+      } else {
+        log('Change-password error: ${response.statusCode} ${response.body}');
+        throw CustomExeption(
+          responseJson['message'] as String? ??
+              'Error changing password: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      log('Exception in changePassword: $e');
+      rethrow;
+    }
+  }
 }

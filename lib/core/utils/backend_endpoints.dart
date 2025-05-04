@@ -11,6 +11,7 @@ class BackendEndpoints {
   static String oauth = "$apiPath/auth/oauth";
   static String loginUser = "$apiPath/auth/login";
   static String resendOtp = "$apiPath/auth/resend-otp";
+  static String changePassword = '$apiPath/auth/change-password';
   static String users = "$apiPath/users";
   static String resetPassword = "$apiPath/auth/reset-password";
   static String forgotPassword = "$apiPath/auth/forgot-password";
@@ -52,6 +53,8 @@ class BackendEndpoints {
   static const String kDiscountType = 'discount_type';
   static const String kFirebaseUid = 'firebase_uid';
   static const String kStoreId = 'store';
+  static const String kCurrentPassword = "currentPassword";
+  static const String kNewPassword = "newPassword";
   // JSON keys for response payloads.
   static const String keyUserId = "userId";
   static const String kFirbaseUid = "firebase_uid";
