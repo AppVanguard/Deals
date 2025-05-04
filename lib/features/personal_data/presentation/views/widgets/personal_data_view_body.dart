@@ -17,7 +17,7 @@ import 'package:deals/core/widgets/gender_selector.dart';
 import 'package:deals/core/widgets/custom_button.dart';
 
 class PersonalDataViewBody extends StatefulWidget {
-  const PersonalDataViewBody({super.key, required this.user});
+  const PersonalDataViewBody({Key? key, required this.user}) : super(key: key);
 
   final UserEntity user;
 
@@ -28,16 +28,16 @@ class PersonalDataViewBody extends StatefulWidget {
 class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
   // dirty‐flags & new‐value holders
   bool _fullNameDirty = false;
-  String? _newFullName;
+  late String _newFullName;
 
   bool _phoneDirty = false;
-  String? _newPhone;
+  late String _newPhone;
 
   bool _countryDirty = false;
   Country? _newCountry;
 
   bool _cityDirty = false;
-  String? _newCity;
+  late String _newCity;
 
   bool _birthDateDirty = false;
   DateTime? _newBirthDate;
@@ -120,8 +120,8 @@ class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
             textInputType: TextInputType.emailAddress,
             validator: (_) => null,
             enabled: false,
-            disabledFillColor: AppColors.darkGray, // your chosen gray
-            disabledTextColor: AppColors.text, // your chosen text color
+            disabledFillColor: AppColors.darkGray,
+            disabledTextColor: AppColors.text,
           ),
 
           const SizedBox(height: 16),
@@ -129,12 +129,13 @@ class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
           // Full name
           CustomTextFormField(
             label: strings.FullName,
-            hintText: _newFullName ?? widget.user.fullName,
+            hintText: _newFullName,
             initialValue: _newFullName,
             textInputType: TextInputType.name,
             validator: (_) => null,
             onChanged: (v) => _mark('fullName', v),
           ),
+
           const SizedBox(height: 16),
 
           // Phone
@@ -145,6 +146,7 @@ class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
             validator: (_) => null,
             onChanged: (pn) => _mark('phone', pn.completeNumber),
           ),
+
           const SizedBox(height: 16),
 
           // Country
@@ -154,18 +156,19 @@ class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
             validator: (_) => null,
             onCountrySelected: (c) => _mark('country', c),
           ),
+
           const SizedBox(height: 16),
 
           // City / Town
           CustomTextFormField(
-            borderColor: AppColors.text,
             label: strings.City,
-            hintText: _newCity ?? widget.user.city ?? '',
+            hintText: _newCity,
             initialValue: _newCity,
             textInputType: TextInputType.text,
             validator: (_) => null,
             onChanged: (v) => _mark('city', v),
           ),
+
           const SizedBox(height: 16),
 
           // Birth date
@@ -174,6 +177,7 @@ class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
             validator: (_) => null,
             onDateSelected: (d) => _mark('birthDate', d),
           ),
+
           const SizedBox(height: 16),
 
           // Gender
@@ -183,13 +187,24 @@ class _PersonalDataViewBodyState extends State<PersonalDataViewBody> {
             validator: (_) => null,
             onGenderSelected: (g) => _mark('gender', g),
           ),
+
           const SizedBox(height: 24),
 
-          // Save button
-          CustomButton(
-            text: strings.Save,
-            width: double.infinity,
-            onPressed: _onSave,
+          // Save button with loading spinner
+          BlocBuilder<PersonalDataCubit, PersonalDataState>(
+            buildWhen: (_, state) =>
+                state is PersonalDataUpdateInProgress ||
+                state is PersonalDataUpdateSuccess ||
+                state is PersonalDataUpdateFailure,
+            builder: (ctx, state) {
+              final isLoading = state is PersonalDataUpdateInProgress;
+              return CustomButton(
+                text: strings.Save,
+                width: double.infinity,
+                onPressed: _onSave,
+                isLoading: isLoading,
+              );
+            },
           ),
         ],
       ),
