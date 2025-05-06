@@ -9,7 +9,6 @@ import 'package:deals/core/service/user_service.dart';
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/personal_data/domain/repos/personal_data_repo.dart';
 
-
 class PersonalDataRepoImpl implements PersonalDataRepo {
   final UserService _userService;
 

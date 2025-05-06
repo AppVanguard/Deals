@@ -147,8 +147,7 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     // 1) Check resend-timer
     final timerState = context.watch<OtpResendTimerCubit>().state;
     final bool timerRunning = timerState is TimerRunning;
-    final int secondsLeft =
-        timerRunning ? (timerState).timeLeft : 0;
+    final int secondsLeft = timerRunning ? (timerState).timeLeft : 0;
 
     // 2) Check if OTP verification is in-flight
     final bool isVerifying =

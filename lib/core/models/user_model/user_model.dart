@@ -2,7 +2,6 @@
 
 import 'package:deals/core/models/user_model/profile_image.dart';
 
-
 class UserModel {
   // ─── PERSONAL-DATA FIELDS ─────────────────────────────────────────────────
   final ProfileImage? profileImage;

@@ -1,4 +1,3 @@
-
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
