@@ -19,7 +19,9 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: buildHomeAppBar(context: context, userData: userData),
       drawer: CustomAppDrawerBlocProvider(userData: userData),
-      body: const HomeViewBody(),
+      body: HomeViewBody(
+        user: userData,
+      ),
     );
   }
 }

@@ -12,6 +12,7 @@ class CategoriesService {
     int? page,
     int? limit,
     String? sortOrder,
+    required String token,
   }) async {
     final queryParameters = <String, String>{
       if (sortField != null) BackendEndpoints.kSortField: sortField,
@@ -25,7 +26,7 @@ class CategoriesService {
 
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.jsonHeaders);
+          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return CategoryModel.fromJson(jsonMap);
@@ -40,11 +41,11 @@ class CategoriesService {
   }
 
   /// Retrieve a single category's data by its [id].
-  Future<CategoryModel> getCategoryById(String id) async {
+  Future<CategoryModel> getCategoryById(String id, String token) async {
     final url = Uri.parse('${BackendEndpoints.categories}/$id');
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.jsonHeaders);
+          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return CategoryModel.fromJson(jsonMap);

@@ -16,6 +16,7 @@ class CouponsService {
     String? category,
     String? discountType,
     String? storeId,
+    required String token,
   }) async {
     final queryParameters = <String, String>{
       if (search != null) BackendEndpoints.kSearch: search,
@@ -31,7 +32,7 @@ class CouponsService {
         .replace(queryParameters: queryParameters);
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.jsonHeaders);
+          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return CouponsModel.fromJson(jsonMap);
@@ -45,17 +46,16 @@ class CouponsService {
     }
   }
 
-  Future<CouponsModel> getCouponById(String id) async {
+  Future<CouponsModel> getCouponById(String id, String token) async {
     final url = Uri.parse('${BackendEndpoints.coupons}/$id');
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.jsonHeaders);
+          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         final singleCoupon = CouponsData.fromJson(jsonMap);
         return CouponsModel(
           data: [singleCoupon],
-          pagination: null,
         );
       } else {
         log('Error fetching coupon by id: ${response.statusCode} ${response.body}');

@@ -9,9 +9,7 @@ class HomeLoading extends HomeState {}
 
 class HomeSuccess extends HomeState {
   final HomeEntity homeEntity;
-  HomeSuccess({
-    required this.homeEntity,
-  });
+  HomeSuccess({required this.homeEntity});
 }
 
 class HomeFailure extends HomeState {

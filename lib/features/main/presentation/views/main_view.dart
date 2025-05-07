@@ -45,7 +45,10 @@ class _MainViewState extends State<MainView> {
       KeyedSubtree(
         key: const ValueKey('Home'),
         child: BlocProvider(
-          create: (_) => HomeCubit(homeRepo: getIt<HomeRepo>()),
+          create: (_) => HomeCubit(
+            homeRepo: getIt<HomeRepo>(),
+            jwt: widget.userData.token, // <– inject the user’s JWT once
+          ),
           child: HomeView(userData: widget.userData),
         ),
       ),

@@ -14,6 +14,7 @@ class HomeService {
     required int storesCount,
     required int couponsPage,
     required int couponsCount,
+    required String token,
   }) async {
     final url = Uri.parse(BackendEndpoints.homeMobile).replace(
       queryParameters: {
@@ -28,7 +29,7 @@ class HomeService {
 
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.jsonHeaders);
+          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         final homeModel = HomeModel.fromJson(jsonMap);

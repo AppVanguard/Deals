@@ -53,7 +53,7 @@ class UserModel {
         profileImage: json['profile_image'] == null
             ? null
             : ProfileImage.fromJson(json['profile_image']),
-        id: json['_id'] as String?,
+        id: (json['_id'] ?? json['id']) as String?,
         fullName: json['full_name'] as String?,
         email: json['email'] as String?,
         dataOfBirth: json['data_of_birth'],

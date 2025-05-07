@@ -7,11 +7,11 @@ import 'package:deals/core/models/user_model/user_model.dart';
 
 class UserService {
   /// Retrieves a single user by id from GET /users/:id
-  Future<UserModel> getUserById(String id) async {
+  Future<UserModel> getUserById(String id, String token) async {
     final url = Uri.parse('${BackendEndpoints.users}/$id');
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.jsonHeaders);
+          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
         return UserModel.fromJson(jsonMap);
@@ -36,6 +36,7 @@ class UserService {
     String? city,
     String? dateOfBirth,
     String? gender,
+    required String token,
   }) async {
     final url = Uri.parse('${BackendEndpoints.users}/$id');
     final body = <String, dynamic>{};
@@ -50,7 +51,7 @@ class UserService {
     try {
       final response = await http.patch(
         url,
-        headers: BackendEndpoints.jsonHeaders,
+        headers: BackendEndpoints.authJsonHeaders(token),
         body: jsonEncode(body),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -69,12 +70,13 @@ class UserService {
 
   /// Deletes a user by their Firebase UID via DELETE /users/:firebaseUid
   /// and returns the server's success message.
-  Future<String> deleteUserByFirebaseUid(String firebaseUid) async {
+  Future<String> deleteUserByFirebaseUid(
+      String firebaseUid, String token) async {
     final url = Uri.parse('${BackendEndpoints.users}/$firebaseUid');
     try {
       final response = await http.delete(
         url,
-        headers: BackendEndpoints.jsonHeaders,
+        headers: BackendEndpoints.authJsonHeaders(token),
       );
       if (response.statusCode == 200) {
         final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;

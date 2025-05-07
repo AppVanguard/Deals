@@ -15,6 +15,7 @@ class StoresService {
     int? limit,
     String? sortOrder = "asc",
     String? categoryId,
+    required String token,
   }) async {
     final queryParameters = <String, String>{
       if (search != null) BackendEndpoints.kSearch: search,
@@ -29,7 +30,7 @@ class StoresService {
         .replace(queryParameters: queryParameters);
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.jsonHeaders);
+          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return StoresModel.fromJson(jsonMap);
@@ -44,11 +45,11 @@ class StoresService {
   }
 
   /// Retrieve a single store's data by its [id].
-  Future<StoresModel> getStoreById(String id) async {
+  Future<StoresModel> getStoreById(String id, String token) async {
     final url = Uri.parse('${BackendEndpoints.stores}/$id');
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.jsonHeaders);
+          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
 
@@ -58,7 +59,6 @@ class StoresService {
         final singleStore = StoresData.fromJson(jsonMap);
         return StoresModel(
           data: [singleStore],
-          pagination: null, // or build a dummy Pagination if needed
         );
       } else {
         log('Error fetching store by id: ${response.statusCode} ${response.body}');

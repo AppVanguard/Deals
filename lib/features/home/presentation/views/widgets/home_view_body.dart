@@ -1,3 +1,4 @@
+import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,8 +7,8 @@ import 'package:deals/features/home/presentation/manager/cubits/home_cubit/home_
 import 'package:deals/features/home/presentation/views/widgets/home_content.dart';
 
 class HomeViewBody extends StatelessWidget {
-  const HomeViewBody({super.key});
-
+  const HomeViewBody({super.key, required this.user});
+  final UserEntity user;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
@@ -17,8 +18,9 @@ class HomeViewBody extends StatelessWidget {
         return RefreshIndicator(
           // Called when the user drags down to refresh
           onRefresh: () async {
-            // Force a refresh in the Cubit
-            await context.read<HomeCubit>().fetchHomeData(isRefresh: true);
+            await context
+                .read<HomeCubit>()
+                .refresh(); // ← no token param needed
           },
           child: _buildContent(context, state, isLoading),
         );
@@ -43,7 +45,7 @@ class HomeViewBody extends StatelessWidget {
           buildCustomErrorScreen(
             context: context,
             onRetry: () {
-              context.read<HomeCubit>().fetchHomeData(isRefresh: true);
+              context.read<HomeCubit>().refresh();
             },
           ),
         ],

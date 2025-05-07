@@ -12,10 +12,14 @@ class BookmarkService {
   BookmarkService([http.Client? client]) : _http = client ?? http.Client();
 
   /// 1) GET /bookmarks/:firebase_uid
-  Future<BookmarkModel> getUserBookmarks(String firebaseUid) async {
+  Future<BookmarkModel> getUserBookmarks(
+      String firebaseUid, String token) async {
     final uri = Uri.parse('${BackendEndpoints.bookmarks}/$firebaseUid');
     try {
-      final resp = await _http.get(uri, headers: BackendEndpoints.jsonHeaders);
+      final resp = await _http.get(
+        uri,
+        headers: BackendEndpoints.authJsonHeaders(token),
+      );
       if (resp.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(resp.body);
         return BookmarkModel.fromJson(jsonMap);
@@ -34,6 +38,7 @@ class BookmarkService {
   Future<BookmarkData> createBookmark({
     required String firebaseUid,
     required String storeId,
+    required String token,
   }) async {
     final uri = Uri.parse(BackendEndpoints.bookmarks);
     final payload = jsonEncode({
@@ -44,7 +49,7 @@ class BookmarkService {
     try {
       final resp = await _http.post(
         uri,
-        headers: BackendEndpoints.jsonHeaders,
+        headers: BackendEndpoints.authJsonHeaders(token),
         body: payload,
       );
       if (resp.statusCode == 201) {
@@ -61,11 +66,11 @@ class BookmarkService {
   }
 
   /// 3) DELETE /bookmarks/:id
-  Future<void> deleteBookmark(String id) async {
+  Future<void> deleteBookmark(String id, String token) async {
     final uri = Uri.parse('${BackendEndpoints.bookmarks}/$id');
     try {
-      final resp =
-          await _http.delete(uri, headers: BackendEndpoints.jsonHeaders);
+      final resp = await _http.delete(uri,
+          headers: BackendEndpoints.authJsonHeaders(token));
       if (resp.statusCode != 204) {
         log('Error deleting bookmark (${resp.statusCode}): ${resp.body}');
         throw Exception('Failed to delete bookmark');

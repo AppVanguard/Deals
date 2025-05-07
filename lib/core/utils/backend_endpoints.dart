@@ -39,6 +39,7 @@ class BackendEndpoints {
   static const String kId = "id";
   static const String kOtp = "otp";
   static const String kToken = "token";
+  static const String kJwtToken = "Jwttoken";
   static const String kMessage = "message";
   static const String kCountry = "country";
   static const String newPassword = "newPassword";
@@ -68,7 +69,7 @@ class BackendEndpoints {
   static Map<String, String> authJsonHeaders(String token) {
     return {
       ...jsonHeaders,
-      // kAuthorization: 'Bearer $token',
+      kAuthorization: 'Bearer $token',
     };
   }
 }

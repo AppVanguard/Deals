@@ -25,8 +25,7 @@ class NotificationsPermissionService {
       final response = await http.post(
         url,
         headers: {
-          ...BackendEndpoints.jsonHeaders,
-          'Authorization': 'Bearer $authToken',
+          ...BackendEndpoints.authJsonHeaders(authToken),
         },
         body: body,
       );
@@ -59,8 +58,7 @@ class NotificationsPermissionService {
       final response = await http.post(
         url,
         headers: {
-          ...BackendEndpoints.jsonHeaders,
-          'Authorization': 'Bearer $authToken',
+          ...BackendEndpoints.authJsonHeaders(authToken),
         },
         body: body,
       );

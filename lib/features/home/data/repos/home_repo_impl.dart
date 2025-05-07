@@ -43,9 +43,11 @@ class HomeRepoImpl implements HomeRepo {
     required int storesCount,
     required int couponsPage,
     required int couponsCount,
+    required String token,
   }) async {
     try {
       final HomeModel remoteModel = await homeService.getHomeData(
+        token: token,
         announcementsPage: announcementsPage,
         announcementsCount: announcementsCount,
         storesPage: storesPage,

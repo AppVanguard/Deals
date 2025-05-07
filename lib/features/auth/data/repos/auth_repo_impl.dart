@@ -1,24 +1,32 @@
 import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:deals/core/errors/exception.dart';
 import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/mappers/user_mapper.dart';
+import 'package:deals/core/utils/backend_endpoints.dart';
+
 import 'package:deals/core/service/auth_api_service.dart';
 import 'package:deals/core/service/firebase_auth_service.dart';
-import 'package:deals/core/utils/backend_endpoints.dart';
+
+import 'package:deals/core/models/user_model/user_model.dart';
 import 'package:deals/core/entities/user_entity.dart';
-import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 import 'package:deals/generated/l10n.dart';
 
-class AuthRepoImpl extends AuthRepo {
-  final FirebaseAuthService firebaseAuthService;
-  final AuthApiService authApiService;
+import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 
+class AuthRepoImpl extends AuthRepo {
   AuthRepoImpl({
     required this.firebaseAuthService,
     required this.authApiService,
   });
 
+  // ─── Services ────────────────────────────────────────────────────────────
+  final FirebaseAuthService firebaseAuthService;
+  final AuthApiService authApiService;
+
+  // ─── Registration ────────────────────────────────────────────────────────
   @override
   Future<Either<Failure, UserEntity>> createUserWithEmailAndPassword({
     required String email,
@@ -27,201 +35,179 @@ class AuthRepoImpl extends AuthRepo {
     required String phone,
   }) async {
     try {
-      final userResponse = await authApiService.registerUser(
+      final data = await authApiService.registerUser(
         email: email,
         name: name,
         phone: phone,
         password: password,
       );
-      final userEntity = UserEntity(
-        id: BackendEndpoints.kId,
+
+      final entity = UserEntity(
+        id: data[BackendEndpoints.kId],
         token: '',
-        uId: userResponse[BackendEndpoints.keyUserId],
-        email: userResponse[BackendEndpoints.keyEmail] ?? email,
+        uId: data[BackendEndpoints.kFirbaseUid],
         fullName: name,
+        email: data[BackendEndpoints.keyEmail] ?? email,
         phone: phone,
       );
-      return right(userEntity);
+
+      return right(entity);
     } on CustomExeption catch (e) {
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      log('Error in createUserWithEmailAndPassword: ${e.toString()}');
+      log('createUserWithEmailAndPassword EXCEPTION → $e');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
+  // ─── EMAIL / PASSWORD LOGIN ──────────────────────────────────────────────
   @override
   Future<Either<Failure, UserEntity>> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
     try {
-      log('Attempting login for: $email');
-      final user = await firebaseAuthService.signInWithEmailAndPassword(
+      final firebaseUser = await firebaseAuthService.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      final token = await user.getIdToken();
-      log('Token: $token');
-      final userResponse = await authApiService.sendOAuthToken(token: token!);
-      final userEntity = UserEntity(
-        id: userResponse[BackendEndpoints.kId],
-        token: token,
-        uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
-        email: userResponse[BackendEndpoints.keyEmail] ?? email,
-        fullName: userResponse[BackendEndpoints.keyFullName] ??
-            user.displayName ??
-            '',
-        phone: userResponse[BackendEndpoints.keyPhone] ?? '',
-      );
-      return right(userEntity);
+
+      final firebaseToken = await firebaseUser.getIdToken();
+      log('Firebase ID token (email/password): $firebaseToken');
+
+      final UserModel userModel =
+          await authApiService.sendOAuthToken(token: firebaseToken!);
+      log('Backend JWT token: ${userModel.token}');
+
+      return right(UserMapper.mapToEntity(userModel));
     } on CustomExeption catch (e) {
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      log('Error in signInWithEmailAndPassword: ${e.toString()}');
+      log('signInWithEmailAndPassword EXCEPTION → $e');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
+  // ─── GOOGLE LOGIN ────────────────────────────────────────────────────────
   @override
   Future<Either<Failure, UserEntity>> signInWithGoogle() async {
-    User? user;
     try {
-      user = await firebaseAuthService.signInWithGoogle();
-      // final userEntity = UserEntity(
-      //   token: '',
-      //   uId: user.uid,
-      //   email: user.email ?? '',
-      //   fullName: user.displayName ?? '',
-      //   phone: '',
-      // );
-      final token = await user.getIdToken();
-      log('Token: $token');
-      final userResponse = await authApiService.sendOAuthToken(token: token!);
-      final userEntity = UserEntity(
-        id: userResponse[BackendEndpoints.kId],
-        token: token,
-        uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
-        email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
-        fullName: userResponse[BackendEndpoints.keyFullName] ??
-            user.displayName ??
-            '',
-        phone: userResponse[BackendEndpoints.keyPhone] ?? '',
-      );
-      return right(userEntity);
+      final firebaseUser = await firebaseAuthService.signInWithGoogle();
+      final firebaseToken = await firebaseUser.getIdToken();
+      log('Firebase ID token (Google): $firebaseToken');
+
+      final UserModel userModel =
+          await authApiService.sendOAuthToken(token: firebaseToken!);
+      log('Backend JWT token: ${userModel.token}');
+
+      return right(UserMapper.mapToEntity(userModel));
     } on CustomExeption catch (e) {
-      // await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      // await deleteUser(user);
-      log('Error in signInWithGoogle: ${e.toString()}');
+      log('signInWithGoogle EXCEPTION → $e');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
+  // ─── FACEBOOK LOGIN ──────────────────────────────────────────────────────
   @override
   Future<Either<Failure, UserEntity>> signInWithFacebook() async {
-    User? user;
     try {
-      user = await firebaseAuthService.signInWithFacebook();
-      final token = await user.getIdToken();
-      final userResponse = await authApiService.sendOAuthToken(token: token!);
-      final userEntity = UserEntity(
-        id: userResponse[BackendEndpoints.kId],
-        token: token,
-        uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
-        email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
-        fullName: userResponse[BackendEndpoints.keyFullName] ??
-            user.displayName ??
-            '',
-        phone: userResponse[BackendEndpoints.keyPhone] ?? '',
-      );
-      return right(userEntity);
+      final firebaseUser = await firebaseAuthService.signInWithFacebook();
+      final firebaseToken = await firebaseUser.getIdToken();
+      log('Firebase ID token (Facebook): $firebaseToken');
+
+      final UserModel userModel =
+          await authApiService.sendOAuthToken(token: firebaseToken!);
+      log('Backend JWT token: ${userModel.token}');
+
+      return right(UserMapper.mapToEntity(userModel));
     } on CustomExeption catch (e) {
-      // await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      // await deleteUser(user);
-      log('Error in signInWithFacebook: ${e.toString()}');
+      log('signInWithFacebook EXCEPTION → $e');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
+  // ─── APPLE LOGIN ─────────────────────────────────────────────────────────
   @override
   Future<Either<Failure, UserEntity>> signInWithApple() async {
-    User? user;
     try {
-      user = await firebaseAuthService.signInWithApple();
-      final token = await user.getIdToken();
-      final userResponse = await authApiService.sendOAuthToken(token: token!);
-      final userEntity = UserEntity(
-        id: userResponse[BackendEndpoints.kId],
-        token: token,
-        uId: userResponse[BackendEndpoints.kFirbaseUid] ?? user.uid,
-        email: userResponse[BackendEndpoints.keyEmail] ?? user.email ?? '',
-        fullName: userResponse[BackendEndpoints.keyFullName] ??
-            user.displayName ??
-            '',
-        phone: userResponse[BackendEndpoints.keyPhone] ?? '',
-      );
-      return right(userEntity);
+      final firebaseUser = await firebaseAuthService.signInWithApple();
+      final firebaseToken = await firebaseUser.getIdToken();
+      log('Firebase ID token (Apple): $firebaseToken');
+
+      final UserModel userModel =
+          await authApiService.sendOAuthToken(token: firebaseToken!);
+      log('Backend JWT token: ${userModel.token}');
+
+      return right(UserMapper.mapToEntity(userModel));
     } on CustomExeption catch (e) {
-      // await deleteUser(user);
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      // await deleteUser(user);
-      log('Error in signInWithApple: ${e.toString()}');
+      log('signInWithApple EXCEPTION → $e');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
+  // ─── OTP HELPERS ─────────────────────────────────────────────────────────
   @override
   Future<Either<Failure, UserEntity>> sendOtp({
     required String email,
     required String otp,
   }) async {
     try {
-      final response = await authApiService.sendOtp(email: email, otp: otp);
-      final userEntity = UserEntity(
-        id: response.id,
-        token: '',
-        uId: response.uId,
-        email: response.email,
-        fullName: response.fullName,
-        phone: response.phone,
-      );
-      return right(userEntity);
-    } on Exception catch (e) {
-      log('Error in sendOtp: ${e.toString()}');
-      return left(ServerFaliure(message: S.current.OtpVerfiedFailed));
+      final entity = await authApiService.sendOtp(email: email, otp: otp);
+      return right(entity);
+    } on CustomExeption catch (e) {
+      return left(ServerFaliure(message: e.message));
+    } catch (e) {
+      log('sendOtp EXCEPTION → $e');
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> verifyOtp({
+    required String email,
+    required String otp,
+  }) async {
+    try {
+      final msg = await authApiService.verifyOtp(email: email, otp: otp);
+      return right(msg);
+    } on CustomExeption catch (e) {
+      return left(ServerFaliure(message: e.message));
+    } catch (e) {
+      log('verifyOtp EXCEPTION → $e');
+      return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
   @override
   Future<Either<Failure, Unit>> resendOtp({required String email}) async {
     try {
-      final message = await authApiService.resendOtp(email: email);
-      log('Resend OTP success: $message');
+      await authApiService.resendOtp(email: email);
       return right(unit);
     } on CustomExeption catch (e) {
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      log('Error in resendOtp: ${e.toString()}');
+      log('resendOtp EXCEPTION → $e');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
+  // ─── PASSWORD RESET / CHANGE ─────────────────────────────────────────────
   @override
   Future<Either<Failure, String>> forgotPassword(
       {required String email}) async {
     try {
-      final message = await authApiService.forgotPassword(email: email);
-      log('Forgot password message: $message');
-      return right(message);
+      final msg = await authApiService.forgotPassword(email: email);
+      return right(msg);
     } on CustomExeption catch (e) {
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      log('Error in forgotPassword: ${e.toString()}');
+      log('forgotPassword EXCEPTION → $e');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
@@ -233,54 +219,30 @@ class AuthRepoImpl extends AuthRepo {
     required String newPassword,
   }) async {
     try {
-      final message = await authApiService.resetPassword(
+      final msg = await authApiService.resetPassword(
         email: email,
         otp: otp,
         newPassword: newPassword,
       );
-      log('Reset password message: $message');
-      return right(message);
+      return right(msg);
     } on CustomExeption catch (e) {
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      log('Error in resetPassword: ${e.toString()}');
+      log('resetPassword EXCEPTION → $e');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }
 
+  // ─── LOGOUT ──────────────────────────────────────────────────────────────
   @override
   Future<Either<Failure, Unit>> logout({required String firebaseUid}) async {
     try {
       await authApiService.logout(firebaseUid: firebaseUid);
-      log('Logout completed successfully.');
       return right(unit);
     } on CustomExeption catch (e) {
       return left(ServerFaliure(message: e.message));
     } catch (e) {
-      log('Error in logout: ${e.toString()}');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
-    }
-  }
-
-  Future<void> deleteUser(User? user) async {
-    if (user != null) {
-      await firebaseAuthService.deleteUser();
-    }
-  }
-
-  @override
-  Future<Either<Failure, String>> verifyOtp({
-    required String email,
-    required String otp,
-  }) async {
-    try {
-      log("in repo verifyOtp $otp, $email");
-      final message = await authApiService.verifyOtp(email: email, otp: otp);
-      return right(message);
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
-    } catch (e) {
-      log('Error in verifyOtp: ${e.toString()}');
+      log('logout EXCEPTION → $e');
       return left(ServerFaliure(message: S.current.SomethingWentWrong));
     }
   }

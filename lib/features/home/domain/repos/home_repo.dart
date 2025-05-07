@@ -11,5 +11,6 @@ abstract class HomeRepo {
     required int storesCount,
     required int couponsPage,
     required int couponsCount,
+    required String token,
   });
 }
