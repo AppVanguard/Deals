@@ -57,7 +57,7 @@ class SigninCubit extends Cubit<SigninState> {
       },
       (user) async {
         // 🔑  Always persist the fresh user (even if rememberMe == false)
-        await SecureStorageService.saveUserEntity(user.toJson());
+        await SecureStorageService.saveUserEntity(user);
         Prefs.setBool(kRememberMe, rememberMe);
 
         emit(
@@ -80,7 +80,7 @@ class SigninCubit extends Cubit<SigninState> {
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        await SecureStorageService.saveUserEntity(user.toJson());
+        await SecureStorageService.saveUserEntity(user);
         Prefs.setBool(kRememberMe, rememberMe);
 
         emit(
@@ -99,7 +99,7 @@ class SigninCubit extends Cubit<SigninState> {
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        await SecureStorageService.saveUserEntity(user.toJson());
+        await SecureStorageService.saveUserEntity(user);
         Prefs.setBool(kRememberMe, rememberMe);
 
         emit(
@@ -118,7 +118,7 @@ class SigninCubit extends Cubit<SigninState> {
     result.fold(
       (failure) => emit(SigninFailure(message: failure.message)),
       (user) async {
-        await SecureStorageService.saveUserEntity(user.toJson());
+        await SecureStorageService.saveUserEntity(user);
         Prefs.setBool(kRememberMe, rememberMe);
 
         emit(

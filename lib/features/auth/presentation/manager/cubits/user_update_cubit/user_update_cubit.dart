@@ -16,9 +16,11 @@ class UserUpdateCubit extends Cubit<UserUpdateState> {
     String? city,
     String? dateOfBirth,
     String? gender,
+    required String token,
   }) async {
     emit(UserUpdateLoading());
     final result = await userRepo.updateUserData(
+      token: token,
       id: id,
       country: country,
       city: city,

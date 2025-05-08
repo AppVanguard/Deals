@@ -22,11 +22,13 @@ class CategoriesRepoImpl implements CategoriesRepo {
     int? page,
     int? limit,
     String? sortOrder,
+    required String token,
   }) async {
     try {
       // 1) Fetch the data-layer model from the service.
       final CategoryModel categoryModel =
           await categoriesService.getAllCategories(
+        token: token,
         sortField: sortField,
         page: page,
         limit: limit,
@@ -73,10 +75,11 @@ class CategoriesRepoImpl implements CategoriesRepo {
   }
 
   @override
-  Future<Either<Failure, CategoryEntity>> getCategoryById(String id) async {
+  Future<Either<Failure, CategoryEntity>> getCategoryById(
+      String id, String token) async {
     try {
       final CategoryModel categoryModel =
-          await categoriesService.getCategoryById(id);
+          await categoriesService.getCategoryById(id, token);
 
       if (categoryModel.data != null && categoryModel.data!.isNotEmpty) {
         final categoryEntity = CategoryMapper.mapToEntity(categoryModel);

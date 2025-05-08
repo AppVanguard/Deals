@@ -1,3 +1,4 @@
+import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
@@ -31,9 +32,9 @@ class StoreDetailCubit extends Cubit<StoreDetailsState> {
   /// Automatically triggers coupon fetching after store details are fetched.
   Future<void> getStoreAndCoupons(String storeId) async {
     emit(StoreDetailsLoading());
-
+    final user = await SecureStorageService.getCurrentUser();
     // Fetch store details
-    final storeResult = await storesRepo.getStoreById(storeId);
+    final storeResult = await storesRepo.getStoreById(storeId, user!.token);
     storeResult.fold(
       (failure) => emit(StoreDetailsFailure(message: failure.message)),
       (storeEntity) async {
@@ -49,6 +50,7 @@ class StoreDetailCubit extends Cubit<StoreDetailsState> {
           category: _category,
           discountType: _discountType,
           storeId: _storeId, // Pass storeId to filter coupons by store
+          token: user.token,
         );
 
         couponsResult.fold(
@@ -67,6 +69,8 @@ class StoreDetailCubit extends Cubit<StoreDetailsState> {
 
   /// Fetch the next page of coupons and append to the existing list.
   Future<void> loadNextPage() async {
+    final user = await SecureStorageService.getCurrentUser();
+
     if (state is StoreDetailsSuccess) {
       final currentState = state as StoreDetailsSuccess;
       if (!currentState.pagination.hasNextPage) return;
@@ -83,6 +87,7 @@ class StoreDetailCubit extends Cubit<StoreDetailsState> {
           category: _category,
           discountType: _discountType,
           storeId: _storeId,
+          token: user!.token,
         );
 
         result.fold(

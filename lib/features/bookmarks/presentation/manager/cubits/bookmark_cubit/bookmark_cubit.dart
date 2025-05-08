@@ -1,3 +1,4 @@
+import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/features/bookmarks/domain/entity/bookmark_entity.dart';
 import 'package:deals/features/bookmarks/domain/entity/bookmark_pagination_entity.dart';
 import 'package:deals/features/bookmarks/domain/repos/bookmarks_with_pagination.dart';
@@ -26,9 +27,10 @@ class BookmarkCubit extends Cubit<BookmarkState> {
     if (!isRefresh) {
       emit(BookmarkLoading());
     }
+    final user = await SecureStorageService.getCurrentUser();
 
     final Either<Failure, BookmarksWithPaginationEntity> result =
-        await bookmarkRepo.getUserBookmarks(firebaseUid);
+        await bookmarkRepo.getUserBookmarks(firebaseUid, user!.token);
 
     result.fold(
       (failure) => emit(BookmarkFailure(message: failure.message)),
@@ -44,9 +46,11 @@ class BookmarkCubit extends Cubit<BookmarkState> {
   /// 2) Create a new bookmark, then prepend it to the current list
   Future<void> addBookmark(String storeId) async {
     emit(BookmarkLoading());
+    final user = await SecureStorageService.getCurrentUser();
 
-    final Either<Failure, BookmarkEntity> result = await bookmarkRepo
-        .createBookmark(firebaseUid: firebaseUid, storeId: storeId);
+    final Either<Failure, BookmarkEntity> result =
+        await bookmarkRepo.createBookmark(
+            firebaseUid: firebaseUid, storeId: storeId, token: user!.token);
 
     result.fold(
       (failure) => emit(BookmarkFailure(message: failure.message)),
@@ -70,6 +74,7 @@ class BookmarkCubit extends Cubit<BookmarkState> {
   Future<void> removeBookmark(String bookmarkId) async {
     if (state is! BookmarkSuccess) return;
     final current = state as BookmarkSuccess;
+    final user = await SecureStorageService.getCurrentUser();
 
     // Optimistic update
     final updatedList =
@@ -77,7 +82,7 @@ class BookmarkCubit extends Cubit<BookmarkState> {
     emit(current.copyWith(bookmarks: updatedList));
 
     final Either<Failure, void> result =
-        await bookmarkRepo.deleteBookmark(bookmarkId);
+        await bookmarkRepo.deleteBookmark(bookmarkId, user!.token);
 
     result.fold(
       (failure) {

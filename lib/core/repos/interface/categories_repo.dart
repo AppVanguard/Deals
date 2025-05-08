@@ -9,7 +9,9 @@ abstract class CategoriesRepo {
     int? page,
     int? limit,
     String? sortOrder,
+    required String token,
   });
 
-  Future<Either<Failure, CategoryEntity>> getCategoryById(String id);
+  Future<Either<Failure, CategoryEntity>> getCategoryById(
+      String id, String token);
 }

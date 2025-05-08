@@ -8,6 +8,7 @@ abstract class PersonalDataRepo {
   /// Fetch the current user profile by its [id].
   Future<Either<Failure, UserEntity>> getPersonalData({
     required String id,
+    required String token,
   });
 
   /// Update any subset of the user’s editable fields.
@@ -19,5 +20,6 @@ abstract class PersonalDataRepo {
     String? city,
     String? dateOfBirth,
     String? gender,
+    required String token,
   });
 }

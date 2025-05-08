@@ -50,7 +50,7 @@ class PersonalDataView extends StatelessWidget {
             if (state is PersonalDataUpdateSuccess) {
               // 1) Persist updated user
               await SecureStorageService.saveUserEntity(
-                state.user.toJson(),
+                state.user,
               );
 
               // 2) Remove any existing banner

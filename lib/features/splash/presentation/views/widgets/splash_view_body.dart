@@ -50,11 +50,10 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     await Future.delayed(const Duration(seconds: 2));
 
     if (isOnBoardingViewSeen) {
-      final userJson = await SecureStorageService.getUserEntity();
-      if (userJson != null && userJson.isNotEmpty) {
+      final userEntity = await SecureStorageService.getCurrentUser();
+      if (userEntity != null) {
         try {
           if (!mounted) return;
-          final userEntity = UserEntity.fromJson(userJson);
 
           // Switch to go_router
           context.goNamed(

@@ -73,7 +73,9 @@ class _MainViewState extends State<MainView> {
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (_) => CouponsCubit(couponsRepo: getIt<CouponsRepo>()),
+              create: (_) => CouponsCubit(
+                couponsRepo: getIt<CouponsRepo>(),
+              ),
             ),
             BlocProvider(
               create: (_) => CategoriesCubit(

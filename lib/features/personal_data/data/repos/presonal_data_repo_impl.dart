@@ -17,10 +17,11 @@ class PersonalDataRepoImpl implements PersonalDataRepo {
 
   @override
   Future<Either<Failure, UserEntity>> getPersonalData({
+    required String token,
     required String id,
   }) async {
     try {
-      final model = await _userService.getUserById(id);
+      final model = await _userService.getUserById(id, token);
       return Right(UserMapper.mapToEntity(model));
     } catch (e) {
       log('getPersonalData error: $e');
@@ -37,6 +38,7 @@ class PersonalDataRepoImpl implements PersonalDataRepo {
     String? city,
     String? dateOfBirth,
     String? gender,
+    required String token,
   }) async {
     try {
       final model = await _userService.updateUserData(
@@ -47,6 +49,7 @@ class PersonalDataRepoImpl implements PersonalDataRepo {
         city: city,
         dateOfBirth: dateOfBirth,
         gender: gender,
+        token: token,
       );
       return Right(UserMapper.mapToEntity(model));
     } catch (e) {

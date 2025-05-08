@@ -26,12 +26,6 @@ class CustomAppDrawer extends StatelessWidget {
   const CustomAppDrawer({super.key, required this.userData});
   final UserEntity userData;
 
-  Future<UserEntity?> _loadCurrentUser() async {
-    final jsonString = await SecureStorageService.getUserEntity();
-    if (jsonString == null) return null;
-    return UserEntity.fromJson(jsonString);
-  }
-
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
@@ -64,7 +58,7 @@ class CustomAppDrawer extends StatelessWidget {
             ),
           ),
           child: FutureBuilder<UserEntity?>(
-            future: _loadCurrentUser(),
+            future: SecureStorageService.getCurrentUser(),
             builder: (ctx, snap) {
               // Use secure-storage copy if present; else fall back to in-memory.
               final user = snap.data ?? userData;
@@ -81,22 +75,24 @@ class CustomAppDrawer extends StatelessWidget {
                     color: AppColors.darkPrimary,
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(
-                        vertical: 40, horizontal: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(user.fullName,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(color: Colors.white)),
-                        const SizedBox(height: 4),
-                        Text(user.email,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(color: Colors.white70)),
-                      ],
+                        vertical: 24, horizontal: 16),
+                    child: SafeArea(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(user.fullName,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(color: Colors.white)),
+                          const SizedBox(height: 4),
+                          Text(user.email,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: Colors.white70)),
+                        ],
+                      ),
                     ),
                   ),
 

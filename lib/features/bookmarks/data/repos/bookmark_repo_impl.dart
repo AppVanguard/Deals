@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
@@ -20,9 +19,12 @@ class BookmarkRepoImpl implements BookmarkRepo {
 
   @override
   Future<Either<Failure, BookmarksWithPaginationEntity>> getUserBookmarks(
-      String firebaseUid) async {
+    String token,
+    String firebaseUid,
+  ) async {
     try {
-      final BookmarkModel model = await _service.getUserBookmarks(firebaseUid);
+      final BookmarkModel model =
+          await _service.getUserBookmarks(firebaseUid, token);
 
       // map the raw list → domain entities
       final List<BookmarkEntity> entities =
@@ -49,11 +51,13 @@ class BookmarkRepoImpl implements BookmarkRepo {
 
   @override
   Future<Either<Failure, BookmarkEntity>> createBookmark({
+    required String token,
     required String firebaseUid,
     required String storeId,
   }) async {
     try {
       final data = await _service.createBookmark(
+        token: token,
         firebaseUid: firebaseUid,
         storeId: storeId,
       );
@@ -66,9 +70,9 @@ class BookmarkRepoImpl implements BookmarkRepo {
   }
 
   @override
-  Future<Either<Failure, void>> deleteBookmark(String id) async {
+  Future<Either<Failure, void>> deleteBookmark(String id, String token) async {
     try {
-      await _service.deleteBookmark(id);
+      await _service.deleteBookmark(id, token);
       return const Right(null);
     } catch (e, st) {
       log('Error in BookmarkRepoImpl.deleteBookmark', error: e, stackTrace: st);

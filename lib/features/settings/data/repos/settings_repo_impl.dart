@@ -132,7 +132,8 @@ class SettingsRepoImpl implements SettingsRepo {
     required String authToken,
   }) async {
     try {
-      final message = await _userService.deleteUserByFirebaseUid(firebaseUid);
+      final message =
+          await _userService.deleteUserByFirebaseUid(firebaseUid, authToken);
       return Right(message);
     } catch (e) {
       log('Error deleting account: $e');

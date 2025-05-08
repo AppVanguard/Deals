@@ -25,6 +25,7 @@ class CouponsRepoImpl implements CouponsRepo {
     String? category,
     String? discountType,
     String? storeId,
+    required String token,
   }) async {
     try {
       final CouponsModel couponsModel = await couponsService.getAllCoupons(
@@ -36,6 +37,7 @@ class CouponsRepoImpl implements CouponsRepo {
         category: category,
         discountType: discountType,
         storeId: storeId,
+        token: token,
       );
       final List<CouponEntity> couponEntities =
           CouponsMapper.mapToEntities(couponsModel);
@@ -59,9 +61,11 @@ class CouponsRepoImpl implements CouponsRepo {
   }
 
   @override
-  Future<Either<Failure, CouponEntity>> getCouponById(String id) async {
+  Future<Either<Failure, CouponEntity>> getCouponById(
+      String id, String token) async {
     try {
-      final CouponsModel couponsModel = await couponsService.getCouponById(id);
+      final CouponsModel couponsModel =
+          await couponsService.getCouponById(id, token);
       if (couponsModel.data != null && couponsModel.data!.isNotEmpty) {
         final couponEntity =
             CouponsMapper.mapToEntity(couponsModel.data!.first);

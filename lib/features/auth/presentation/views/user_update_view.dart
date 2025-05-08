@@ -10,18 +10,22 @@ class UserUpdateView extends StatelessWidget {
   const UserUpdateView({
     super.key,
     required this.id,
+    required this.token,
   });
   final String id;
+  final String token;
 
   static const routeName = '/user_update';
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UserUpdateCubit(userRepo: getIt.get<UserRepo>()),
       child: Scaffold(
         appBar: AppBar(backgroundColor: AppColors.background),
-        body: UserUpdateBlocConsumer(id: id),
+        body: UserUpdateBlocConsumer(
+          id: id,
+          token: token,
+        ),
       ),
     );
   }

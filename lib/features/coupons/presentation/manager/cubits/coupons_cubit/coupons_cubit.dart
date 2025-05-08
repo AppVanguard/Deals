@@ -1,3 +1,4 @@
+import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
@@ -8,7 +9,6 @@ part 'coupons_state.dart';
 
 class CouponsCubit extends Cubit<CouponsState> {
   final CouponsRepo couponsRepo;
-
   // Internal parameters for filtering, sorting, and pagination.
   int _currentPage = 1;
   String? _search;
@@ -39,7 +39,10 @@ class CouponsCubit extends Cubit<CouponsState> {
     }
 
     try {
+      final user = await SecureStorageService.getCurrentUser();
+
       final result = await couponsRepo.getAllCoupons(
+        token: user!.token,
         search: _search,
         sortField: _sortField,
         page: _currentPage,

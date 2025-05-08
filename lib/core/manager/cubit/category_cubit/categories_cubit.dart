@@ -1,4 +1,5 @@
 import 'package:deals/core/repos/interface/categories_repo.dart';
+import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
@@ -8,7 +9,6 @@ part 'categories_state.dart';
 
 class CategoriesCubit extends Cubit<CategoriesState> {
   final CategoriesRepo categoriesRepo;
-
   // Local tracking for pagination parameters.
   int currentPage = 1;
   int limit = 10;
@@ -49,11 +49,13 @@ class CategoriesCubit extends Cubit<CategoriesState> {
     }
 
     try {
+      final user = await SecureStorageService.getCurrentUser();
       final eitherResult = await categoriesRepo.getAllCategories(
         sortField: this.sortField,
         sortOrder: this.sortOrder,
         page: currentPage,
         limit: this.limit,
+        token: user!.token,
       );
 
       eitherResult.fold(

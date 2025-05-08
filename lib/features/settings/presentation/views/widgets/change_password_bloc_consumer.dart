@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/features/settings/presentation/manager/settings_cubit.dart';
 import 'package:flutter/material.dart';
@@ -92,9 +91,8 @@ class ChangePasswordBlocConsumer extends StatelessWidget {
           isLoading: isLoading,
           onSubmit: (oldPwd, newPwd) async {
             // fetch stored user
-            final json = await SecureStorageService.getUserEntity();
-            if (json == null) return;
-            final user = UserEntity.fromJson(json);
+            final user = await SecureStorageService.getCurrentUser();
+            if (user == null) return;
             if (!context.mounted) return;
             await ctx.read<SettingsCubit>().changePassword(
                   email: user.email,

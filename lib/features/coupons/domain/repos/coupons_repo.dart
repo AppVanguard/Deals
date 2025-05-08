@@ -12,8 +12,8 @@ abstract class CouponsRepo {
     String? sortOrder,
     String? category,
     String? discountType,
-    String? storeId,
+    String? storeId,required String token,
   });
 
-  Future<Either<Failure, CouponEntity>> getCouponById(String id);
+  Future<Either<Failure, CouponEntity>> getCouponById(String id, String token);
 }

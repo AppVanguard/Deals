@@ -9,9 +9,10 @@ import 'package:deals/features/auth/presentation/views/widgets/user_update_view_
 import 'package:go_router/go_router.dart';
 
 class UserUpdateBlocConsumer extends StatelessWidget {
-  const UserUpdateBlocConsumer({super.key, required this.id});
+  const UserUpdateBlocConsumer(
+      {super.key, required this.id, required this.token});
   final String id;
-
+  final String token;
   @override
   Widget build(BuildContext context) {
     log(id);
@@ -34,6 +35,7 @@ class UserUpdateBlocConsumer extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: UserUpdateViewBody(
+              token: token,
               id: id,
             ),
           ),

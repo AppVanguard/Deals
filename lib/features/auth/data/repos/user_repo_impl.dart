@@ -12,9 +12,10 @@ class UserRepoImpl extends UserRepo {
   UserRepoImpl({required this.userService});
 
   @override
-  Future<Either<Failure, UserEntity>> getUserById(String id) async {
+  Future<Either<Failure, UserEntity>> getUserById(
+      String id, String token) async {
     try {
-      final user = await userService.getUserById(id);
+      final user = await userService.getUserById(id, token);
       final userEntity = UserMapper.mapToEntity(user);
       return right(userEntity);
     } catch (e) {
@@ -25,6 +26,7 @@ class UserRepoImpl extends UserRepo {
 
   @override
   Future<Either<Failure, UserEntity>> updateUserData({
+    required String token,
     required String id,
     String? country,
     String? city,
@@ -33,6 +35,7 @@ class UserRepoImpl extends UserRepo {
   }) async {
     try {
       final updatedUser = await userService.updateUserData(
+        token: token,
         id: id,
         country: country,
         city: city,

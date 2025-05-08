@@ -26,6 +26,7 @@ class StoresRepoImpl implements StoresRepo {
     int? limit,
     String? sortOrder,
     String? categoryId,
+    required String token,
   }) async {
     try {
       // 1) Fetch the data-layer model from the service
@@ -36,6 +37,7 @@ class StoresRepoImpl implements StoresRepo {
         limit: limit,
         sortOrder: sortOrder,
         categoryId: categoryId,
+        token: token,
       );
 
       // 2) Map the 'data' to domain store entities
@@ -71,9 +73,11 @@ class StoresRepoImpl implements StoresRepo {
   }
 
   @override
-  Future<Either<Failure, StoreEntity>> getStoreById(String id) async {
+  Future<Either<Failure, StoreEntity>> getStoreById(
+      String id, String token) async {
     try {
-      final StoresModel storesModel = await storesService.getStoreById(id);
+      final StoresModel storesModel =
+          await storesService.getStoreById(id, token);
 
       if (storesModel.data != null && storesModel.data!.isNotEmpty) {
         final storeEntity = StoresMapper.mapToEntity(storesModel.data!.first);

@@ -13,10 +13,12 @@ import 'package:deals/generated/l10n.dart';
 
 class UserUpdateViewBody extends StatefulWidget {
   final String id;
+  final String token;
   // fullName and phone are not needed for the update now.
   const UserUpdateViewBody({
     super.key,
     required this.id,
+    required this.token,
   });
 
   @override
@@ -105,6 +107,7 @@ class _UserUpdateViewBodyState extends State<UserUpdateViewBody> {
                       ? DateFormat('yyyy-MM-dd').format(birthday!)
                       : null;
                   context.read<UserUpdateCubit>().updateUser(
+                        token: widget.token,
                         id: widget.id,
                         country: selectedCountry?.name,
                         city: city,
@@ -123,6 +126,7 @@ class _UserUpdateViewBodyState extends State<UserUpdateViewBody> {
             CustomButton(
               onPressed: () {
                 context.read<UserUpdateCubit>().updateUser(
+                      token: widget.token,
                       id: widget.id,
                       city: city,
                       country: selectedGender,

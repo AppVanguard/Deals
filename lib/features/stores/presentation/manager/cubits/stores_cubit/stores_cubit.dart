@@ -1,3 +1,4 @@
+import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
@@ -27,6 +28,7 @@ class StoresCubit extends Cubit<StoresState> {
     if (isRefresh) {
       _currentPage = 1;
     }
+    final user = await SecureStorageService.getCurrentUser();
 
     // When appending data (load more) check if the current state is a success.
     if (state is StoresSuccess && !isRefresh) {
@@ -51,6 +53,7 @@ class StoresCubit extends Cubit<StoresState> {
         limit: _limit,
         sortOrder: _sortOrder,
         categoryId: _categoryId,
+        token: user!.token,
       );
 
       result.fold(

@@ -182,7 +182,7 @@ class AppRouter {
         name: UserUpdateView.routeName,
         builder: (context, state) {
           final id = state.extra as String?;
-          return UserUpdateView(id: id ?? '');
+          return UserUpdateView(id: id ?? '', token: '');
         },
       ),
       // Store Details Route

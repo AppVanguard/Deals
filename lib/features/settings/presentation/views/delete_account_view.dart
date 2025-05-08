@@ -49,9 +49,8 @@ class DeleteAccountView extends StatelessWidget {
                 context: context,
                 builder: (_) => DeleteAccountDialog(
                   onConfirm: () async {
-                    final json = await SecureStorageService.getUserEntity();
-                    if (json == null) return;
-                    final user = UserEntity.fromJson(json);
+                    final user = await SecureStorageService.getCurrentUser();
+                    if (user == null) return;
                     if (!context.mounted) return;
                     ctx.read<SettingsCubit>().deleteAccount(
                           firebaseUid: user.uId,

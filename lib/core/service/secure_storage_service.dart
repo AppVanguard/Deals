@@ -1,20 +1,33 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// lib/core/service/secure_storage_service.dart
 
-// Define a constant key (you may want to keep these in your constants file)
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:deals/core/entities/user_entity.dart';
+
 const String kUserEntity = 'user_entity';
 
 class SecureStorageService {
-  static const _storage = FlutterSecureStorage();
+  static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  static Future<void> saveUserEntity(String userJson) async {
-    await _storage.write(key: kUserEntity, value: userJson);
+  /// Save the signed-in user.
+  static Future<void> saveUserEntity(UserEntity user) =>
+      _storage.write(key: kUserEntity, value: user.toJson());
+
+  /// Read the stored user, or `null` if none.
+  static Future<UserEntity?> readUserEntity() async {
+    final jsonString = await _storage.read(key: kUserEntity);
+    return jsonString == null ? null : UserEntity.fromJson(jsonString);
   }
 
-  static Future<String?> getUserEntity() async {
-    return await _storage.read(key: kUserEntity);
-  }
+  /// Delete the stored user (e.g. on logout).
+  static Future<void> deleteUserEntity() => _storage.delete(key: kUserEntity);
 
-  static Future<void> deleteUserEntity() async {
-    await _storage.delete(key: kUserEntity);
-  }
+  // ◀── NEW HELPER ──────────────────────────────────────────────────────────▶
+
+  /// Alias for [readUserEntity], named for clarity in your UI code.
+  ///
+  /// Usage:
+  /// ```dart
+  /// final user = await SecureStorageService.getCurrentUser();
+  /// ```
+  static Future<UserEntity?> getCurrentUser() => readUserEntity();
 }
