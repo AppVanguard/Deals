@@ -2,7 +2,10 @@
 
 import 'package:deals/core/repos/implementation/notifications_permission_repo_impl.dart';
 import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
+import 'package:deals/core/service/bookmark_service.dart';
 import 'package:deals/core/service/notifications_permission_service.dart';
+import 'package:deals/features/bookmarks/data/repos/bookmark_repo_impl.dart';
+import 'package:deals/features/bookmarks/domain/repos/bookmark_repo.dart';
 import 'package:deals/features/personal_data/data/repos/presonal_data_repo_impl.dart';
 import 'package:deals/features/settings/data/repos/settings_repo_impl.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';
@@ -58,7 +61,7 @@ void setupGetit() {
   getIt.registerSingleton<UserRepo>(
     UserRepoImpl(userService: getIt<UserService>()),
   );
-
+  getIt.registerSingleton<BookmarkService>(BookmarkService());
   // 3. Register additional repositories.
   getIt.registerSingleton<MenuRepo>(
     MenuRepoImpl(authApiService: getIt<AuthApiService>()),
@@ -126,6 +129,9 @@ void setupGetit() {
       userService: getIt<UserService>(),
     ),
   );
+  getIt.registerSingleton<BookmarkRepo>(BookmarkRepoImpl(
+    service: getIt<BookmarkService>(),
+  ));
 }
 
 /// Called after a successful login, if we want the cubit

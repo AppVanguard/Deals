@@ -1,99 +1,113 @@
-import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/features/bookmarks/domain/entity/bookmark_entity.dart';
-import 'package:deals/features/bookmarks/domain/entity/bookmark_pagination_entity.dart';
-import 'package:deals/features/bookmarks/domain/repos/bookmarks_with_pagination.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:dartz/dartz.dart';
 
+import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/errors/faliure.dart';
 import 'package:deals/features/bookmarks/domain/repos/bookmark_repo.dart';
+import 'package:deals/features/bookmarks/domain/entity/bookmark_pagination_entity.dart';
 
 part 'bookmark_state.dart';
 
 class BookmarkCubit extends Cubit<BookmarkState> {
-  final BookmarkRepo bookmarkRepo;
-  final String firebaseUid;
+  final BookmarkRepo _repo;
 
-  BookmarkCubit({
-    required this.bookmarkRepo,
-    required this.firebaseUid,
-  }) : super(BookmarkInitial()) {
-    loadBookmarks();
+  BookmarkCubit({required BookmarkRepo repo})
+      : _repo = repo,
+        super(BookmarkInitial()) {
+    loadBookmarks(isRefresh: true);
   }
 
-  /// 1) Load (or refresh) the list of bookmarks
+  // filters
+  int _page = 1;
+  final int _limit = 5;
+
+  String _search = '';
+  List<String> _catIds = [];
+  bool _hasCoupons = false;
+  bool _hasCashback = false;
+  String _sortOrder = 'asc';
+
+  /*══════════════════════  API  ══════════════════════*/
   Future<void> loadBookmarks({bool isRefresh = false}) async {
-    if (!isRefresh) {
+    if (isRefresh) _page = 1;
+
+    // manage loading states
+    if (state is BookmarkSuccess && !isRefresh) {
+      final s = state as BookmarkSuccess;
+      if (s.pagination.currentPage >= s.pagination.totalPages) return;
+      emit(s.copyWith(isLoadingMore: true));
+    } else {
       emit(BookmarkLoading());
     }
-    final user = await SecureStorageService.getCurrentUser();
 
-    final Either<Failure, BookmarksWithPaginationEntity> result =
-        await bookmarkRepo.getUserBookmarks(firebaseUid, user!.token);
+    try {
+      final user = await SecureStorageService.getCurrentUser();
+      if (user == null) {
+        emit(BookmarkFailure(message: 'user not found'));
+        return;
+      }
 
-    result.fold(
-      (failure) => emit(BookmarkFailure(message: failure.message)),
-      (paginated) {
-        emit(BookmarkSuccess(
-          bookmarks: paginated.bookmarks,
-          pagination: paginated.pagination,
-        ));
-      },
-    );
-  }
+      final res = await _repo.getUserBookmarks(
+        firebaseUid: user.uId,
+        token: user.token,
+        page: _page,
+        limit: _limit,
+        search: _search,
+        categories: _catIds,
+        hasCoupons: _hasCoupons,
+        hasCashback: _hasCashback,
+        sortOrder: _sortOrder,
+      );
 
-  /// 2) Create a new bookmark, then prepend it to the current list
-  Future<void> addBookmark(String storeId) async {
-    emit(BookmarkLoading());
-    final user = await SecureStorageService.getCurrentUser();
-
-    final Either<Failure, BookmarkEntity> result =
-        await bookmarkRepo.createBookmark(
-            firebaseUid: firebaseUid, storeId: storeId, token: user!.token);
-
-    result.fold(
-      (failure) => emit(BookmarkFailure(message: failure.message)),
-      (newBookmark) {
-        if (state is BookmarkSuccess) {
-          final current = state as BookmarkSuccess;
-          emit(
-            current.copyWith(
-              bookmarks: [newBookmark, ...current.bookmarks],
-            ),
+      res.fold(
+        (Failure f) => emit(BookmarkFailure(message: f.message)),
+        (success) {
+          final merged = _mergeList(
+            newItems: success.bookmarks,
+            isRefresh: isRefresh,
           );
-        } else {
-          // if we weren’t already in a success state, just reload
-          loadBookmarks(isRefresh: true);
-        }
-      },
-    );
+
+          emit(BookmarkSuccess(
+            bookmarks: merged,
+            pagination: success.pagination,
+          ));
+
+          if (success.pagination.currentPage < success.pagination.totalPages) {
+            _page++;
+          }
+        },
+      );
+    } catch (e) {
+      emit(BookmarkFailure(message: e.toString()));
+    }
   }
 
-  /// 3) Delete a bookmark, then remove it from the current list
-  Future<void> removeBookmark(String bookmarkId) async {
-    if (state is! BookmarkSuccess) return;
-    final current = state as BookmarkSuccess;
-    final user = await SecureStorageService.getCurrentUser();
+  Future<void> loadNextPage() => loadBookmarks();
 
-    // Optimistic update
-    final updatedList =
-        current.bookmarks.where((b) => b.id != bookmarkId).toList();
-    emit(current.copyWith(bookmarks: updatedList));
+  void updateFilters({
+    String? search,
+    List<String>? categories,
+    bool? hasCoupons,
+    bool? hasCashback,
+    String? sortOrder,
+  }) {
+    _search = search ?? _search;
+    _catIds = categories ?? _catIds;
+    _hasCoupons = hasCoupons ?? _hasCoupons;
+    _hasCashback = hasCashback ?? _hasCashback;
+    _sortOrder = sortOrder ?? _sortOrder;
 
-    final Either<Failure, void> result =
-        await bookmarkRepo.deleteBookmark(bookmarkId, user!.token);
+    loadBookmarks(isRefresh: true);
+  }
 
-    result.fold(
-      (failure) {
-        // Revert on failure
-        emit(BookmarkFailure(message: failure.message));
-        // Optionally reload full list:
-        loadBookmarks(isRefresh: true);
-      },
-      (_) {
-        // no-op: we already removed it optimistically
-      },
-    );
+  /* helpers */
+  List<BookmarkEntity> _mergeList({
+    required List<BookmarkEntity> newItems,
+    required bool isRefresh,
+  }) {
+    if (isRefresh || state is! BookmarkSuccess) return newItems;
+    final s = state as BookmarkSuccess;
+    return List.of(s.bookmarks)..addAll(newItems);
   }
 }

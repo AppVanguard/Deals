@@ -180,6 +180,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "SelectCountry": MessageLookupByLibrary.simpleMessage("Select Country"),
         "SelectDate": MessageLookupByLibrary.simpleMessage("Select Date"),
         "SelectGender": MessageLookupByLibrary.simpleMessage("Select Gender"),
+        "Select_all": MessageLookupByLibrary.simpleMessage("Select all"),
+        "Select_none": MessageLookupByLibrary.simpleMessage("Select none"),
         "SendCode": MessageLookupByLibrary.simpleMessage("Send code"),
         "ShowResults": MessageLookupByLibrary.simpleMessage("Show Results"),
         "SignUp": MessageLookupByLibrary.simpleMessage("Sign Up"),

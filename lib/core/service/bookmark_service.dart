@@ -1,83 +1,94 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:http/http.dart' as http;
 
 import 'package:deals/core/utils/backend_endpoints.dart';
-import 'package:deals/features/bookmarks/data/bookmark_model/bookmark_data.dart';
+import 'package:deals/core/utils/query_encoder.dart';
 import 'package:deals/features/bookmarks/data/bookmark_model/bookmark_model.dart';
-
-import 'package:http/http.dart' as http;
+import 'package:deals/features/bookmarks/data/bookmark_model/bookmark_data.dart';
 
 class BookmarkService {
   final http.Client _http;
   BookmarkService([http.Client? client]) : _http = client ?? http.Client();
 
-  /// 1) GET /bookmarks/:firebase_uid
-  Future<BookmarkModel> getUserBookmarks(
-      String firebaseUid, String token) async {
-    final uri = Uri.parse('${BackendEndpoints.bookmarks}/$firebaseUid');
+  static const _kPageNumber = 'PageNumber';
+  static const _kPageSize = 'PageSize';
+
+  Future<BookmarkModel> getUserBookmarks({
+    required String firebaseUid,
+    required String token,
+    required int page,
+    required int limit,
+    String search = '',
+    List<String> categories = const [],
+    bool hasCoupons = false,
+    bool hasCashback = false,
+    String sortOrder = 'asc', // asc | desc
+  }) async {
+    final qp = <String, String>{
+      _kPageNumber: '$page',
+      _kPageSize: '$limit',
+      'sortOrder': sortOrder,
+      'hasCoupons': boolToStr(hasCoupons),
+      'hasCashback': boolToStr(hasCashback),
+      if (search.isNotEmpty) 'search': search,
+      if (categories.isNotEmpty) 'categories': categories.join(','),
+    };
+
+    final uri = Uri.parse('${BackendEndpoints.bookmarks}/$firebaseUid')
+        .replace(queryParameters: qp);
+
     try {
-      final resp = await _http.get(
+      final res = await _http.get(
         uri,
         headers: BackendEndpoints.authJsonHeaders(token),
       );
-      if (resp.statusCode == 200) {
-        final Map<String, dynamic> jsonMap = jsonDecode(resp.body);
-        return BookmarkModel.fromJson(jsonMap);
-      } else {
-        log('Error fetching bookmarks (${resp.statusCode}): ${resp.body}');
-        throw Exception('Failed to load bookmarks');
+      if (res.statusCode == 200) {
+        return BookmarkModel.fromJson(jsonDecode(res.body));
       }
+      log('Error ${res.statusCode}: ${res.body}');
+      throw Exception('Failed to load bookmarks');
     } catch (e) {
       log('Exception in getUserBookmarks: $e');
       rethrow;
     }
   }
 
-  /// 2) POST /bookmarks
-  ///    body: { "firebase_uid": "...", "storeId": "..." }
   Future<BookmarkData> createBookmark({
     required String firebaseUid,
     required String storeId,
     required String token,
   }) async {
     final uri = Uri.parse(BackendEndpoints.bookmarks);
-    final payload = jsonEncode({
-      'firebase_uid': firebaseUid,
-      'storeId': storeId,
+    final body = jsonEncode({
+      BackendEndpoints.kFirebaseUid: firebaseUid,
+      BackendEndpoints.kStoreId: storeId,
     });
+    final res = await _http.post(
+      uri,
+      headers: BackendEndpoints.authJsonHeaders(token),
+      body: body,
+    );
 
-    try {
-      final resp = await _http.post(
-        uri,
-        headers: BackendEndpoints.authJsonHeaders(token),
-        body: payload,
-      );
-      if (resp.statusCode == 201) {
-        final Map<String, dynamic> jsonMap = jsonDecode(resp.body);
-        return BookmarkData.fromJson(jsonMap);
-      } else {
-        log('Error creating bookmark (${resp.statusCode}): ${resp.body}');
-        throw Exception('Failed to create bookmark');
-      }
-    } catch (e) {
-      log('Exception in createBookmark: $e');
-      rethrow;
+    if (res.statusCode == 201) {
+      return BookmarkData.fromJson(jsonDecode(res.body));
     }
+    log('Error creating bookmark ${res.statusCode}: ${res.body}');
+    throw Exception('Failed to create bookmark');
   }
 
-  /// 3) DELETE /bookmarks/:id
-  Future<void> deleteBookmark(String id, String token) async {
-    final uri = Uri.parse('${BackendEndpoints.bookmarks}/$id');
-    try {
-      final resp = await _http.delete(uri,
-          headers: BackendEndpoints.authJsonHeaders(token));
-      if (resp.statusCode != 204) {
-        log('Error deleting bookmark (${resp.statusCode}): ${resp.body}');
-        throw Exception('Failed to delete bookmark');
-      }
-    } catch (e) {
-      log('Exception in deleteBookmark: $e');
-      rethrow;
+  Future<void> deleteBookmark({
+    required String bookmarkId,
+    required String token,
+  }) async {
+    final uri = Uri.parse('${BackendEndpoints.bookmarks}/$bookmarkId');
+    final res = await _http.delete(
+      uri,
+      headers: BackendEndpoints.authJsonHeaders(token),
+    );
+    if (res.statusCode != 204) {
+      log('Error deleting bookmark ${res.statusCode}: ${res.body}');
+      throw Exception('Failed to delete bookmark');
     }
   }
 }

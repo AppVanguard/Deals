@@ -2159,6 +2159,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Select all`
+  String get Select_all {
+    return Intl.message(
+      'Select all',
+      name: 'Select_all',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select none`
+  String get Select_none {
+    return Intl.message(
+      'Select none',
+      name: 'Select_none',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

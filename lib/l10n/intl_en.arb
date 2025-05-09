@@ -209,5 +209,7 @@
       "forgetThePassword": "Forget the password?",
       "newPassword": "New password",
       "confirmNewPassword": "Confirm new password",
-      "passwordChangedSuccessfully": "Password changed successfully"
+      "passwordChangedSuccessfully": "Password changed successfully",
+      "Select_all": "Select all",
+      "Select_none": "Select none"
 }

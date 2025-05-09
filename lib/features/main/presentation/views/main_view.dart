@@ -1,5 +1,8 @@
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
+import 'package:deals/features/bookmarks/domain/repos/bookmark_repo.dart';
+import 'package:deals/features/bookmarks/presentation/manager/cubits/bookmark_cubit/bookmark_cubit.dart';
+import 'package:deals/features/bookmarks/presentation/views/bookmark_view.dart';
 import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
 import 'package:deals/features/coupons/presentation/manager/cubits/coupons_cubit/coupons_cubit.dart';
 import 'package:deals/features/home/domain/repos/home_repo.dart';
@@ -90,7 +93,22 @@ class _MainViewState extends State<MainView> {
         key: const ValueKey('Bookmarks'),
         child: Container(
           color: Colors.greenAccent,
-          child: const Center(child: Text('Bookmarks Page Placeholder')),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => BookmarkCubit(
+                  repo: getIt<BookmarkRepo>(),
+                ),
+              ),
+              BlocProvider(
+                create: (context) =>
+                    CategoriesCubit(categoriesRepo: getIt<CategoriesRepo>()),
+              ),
+            ],
+            child: BookmarkView(
+              user: widget.userData,
+            ),
+          ),
         ),
       ),
     ];
