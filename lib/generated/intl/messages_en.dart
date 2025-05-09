@@ -279,6 +279,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("New customers discount"),
         "noCashbackTermsAvailable":
             MessageLookupByLibrary.simpleMessage("No cashback terms available"),
+        "noOffers": MessageLookupByLibrary.simpleMessage("No offers"),
         "off": MessageLookupByLibrary.simpleMessage("off"),
         "oldPassword": MessageLookupByLibrary.simpleMessage("Old password"),
         "operationNotAllowed": MessageLookupByLibrary.simpleMessage(

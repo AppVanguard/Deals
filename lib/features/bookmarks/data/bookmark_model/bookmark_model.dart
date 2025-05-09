@@ -13,7 +13,7 @@ class BookmarkModel {
             .toList(),
         pagination: json['pagination'] == null
             ? null
-            : Pagination.fromJson(json['pagination'] as Map<String, dynamic>),
+            : Pagination.fromJson(json['pagination']),
       );
 
   Map<String, dynamic> toJson() => {

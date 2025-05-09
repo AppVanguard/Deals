@@ -14,6 +14,8 @@ import 'package:deals/features/auth/presentation/views/user_update_view.dart';
 import 'package:deals/features/auth/presentation/views/reset_password_view.dart';
 import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:deals/features/auth/presentation/views/signup_view.dart';
+import 'package:deals/features/bookmarks/domain/repos/bookmark_repo.dart';
+import 'package:deals/features/bookmarks/presentation/manager/cubits/bookmark_cubit/bookmark_cubit.dart';
 import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
 import 'package:deals/features/coupons/presentation/manager/cubits/coupon_details_cubit/coupon_detail_cubit.dart';
 import 'package:deals/features/coupons/presentation/manager/cubits/coupons_cubit/coupons_cubit.dart';
@@ -191,11 +193,20 @@ class AppRouter {
         name: StoreDetailView.routeName,
         builder: (context, state) {
           final id = state.extra as String?;
-          return BlocProvider(
-            create: (_) => StoreDetailCubit(
-              storesRepo: getIt<StoresRepo>(),
-              couponsRepo: getIt<CouponsRepo>(),
-            ),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => StoreDetailCubit(
+                  storesRepo: getIt<StoresRepo>(),
+                  couponsRepo: getIt<CouponsRepo>(),
+                ),
+              ),
+              BlocProvider(
+                create: (context) => BookmarkCubit(
+                  repo: getIt<BookmarkRepo>(),
+                ),
+              ),
+            ],
             child: StoreDetailView(storeId: id ?? ''),
           );
         },

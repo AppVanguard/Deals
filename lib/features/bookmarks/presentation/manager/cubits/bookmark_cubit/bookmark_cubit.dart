@@ -1,10 +1,12 @@
-import 'package:deals/features/bookmarks/domain/entity/bookmark_entity.dart';
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/errors/faliure.dart';
 import 'package:deals/features/bookmarks/domain/repos/bookmark_repo.dart';
+import 'package:deals/features/bookmarks/domain/entity/bookmark_entity.dart';
 import 'package:deals/features/bookmarks/domain/entity/bookmark_pagination_entity.dart';
 
 part 'bookmark_state.dart';
@@ -18,7 +20,7 @@ class BookmarkCubit extends Cubit<BookmarkState> {
     loadBookmarks(isRefresh: true);
   }
 
-  // filters
+  //──────────────────── internal filters
   int _page = 1;
   final int _limit = 5;
 
@@ -27,15 +29,21 @@ class BookmarkCubit extends Cubit<BookmarkState> {
   bool _hasCoupons = false;
   bool _hasCashback = false;
   String _sortOrder = 'asc';
+  //──────────────────────────────────────
 
-  /*══════════════════════  API  ══════════════════════*/
+  /*════════════════════ public api ════════════════════*/
+
   Future<void> loadBookmarks({bool isRefresh = false}) async {
+    log('[BookmarkCubit] loadBookmarks() — page=$_page refresh=$isRefresh');
+
     if (isRefresh) _page = 1;
 
-    // manage loading states
     if (state is BookmarkSuccess && !isRefresh) {
       final s = state as BookmarkSuccess;
-      if (s.pagination.currentPage >= s.pagination.totalPages) return;
+      if (s.pagination.currentPage >= s.pagination.totalPages) {
+        log('[BookmarkCubit] reached last page, aborting load');
+        return;
+      }
       emit(s.copyWith(isLoadingMore: true));
     } else {
       emit(BookmarkLoading());
@@ -44,7 +52,7 @@ class BookmarkCubit extends Cubit<BookmarkState> {
     try {
       final user = await SecureStorageService.getCurrentUser();
       if (user == null) {
-        emit(BookmarkFailure(message: 'user not found'));
+        emit(BookmarkFailure(message: 'User not found'));
         return;
       }
 
@@ -61,8 +69,15 @@ class BookmarkCubit extends Cubit<BookmarkState> {
       );
 
       res.fold(
-        (Failure f) => emit(BookmarkFailure(message: f.message)),
+        (Failure f) {
+          log('[BookmarkCubit] loadBookmarks failure: ${f.message}');
+          emit(BookmarkFailure(message: f.message));
+        },
         (success) {
+          log('[BookmarkCubit] loadBookmarks success '
+              'items=${success.bookmarks.length} '
+              'page=${success.pagination.currentPage}/${success.pagination.totalPages}');
+
           final merged = _mergeList(
             newItems: success.bookmarks,
             isRefresh: isRefresh,
@@ -78,7 +93,8 @@ class BookmarkCubit extends Cubit<BookmarkState> {
           }
         },
       );
-    } catch (e) {
+    } catch (e, st) {
+      log('[BookmarkCubit] loadBookmarks exception', error: e, stackTrace: st);
       emit(BookmarkFailure(message: e.toString()));
     }
   }
@@ -98,10 +114,80 @@ class BookmarkCubit extends Cubit<BookmarkState> {
     _hasCashback = hasCashback ?? _hasCashback;
     _sortOrder = sortOrder ?? _sortOrder;
 
+    log('[BookmarkCubit] updateFilters '
+        'search=$_search catIds=$_catIds coupons=$_hasCoupons cashback=$_hasCashback sort=$_sortOrder');
+
     loadBookmarks(isRefresh: true);
   }
 
-  /* helpers */
+  /*══════════ bookmark-specific helpers ══════════*/
+
+  bool isBookmarked(String storeId) {
+    if (state is! BookmarkSuccess) return false;
+    return (state as BookmarkSuccess).bookmarks.any(
+          (b) => b.storeId == storeId || (b.storeId) == storeId,
+        );
+  }
+
+  Future<void> toggleBookmark(String storeId) async {
+    if (state is! BookmarkSuccess) return;
+
+    log('[BookmarkCubit] toggleBookmark store=$storeId '
+        'currentlySaved=${isBookmarked(storeId)}');
+
+    if (isBookmarked(storeId)) {
+      final existing = (state as BookmarkSuccess)
+          .bookmarks
+          .firstWhere((b) => b.storeId == storeId || (b.storeId) == storeId);
+      await _removeBookmark(existing.id);
+    } else {
+      await _addBookmark(storeId);
+    }
+  }
+
+  /*────────── internal add & remove ──────────*/
+
+  Future<void> _addBookmark(String storeId) async {
+    final user = await SecureStorageService.getCurrentUser();
+    if (user == null) return;
+
+    log('[BookmarkCubit] _addBookmark POST store=$storeId');
+
+    final res = await _repo.createBookmark(
+      firebaseUid: user.uId,
+      storeId: storeId,
+      token: user.token,
+    );
+
+    res.fold(
+      (f) => log('[BookmarkCubit] _addBookmark failed: ${f.message}'),
+      (_) => log('[BookmarkCubit] _addBookmark success'),
+    );
+
+    // Refresh list to get full bookmark object
+    await loadBookmarks(isRefresh: true);
+  }
+
+  Future<void> _removeBookmark(String bookmarkId) async {
+    final user = await SecureStorageService.getCurrentUser();
+    if (user == null) return;
+
+    log('[BookmarkCubit] _removeBookmark DELETE id=$bookmarkId');
+
+    final res = await _repo.deleteBookmark(
+      bookmarkId: bookmarkId,
+      token: user.token,
+    );
+
+    res.fold(
+      (f) => log('[BookmarkCubit] _removeBookmark failed: ${f.message}'),
+      (_) => log('[BookmarkCubit] _removeBookmark success'),
+    );
+
+    await loadBookmarks(isRefresh: true);
+  }
+
+  /*─────────────── merge helper ───────────────*/
   List<BookmarkEntity> _mergeList({
     required List<BookmarkEntity> newItems,
     required bool isRefresh,

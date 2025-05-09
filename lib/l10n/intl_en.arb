@@ -211,5 +211,6 @@
       "confirmNewPassword": "Confirm new password",
       "passwordChangedSuccessfully": "Password changed successfully",
       "Select_all": "Select all",
-      "Select_none": "Select none"
+      "Select_none": "Select none",
+      "noOffers": "No offers"
 }

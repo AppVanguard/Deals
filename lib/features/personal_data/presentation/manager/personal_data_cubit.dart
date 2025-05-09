@@ -1,12 +1,11 @@
-// lib/features/profile/presentation/manager/personal_data_cubit/personal_data_cubit.dart
-
-import 'package:deals/core/service/secure_storage_service.dart';
-import 'package:deals/features/personal_data/domain/repos/personal_data_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:dartz/dartz.dart';
-import 'package:deals/core/errors/faliure.dart';
+
 import 'package:deals/core/entities/user_entity.dart';
+import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/service/secure_storage_service.dart';
+import 'package:deals/features/personal_data/domain/repos/personal_data_repo.dart';
 
 part 'personal_data_state.dart';
 
@@ -22,20 +21,32 @@ class PersonalDataCubit extends Cubit<PersonalDataState> {
     fetchPersonalData();
   }
 
-  /// Initial load of the user’s data
+  /*────────────────── initial GET ──────────────────*/
+
   Future<void> fetchPersonalData() async {
     emit(PersonalDataLoadInProgress());
-    final user = await SecureStorageService.getCurrentUser();
 
-    final Either<Failure, UserEntity> result =
-        await _repo.getPersonalData(id: userId, token: user!.token);
-    result.fold(
+    final storedUser = await SecureStorageService.getCurrentUser();
+    if (storedUser == null) {
+      emit(PersonalDataLoadFailure('User not found'));
+      return;
+    }
+
+    final Either<Failure, UserEntity> res =
+        await _repo.getPersonalData(id: userId, token: storedUser.token);
+
+    res.fold(
       (f) => emit(PersonalDataLoadFailure(f.message)),
-      (u) => emit(PersonalDataLoadSuccess(u)),
+      (u) {
+        // Merge token from secure-storage in case GET /users doesn’t include it
+        final merged = _mergeUserWithToken(u, storedUser.token);
+        emit(PersonalDataLoadSuccess(merged));
+      },
     );
   }
 
-  /// Partial update (PATCH) of any fields
+  /*────────────────── PATCH update ──────────────────*/
+
   Future<void> updatePersonalData({
     String? fullName,
     String? phone,
@@ -45,9 +56,15 @@ class PersonalDataCubit extends Cubit<PersonalDataState> {
     String? gender,
   }) async {
     emit(PersonalDataUpdateInProgress());
-    final user = await SecureStorageService.getCurrentUser();
 
-    final Either<Failure, UserEntity> result = await _repo.updatePersonalData(
+    // Load current user to preserve the existing JWT
+    final storedUser = await SecureStorageService.getCurrentUser();
+    if (storedUser == null) {
+      emit(PersonalDataUpdateFailure('User not found'));
+      return;
+    }
+
+    final Either<Failure, UserEntity> res = await _repo.updatePersonalData(
       id: userId,
       fullName: fullName,
       phone: phone,
@@ -55,11 +72,39 @@ class PersonalDataCubit extends Cubit<PersonalDataState> {
       city: city,
       dateOfBirth: dateOfBirth,
       gender: gender,
-      token: user!.token,
+      token: storedUser.token,
     );
-    result.fold(
+
+    res.fold(
       (f) => emit(PersonalDataUpdateFailure(f.message)),
-      (u) => emit(PersonalDataUpdateSuccess(u)),
+      (updated) {
+        final merged = _mergeUserWithToken(updated, storedUser.token);
+        emit(PersonalDataUpdateSuccess(merged));
+      },
     );
+  }
+
+  /*───────────────── helper ─────────────────*/
+
+  /// Ensures the returned `UserEntity` keeps the old auth token.
+  UserEntity _mergeUserWithToken(UserEntity user, String token) {
+    // If your UserEntity already has copyWith → use it
+    try {
+      return user.copyWith(token: token);
+    } catch (_) {
+      // Manual rebuild fallback
+      return UserEntity(
+        id: user.id,
+        uId: user.uId,
+        token: token,
+        fullName: user.fullName,
+        email: user.email,
+        phone: user.phone,
+        country: user.country,
+        city: user.city,
+        dateOfBirth: user.dateOfBirth,
+        gender: user.gender,
+      );
+    }
   }
 }

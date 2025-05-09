@@ -26,7 +26,7 @@ class CouponsService {
       if (sortOrder != null) BackendEndpoints.kSortOrder: sortOrder,
       if (category != null) BackendEndpoints.kCategoryId: category,
       if (discountType != null) BackendEndpoints.kDiscountType: discountType,
-      if (storeId != null) BackendEndpoints.kStoreId: storeId,
+      if (storeId != null) BackendEndpoints.kStore: storeId,
     };
     final url = Uri.parse(BackendEndpoints.coupons)
         .replace(queryParameters: queryParameters);

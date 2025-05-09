@@ -2179,6 +2179,16 @@ class S {
       args: [],
     );
   }
+
+  /// `No offers`
+  String get noOffers {
+    return Intl.message(
+      'No offers',
+      name: 'noOffers',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

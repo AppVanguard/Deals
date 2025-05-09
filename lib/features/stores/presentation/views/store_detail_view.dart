@@ -135,7 +135,10 @@ class _StoreDetailViewState extends State<StoreDetailView>
         return Skeletonizer(
           enabled: isLoading,
           child: Scaffold(
-            appBar: buildStoreDetailsAppBar(state),
+            appBar: buildStoreDetailsAppBar(
+              context,
+              state,
+            ),
             body: Stack(
               children: [
                 // MAIN CONTENT: CustomScrollView for store details & coupons

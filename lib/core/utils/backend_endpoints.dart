@@ -54,7 +54,8 @@ class BackendEndpoints {
   static const String kCategoryId = 'category';
   static const String kDiscountType = 'discount_type';
   static const String kFirebaseUid = 'firebase_uid';
-  static const String kStoreId = 'store';
+  static const String kStore = 'store';
+  static const String kStoreId = "storeId";
   static const String kCurrentPassword = "currentPassword";
   static const String kNewPassword = "newPassword";
   // JSON keys for response payloads.
