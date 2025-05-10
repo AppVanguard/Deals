@@ -213,5 +213,6 @@
       "Select_all": "Select all",
       "Select_none": "Select none",
       "noOffers": "No offers",
-      "comingSoon":"is coming soon!"
+      "comingSoon": "is coming soon!",
+      "refer": "Refer"
 }

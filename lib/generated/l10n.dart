@@ -2199,6 +2199,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Refer`
+  String get refer {
+    return Intl.message(
+      'Refer',
+      name: 'refer',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

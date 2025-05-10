@@ -1,5 +1,3 @@
-// lib/main.dart
-
 import 'dart:developer';
 import 'package:deals/core/helper_functions/app_router.dart';
 import 'package:deals/features/notifications/data/data_source/notification_local.dart';

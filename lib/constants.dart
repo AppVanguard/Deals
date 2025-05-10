@@ -17,3 +17,5 @@ const kIsRegister = 'isRegister';
 const kUserEntity = 'userEntity';
 const kErrorAnimation = 'assets/animations/error.json';
 const kPushEnabled = "pushEnabled";
+const kUserId = "userId";
+const kToken = "token";

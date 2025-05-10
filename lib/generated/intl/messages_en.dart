@@ -324,6 +324,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "The account is already linked to a provider."),
         "pushNotifications":
             MessageLookupByLibrary.simpleMessage("Push notifications"),
+        "refer": MessageLookupByLibrary.simpleMessage("Refer"),
         "requiresRecentLogin": MessageLookupByLibrary.simpleMessage(
             "Please log in again to complete the operation."),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),

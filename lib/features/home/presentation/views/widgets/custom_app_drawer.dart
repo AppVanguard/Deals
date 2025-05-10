@@ -1,3 +1,4 @@
+import 'package:deals/core/widgets/coming_soon_toast.dart';
 import 'package:deals/features/settings/presentation/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -105,7 +106,7 @@ class CustomAppDrawer extends StatelessWidget {
                             icon: AppImages.assetsImagesEarning,
                             text: s.earnings,
                             onTap: () =>
-                                _showComingSoonToast(context, s.earnings),
+                                showComingSoonToast(context, s.earnings),
                           ),
                           _tile(
                             icon: AppImages.assetsImagesPersonalData,
@@ -133,23 +134,20 @@ class CustomAppDrawer extends StatelessWidget {
                           _tile(
                             icon: AppImages.assetsImagesSettings,
                             text: s.settings,
-                            onTap: () {
-                              context.pushNamed(SettingsView.routeName);
-                            },
+                            onTap: () =>
+                                context.pushNamed(SettingsView.routeName),
                           ),
                           _divider(),
                           _tile(
                             icon: AppImages.assetsImagesHelp,
                             text: s.help,
-                            onTap: () => context.pushNamed(
-                              FAQView.routeName,
-                            ),
+                            onTap: () => context.pushNamed(FAQView.routeName),
                           ),
                           _tile(
                             icon: AppImages.assetsImagesContact,
                             text: s.contactUs,
                             onTap: () =>
-                                _showComingSoonToast(context, s.contactUs),
+                                showComingSoonToast(context, s.contactUs),
                           ),
                         ],
                       ),
@@ -207,100 +205,4 @@ class CustomAppDrawer extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Divider(),
       );
-
-  void _showComingSoonToast(BuildContext context, String featureName) {
-    final overlay = Overlay.of(context);
-
-    late OverlayEntry entry;
-    entry = OverlayEntry(
-      builder: (ctx) => Positioned(
-        bottom: 100,
-        left: 40,
-        right: 40,
-        child: _AnimatedToast(entry: entry, featureName: featureName),
-      ),
-    );
-
-    overlay.insert(entry);
-  }
-}
-
-class _AnimatedToast extends StatefulWidget {
-  final OverlayEntry entry;
-  final String featureName;
-
-  const _AnimatedToast({
-    required this.entry,
-    required this.featureName,
-  });
-
-  @override
-  State<_AnimatedToast> createState() => _AnimatedToastState();
-}
-
-class _AnimatedToastState extends State<_AnimatedToast>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _fade;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _fade = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
-
-    // Fade in
-    _controller.forward();
-
-    // Wait 2s, then fade out & remove
-    Future.delayed(const Duration(seconds: 2), () {
-      _controller.reverse().then((_) {
-        widget.entry.remove();
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _fade,
-      child: Material(
-        color: Colors.transparent,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 6,
-                offset: Offset(0, 2),
-              )
-            ],
-          ),
-          child: Center(
-            child: Text(
-              '${widget.featureName} ${S.of(context).comingSoon}',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
