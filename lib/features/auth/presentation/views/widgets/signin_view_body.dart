@@ -1,3 +1,4 @@
+import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/widgets/error_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:deals/features/auth/presentation/views/widgets/auth_divider.dart
 import 'package:deals/features/auth/presentation/views/widgets/remember_password.dart';
 import 'package:deals/features/auth/presentation/views/widgets/third_party_auth.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class SigninViewBody extends StatefulWidget {
@@ -48,11 +50,7 @@ class _SigninViewBodyState extends State<SigninViewBody> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 76),
-            Center(
-              child: Text(appTittle,
-                  style:
-                      AppTextStyles.bold46.copyWith(color: AppColors.primary)),
-            ),
+            Center(child: SvgPicture.asset(AppImages.assetsImagesAppLogo)),
             const SizedBox(height: 32),
             if (hasError) ErrorBanner(message: widget.serverError!),
             CustomTextFormField(
