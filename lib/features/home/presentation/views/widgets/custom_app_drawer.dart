@@ -51,6 +51,7 @@ class CustomAppDrawer extends StatelessWidget {
         height: size.height * 0.80,
         width: size.width * 0.80,
         child: Drawer(
+          backgroundColor: AppColors.background,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(16),

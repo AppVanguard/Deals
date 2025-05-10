@@ -8,13 +8,24 @@ class SignupInitial extends SignupState {}
 class SignupLoading extends SignupState {}
 
 class SignupSuccess extends SignupState {
+  /// The signed-in / newly-created user object
   final UserEntity userEntity;
+
+  /// Message for snack-bars or logs
   final String message;
-  SignupSuccess({required this.message, required this.userEntity});
+
+  /// If `true` → navigate to OTP page
+  /// If `false` → user is ready for MainView
+  final bool requiresOtp;
+
+  SignupSuccess({
+    required this.userEntity,
+    required this.message,
+    this.requiresOtp = true,
+  });
 }
 
 class SignupFailure extends SignupState {
   final String message;
-
   SignupFailure({required this.message});
 }

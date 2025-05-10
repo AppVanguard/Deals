@@ -1,4 +1,6 @@
+// lib/features/auth/presentation/views/widgets/signup_bloc_consumer.dart
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/constants.dart';
@@ -9,6 +11,7 @@ import 'package:deals/features/auth/presentation/manager/cubits/signup_cubit/sig
 import 'package:deals/features/auth/presentation/views/otp_verfication_view.dart';
 import 'package:deals/features/auth/presentation/views/user_update_view.dart';
 import 'package:deals/features/auth/presentation/views/widgets/signup_view_body.dart';
+import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:go_router/go_router.dart';
 
 class SignupBlocConsumer extends StatelessWidget {
@@ -21,30 +24,34 @@ class SignupBlocConsumer extends StatelessWidget {
         if (state is SignupFailure) {
           customErrorTopSnackBar(context: context, message: state.message);
         }
+
         if (state is SignupSuccess) {
-          log(state.userEntity.uId);
-          // Pass a map containing the user data
-          context.pushNamed(
-            OtpVerficationView.routeName,
-            extra: {
-              kEmail: state.userEntity.email,
-              kImage: AppImages.assetsImagesOTB,
-              kNextRoute: UserUpdateView.routeName,
-              kId: state.userEntity.uId,
-              kIsRegister: true,
-            },
-          );
+          if (state.requiresOtp) {
+            // New account → OTP verification
+            log('Navigate to OTP for ${state.userEntity.email}');
+            context.pushNamed(
+              OtpVerficationView.routeName,
+              extra: {
+                kEmail: state.userEntity.email,
+                kImage: AppImages.assetsImagesOTB,
+                kNextRoute: UserUpdateView.routeName,
+                kId: state.userEntity.uId,
+                kIsRegister: true,
+              },
+            );
+          } else {
+            // Social login → MainView
+            context.goNamed(MainView.routeName, extra: state.userEntity);
+          }
         }
       },
-      builder: (context, state) {
-        return CustomProgressHud(
-          isLoading: state is SignupLoading,
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: SignupViewBody(),
-          ),
-        );
-      },
+      builder: (context, state) => CustomProgressHud(
+        isLoading: state is SignupLoading,
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: SignupViewBody(),
+        ),
+      ),
     );
   }
 }

@@ -93,8 +93,7 @@ Future<void> main() async {
   await initializeLocalNotifications();
 
   // 8) Ask for permissions (iOS)
-  await FirebaseMessaging.instance
-      .requestPermission(alert: true, badge: true, sound: true);
+  await FirebaseMessaging.instance.requestPermission();
 
   // 9) Attach the SINGLE onMessage listener if not attached
   if (!_didAttachFcmListener) {
