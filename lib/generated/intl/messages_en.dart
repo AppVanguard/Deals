@@ -231,6 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "cashbackTerms": MessageLookupByLibrary.simpleMessage("Cashback terms"),
         "changePassword":
             MessageLookupByLibrary.simpleMessage("Change password"),
+        "comingSoon": MessageLookupByLibrary.simpleMessage("is coming soon!"),
         "confirmNewPassword":
             MessageLookupByLibrary.simpleMessage("Confirm new password"),
         "contactUs": MessageLookupByLibrary.simpleMessage("Contact us"),

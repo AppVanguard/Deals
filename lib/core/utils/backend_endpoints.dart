@@ -37,6 +37,7 @@ class BackendEndpoints {
   static const String keyPhone = "phone";
   static const String keyPassword = "password";
   static const String kId = "id";
+  
   static const String kOtp = "otp";
   static const String kToken = "token";
   static const String kJwtToken = "Jwttoken";

@@ -43,7 +43,7 @@ class AuthRepoImpl extends AuthRepo {
       );
       log('createUserWithEmailAndPassword → $data');
       final entity = UserEntity(
-        id: data[BackendEndpoints.kId],
+        id: '',
         token: '',
         uId: data[BackendEndpoints.kFirbaseUid],
         fullName: name,
