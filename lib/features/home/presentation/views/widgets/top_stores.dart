@@ -152,6 +152,12 @@ class _StoreCard extends StatelessWidget {
               width: 150,
               height: 90,
               decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.text.withValues(alpha: 0.5),
+                    blurRadius: 2,
+                  ),
+                ],
                 color: AppColors.tertiaryText,
                 borderRadius: BorderRadius.circular(10),
               ),

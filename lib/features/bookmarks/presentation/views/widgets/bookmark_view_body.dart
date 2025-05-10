@@ -1,15 +1,17 @@
+// lib/features/bookmarks/presentation/views/widgets/bookmark_view_body.dart
 import 'dart:developer';
-import 'package:deals/features/bookmarks/presentation/manager/cubits/bookmark_cubit/bookmark_cubit.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:deals/generated/l10n.dart';
 import 'package:deals/core/widgets/generic_card.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
-import 'package:deals/generated/l10n.dart';
-import 'package:deals/features/bookmarks/domain/entity/bookmark_entity.dart';
-import 'package:go_router/go_router.dart';
 import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
+import 'package:deals/features/bookmarks/domain/entity/bookmark_entity.dart';
+import 'package:deals/features/bookmarks/presentation/manager/cubits/bookmark_cubit/bookmark_cubit.dart';
 
 class BookmarkViewBody extends StatefulWidget {
   const BookmarkViewBody({super.key});
@@ -27,6 +29,14 @@ class _BookmarkViewBodyState extends State<BookmarkViewBody> {
     _scroll.addListener(_onScroll);
   }
 
+  @override
+  void dispose() {
+    _scroll.removeListener(_onScroll);
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  /*────────── infinite‑scroll ──────────*/
   void _onScroll() {
     final cubit = context.read<BookmarkCubit>();
     final st = cubit.state;
@@ -34,42 +44,55 @@ class _BookmarkViewBodyState extends State<BookmarkViewBody> {
         !st.isLoadingMore &&
         st.pagination.currentPage < st.pagination.totalPages &&
         _scroll.position.pixels >= _scroll.position.maxScrollExtent - 200) {
-      log('Scroll → load next bookmarks page');
+      log('[BookmarkViewBody] scroll → loadNextPage');
       cubit.loadNextPage();
     }
   }
 
+  /*────────── pull‑to‑refresh ──────────*/
+  Future<void> _refresh() =>
+      context.read<BookmarkCubit>().loadBookmarks(isRefresh: true);
+
+  /*──────────── UI ────────────*/
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookmarkCubit, BookmarkState>(
-      builder: (_, state) {
-        if (state is BookmarkLoading) {
-          return _buildSkeletonList();
-        }
-        if (state is BookmarkFailure) {
-          return buildCustomErrorScreen(
-            context: context,
-            onRetry: () =>
-                context.read<BookmarkCubit>().loadBookmarks(isRefresh: true),
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      child: BlocBuilder<BookmarkCubit, BookmarkState>(
+        builder: (_, state) {
+          if (state is BookmarkLoading) return _skeletonList();
+          if (state is BookmarkFailure) {
+            return ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                buildCustomErrorScreen(
+                  context: context,
+                  onRetry: _refresh,
+                ),
+              ],
+            );
+          }
+          if (state is BookmarkSuccess) {
+            final more = state.isLoadingMore ||
+                (state.pagination.currentPage < state.pagination.totalPages);
+            return _bookmarksList(context, state.bookmarks,
+                isLoadingMore: more);
+          }
+          // default empty scrollable so RefreshIndicator can activate
+          return ListView(
+            controller: _scroll,
+            physics: const AlwaysScrollableScrollPhysics(),
           );
-        }
-        if (state is BookmarkSuccess) {
-          return _buildBookmarksList(
-            context,
-            state.bookmarks,
-            isLoadingMore: state.isLoadingMore ||
-                (state.pagination.currentPage < state.pagination.totalPages),
-          );
-        }
-        return const SizedBox.shrink();
-      },
+        },
+      ),
     );
   }
 
-  //──────────────────────────────────────── helpers
+  /*──────── list builders ────────*/
 
-  Widget _buildSkeletonList() => ListView.builder(
+  Widget _skeletonList() => ListView.builder(
         controller: _scroll,
+        physics: const AlwaysScrollableScrollPhysics(),
         itemCount: 6,
         itemBuilder: (_, __) => const Padding(
           padding: EdgeInsets.only(top: 8),
@@ -84,23 +107,24 @@ class _BookmarkViewBodyState extends State<BookmarkViewBody> {
         ),
       );
 
-  Widget _buildBookmarksList(
-    BuildContext context,
+  Widget _bookmarksList(
+    BuildContext ctx,
     List<BookmarkEntity> list, {
     required bool isLoadingMore,
   }) =>
       ListView.builder(
         controller: _scroll,
+        physics: const AlwaysScrollableScrollPhysics(),
         itemCount: list.length + (isLoadingMore ? 1 : 0),
         itemBuilder: (_, i) {
           if (i < list.length) {
             final b = list[i];
             return Padding(
               padding: const EdgeInsets.only(top: 8),
-              child: _cardFromBookmark(context, b),
+              child: _cardFromBookmark(ctx, b),
             );
           }
-          // bottom skeleton while loading next page
+          // bottom skeleton while next page is loading
           return const Padding(
             padding: EdgeInsets.only(top: 8),
             child: Skeletonizer(
@@ -115,6 +139,8 @@ class _BookmarkViewBodyState extends State<BookmarkViewBody> {
         },
       );
 
+  /*──────── card helper ─────────*/
+
   Widget _cardFromBookmark(BuildContext context, BookmarkEntity b) {
     final l10n = S.of(context);
     final hasCashback = (b.storeCashbackRate ?? 0) != 0;
@@ -122,14 +148,14 @@ class _BookmarkViewBodyState extends State<BookmarkViewBody> {
 
     String subtitle;
     if (hasCashback && hasCoupons) {
-      subtitle =
-          "${l10n.upTo} ${b.storeCashbackRate}% ${l10n.CashbackC} + ${b.storeTotalCoupons} ${l10n.Coupons}";
+      subtitle = '${l10n.upTo} ${b.storeCashbackRate}% ${l10n.CashbackC} + '
+          '${b.storeTotalCoupons} ${l10n.Coupons}';
     } else if (hasCashback) {
-      subtitle = "${l10n.upTo} ${b.storeCashbackRate}% ${l10n.CashbackC}";
+      subtitle = '${l10n.upTo} ${b.storeCashbackRate}% ${l10n.CashbackC}';
     } else if (hasCoupons) {
-      subtitle = "${b.storeTotalCoupons} ${l10n.Coupons}";
+      subtitle = '${b.storeTotalCoupons} ${l10n.Coupons}';
     } else {
-      subtitle = l10n.noOffers; // add to your ARB
+      subtitle = l10n.noOffers;
     }
 
     return GenericCard(

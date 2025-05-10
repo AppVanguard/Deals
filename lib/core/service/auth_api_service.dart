@@ -1,5 +1,3 @@
-library auth_api_service;
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -155,7 +153,7 @@ class AuthApiService {
       final Map<String, dynamic> userJson =
           Map<String, dynamic>.from(body['user'] as Map);
 
-      // — step 2: inject the JWT  under the key our `UserModel` expects
+      // — step 2: inject the JWT under the key our `UserModel` expects
       userJson['token'] = body['Jwttoken'] as String;
 
       // — step 3: parse & return
