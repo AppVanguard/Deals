@@ -1,9 +1,9 @@
-// lib/features/settings/data/repos/settings_repo_impl.dart
-
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/mappers/user_mapper.dart';
 import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:deals/core/service/auth_api_service.dart';
 import 'package:deals/core/service/user_service.dart';
@@ -24,10 +24,9 @@ class SettingsRepoImpl implements SettingsRepo {
         _authApiService = authApiService,
         _userService = userService;
 
-  // ──────────────────────────────────────────────────────────────────────────
-  // Server-side toggles
-  // ──────────────────────────────────────────────────────────────────────────
-
+  // ───────────────────────────────────────────────────────
+  // Server-side Push Controls
+  // ───────────────────────────────────────────────────────
   @override
   Future<Either<Failure, Unit>> allowPushNotifications({
     required String firebaseUid,
@@ -64,18 +63,14 @@ class SettingsRepoImpl implements SettingsRepo {
     }
   }
 
-  // ──────────────────────────────────────────────────────────────────────────
-  // Client-side FCM/local notifications
-  // ──────────────────────────────────────────────────────────────────────────
-
+  // ───────────────────────────────────────────────────────
+  // Client-side Push Controls
+  // ───────────────────────────────────────────────────────
   @override
   Future<Either<Failure, Unit>> disablePushNotificationsLocal() async {
     try {
-      // 1) Turn off FCM auto-init
       await FirebaseMessaging.instance.setAutoInitEnabled(false);
-      // 2) Delete the existing FCM token so the OS no longer delivers
       await FirebaseMessaging.instance.deleteToken();
-      // 3) Cancel any scheduled or pending local notifications
       await flutterLocalNotificationsPlugin.cancelAll();
       return const Right(unit);
     } catch (e) {
@@ -87,12 +82,9 @@ class SettingsRepoImpl implements SettingsRepo {
   @override
   Future<Either<Failure, Unit>> enablePushNotificationsLocal() async {
     try {
-      // 1) Re-enable FCM auto-init
       await FirebaseMessaging.instance.setAutoInitEnabled(true);
-      // 2) Force generation of a new token
       final token = await FirebaseMessaging.instance.getToken();
       log('New FCM token: $token');
-      // 3) Re-initialize local notifications plugin (heads-up, channels, etc)
       await initializeLocalNotifications();
       return const Right(unit);
     } catch (e) {
@@ -101,10 +93,9 @@ class SettingsRepoImpl implements SettingsRepo {
     }
   }
 
-  // ──────────────────────────────────────────────────────────────────────────
-  // Change-password & delete-account
-  // ──────────────────────────────────────────────────────────────────────────
-
+  // ───────────────────────────────────────────────────────
+  // Auth & Account
+  // ───────────────────────────────────────────────────────
   @override
   Future<Either<Failure, String>> changePassword({
     required String email,
@@ -113,13 +104,13 @@ class SettingsRepoImpl implements SettingsRepo {
     required String authToken,
   }) async {
     try {
-      final message = await _authApiService.changePassword(
+      final msg = await _authApiService.changePassword(
         email: email,
         currentPassword: currentPassword,
         newPassword: newPassword,
         authToken: authToken,
       );
-      return Right(message);
+      return Right(msg);
     } catch (e) {
       log('Error in changePassword: $e');
       return Left(ServerFaliure(message: e.toString()));
@@ -132,11 +123,39 @@ class SettingsRepoImpl implements SettingsRepo {
     required String authToken,
   }) async {
     try {
-      final message =
+      final msg =
           await _userService.deleteUserByFirebaseUid(firebaseUid, authToken);
-      return Right(message);
+      return Right(msg);
     } catch (e) {
       log('Error deleting account: $e');
+      return Left(ServerFaliure(message: e.toString()));
+    }
+  }
+
+  // ───────────────────────────────────────────────────────
+  // Update User In-App (needs token)
+  // ───────────────────────────────────────────────────────
+  @override
+  Future<Either<Failure, UserEntity>> updateUserData({
+    required String id,
+    String? country,
+    String? city,
+    String? dateOfBirth,
+    String? gender,
+    required String authToken,
+  }) async {
+    try {
+      final model = await _userService.updateUserData(
+        id: id,
+        country: country,
+        city: city,
+        dateOfBirth: dateOfBirth,
+        gender: gender,
+        token: authToken,
+      );
+      return Right(UserMapper.mapToEntity(model));
+    } catch (e) {
+      log('Error updating user (settings): $e');
       return Left(ServerFaliure(message: e.toString()));
     }
   }

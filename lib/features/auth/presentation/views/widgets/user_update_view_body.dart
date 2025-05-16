@@ -1,6 +1,8 @@
+import 'package:deals/features/auth/presentation/views/signin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/widgets/country_selector_field.dart';
@@ -106,9 +108,8 @@ class _UserUpdateViewBodyState extends State<UserUpdateViewBody> {
                   final formattedBirthday = birthday != null
                       ? DateFormat('yyyy-MM-dd').format(birthday!)
                       : null;
-                  context.read<UserUpdateCubit>().updateUser(
-                        token: widget.token,
-                        id: widget.id,
+                  context.read<UserUpdateCubit>().updateUserAfterRegister(
+                        firebaseUid: widget.id,
                         country: selectedCountry?.name,
                         city: city,
                         dateOfBirth: formattedBirthday,
@@ -125,14 +126,7 @@ class _UserUpdateViewBodyState extends State<UserUpdateViewBody> {
             ),
             CustomButton(
               onPressed: () {
-                context.read<UserUpdateCubit>().updateUser(
-                      token: widget.token,
-                      id: widget.id,
-                      city: city,
-                      country: selectedGender,
-                      dateOfBirth: birthday?.toIso8601String() ?? "",
-                      gender: selectedGender,
-                    );
+                context.goNamed(SigninView.routeName);
               },
               width: double.infinity,
               text: S.of(context).Later,

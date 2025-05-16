@@ -7,32 +7,37 @@ part 'user_update_state.dart';
 
 class UserUpdateCubit extends Cubit<UserUpdateState> {
   final UserRepo userRepo;
-
   UserUpdateCubit({required this.userRepo}) : super(UserUpdateInitial());
 
-  Future<void> updateUser({
-    required String id,
+  /// يستخدم بعد إنشاء الحساب مباشرة
+  /// (PATCH /users/updateAfterRegister/:firebase_uid)
+  Future<void> updateUserAfterRegister({
+    required String firebaseUid,
     String? country,
     String? city,
     String? dateOfBirth,
     String? gender,
-    required String token,
+    String? phone,
   }) async {
     emit(UserUpdateLoading());
-    final result = await userRepo.updateUserData(
-      token: token,
-      id: id,
+
+    final result = await userRepo.updateUserAfterRegister(
+      firebaseUid: firebaseUid,
       country: country,
       city: city,
       dateOfBirth: dateOfBirth,
       gender: gender,
+      phone: phone,
     );
+
     result.fold(
       (failure) => emit(UserUpdateFailure(message: failure.message)),
-      (updatedUser) => emit(UserUpdateSuccess(
-        userEntity: updatedUser,
-        message: "User updated successfully",
-      )),
+      (updatedUser) => emit(
+        UserUpdateSuccess(
+          userEntity: updatedUser,
+          message: 'User updated successfully',
+        ),
+      ),
     );
   }
 }

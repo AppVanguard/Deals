@@ -1,29 +1,25 @@
-// lib/features/settings/domain/repos/settings_repo.dart
-
 import 'package:dartz/dartz.dart';
+import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/core/errors/faliure.dart';
 
 abstract class SettingsRepo {
-  /// Server-side: tell your backend to allow pushes for this device/token.
+  // ───────────── Server-side Push Controls ───────────────
   Future<Either<Failure, Unit>> allowPushNotifications({
     required String firebaseUid,
     required String deviceToken,
     required String authToken,
   });
 
-  /// Server-side: tell your backend to stop sending pushes for this user.
   Future<Either<Failure, Unit>> disablePushNotifications({
     required String firebaseUid,
     required String authToken,
   });
 
-  /// Client-side only: disable FCM auto-init & cancel all local notifications.
+  // ───────────── Client-side Push Controls ───────────────
   Future<Either<Failure, Unit>> disablePushNotificationsLocal();
-
-  /// Client-side only: re-enable FCM auto-init & re-init local notifications.
   Future<Either<Failure, Unit>> enablePushNotificationsLocal();
 
-  /// Change the user’s password via `/auth/change-password`.
+  // ───────────── Auth & Account ──────────────────────────
   Future<Either<Failure, String>> changePassword({
     required String email,
     required String currentPassword,
@@ -31,9 +27,18 @@ abstract class SettingsRepo {
     required String authToken,
   });
 
-  /// Delete the user’s account (`DELETE /users/:firebaseUid`).
   Future<Either<Failure, String>> deleteAccount({
     required String firebaseUid,
+    required String authToken,
+  });
+
+  // ───────────── Update User In-App (needs token) ────────
+  Future<Either<Failure, UserEntity>> updateUserData({
+    required String id,
+    String? country,
+    String? city,
+    String? dateOfBirth,
+    String? gender,
     required String authToken,
   });
 }

@@ -281,7 +281,7 @@ class AuthApiService {
         body: jsonEncode({
           BackendEndpoints.keyEmail: email,
           BackendEndpoints.kOtp: otp,
-          BackendEndpoints.newPassword: newPassword,
+          BackendEndpoints.kNewPassword: newPassword,
         }),
       );
 

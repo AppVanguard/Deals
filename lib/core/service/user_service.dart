@@ -6,28 +6,27 @@ import 'package:deals/core/utils/backend_endpoints.dart';
 import 'package:deals/core/models/user_model/user_model.dart';
 
 class UserService {
-  /// Retrieves a single user by id from GET /users/:id
+  /* ─────────────── GET USER BY ID ──────────────────────── */
   Future<UserModel> getUserById(String id, String token) async {
     final url = Uri.parse('${BackendEndpoints.users}/$id');
     try {
-      final response =
-          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
-      if (response.statusCode == 200) {
-        final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
-        return UserModel.fromJson(jsonMap);
+      final res = await http.get(
+        url,
+        headers: BackendEndpoints.authJsonHeaders(token),
+      );
+      if (res.statusCode == 200) {
+        return UserModel.fromJson(jsonDecode(res.body));
       } else {
-        log('Error fetching user by id: '
-            '${response.statusCode} ${response.body}');
-        throw Exception('Failed to fetch user: ${response.body}');
+        log('Error fetching user by id: ${res.statusCode} ${res.body}');
+        throw Exception('Failed to fetch user: ${res.body}');
       }
     } catch (e) {
-      log('Exception in getUserById: ${e.toString()}');
+      log('Exception in getUserById: $e');
       rethrow;
     }
   }
 
-  /// Updates any subset of the user's editable fields via PATCH /users/:id.
-  /// Only non-null parameters will be sent in the body.
+  /* ─────────────── UPDATE USER (AUTH) ──────────────────── */
   Future<UserModel> updateUserData({
     required String id,
     String? fullName,
@@ -39,55 +38,89 @@ class UserService {
     required String token,
   }) async {
     final url = Uri.parse('${BackendEndpoints.users}/$id');
-    final body = <String, dynamic>{};
 
+    final body = <String, dynamic>{};
     if (fullName != null) body['full_name'] = fullName;
     if (phone != null) body['phone'] = phone;
     if (country != null) body['country'] = country;
     if (city != null) body['city'] = city;
-    if (dateOfBirth != null) body['data_of_birth'] = dateOfBirth;
+    if (dateOfBirth != null) body['date_of_birth'] = dateOfBirth;
     if (gender != null) body['gender'] = gender;
 
     try {
-      final response = await http.patch(
+      final res = await http.patch(
         url,
         headers: BackendEndpoints.authJsonHeaders(token),
         body: jsonEncode(body),
       );
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
-        return UserModel.fromJson(jsonMap);
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        return UserModel.fromJson(jsonDecode(res.body));
       } else {
-        log('Error updating user: '
-            '${response.statusCode} ${response.body}');
-        throw Exception('Failed to update user: ${response.body}');
+        log('Error updating user: ${res.statusCode} ${res.body}');
+        throw Exception('Failed to update user: ${res.body}');
       }
     } catch (e) {
-      log('Exception in updateUserData: ${e.toString()}');
+      log('Exception in updateUserData: $e');
       rethrow;
     }
   }
 
-  /// Deletes a user by their Firebase UID via DELETE /users/:firebaseUid
-  /// and returns the server's success message.
+  /* ────── UPDATE AFTER REGISTER (NO-AUTH) ──────────────── */
+  Future<UserModel> updateUserAfterRegister({
+    required String firebaseUid,
+    String? fullName,
+    String? phone,
+    String? country,
+    String? city,
+    String? dateOfBirth,
+    String? gender,
+  }) async {
+    final url =
+        Uri.parse('${BackendEndpoints.updateAfterRegister}/$firebaseUid');
+
+    final body = <String, dynamic>{};
+    if (fullName != null) body['full_name'] = fullName;
+    if (phone != null) body['phone'] = phone;
+    if (country != null) body['country'] = country;
+    if (city != null) body['city'] = city;
+    if (dateOfBirth != null) body['date_of_birth'] = dateOfBirth;
+    if (gender != null) body['gender'] = gender;
+
+    try {
+      final res = await http.patch(
+        url,
+        headers: BackendEndpoints.jsonHeaders, // no auth token
+        body: jsonEncode(body),
+      );
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        return UserModel.fromJson(jsonDecode(res.body));
+      } else {
+        log('Error updateAfterRegister: ${res.statusCode} ${res.body}');
+        throw Exception('Failed to update user after register: ${res.body}');
+      }
+    } catch (e) {
+      log('Exception in updateUserAfterRegister: $e');
+      rethrow;
+    }
+  }
+
+  /* ─────────────── DELETE USER ─────────────────────────── */
   Future<String> deleteUserByFirebaseUid(
       String firebaseUid, String token) async {
     final url = Uri.parse('${BackendEndpoints.users}/$firebaseUid');
     try {
-      final response = await http.delete(
+      final res = await http.delete(
         url,
         headers: BackendEndpoints.authJsonHeaders(token),
       );
-      if (response.statusCode == 200) {
-        final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
-        return jsonMap['message'] as String;
+      if (res.statusCode == 200) {
+        return (jsonDecode(res.body) as Map<String, dynamic>)['message'];
       } else {
-        log('Error deleting user: '
-            '${response.statusCode} ${response.body}');
-        throw Exception('Failed to delete user: ${response.body}');
+        log('Error deleting user: ${res.statusCode} ${res.body}');
+        throw Exception('Failed to delete user: ${res.body}');
       }
     } catch (e) {
-      log('Exception in deleteUserByFirebaseUid: ${e.toString()}');
+      log('Exception in deleteUserByFirebaseUid: $e');
       rethrow;
     }
   }
