@@ -1,36 +1,42 @@
+import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/features/on_boarding/presentation/views/widgets/page_view_item.dart';
-import 'package:deals/generated/l10n.dart';
+import 'page_view_item.dart';
 
 class OnBoardingPageView extends StatelessWidget {
-  const OnBoardingPageView(
-      {super.key, required this.pageController, this.onPageChanged});
+  const OnBoardingPageView({
+    super.key,
+    required this.pageController,
+    this.onPageChanged,
+  });
+
   final PageController pageController;
-  final void Function(int)? onPageChanged;
+  final ValueChanged<int>? onPageChanged;
+
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return PageView(
-      onPageChanged: onPageChanged,
       controller: pageController,
+      onPageChanged: onPageChanged,
       children: [
         PageViewItem(
           image: AppImages.assetsImagesOnBoardingP1,
-          tittle: S.of(context).p1OnBoardingTittle,
-          subTittleFirst: S.of(context).p1OnBoardingSubTittleFirstWord,
-          subTittle: S.of(context).p1OnBoardingSubTittle,
+          tittle: s.p1OnBoardingTittle,
+          subTittleFirst: s.p1OnBoardingSubTittleFirstWord,
+          subTittle: s.p1OnBoardingSubTittle,
         ),
         PageViewItem(
           image: AppImages.assetsImagesOnBoardingP2,
-          tittle: S.of(context).p2OnBoardingTittle,
-          subTittleFirst: S.of(context).p2OnBoardingSubTittleFirstWord,
-          subTittle: S.of(context).p2OnBoardingSubTittle,
+          tittle: s.p2OnBoardingTittle,
+          subTittleFirst: s.p2OnBoardingSubTittleFirstWord,
+          subTittle: s.p2OnBoardingSubTittle,
         ),
         PageViewItem(
           image: AppImages.assetsImagesOnBoardingP3,
-          tittle: S.of(context).p3OnBoardingTittle,
-          subTittleFirst: S.of(context).p3OnBoardingSubTittleFirstWord,
-          subTittle: S.of(context).p3OnBoardingSubTittle,
+          tittle: s.p3OnBoardingTittle,
+          subTittleFirst: s.p3OnBoardingSubTittleFirstWord,
+          subTittle: s.p3OnBoardingSubTittle,
         ),
       ],
     );
