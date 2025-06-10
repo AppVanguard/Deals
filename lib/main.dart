@@ -35,17 +35,38 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 /// Initialize local notifications
 Future<void> initializeLocalNotifications() async {
+  // Android settings:
   const AndroidInitializationSettings androidInitSettings =
       AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  // iOS / Darwin settings (v10+ uses DarwinInitializationSettings):
+  const DarwinInitializationSettings iosInitSettings =
+      DarwinInitializationSettings(
+    requestAlertPermission: true,
+    requestBadgePermission: true,
+    requestSoundPermission: true,
+    // onDidReceiveLocalNotification: (id, title, body, payload) { /* iOS < 10 callback */ },
+  );
+
+  // Combine them:
   const InitializationSettings initSettings = InitializationSettings(
     android: androidInitSettings,
+    iOS: iosInitSettings, // ← important for iOS
   );
-  await flutterLocalNotificationsPlugin.initialize(initSettings);
+
+  await flutterLocalNotificationsPlugin.initialize(
+    initSettings,
+    onDidReceiveNotificationResponse: (NotificationResponse response) {
+      // Handle user tapping on a notification
+      log('Tapped notification payload: ${response.payload}');
+    },
+  );
 }
 
 /// Show local notification in the system tray
 Future<void> showLocalNotification(RemoteMessage message) async {
-  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+  const AndroidNotificationDetails androidDetails =
+      AndroidNotificationDetails(
     'high_importance_channel',
     'High Importance Notifications',
     channelDescription:
@@ -55,6 +76,8 @@ Future<void> showLocalNotification(RemoteMessage message) async {
   );
   const NotificationDetails notifDetails = NotificationDetails(
     android: androidDetails,
+    // You can also add `darwin: DarwinNotificationDetails(...)` here
+    // if you want to customize the iOS side of the notification.
   );
   await flutterLocalNotificationsPlugin.show(
     message.hashCode,
@@ -104,10 +127,8 @@ Future<void> main() async {
         await showLocalNotification(message);
 
         // If we have a NotificationsCubit, pass the message to it
-        final hasCubit = getIt.isRegistered<NotificationsCubit>();
-        if (hasCubit) {
-          final notificationsCubit = getIt<NotificationsCubit>();
-          notificationsCubit.handleIncomingForegroundMessage(message);
+        if (getIt.isRegistered<NotificationsCubit>()) {
+          getIt<NotificationsCubit>().handleIncomingForegroundMessage(message);
         }
       },
     );
