@@ -169,6 +169,9 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                     .read<SignupCubit>()
                     .signInWithFacebook(rememberMe: false);
               },
+              appleOnTap: () {
+                context.read<SignupCubit>().signInWithApple(rememberMe: false);
+              },
             ),
             HaveOrNotAccount(
               onTap: () {

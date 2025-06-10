@@ -101,6 +101,9 @@ class _SigninViewBodyState extends State<SigninViewBody> {
                 facebookOnTap: () => context
                     .read<SigninCubit>()
                     .signInWithFacebook(rememberMe: rememberMe),
+                appleOnTap: () => context
+                    .read<SigninCubit>()
+                    .signInWithApple(rememberMe: rememberMe),
               ),
             ),
             const SizedBox(height: 24),
