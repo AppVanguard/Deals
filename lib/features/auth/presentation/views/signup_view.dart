@@ -1,5 +1,3 @@
-// lib/features/auth/presentation/views/signup_view.dart
-
 import 'package:deals/features/auth/presentation/views/widgets/signup_bloc_consumer.dart';
 import 'package:flutter/material.dart';
 
