@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:deals/core/utils/app_images.dart';
@@ -30,14 +32,16 @@ class ThirdPartyAuth extends StatelessWidget {
             height: 40,
           ),
         ),
-        GestureDetector(
-          onTap: appleOnTap,
-          child: SvgPicture.asset(
-            AppImages.assetsImagesAppleIcon,
-            width: 40,
-            height: 40,
-          ),
-        ),
+        Platform.isIOS
+            ? GestureDetector(
+                onTap: appleOnTap,
+                child: SvgPicture.asset(
+                  AppImages.assetsImagesAppleIcon,
+                  width: 40,
+                  height: 40,
+                ),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }
