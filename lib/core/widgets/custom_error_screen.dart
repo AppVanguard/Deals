@@ -85,18 +85,20 @@ class CustomErrorScreen extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
-        child: Card(
-          color: Colors.transparent,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24.0,
-              // vertical: 32.0,
+        child: Align(
+          alignment: Alignment.center,
+          child: Card(
+            color: Colors.white.withOpacity(0.95),
+            elevation: 6,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-            child: Column(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 32.0,
+              ),
+              child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 illustration,
