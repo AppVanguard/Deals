@@ -18,6 +18,8 @@ import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:deals/core/manager/simple_bloc_observer.dart';
+import 'package:deals/core/widgets/app_error_widget.dart';
 
 // 1) Local notifications plugin
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -88,6 +90,14 @@ Future<void> showLocalNotification(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Global Bloc and error handlers
+  Bloc.observer = SimpleBlocObserver();
+  FlutterError.onError = (details) {
+    Sentry.captureException(details.exception, stackTrace: details.stack);
+    FlutterError.presentError(details);
+  };
+  ErrorWidget.builder = (details) => AppErrorWidget(details: details);
 
   // 1) Load env variables
   await dotenv.load();

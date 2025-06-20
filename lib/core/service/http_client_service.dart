@@ -6,7 +6,7 @@ import '../errors/exception.dart';
 import 'session_manager.dart';
 
 /// A small wrapper around [http.Client] that applies a timeout and
-/// converts common networking errors into [CustomExeption]s.
+/// converts common networking errors into [CustomException]s.
 class HttpClientService {
   final http.Client _client;
   final Duration timeout;
@@ -42,17 +42,17 @@ class HttpClientService {
           final data = jsonDecode(response.body);
           if (data is Map && data['message'] == 'Unauthorized: Invalid token') {
             SessionManager.handleUnauthorized();
-            throw CustomExeption('Unauthorized: Invalid token');
+            throw CustomException('Unauthorized: Invalid token');
           }
         } catch (_) {}
       }
       return response;
     } on TimeoutException {
-      throw CustomExeption('Request timed out');
+      throw CustomException('Request timed out');
     } on SocketException {
-      throw CustomExeption('Network error');
+      throw CustomException('Network error');
     } catch (e) {
-      throw CustomExeption(e.toString());
+      throw CustomException(e.toString());
     }
   }
 

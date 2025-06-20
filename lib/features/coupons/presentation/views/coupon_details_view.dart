@@ -40,6 +40,7 @@ class CouponDetailsView extends StatelessWidget {
             onRetry: () {
               context.read<CouponDetailCubit>().getCouponById(couponId);
             },
+            errorMessage: state.message,
           );
         }
         final coupon = state is CouponDetailSuccess ? state.coupon : null;

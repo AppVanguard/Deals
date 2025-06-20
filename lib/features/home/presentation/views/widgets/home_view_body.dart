@@ -47,6 +47,7 @@ class HomeViewBody extends StatelessWidget {
             onRetry: () {
               context.read<HomeCubit>().refresh();
             },
+            errorMessage: state.errorMessage,
           ),
         ],
       );

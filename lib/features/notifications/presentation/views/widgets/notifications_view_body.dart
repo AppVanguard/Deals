@@ -72,6 +72,7 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody> {
             onRetry: () => context
                 .read<NotificationsCubit>()
                 .fetchNotifications(widget.token, reset: true),
+            errorMessage: state.error,
           );
         } else if (state is NotificationsSuccess) {
           final notifications = state.notifications;

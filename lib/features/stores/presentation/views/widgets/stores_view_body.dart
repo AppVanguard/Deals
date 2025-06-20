@@ -95,6 +95,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
                         .read<CategoriesCubit>()
                         .fetchCategories(isRefresh: true);
                   },
+                  errorMessage: state.message,
                 ),
               );
             }

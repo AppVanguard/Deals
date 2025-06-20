@@ -7,55 +7,55 @@ import 'package:deals/generated/l10n.dart'; // Assuming generated localization f
 abstract class CustomFirebaseException extends FirebaseAuthException {
   CustomFirebaseException({required super.code});
 
-  static CustomExeption getFirebaseAuthException(String code) {
+  static CustomException getFirebaseAuthException(String code) {
     log("Exception code: $code");
     switch (code) {
       case 'email-already-in-use':
-        return CustomExeption(S.current.emailAlreadyInUse);
+        return CustomException(S.current.emailAlreadyInUse);
       case 'weak-password':
-        return CustomExeption(S.current.weakPassword);
+        return CustomException(S.current.weakPassword);
       case 'invalid-email':
-        return CustomExeption(S.current.invalidEmail);
+        return CustomException(S.current.invalidEmail);
       case 'operation-not-allowed':
-        return CustomExeption(S.current.operationNotAllowed);
+        return CustomException(S.current.operationNotAllowed);
       case 'network-request-failed':
-        return CustomExeption(S.current.networkRequestFailed);
+        return CustomException(S.current.networkRequestFailed);
       case 'too-many-requests':
-        return CustomExeption(S.current.tooManyRequests);
+        return CustomException(S.current.tooManyRequests);
       case 'user-disabled':
-        return CustomExeption(S.current.userDisabled);
+        return CustomException(S.current.userDisabled);
       case 'user-not-found':
-        return CustomExeption(S.current.userNotFound);
+        return CustomException(S.current.userNotFound);
       case 'wrong-password':
-        return CustomExeption(S.current.wrongPassword);
+        return CustomException(S.current.wrongPassword);
       case 'internal-error':
-        return CustomExeption(S.current.internalError);
+        return CustomException(S.current.internalError);
       case 'invalid-credential':
-        return CustomExeption(S.current.invalidCredential);
+        return CustomException(S.current.invalidCredential);
       case 'invalid-verification-code':
-        return CustomExeption(S.current.invalidVerificationCode);
+        return CustomException(S.current.invalidVerificationCode);
       case 'invalid-verification-id':
-        return CustomExeption(S.current.invalidVerificationId);
+        return CustomException(S.current.invalidVerificationId);
       case 'account-exists-with-different-credential':
-        return CustomExeption(S.current.accountExistsWithDifferentCredential);
+        return CustomException(S.current.accountExistsWithDifferentCredential);
       case 'credential-already-in-use':
-        return CustomExeption(S.current.credentialAlreadyInUse);
+        return CustomException(S.current.credentialAlreadyInUse);
       case 'popup-closed-by-user':
-        return CustomExeption(S.current.popupClosedByUser);
+        return CustomException(S.current.popupClosedByUser);
       case 'auth-domain-config-required':
-        return CustomExeption(S.current.authDomainConfigRequired);
+        return CustomException(S.current.authDomainConfigRequired);
       case 'cancelled-popup-request':
-        return CustomExeption(S.current.cancelledPopupRequest);
+        return CustomException(S.current.cancelledPopupRequest);
       case 'operation-not-supported-in-this-environment':
-        return CustomExeption(S.current.operationNotSupportedInThisEnvironment);
+        return CustomException(S.current.operationNotSupportedInThisEnvironment);
       case 'provider-already-linked':
-        return CustomExeption(S.current.providerAlreadyLinked);
+        return CustomException(S.current.providerAlreadyLinked);
       case 'requires-recent-login':
-        return CustomExeption(S.current.requiresRecentLogin);
+        return CustomException(S.current.requiresRecentLogin);
       case 'web-storage-unsupported':
-        return CustomExeption(S.current.webStorageUnsupported);
+        return CustomException(S.current.webStorageUnsupported);
       default:
-        return CustomExeption(S.current.unknownError);
+        return CustomException(S.current.unknownError);
     }
   }
 }

@@ -5,26 +5,30 @@ import 'package:deals/core/widgets/custom_error_screen.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
-CustomErrorScreen buildCustomErrorScreen(
-    {required BuildContext context, required void Function() onRetry}) {
+CustomErrorScreen buildCustomErrorScreen({
+  required BuildContext context,
+  required void Function() onRetry,
+  String? errorMessage,
+}) {
   return CustomErrorScreen(
     retryAnimation: false,
     title: Text(
-      S.of(context).SomethingWentWrongError,
+      errorMessage ?? S.of(context).SomethingWentWrongError,
       textAlign: TextAlign.center,
       style: AppTextStyles.bold14,
     ),
     message: Text(
-      S.of(context).UnexpectedError,
+      errorMessage ?? S.of(context).UnexpectedError,
       textAlign: TextAlign.center,
       style: AppTextStyles.bold14,
     ),
-
-    errorDetails: Text(
-      S.of(context).InternalServerError,
-      textAlign: TextAlign.center,
-      style: AppTextStyles.bold14.copyWith(color: Colors.redAccent),
-    ),
+    errorDetails: errorMessage != null
+        ? Text(
+            errorMessage!,
+            textAlign: TextAlign.center,
+            style: AppTextStyles.bold14.copyWith(color: Colors.redAccent),
+          )
+        : null,
     onRetry: onRetry,
     retryButtonText: S.of(context).Retry,
     // Optionally override the default error illustration

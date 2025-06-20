@@ -1,4 +1,4 @@
-import 'package:deals/core/service/secure_storage_service.dart';
+import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
@@ -9,7 +9,8 @@ import 'package:meta/meta.dart';
 
 part 'store_details_state.dart';
 
-class StoreDetailCubit extends Cubit<StoreDetailsState> {
+class StoreDetailCubit extends Cubit<StoreDetailsState>
+    with RequiresUser<StoreDetailsState> {
   final StoresRepo storesRepo;
   final CouponsRepo couponsRepo;
 
@@ -32,9 +33,10 @@ class StoreDetailCubit extends Cubit<StoreDetailsState> {
   /// Automatically triggers coupon fetching after store details are fetched.
   Future<void> getStoreAndCoupons(String storeId) async {
     emit(StoreDetailsLoading());
-    final user = await SecureStorageService.getCurrentUser();
+    final user = await requireUser((msg) => StoreDetailsFailure(message: msg));
+    if (user == null) return;
     // Fetch store details
-    final storeResult = await storesRepo.getStoreById(storeId, user!.token);
+    final storeResult = await storesRepo.getStoreById(storeId, user.token);
     storeResult.fold(
       (failure) => emit(StoreDetailsFailure(message: failure.message)),
       (storeEntity) async {
@@ -69,7 +71,8 @@ class StoreDetailCubit extends Cubit<StoreDetailsState> {
 
   /// Fetch the next page of coupons and append to the existing list.
   Future<void> loadNextPage() async {
-    final user = await SecureStorageService.getCurrentUser();
+    final user = await requireUser((msg) => StoreDetailsFailure(message: msg));
+    if (user == null) return;
 
     if (state is StoreDetailsSuccess) {
       final currentState = state as StoreDetailsSuccess;
@@ -87,7 +90,7 @@ class StoreDetailCubit extends Cubit<StoreDetailsState> {
           category: _category,
           discountType: _discountType,
           storeId: _storeId,
-          token: user!.token,
+          token: user.token,
         );
 
         result.fold(

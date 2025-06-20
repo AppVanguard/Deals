@@ -5,7 +5,7 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
 import 'package:deals/core/entities/store_entity.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/mappers/pagination_mapper.dart';
 import 'package:deals/core/service/stores_service.dart';
 import 'package:deals/features/stores/data/models/stores_model.dart';
@@ -68,7 +68,7 @@ class StoresRepoImpl implements StoresRepo {
       return Right(result);
     } catch (e) {
       log('Error in StoresRepoImpl.getAllStores: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -87,7 +87,7 @@ class StoresRepoImpl implements StoresRepo {
       }
     } catch (e) {
       log('Error in StoresRepoImpl.getStoreById: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }

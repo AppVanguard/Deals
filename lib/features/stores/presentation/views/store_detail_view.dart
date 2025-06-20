@@ -118,6 +118,7 @@ class _StoreDetailViewState extends State<StoreDetailView>
                   .read<StoreDetailCubit>()
                   .getStoreAndCoupons(widget.storeId);
             },
+            errorMessage: state.message,
           );
         }
 

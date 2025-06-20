@@ -111,6 +111,7 @@ class _CouponViewBodyState extends State<CouponViewBody> {
                         .read<CategoriesCubit>()
                         .fetchCategories(isRefresh: true);
                   },
+                  errorMessage: state.message,
                 ),
               );
             } else {

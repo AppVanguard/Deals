@@ -68,6 +68,7 @@ class _BookmarkViewBodyState extends State<BookmarkViewBody> {
                 buildCustomErrorScreen(
                   context: context,
                   onRetry: _refresh,
+                  errorMessage: state.message,
                 ),
               ],
             );

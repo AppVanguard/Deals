@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/category_entity.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/mappers/category_mapper.dart';
 import 'package:deals/core/mappers/pagination_mapper.dart';
 import 'package:deals/core/models/category_model/category_model.dart';
@@ -63,7 +63,7 @@ class CategoriesRepoImpl implements CategoriesRepo {
       return Right(result);
     } catch (e) {
       log('Error in CategoriesRepoImpl.getAllCategories: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -83,7 +83,7 @@ class CategoriesRepoImpl implements CategoriesRepo {
       }
     } catch (e) {
       log('Error in CategoriesRepoImpl.getCategoryById: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }

@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/user_entity.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/mappers/user_mapper.dart';
 import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:deals/core/service/auth_api_service.dart';
@@ -42,7 +42,7 @@ class SettingsRepoImpl implements SettingsRepo {
       return res.map((_) => unit);
     } catch (e) {
       log('Error allowing push server-side: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -59,7 +59,7 @@ class SettingsRepoImpl implements SettingsRepo {
       return res.map((_) => unit);
     } catch (e) {
       log('Error disabling push server-side: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -75,7 +75,7 @@ class SettingsRepoImpl implements SettingsRepo {
       return const Right(unit);
     } catch (e) {
       log('Error disabling push locally: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -89,7 +89,7 @@ class SettingsRepoImpl implements SettingsRepo {
       return const Right(unit);
     } catch (e) {
       log('Error enabling push locally: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -113,7 +113,7 @@ class SettingsRepoImpl implements SettingsRepo {
       return Right(msg);
     } catch (e) {
       log('Error in changePassword: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -128,7 +128,7 @@ class SettingsRepoImpl implements SettingsRepo {
       return Right(msg);
     } catch (e) {
       log('Error deleting account: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -156,7 +156,7 @@ class SettingsRepoImpl implements SettingsRepo {
       return Right(UserMapper.mapToEntity(model));
     } catch (e) {
       log('Error updating user (settings): $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }
