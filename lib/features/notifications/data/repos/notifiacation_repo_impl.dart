@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/service/notifications_service.dart';
 import 'package:deals/features/notifications/data/data_source/notifications_local_data_source.dart';
 import 'package:deals/features/notifications/data/models/notification.dart'
@@ -66,7 +66,7 @@ class NotificationsRepoImpl implements NotificationsRepo {
             .toList();
         return Right(domainList);
       } else {
-        return Left(ServerFaliure(message: e.toString()));
+        return Left(ServerFailure(message: e.toString()));
       }
     }
   }
@@ -90,7 +90,7 @@ class NotificationsRepoImpl implements NotificationsRepo {
       return const Right(null);
     } catch (e) {
       log('Error marking notifications as read: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -104,7 +104,7 @@ class NotificationsRepoImpl implements NotificationsRepo {
       return const Right(null);
     } catch (e) {
       log('Error deleting notification: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 import 'package:deals/core/service/secure_storage_service.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/features/bookmarks/domain/repos/bookmark_repo.dart';
 import 'package:deals/features/bookmarks/domain/entity/bookmark_entity.dart';
 import 'package:deals/features/bookmarks/domain/entity/bookmark_pagination_entity.dart';

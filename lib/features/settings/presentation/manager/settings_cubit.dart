@@ -3,7 +3,7 @@ import 'package:deals/constants.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';

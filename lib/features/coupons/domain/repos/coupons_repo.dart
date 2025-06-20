@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/features/coupons/domain/repos/coupons_with_pagination.dart';
 
 abstract class CouponsRepo {

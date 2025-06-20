@@ -52,4 +52,5 @@ sentry.properties
 
 sentry.properties
 sentry-wizard.exe
-# .env
+.env
+flutter/
