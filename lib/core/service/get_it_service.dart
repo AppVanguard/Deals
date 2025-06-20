@@ -19,7 +19,7 @@ import 'package:deals/core/service/stores_service.dart';
 import 'package:deals/features/coupons/data/repos/coupons_repo_impl.dart';
 import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
 import 'package:deals/features/notifications/data/data_source/notifications_local_data_source.dart';
-import 'package:deals/features/notifications/data/repos/notifiacation_repo_impl.dart';
+import 'package:deals/features/notifications/data/repos/notifications_repo_impl.dart';
 import 'package:deals/features/notifications/domain/repos/notifications_repo.dart';
 import 'package:deals/features/stores/data/repos/stores_repo_impl.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
