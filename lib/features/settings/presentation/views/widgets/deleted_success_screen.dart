@@ -1,7 +1,7 @@
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
-import 'package:deals/features/auth/presentation/views/signin_view.dart';
+import 'package:deals/features/auth/presentation/views/signin/signin_view.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

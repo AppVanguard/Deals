@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:deals/features/auth/presentation/views/widgets/reset_password_view_body.dart';
+import 'package:deals/features/auth/presentation/views/reset_password/widgets/reset_password_view_body.dart';
 
 class ResetPasswordView extends StatelessWidget {
   final String email;

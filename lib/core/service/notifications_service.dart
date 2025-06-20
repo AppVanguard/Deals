@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:deals/features/notifications/data/models/notifications_model.dart';
-import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
+import 'http_client_service.dart';
 
 class NotificationsService {
+  final HttpClientService _http;
+
+  NotificationsService({HttpClientService? http}) : _http = http ?? HttpClientService();
+
   /// GET /notifications/:userId?limit=20&offset=0
   /// Requires Bearer token in the header.
   Future<NotificationsModel> getNotifications({
@@ -21,7 +25,7 @@ class NotificationsService {
     final url = Uri.parse(baseUrl).replace(queryParameters: queryParams);
 
     try {
-      final response = await http.get(
+      final response = await _http.get(
         url,
         headers: BackendEndpoints.authJsonHeaders(token),
       );
@@ -55,7 +59,7 @@ class NotificationsService {
         "notificationIds": notificationIds,
       });
 
-      final response = await http.patch(
+      final response = await _http.patch(
         url,
         headers: BackendEndpoints.authJsonHeaders(token),
         body: body,

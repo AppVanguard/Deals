@@ -1,4 +1,4 @@
-import 'package:deals/features/auth/presentation/views/widgets/signin_view_bloc_consumer.dart';
+import 'package:deals/features/auth/presentation/views/signin/widgets/signin_view_bloc_consumer.dart';
 import 'package:flutter/material.dart';
 
 class SigninView extends StatelessWidget {

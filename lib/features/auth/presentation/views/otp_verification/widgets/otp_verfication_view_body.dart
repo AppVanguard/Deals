@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:deals/generated/l10n.dart';
+import 'otp_digit_field.dart';
 
 class OTPVerificationViewBody extends StatefulWidget {
   const OTPVerificationViewBody({
@@ -57,9 +58,6 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     super.dispose();
   }
 
-  // ──────────────────────────────────────────────────────────────
-  // Helpers
-  // ──────────────────────────────────────────────────────────────
   void _onChanged(String value, int index) {
     setState(() {
       _hasValue[index] = value.isNotEmpty;
@@ -103,7 +101,6 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
       final otpCode = _controllers.map((e) => e.text).join();
       log('Entered OTP: $otpCode');
 
-      // Call correct verify depending on flow
       final cubit = context.read<OtpVerifyCubit>();
       if (widget.isRegister) {
         cubit.verifyOtpForRegister(email: widget.email, otp: otpCode);
@@ -132,24 +129,15 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
 
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(
-        color: color,
-        width: focused ? 2 : 2,
-      ),
+      borderSide: BorderSide(color: color, width: 2),
     );
   }
 
-  // ──────────────────────────────────────────────────────────────
-  // UI
-  // ──────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
-    // 1) Check resend-timer
     final timerState = context.watch<OtpResendTimerCubit>().state;
     final bool timerRunning = timerState is TimerRunning;
     final int secondsLeft = timerRunning ? (timerState).timeLeft : 0;
-
-    // 2) Check if OTP verification is in-flight
     final bool isVerifying =
         context.watch<OtpVerifyCubit>().state is OtpVerifyLoading;
 
@@ -185,46 +173,29 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(4, (index) {
-                  return Container(
-                    width: 56,
-                    height: 56,
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Focus(
-                      onKeyEvent: (node, event) {
-                        _onKey(event, index);
-                        return KeyEventResult.ignored;
-                      },
-                      child: TextFormField(
-                        controller: _controllers[index],
-                        focusNode: _focusNodes[index],
-                        maxLength: 1,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        cursorHeight: 30,
-                        style: AppTextStyles.semiBold32,
-                        decoration: InputDecoration(
-                          counterText: '',
-                          border: _border(index),
-                          enabledBorder: _border(index),
-                          focusedBorder: _border(index, focused: true),
-                        ),
-                        onChanged: (v) => _onChanged(v, index),
-                      ),
-                    ),
+                  return OtpDigitField(
+                    controller: _controllers[index],
+                    focusNode: _focusNodes[index],
+                    isError: _isError[index],
+                    hasValue: _hasValue[index],
+                    showGlobalError: widget.errorMessage != null,
+                    onKey: (event) => _onKey(event, index),
+                    onChanged: (v) => _onChanged(v, index),
                   );
                 }),
               ),
             ),
 
-            // Empty-field error
             if (_showFieldError)
-              Text(
-                S.of(context).OTPValidator,
-                style:
-                    AppTextStyles.regular14.copyWith(color: Colors.redAccent),
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  S.of(context).OTPValidator,
+                  style:
+                      AppTextStyles.regular14.copyWith(color: Colors.redAccent),
+                ),
               ),
 
-            // Backend error (wrong code)
             if (widget.errorMessage != null)
               Container(
                 width: 122,
@@ -252,7 +223,7 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
 
             const SizedBox(height: 16),
 
-            // VERIFY button with spinner
+            // VERIFY button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: CustomButton(

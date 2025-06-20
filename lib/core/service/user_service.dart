@@ -1,16 +1,20 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
+import 'http_client_service.dart';
 import 'package:deals/core/models/user_model/user_model.dart';
 
 class UserService {
+  final HttpClientService _http;
+
+  UserService({HttpClientService? http}) : _http = http ?? HttpClientService();
+
   /* ─────────────── GET USER BY ID ──────────────────────── */
   Future<UserModel> getUserById(String id, String token) async {
     final url = Uri.parse('${BackendEndpoints.users}/$id');
     try {
-      final res = await http.get(
+      final res = await _http.get(
         url,
         headers: BackendEndpoints.authJsonHeaders(token),
       );
@@ -48,7 +52,7 @@ class UserService {
     if (gender != null) body['gender'] = gender;
 
     try {
-      final res = await http.patch(
+      final res = await _http.patch(
         url,
         headers: BackendEndpoints.authJsonHeaders(token),
         body: jsonEncode(body),
@@ -87,7 +91,7 @@ class UserService {
     if (gender != null) body['gender'] = gender;
 
     try {
-      final res = await http.patch(
+      final res = await _http.patch(
         url,
         headers: BackendEndpoints.jsonHeaders, // no auth token
         body: jsonEncode(body),
@@ -109,7 +113,7 @@ class UserService {
       String firebaseUid, String token) async {
     final url = Uri.parse('${BackendEndpoints.users}/$firebaseUid');
     try {
-      final res = await http.delete(
+      final res = await _http.delete(
         url,
         headers: BackendEndpoints.authJsonHeaders(token),
       );

@@ -1,4 +1,4 @@
-import 'package:deals/features/auth/presentation/views/widgets/otp_verfication_view_body.dart';
+import 'package:deals/features/auth/presentation/views/otp_verification/widgets/otp_verfication_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,7 +8,7 @@ import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit
 import 'package:deals/features/auth/presentation/manager/cubits/otp_verify_cubit/otp_verify_state.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/features/auth/presentation/views/reset_password_view.dart';
+import 'package:deals/features/auth/presentation/views/reset_password/reset_password_view.dart';
 import 'package:go_router/go_router.dart';
 
 class OTPVeficationBlocConsumer extends StatelessWidget {
