@@ -1,4 +1,4 @@
-// lib/features/search/presentation/views/filter_dialog/filter_dialog_actions.dart
+// lib/core/widgets/filter_dialog/filter_dialog_actions.dart
 
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';

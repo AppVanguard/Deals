@@ -1,4 +1,4 @@
-// lib/features/search/presentation/views/filter_dialog/filter_dialog_header.dart
+// lib/core/widgets/filter_dialog/filter_dialog_header.dart
 
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/generated/l10n.dart';

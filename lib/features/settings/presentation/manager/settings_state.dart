@@ -1,4 +1,4 @@
-// lib/features/settings/presentation/manager/cubit/settings_state.dart
+// lib/features/settings/presentation/manager/settings_state.dart
 
 part of 'settings_cubit.dart';
 
