@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:deals/core/models/category_model/category_model.dart';
-import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
+import 'http_client_service.dart';
 
 class CategoriesService {
+  final HttpClientService _http;
+
+  CategoriesService({HttpClientService? http}) : _http = http ?? HttpClientService();
   /// Retrieve categories data with optional sort and pagination parameters.
   /// Example endpoint: /categories?sortField=tittle&page=1&limit=10&sortOrder=desc
   Future<CategoryModel> getAllCategories({
@@ -26,7 +29,7 @@ class CategoriesService {
 
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
+          await _http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return CategoryModel.fromJson(jsonMap);
@@ -45,7 +48,7 @@ class CategoriesService {
     final url = Uri.parse('${BackendEndpoints.categories}/$id');
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
+          await _http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return CategoryModel.fromJson(jsonMap);

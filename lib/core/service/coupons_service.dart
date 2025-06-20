@@ -4,9 +4,13 @@ import 'dart:developer';
 import 'package:deals/core/utils/backend_endpoints.dart';
 import 'package:deals/features/coupons/data/models/coupons_data.dart';
 import 'package:deals/features/coupons/data/models/coupons_model.dart';
-import 'package:http/http.dart' as http;
+import 'http_client_service.dart';
 
 class CouponsService {
+  final HttpClientService _http;
+
+  CouponsService({HttpClientService? http}) : _http = http ?? HttpClientService();
+
   Future<CouponsModel> getAllCoupons({
     String? search,
     String? sortField = "title",
@@ -32,7 +36,7 @@ class CouponsService {
         .replace(queryParameters: queryParameters);
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
+          await _http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return CouponsModel.fromJson(jsonMap);
@@ -50,7 +54,7 @@ class CouponsService {
     final url = Uri.parse('${BackendEndpoints.coupons}/$id');
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
+          await _http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         final singleCoupon = CouponsData.fromJson(jsonMap);

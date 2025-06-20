@@ -1,14 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:http/http.dart' as http;
-
 import 'package:deals/core/errors/exception.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';
+import 'http_client_service.dart';
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/core/models/user_model/user_model.dart';
 
 class AuthApiService {
+  final HttpClientService _http;
+
+  AuthApiService({HttpClientService? http}) : _http = http ?? HttpClientService();
   // ──────────────────────────────────────────────────────────────────────────
   //  USER REGISTRATION
   // ──────────────────────────────────────────────────────────────────────────
@@ -21,7 +23,7 @@ class AuthApiService {
     final url = Uri.parse(BackendEndpoints.registerUser);
 
     try {
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({
@@ -59,7 +61,7 @@ class AuthApiService {
           ? {BackendEndpoints.keyEmail: email, BackendEndpoints.kOtp: otp}
           : {BackendEndpoints.keyEmail: email};
 
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode(body),
@@ -96,7 +98,7 @@ class AuthApiService {
     final url = Uri.parse(BackendEndpoints.verifyOtp);
 
     try {
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({
@@ -134,7 +136,7 @@ class AuthApiService {
     final url = Uri.parse(BackendEndpoints.oauth);
 
     try {
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({BackendEndpoints.kToken: token}),
@@ -175,7 +177,7 @@ class AuthApiService {
     final url = Uri.parse(BackendEndpoints.loginUser);
 
     try {
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({
@@ -216,7 +218,7 @@ class AuthApiService {
     final url = Uri.parse(BackendEndpoints.resendOtp);
 
     try {
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({BackendEndpoints.keyEmail: email}),
@@ -244,7 +246,7 @@ class AuthApiService {
     final url = Uri.parse(BackendEndpoints.forgotPassword);
 
     try {
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({BackendEndpoints.keyEmail: email}),
@@ -275,7 +277,7 @@ class AuthApiService {
     final url = Uri.parse(BackendEndpoints.resetPassword);
 
     try {
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({
@@ -309,7 +311,7 @@ class AuthApiService {
     final url = Uri.parse(BackendEndpoints.logout);
 
     try {
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: BackendEndpoints.jsonHeaders,
         body: jsonEncode({'firebase_uid': firebaseUid}),
@@ -341,7 +343,7 @@ class AuthApiService {
     final url = Uri.parse(BackendEndpoints.changePassword);
 
     try {
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: BackendEndpoints.authJsonHeaders(authToken),
         body: jsonEncode({

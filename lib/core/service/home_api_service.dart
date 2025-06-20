@@ -2,10 +2,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:deals/features/home/data/models/home_model/home_model.dart';
-import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
+import 'http_client_service.dart';
 
 class HomeService {
+  final HttpClientService _http;
+
+  HomeService({HttpClientService? http}) : _http = http ?? HttpClientService();
+
   /// Retrieve home data from `/home/mobile` with pagination parameters
   Future<HomeModel> getHomeData({
     required int announcementsPage,
@@ -29,7 +33,7 @@ class HomeService {
 
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
+          await _http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         final homeModel = HomeModel.fromJson(jsonMap);
