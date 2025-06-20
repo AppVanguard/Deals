@@ -124,6 +124,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("الحساب مرتبط بالفعل بمزود."),
         "requiresRecentLogin": MessageLookupByLibrary.simpleMessage(
             "يرجى تسجيل الدخول مرة أخرى لإكمال العملية."),
+        "sessionExpired": MessageLookupByLibrary.simpleMessage(
+            "انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى."),
         "tooManyRequests":
             MessageLookupByLibrary.simpleMessage("تم إرسال العديد من الطلبات."),
         "unknownError":

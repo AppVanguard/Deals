@@ -214,5 +214,6 @@
       "Select_none": "Select none",
       "noOffers": "No offers",
       "comingSoon": "is coming soon!",
-      "refer": "Refer"
+      "refer": "Refer",
+      "sessionExpired": "Your session has expired. Please log in again."
 }
