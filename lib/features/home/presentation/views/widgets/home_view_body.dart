@@ -38,7 +38,9 @@ class HomeViewBody extends StatelessWidget {
         isLoading: isLoading,
       );
     } else if (state is HomeFailure) {
-      // Wrap the error message in a scrollable view
+      if (state.message.contains('Invalid token')) {
+        return const SizedBox.shrink();
+      }
       return ListView(
         physics: const NeverScrollableScrollPhysics(),
         children: [
@@ -47,6 +49,7 @@ class HomeViewBody extends StatelessWidget {
             onRetry: () {
               context.read<HomeCubit>().refresh();
             },
+            errorMessage: state.message,
           ),
         ],
       );

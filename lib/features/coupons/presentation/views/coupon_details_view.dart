@@ -35,11 +35,15 @@ class CouponDetailsView extends StatelessWidget {
           context.read<CouponDetailCubit>().getCouponById(couponId);
         }
         if (state is CouponDetailFailure) {
+          if (state.message.contains('Invalid token')) {
+            return const SizedBox.shrink();
+          }
           return buildCustomErrorScreen(
             context: context,
             onRetry: () {
               context.read<CouponDetailCubit>().getCouponById(couponId);
             },
+            errorMessage: state.message,
           );
         }
         final coupon = state is CouponDetailSuccess ? state.coupon : null;

@@ -39,14 +39,16 @@ class _CategoryTabBarState extends State<CategoryTabBar> {
         }
 
         if (state is CategoriesFailure) {
-          return const SizedBox();
-          // buildCustomErrorScreen(
-          //     context: context,
-          //     onRetry: () {
-          //       context
-          //           .read<CategoriesCubit>()
-          //           .fetchCategories(isRefresh: true);
-          //     });
+          if (state.message.contains('Invalid token')) {
+            return const SizedBox();
+          }
+          return buildCustomErrorScreen(
+            context: context,
+            onRetry: () {
+              context.read<CategoriesCubit>().fetchCategories(isRefresh: true);
+            },
+            errorMessage: state.message,
+          );
         }
 
         // When categories are successfully loaded, we want to insert a tab for "All"

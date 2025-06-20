@@ -67,11 +67,15 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody> {
             itemBuilder: (context, index) => buildNotificationSkeletonItem(),
           );
         } else if (state is NotificationsFailure) {
+          if (state.error.contains('Invalid token')) {
+            return const SizedBox.shrink();
+          }
           return buildCustomErrorScreen(
             context: context,
             onRetry: () => context
                 .read<NotificationsCubit>()
                 .fetchNotifications(widget.token, reset: true),
+            errorMessage: state.error,
           );
         } else if (state is NotificationsSuccess) {
           final notifications = state.notifications;
