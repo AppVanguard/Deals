@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/entities/category_entity.dart';
 import 'package:deals/generated/l10n.dart';
