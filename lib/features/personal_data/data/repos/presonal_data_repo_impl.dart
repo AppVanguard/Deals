@@ -3,7 +3,7 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/mappers/user_mapper.dart';
 import 'package:deals/core/service/user_service.dart';
 import 'package:deals/core/entities/user_entity.dart';
@@ -25,7 +25,7 @@ class PersonalDataRepoImpl implements PersonalDataRepo {
       return Right(UserMapper.mapToEntity(model));
     } catch (e) {
       log('getPersonalData error: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -54,7 +54,7 @@ class PersonalDataRepoImpl implements PersonalDataRepo {
       return Right(UserMapper.mapToEntity(model));
     } catch (e) {
       log('updatePersonalData error: $e');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }

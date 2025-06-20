@@ -41,7 +41,7 @@ class AuthApiService {
       }
 
       log('registerUser ❌  (${response.statusCode}) → ${response.body}');
-      throw CustomExeption(
+      throw CustomException(
         'Error registering user: ${response.statusCode} ${response.body}',
       );
     } catch (e) {
@@ -69,7 +69,7 @@ class AuthApiService {
 
       if (response.statusCode != 200) {
         log('sendOtp ❌  (${response.statusCode}) → ${response.body}');
-        throw CustomExeption(
+        throw CustomException(
           'Error sending OTP: ${response.statusCode} ${response.body}',
         );
       }
@@ -109,7 +109,7 @@ class AuthApiService {
 
       if (response.statusCode != 200) {
         log('verifyOtp ❌  (${response.statusCode}) → ${response.body}');
-        throw CustomExeption(
+        throw CustomException(
           'Error verifying OTP: ${response.statusCode} ${response.body}',
         );
       }
@@ -144,7 +144,7 @@ class AuthApiService {
 
       if (response.statusCode != 200) {
         log('sendOAuthToken ❌  (${response.statusCode}) → ${response.body}');
-        throw CustomExeption(
+        throw CustomException(
           'Error sending OAuth token: ${response.statusCode} ${response.body}',
         );
       }
@@ -197,12 +197,12 @@ class AuthApiService {
         if (data[BackendEndpoints.kMessage] == 'Email not verified') {
           log('loginUser: email not verified – resending OTP');
           await resendOtp(email: email);
-          throw CustomExeption('Email not verified. OTP has been resent.');
+          throw CustomException('Email not verified. OTP has been resent.');
         }
       }
 
       log('loginUser ❌  (${response.statusCode}) → ${response.body}');
-      throw CustomExeption(
+      throw CustomException(
         'Error logging in: ${response.statusCode} ${response.body}',
       );
     } catch (e) {
@@ -228,7 +228,7 @@ class AuthApiService {
 
       if (response.statusCode != 200) {
         log('resendOtp ❌  (${response.statusCode}) → ${response.body}');
-        throw CustomExeption(data['message'] as String? ?? 'Resend failed');
+        throw CustomException(data['message'] as String? ?? 'Resend failed');
       }
 
       log('resendOtp ✅  → ${data['message']}');
@@ -256,7 +256,7 @@ class AuthApiService {
 
       if (response.statusCode != 200) {
         log('forgotPassword ❌  (${response.statusCode}) → ${response.body}');
-        throw CustomExeption(
+        throw CustomException(
           'Error in forgotPassword: ${response.statusCode} ${response.body}',
         );
       }
@@ -291,7 +291,7 @@ class AuthApiService {
 
       if (response.statusCode != 200) {
         log('resetPassword ❌  (${response.statusCode}) → ${response.body}');
-        throw CustomExeption(
+        throw CustomException(
           'Error in resetPassword: ${response.statusCode} ${response.body}',
         );
       }
@@ -319,7 +319,7 @@ class AuthApiService {
 
       if (response.statusCode != 200) {
         log('logout ❌  (${response.statusCode}) → ${response.body}');
-        throw CustomExeption(
+        throw CustomException(
           'Error in logout: ${response.statusCode} ${response.body}',
         );
       }
@@ -357,7 +357,7 @@ class AuthApiService {
 
       if (response.statusCode != 200) {
         log('changePassword ❌  (${response.statusCode}) → ${response.body}');
-        throw CustomExeption(
+        throw CustomException(
           data['message'] as String? ??
               'Error changing password: ${response.statusCode}',
         );

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 
 abstract class NotificationsPermissionRepo {
   /// Tells backend to "allow" notifications for a given user + device token.

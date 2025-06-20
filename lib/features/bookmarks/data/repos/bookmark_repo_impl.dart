@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
 
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/service/bookmark_service.dart';
 import 'package:deals/features/bookmarks/domain/entity/bookmark_entity.dart';
 import 'package:deals/features/bookmarks/domain/entity/bookmark_pagination_entity.dart';
@@ -49,7 +49,7 @@ class BookmarkRepoImpl implements BookmarkRepo {
       ));
     } catch (e, st) {
       log('BookmarkRepoImpl.getUserBookmarks', error: e, stackTrace: st);
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -68,7 +68,7 @@ class BookmarkRepoImpl implements BookmarkRepo {
       return Right(BookmarksMapper.mapToEntity(data));
     } catch (e, st) {
       log('BookmarkRepoImpl.createBookmark', error: e, stackTrace: st);
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -82,7 +82,7 @@ class BookmarkRepoImpl implements BookmarkRepo {
       return const Right(null);
     } catch (e, st) {
       log('BookmarkRepoImpl.deleteBookmark', error: e, stackTrace: st);
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }

@@ -37,7 +37,7 @@ class FirebaseAuthService {
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
       log('Unknown error in createUserWithEmailAndPassword: $e');
-      throw CustomExeption(S.current.SomethingWentWrong);
+      throw CustomException(S.current.SomethingWentWrong);
     }
   }
 
@@ -57,7 +57,7 @@ class FirebaseAuthService {
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
       log('Unknown error in signInWithEmailAndPassword: $e');
-      throw CustomExeption(S.current.SomethingWentWrong);
+      throw CustomException(S.current.SomethingWentWrong);
     }
   }
 
@@ -72,7 +72,7 @@ class FirebaseAuthService {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
         // The user canceled the sign-in flow
-        throw CustomExeption(S.current.SomethingWentWrong);
+        throw CustomException(S.current.SomethingWentWrong);
       }
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
@@ -87,7 +87,7 @@ class FirebaseAuthService {
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
       log('Error in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
-      throw CustomExeption(S.current.SomethingWentWrong);
+      throw CustomException(S.current.SomethingWentWrong);
     }
   }
 
@@ -102,7 +102,7 @@ class FirebaseAuthService {
       );
 
       if (loginResult.accessToken == null) {
-        throw CustomExeption(S.current.FacebookError);
+        throw CustomException(S.current.FacebookError);
       }
 
       OAuthCredential facebookAuthCredential;
@@ -140,7 +140,7 @@ class FirebaseAuthService {
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
       log('Unknown error in signInWithFacebook: $e');
-      throw CustomExeption(S.current.SomethingWentWrong);
+      throw CustomException(S.current.SomethingWentWrong);
     }
   }
 
@@ -171,7 +171,7 @@ class FirebaseAuthService {
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
       log('Unknown error in signInWithApple: $e');
-      throw CustomExeption(S.current.SomethingWentWrong);
+      throw CustomException(S.current.SomethingWentWrong);
     }
   }
 

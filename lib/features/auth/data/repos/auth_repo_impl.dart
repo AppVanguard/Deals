@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 
 import 'package:deals/core/errors/exception.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/mappers/user_mapper.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';
 
@@ -52,11 +52,11 @@ class AuthRepoImpl extends AuthRepo {
       );
 
       return right(entity);
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
+    } on CustomException catch (e) {
+      return left(ServerFailure(message: e.message));
     } catch (e) {
       log('createUserWithEmailAndPassword EXCEPTION → $e');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+      return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -80,11 +80,11 @@ class AuthRepoImpl extends AuthRepo {
       log('Backend JWT token: ${userModel.token}');
 
       return right(UserMapper.mapToEntity(userModel));
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
+    } on CustomException catch (e) {
+      return left(ServerFailure(message: e.message));
     } catch (e) {
       log('signInWithEmailAndPassword EXCEPTION → $e');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+      return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -101,11 +101,11 @@ class AuthRepoImpl extends AuthRepo {
       log('Backend JWT token: ${userModel.token}');
 
       return right(UserMapper.mapToEntity(userModel));
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
+    } on CustomException catch (e) {
+      return left(ServerFailure(message: e.message));
     } catch (e) {
       log('signInWithGoogle EXCEPTION → $e');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+      return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -122,11 +122,11 @@ class AuthRepoImpl extends AuthRepo {
       log('Backend JWT token: ${userModel.token}');
 
       return right(UserMapper.mapToEntity(userModel));
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
+    } on CustomException catch (e) {
+      return left(ServerFailure(message: e.message));
     } catch (e) {
       log('signInWithFacebook EXCEPTION → $e');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+      return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -143,11 +143,11 @@ class AuthRepoImpl extends AuthRepo {
       log('Backend JWT token: ${userModel.token}');
 
       return right(UserMapper.mapToEntity(userModel));
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
+    } on CustomException catch (e) {
+      return left(ServerFailure(message: e.message));
     } catch (e) {
       log('signInWithApple EXCEPTION → $e');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+      return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -160,11 +160,11 @@ class AuthRepoImpl extends AuthRepo {
     try {
       final entity = await authApiService.sendOtp(email: email, otp: otp);
       return right(entity);
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
+    } on CustomException catch (e) {
+      return left(ServerFailure(message: e.message));
     } catch (e) {
       log('sendOtp EXCEPTION → $e');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+      return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -176,11 +176,11 @@ class AuthRepoImpl extends AuthRepo {
     try {
       final msg = await authApiService.verifyOtp(email: email, otp: otp);
       return right(msg);
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
+    } on CustomException catch (e) {
+      return left(ServerFailure(message: e.message));
     } catch (e) {
       log('verifyOtp EXCEPTION → $e');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+      return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -189,11 +189,11 @@ class AuthRepoImpl extends AuthRepo {
     try {
       await authApiService.resendOtp(email: email);
       return right(unit);
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
+    } on CustomException catch (e) {
+      return left(ServerFailure(message: e.message));
     } catch (e) {
       log('resendOtp EXCEPTION → $e');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+      return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -204,11 +204,11 @@ class AuthRepoImpl extends AuthRepo {
     try {
       final msg = await authApiService.forgotPassword(email: email);
       return right(msg);
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
+    } on CustomException catch (e) {
+      return left(ServerFailure(message: e.message));
     } catch (e) {
       log('forgotPassword EXCEPTION → $e');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+      return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -225,11 +225,11 @@ class AuthRepoImpl extends AuthRepo {
         newPassword: newPassword,
       );
       return right(msg);
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
+    } on CustomException catch (e) {
+      return left(ServerFailure(message: e.message));
     } catch (e) {
       log('resetPassword EXCEPTION → $e');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+      return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
 
@@ -239,11 +239,11 @@ class AuthRepoImpl extends AuthRepo {
     try {
       await authApiService.logout(firebaseUid: firebaseUid);
       return right(unit);
-    } on CustomExeption catch (e) {
-      return left(ServerFaliure(message: e.message));
+    } on CustomException catch (e) {
+      return left(ServerFailure(message: e.message));
     } catch (e) {
       log('logout EXCEPTION → $e');
-      return left(ServerFaliure(message: S.current.SomethingWentWrong));
+      return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
 }
