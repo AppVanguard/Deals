@@ -35,19 +35,12 @@ class CategoriesRepoImpl implements CategoriesRepo {
         sortOrder: sortOrder,
       );
 
-      // 2) Map each category in the data list using the CategoryMapper.
-      //    Note: The provided mapper maps using `categoryModel.data?.first`
-      //    so we create a temporary CategoryModel for each item.
-      final List<CategoryEntity> categoryEntities = [];
-      if (categoryModel.data != null && categoryModel.data!.isNotEmpty) {
-        for (var data in categoryModel.data!) {
-          final singleCategoryModel = CategoryModel(
-            data: [data],
-            pagination: categoryModel.pagination,
-          );
-          categoryEntities.add(CategoryMapper.mapToEntity(singleCategoryModel));
-        }
-      }
+      // 2) Map each category in the data list directly using the CategoryMapper.
+      final List<CategoryEntity> categoryEntities = categoryModel.data == null
+          ? <CategoryEntity>[]
+          : categoryModel.data!
+              .map((data) => CategoryMapper.mapToEntity(data))
+              .toList();
 
       // 3) Map the pagination model using the PaginationMapper.
       final paginationModel = categoryModel.pagination;
@@ -82,7 +75,8 @@ class CategoriesRepoImpl implements CategoriesRepo {
           await categoriesService.getCategoryById(id, token);
 
       if (categoryModel.data != null && categoryModel.data!.isNotEmpty) {
-        final categoryEntity = CategoryMapper.mapToEntity(categoryModel);
+        final categoryEntity =
+            CategoryMapper.mapToEntity(categoryModel.data!.first);
         return Right(categoryEntity);
       } else {
         throw Exception('Category not found');
