@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../errors/exception.dart';
+import 'session_manager.dart';
 
 /// A small wrapper around [http.Client] that applies a timeout and
 /// converts common networking errors into [CustomExeption]s.
@@ -33,7 +35,17 @@ class HttpClientService {
   Future<http.Response> _safeRequest(
       Future<http.Response> Function() request) async {
     try {
-      return await request().timeout(timeout);
+      final response = await request().timeout(timeout);
+      if (response.statusCode == 401) {
+        try {
+          final data = jsonDecode(response.body);
+          if (data is Map && data['message'] == 'Unauthorized: Invalid token') {
+            SessionManager.handleUnauthorized();
+            throw CustomExeption('Unauthorized: Invalid token');
+          }
+        } catch (_) {}
+      }
+      return response;
     } on TimeoutException {
       throw CustomExeption('Request timed out');
     } on SocketException {

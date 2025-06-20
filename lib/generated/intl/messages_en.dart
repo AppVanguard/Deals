@@ -327,6 +327,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "refer": MessageLookupByLibrary.simpleMessage("Refer"),
         "requiresRecentLogin": MessageLookupByLibrary.simpleMessage(
             "Please log in again to complete the operation."),
+        "sessionExpired": MessageLookupByLibrary.simpleMessage(
+            "Your session has expired. Please log in again."),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "shopNow": MessageLookupByLibrary.simpleMessage("Shop now"),
         "shopNowAndGet":

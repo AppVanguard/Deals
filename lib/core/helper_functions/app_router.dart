@@ -49,9 +49,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
+import 'package:flutter/material.dart';
 
 class AppRouter {
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   static final router = GoRouter(
+    navigatorKey: navigatorKey,
     initialLocation: SplashView.routeName,
     routes: [
       // Splash Route
