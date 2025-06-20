@@ -32,7 +32,7 @@ class _SplashViewBodyState extends State<SplashViewBody> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            appTittle,
+            appTitle,
             style: AppTextStyles.bold46.copyWith(color: Colors.white),
           ),
           Text(
