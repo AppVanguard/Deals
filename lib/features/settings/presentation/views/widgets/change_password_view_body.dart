@@ -7,7 +7,7 @@ import 'package:deals/core/widgets/custom_button.dart';
 import 'package:deals/core/widgets/custom_text_form_field.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/generated/l10n.dart';
-import 'package:deals/features/auth/presentation/views/forget_password_view.dart';
+import 'package:deals/features/auth/presentation/views/forget_password/forget_password_view.dart';
 
 /// Pure-UI form; report (oldPw,newPw) through [onSubmit].
 class ChangePasswordViewBody extends StatefulWidget {
