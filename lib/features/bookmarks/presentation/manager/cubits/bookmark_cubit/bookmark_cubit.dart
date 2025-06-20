@@ -124,9 +124,9 @@ class BookmarkCubit extends Cubit<BookmarkState> {
 
   bool isBookmarked(String storeId) {
     if (state is! BookmarkSuccess) return false;
-    return (state as BookmarkSuccess).bookmarks.any(
-          (b) => b.storeId == storeId || (b.storeId) == storeId,
-        );
+    return (state as BookmarkSuccess)
+        .bookmarks
+        .any((b) => b.storeId == storeId);
   }
 
   Future<void> toggleBookmark(String storeId) async {
@@ -136,9 +136,8 @@ class BookmarkCubit extends Cubit<BookmarkState> {
         'currentlySaved=${isBookmarked(storeId)}');
 
     if (isBookmarked(storeId)) {
-      final existing = (state as BookmarkSuccess)
-          .bookmarks
-          .firstWhere((b) => b.storeId == storeId || (b.storeId) == storeId);
+      final existing =
+          (state as BookmarkSuccess).bookmarks.firstWhere((b) => b.storeId == storeId);
       await _removeBookmark(existing.id);
     } else {
       await _addBookmark(storeId);
