@@ -1,4 +1,4 @@
-import 'package:deals/features/auth/presentation/views/signin_view.dart';
+import 'package:deals/features/auth/presentation/views/signin/signin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';

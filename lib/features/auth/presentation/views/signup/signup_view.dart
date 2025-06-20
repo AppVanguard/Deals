@@ -1,4 +1,4 @@
-import 'package:deals/features/auth/presentation/views/widgets/signup_bloc_consumer.dart';
+import 'package:deals/features/auth/presentation/views/signup/widgets/signup_bloc_consumer.dart';
 import 'package:flutter/material.dart';
 
 class SignupView extends StatelessWidget {

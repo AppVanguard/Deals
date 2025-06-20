@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/features/auth/domain/repos/user_repo.dart';
 import 'package:deals/features/auth/presentation/manager/cubits/user_update_cubit/user_update_cubit.dart';
-import 'package:deals/features/auth/presentation/views/widgets/user_update_bloc_consumer.dart';
+import 'package:deals/features/auth/presentation/views/user_update/widgets/user_update_bloc_consumer.dart';
 
 class UserUpdateView extends StatelessWidget {
   const UserUpdateView({

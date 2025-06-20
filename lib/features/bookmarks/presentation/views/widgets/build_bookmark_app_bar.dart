@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/widgets/search_filter_app_bar.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'bookmark_filter_dialog.dart';
 
-AppBar buildBookmarkAppBar(
+PreferredSizeWidget buildBookmarkAppBar(
   BuildContext context,
   TextEditingController controller, {
   required Function(String) onSearch,
@@ -18,51 +16,25 @@ AppBar buildBookmarkAppBar(
   required bool hasCoupons,
   required bool hasCashback,
 }) {
-  return AppBar(
-    elevation: 0,
-    backgroundColor: AppColors.background,
-    title: Row(
-      children: [
-        Expanded(
-          child: SearchBar(
-            controller: controller,
-            hintText: S.of(context).Search,
-            leading: SvgPicture.asset(AppImages.assetsImagesSearchIcon),
-            onChanged: onSearch,
-            onSubmitted: onSearch,
-            elevation: WidgetStateProperty.all(0),
-            backgroundColor: WidgetStateProperty.all(AppColors.lightGray),
+  return SearchFilterAppBar(
+    controller: controller,
+    hintText: S.of(context).Search,
+    onSearchChanged: onSearch,
+    onFilterTap: () {
+      final catCubit = context.read<CategoriesCubit>();
+      showDialog(
+        context: context,
+        builder: (_) => BlocProvider.value(
+          value: catCubit,
+          child: BookmarkFilterDialog(
+            initialCategories: selectedCats,
+            initialOrder: sortOrder,
+            initialHasCoupons: hasCoupons,
+            initialHasCashback: hasCashback,
+            onApply: onFilterChanged,
           ),
         ),
-        const SizedBox(width: 12),
-        Builder(
-          // ensure we’re below the cubits
-          builder: (ctx) => GestureDetector(
-            onTap: () {
-              final catCubit = ctx.read<CategoriesCubit>();
-              showDialog(
-                context: ctx,
-                builder: (_) => BlocProvider.value(
-                  // pass existing cubit
-                  value: catCubit,
-                  child: BookmarkFilterDialog(
-                    initialCategories: selectedCats,
-                    initialOrder: sortOrder,
-                    initialHasCoupons: hasCoupons,
-                    initialHasCashback: hasCashback,
-                    onApply: onFilterChanged,
-                  ),
-                ),
-              );
-            },
-            child: SvgPicture.asset(
-              AppImages.assetsImagesFilter,
-              width: 24,
-              height: 24,
-            ),
-          ),
-        ),
-      ],
-    ),
+      );
+    },
   );
 }

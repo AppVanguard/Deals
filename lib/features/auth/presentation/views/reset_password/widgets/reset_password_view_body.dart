@@ -1,4 +1,4 @@
-// lib/features/auth/presentation/views/widgets/reset_password_view_body.dart
+// lib/features/auth/presentation/views/reset_password/widgets/reset_password_view_body.dart
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

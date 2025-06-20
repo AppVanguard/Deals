@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:deals/generated/l10n.dart';
+import 'otp_digit_field.dart';
 
 class OTPVerificationViewBody extends StatefulWidget {
   const OTPVerificationViewBody({
@@ -185,32 +186,14 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(4, (index) {
-                  return Container(
-                    width: 56,
-                    height: 56,
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Focus(
-                      onKeyEvent: (node, event) {
-                        _onKey(event, index);
-                        return KeyEventResult.ignored;
-                      },
-                      child: TextFormField(
-                        controller: _controllers[index],
-                        focusNode: _focusNodes[index],
-                        maxLength: 1,
-                        keyboardType: TextInputType.number,
-                        textAlign: TextAlign.center,
-                        cursorHeight: 30,
-                        style: AppTextStyles.semiBold32,
-                        decoration: InputDecoration(
-                          counterText: '',
-                          border: _border(index),
-                          enabledBorder: _border(index),
-                          focusedBorder: _border(index, focused: true),
-                        ),
-                        onChanged: (v) => _onChanged(v, index),
-                      ),
-                    ),
+                  return OtpDigitField(
+                    controller: _controllers[index],
+                    focusNode: _focusNodes[index],
+                    isError: _isError[index],
+                    hasValue: _hasValue[index],
+                    showGlobalError: widget.errorMessage != null,
+                    onKey: (event) => _onKey(event, index),
+                    onChanged: (v) => _onChanged(v, index),
                   );
                 }),
               ),
