@@ -1,4 +1,4 @@
-import 'package:deals/core/service/secure_storage_service.dart';
+import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
@@ -7,7 +7,7 @@ import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 
 part 'stores_state.dart';
 
-class StoresCubit extends Cubit<StoresState> {
+class StoresCubit extends Cubit<StoresState> with RequiresUser<StoresState> {
   final StoresRepo storesRepo;
 
   // Internal parameters for filtering, sorting, and pagination.
@@ -28,7 +28,8 @@ class StoresCubit extends Cubit<StoresState> {
     if (isRefresh) {
       _currentPage = 1;
     }
-    final user = await SecureStorageService.getCurrentUser();
+    final user = await requireUser((msg) => StoresFailure(message: msg));
+    if (user == null) return;
 
     // When appending data (load more) check if the current state is a success.
     if (state is StoresSuccess && !isRefresh) {

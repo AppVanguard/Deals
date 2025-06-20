@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/user_entity.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 
 abstract class SettingsRepo {
   // ───────────── Server-side Push Controls ───────────────

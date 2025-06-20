@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/features/bookmarks/domain/entity/bookmark_entity.dart';
 import 'package:deals/features/bookmarks/domain/repos/bookmarks_with_pagination.dart';
 

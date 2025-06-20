@@ -1,15 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:dartz/dartz.dart';
+import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
 
 import 'package:deals/core/entities/user_entity.dart';
-import 'package:deals/core/errors/faliure.dart';
-import 'package:deals/core/service/secure_storage_service.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/features/personal_data/domain/repos/personal_data_repo.dart';
 
 part 'personal_data_state.dart';
 
-class PersonalDataCubit extends Cubit<PersonalDataState> {
+class PersonalDataCubit extends Cubit<PersonalDataState>
+    with RequiresUser<PersonalDataState> {
   final PersonalDataRepo _repo;
   final String userId;
 
@@ -26,11 +27,9 @@ class PersonalDataCubit extends Cubit<PersonalDataState> {
   Future<void> fetchPersonalData() async {
     emit(PersonalDataLoadInProgress());
 
-    final storedUser = await SecureStorageService.getCurrentUser();
-    if (storedUser == null) {
-      emit(PersonalDataLoadFailure('User not found'));
-      return;
-    }
+    final storedUser =
+        await requireUser((msg) => PersonalDataLoadFailure(msg));
+    if (storedUser == null) return;
 
     final Either<Failure, UserEntity> res =
         await _repo.getPersonalData(id: userId, token: storedUser.token);
@@ -58,11 +57,9 @@ class PersonalDataCubit extends Cubit<PersonalDataState> {
     emit(PersonalDataUpdateInProgress());
 
     // Load current user to preserve the existing JWT
-    final storedUser = await SecureStorageService.getCurrentUser();
-    if (storedUser == null) {
-      emit(PersonalDataUpdateFailure('User not found'));
-      return;
-    }
+    final storedUser =
+        await requireUser((msg) => PersonalDataUpdateFailure(msg));
+    if (storedUser == null) return;
 
     final Either<Failure, UserEntity> res = await _repo.updatePersonalData(
       id: userId,

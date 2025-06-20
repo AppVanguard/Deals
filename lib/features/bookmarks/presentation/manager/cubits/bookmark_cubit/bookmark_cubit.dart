@@ -3,15 +3,15 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'package:deals/core/service/secure_storage_service.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/features/bookmarks/domain/repos/bookmark_repo.dart';
 import 'package:deals/features/bookmarks/domain/entity/bookmark_entity.dart';
 import 'package:deals/features/bookmarks/domain/entity/bookmark_pagination_entity.dart';
 
 part 'bookmark_state.dart';
 
-class BookmarkCubit extends Cubit<BookmarkState> {
+class BookmarkCubit extends Cubit<BookmarkState> with RequiresUser<BookmarkState> {
   final BookmarkRepo _repo;
 
   BookmarkCubit({required BookmarkRepo repo})
@@ -50,11 +50,9 @@ class BookmarkCubit extends Cubit<BookmarkState> {
     }
 
     try {
-      final user = await SecureStorageService.getCurrentUser();
-      if (user == null) {
-        emit(BookmarkFailure(message: 'User not found'));
-        return;
-      }
+      final user =
+          await requireUser((msg) => BookmarkFailure(message: msg));
+      if (user == null) return;
 
       final res = await _repo.getUserBookmarks(
         firebaseUid: user.uId,
@@ -147,7 +145,7 @@ class BookmarkCubit extends Cubit<BookmarkState> {
   /*────────── internal add & remove ──────────*/
 
   Future<void> _addBookmark(String storeId) async {
-    final user = await SecureStorageService.getCurrentUser();
+    final user = await requireUser((msg) => BookmarkFailure(message: msg));
     if (user == null) return;
 
     log('[BookmarkCubit] _addBookmark POST store=$storeId');
@@ -168,7 +166,7 @@ class BookmarkCubit extends Cubit<BookmarkState> {
   }
 
   Future<void> _removeBookmark(String bookmarkId) async {
-    final user = await SecureStorageService.getCurrentUser();
+    final user = await requireUser((msg) => BookmarkFailure(message: msg));
     if (user == null) return;
 
     log('[BookmarkCubit] _removeBookmark DELETE id=$bookmarkId');

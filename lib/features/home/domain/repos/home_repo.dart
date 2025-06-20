@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/features/home/domain/entities/home_entity.dart';
 
 abstract class HomeRepo {

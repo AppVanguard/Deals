@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/mappers/pagination_mapper.dart';
 import 'package:deals/core/service/coupons_service.dart';
 import 'package:deals/features/coupons/data/models/coupons_model.dart';
@@ -56,7 +56,7 @@ class CouponsRepoImpl implements CouponsRepo {
       return Right(result);
     } catch (e) {
       log('Error in couponsRepoImpl: ${e.toString()}');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -75,7 +75,7 @@ class CouponsRepoImpl implements CouponsRepo {
       }
     } catch (e) {
       log('Error in couponsRepoImpl: ${e.toString()}');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }
