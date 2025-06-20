@@ -44,7 +44,7 @@ AppBar buildHomeAppBar({
         spacing: 16,
         children: [
           Text(
-            appTittle,
+            appTitle,
             style: AppTextStyles.bold24.copyWith(color: AppColors.primary),
           ),
           const Spacer(),
