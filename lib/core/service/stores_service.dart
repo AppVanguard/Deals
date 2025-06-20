@@ -2,10 +2,14 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:deals/features/stores/data/models/stores_data.dart';
 import 'package:deals/features/stores/data/models/stores_model.dart';
-import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
+import 'http_client_service.dart';
 
 class StoresService {
+  final HttpClientService _http;
+
+  StoresService({HttpClientService? http}) : _http = http ?? HttpClientService();
+
   /// Retrieve stores data with optional search, sort, and pagination parameters.
   /// Example endpoint: /stores?search=Amazon&sortField=tittle&page=2&limit=3&sortOrder=asc
   Future<StoresModel> getAllStores({
@@ -30,7 +34,7 @@ class StoresService {
         .replace(queryParameters: queryParameters);
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
+          await _http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return StoresModel.fromJson(jsonMap);
@@ -49,7 +53,7 @@ class StoresService {
     final url = Uri.parse('${BackendEndpoints.stores}/$id');
     try {
       final response =
-          await http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
+          await _http.get(url, headers: BackendEndpoints.authJsonHeaders(token));
       if (response.statusCode == 200) {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
 

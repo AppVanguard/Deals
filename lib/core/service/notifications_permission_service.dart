@@ -1,9 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:http/http.dart' as http;
 import 'package:deals/core/utils/backend_endpoints.dart';
+import 'http_client_service.dart';
 
 class NotificationsPermissionService {
+  final HttpClientService _http;
+
+  NotificationsPermissionService({HttpClientService? http})
+      : _http = http ?? HttpClientService();
+
   /// Sends a request to allow notifications for the user.
   /// The backend expects:
   /// {
@@ -22,7 +27,7 @@ class NotificationsPermissionService {
     });
     try {
       log('Allowing notifications for user: $firebaseUid with token: $deviceToken');
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: {
           ...BackendEndpoints.authJsonHeaders(authToken),
@@ -55,7 +60,7 @@ class NotificationsPermissionService {
       BackendEndpoints.kFirebaseUid: firebaseUid,
     });
     try {
-      final response = await http.post(
+      final response = await _http.post(
         url,
         headers: {
           ...BackendEndpoints.authJsonHeaders(authToken),

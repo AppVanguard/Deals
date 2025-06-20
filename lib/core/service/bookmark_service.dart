@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:http/http.dart' as http;
-
 import 'package:deals/core/utils/backend_endpoints.dart';
+import 'http_client_service.dart';
 import 'package:deals/features/bookmarks/data/bookmark_model/bookmark_model.dart';
 import 'package:deals/features/bookmarks/data/bookmark_model/bookmark_data.dart';
 
 class BookmarkService {
-  final http.Client _http;
-  BookmarkService([http.Client? client]) : _http = client ?? http.Client();
+  final HttpClientService _http;
+  BookmarkService([HttpClientService? client]) : _http = client ?? HttpClientService();
 
   /*──────────────────────────── GET all ───────────────────────────*/
   static const _kPageNumber = 'PageNumber';
