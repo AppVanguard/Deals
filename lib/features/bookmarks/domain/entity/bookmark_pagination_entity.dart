@@ -1,4 +1,4 @@
-// lib/features/bookmarks/domain/entities/bookmark_pagination_entity.dart
+// lib/features/bookmarks/domain/entity/bookmark_pagination_entity.dart
 
 /// A lean domain entity for pagination info in the bookmarks feature.
 class BookmarkPaginationEntity {

@@ -1,4 +1,4 @@
-// lib/features/auth/data/models/user_model.dart
+// lib/core/models/user_model/user_model.dart
 
 import 'package:deals/core/models/user_model/profile_image.dart';
 

@@ -1,4 +1,4 @@
-// lib/features/profile/domain/repos/personal_data_repo.dart
+// lib/features/personal_data/domain/repos/personal_data_repo.dart
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/errors/faliure.dart';

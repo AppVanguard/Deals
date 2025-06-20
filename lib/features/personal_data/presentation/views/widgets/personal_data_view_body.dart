@@ -1,4 +1,4 @@
-// lib/features/profile/presentation/views/personal_data_view_body.dart
+// lib/features/personal_data/presentation/views/widgets/personal_data_view_body.dart
 
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/features/auth/presentation/views/widgets/custom_phone_field.dart';

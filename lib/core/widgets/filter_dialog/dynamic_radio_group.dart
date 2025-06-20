@@ -1,4 +1,4 @@
-// lib/features/search/presentation/views/filter_dialog/dynamic_radio_group.dart
+// lib/core/widgets/filter_dialog/dynamic_radio_group.dart
 
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';

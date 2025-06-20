@@ -1,4 +1,4 @@
-// lib/features/search/presentation/views/filter_dialog/filter_option.dart
+// lib/core/widgets/filter_dialog/filter_option.dart
 
 enum FilterOption { cashback, coupons, persentage, cashbackAndCoupons }
 
