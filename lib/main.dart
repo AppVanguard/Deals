@@ -65,8 +65,7 @@ Future<void> initializeLocalNotifications() async {
 
 /// Show local notification in the system tray
 Future<void> showLocalNotification(RemoteMessage message) async {
-  const AndroidNotificationDetails androidDetails =
-      AndroidNotificationDetails(
+  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
     'high_importance_channel',
     'High Importance Notifications',
     channelDescription:

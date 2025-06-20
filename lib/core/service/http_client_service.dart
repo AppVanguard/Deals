@@ -11,7 +11,8 @@ class HttpClientService {
   final http.Client _client;
   final Duration timeout;
 
-  HttpClientService({http.Client? client, this.timeout = const Duration(seconds: 15)})
+  HttpClientService(
+      {http.Client? client, this.timeout = const Duration(minutes: 15)})
       : _client = client ?? http.Client();
 
   Future<http.Response> get(Uri url, {Map<String, String>? headers}) {
