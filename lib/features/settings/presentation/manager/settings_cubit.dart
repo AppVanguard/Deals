@@ -3,7 +3,8 @@ import 'package:deals/constants.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
+import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';
@@ -11,7 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'settings_state.dart';
 
-class SettingsCubit extends Cubit<SettingsState> {
+class SettingsCubit extends Cubit<SettingsState>
+    with RequiresUser<SettingsState> {
   final SettingsRepo _repo;
   SettingsCubit({required SettingsRepo repo})
       : _repo = repo,
@@ -30,11 +32,8 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(SettingsLoading());
 
     // load current user
-    final user = await SecureStorageService.getCurrentUser();
-    if (user == null) {
-      emit(SettingsPushFailure(message: 'User not found'));
-      return;
-    }
+    final user = await requireUser((msg) => SettingsPushFailure(message: msg));
+    if (user == null) return;
 
     // get FCM token
     final deviceToken = await FirebaseMessaging.instance.getToken();

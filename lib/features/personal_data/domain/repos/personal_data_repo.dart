@@ -1,7 +1,7 @@
 // lib/features/personal_data/domain/repos/personal_data_repo.dart
 
 import 'package:dartz/dartz.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/entities/user_entity.dart';
 
 abstract class PersonalDataRepo {

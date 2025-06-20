@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/category_entity.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/repos/interface/categories_with_pagination_entity.dart';
 
 abstract class CategoriesRepo {

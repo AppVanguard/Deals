@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:dartz/dartz.dart';
-import 'package:deals/core/errors/faliure.dart';
+import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:deals/core/service/notifications_permission_service.dart';
 
@@ -24,7 +24,7 @@ class NotificationsPermissionRepoImpl implements NotificationsPermissionRepo {
       return const Right(null);
     } catch (e, s) {
       log('Error in allowNotifications: $e\n$s');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -41,7 +41,7 @@ class NotificationsPermissionRepoImpl implements NotificationsPermissionRepo {
       return const Right(null);
     } catch (e, s) {
       log('Error in preventNotifications: $e\n$s');
-      return Left(ServerFaliure(message: e.toString()));
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }
