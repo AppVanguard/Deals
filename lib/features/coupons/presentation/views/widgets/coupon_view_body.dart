@@ -102,6 +102,9 @@ class _CouponViewBodyState extends State<CouponViewBody> {
                 ),
               );
             } else if (state is CouponsFailure) {
+              if (state.message.contains('Invalid token')) {
+                return const SliverFillRemaining(child: SizedBox());
+              }
               return SliverFillRemaining(
                 child: buildCustomErrorScreen(
                   context: context,
@@ -111,6 +114,7 @@ class _CouponViewBodyState extends State<CouponViewBody> {
                         .read<CategoriesCubit>()
                         .fetchCategories(isRefresh: true);
                   },
+                  errorMessage: state.message,
                 ),
               );
             } else {

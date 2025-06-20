@@ -86,6 +86,9 @@ class _StoresViewBodyState extends State<StoresViewBody> {
         BlocBuilder<StoresCubit, StoresState>(
           builder: (context, state) {
             if (state is StoresFailure) {
+              if (state.message.contains('Invalid token')) {
+                return const SliverFillRemaining(child: SizedBox());
+              }
               return SliverFillRemaining(
                 child: buildCustomErrorScreen(
                   context: context,
@@ -95,6 +98,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
                         .read<CategoriesCubit>()
                         .fetchCategories(isRefresh: true);
                   },
+                  errorMessage: state.message,
                 ),
               );
             }

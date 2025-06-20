@@ -111,6 +111,9 @@ class _StoreDetailViewState extends State<StoreDetailView>
 
         // Show error screen if there's a failure
         if (state is StoreDetailsFailure) {
+          if (state.message.contains('Invalid token')) {
+            return const SizedBox.shrink();
+          }
           return buildCustomErrorScreen(
             context: context,
             onRetry: () {
@@ -118,6 +121,7 @@ class _StoreDetailViewState extends State<StoreDetailView>
                   .read<StoreDetailCubit>()
                   .getStoreAndCoupons(widget.storeId);
             },
+            errorMessage: state.message,
           );
         }
 

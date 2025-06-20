@@ -62,12 +62,16 @@ class _BookmarkViewBodyState extends State<BookmarkViewBody> {
         builder: (_, state) {
           if (state is BookmarkLoading) return _skeletonList();
           if (state is BookmarkFailure) {
+            if (state.message.contains('Invalid token')) {
+              return const SizedBox.shrink();
+            }
             return ListView(
               physics: const AlwaysScrollableScrollPhysics(),
               children: [
                 buildCustomErrorScreen(
                   context: context,
                   onRetry: _refresh,
+                  errorMessage: state.message,
                 ),
               ],
             );
