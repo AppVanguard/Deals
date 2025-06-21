@@ -21,7 +21,14 @@ class PrivacyAndPolicyViewBody extends StatelessWidget {
           return Center(
             child: ErrorMessageCard(
               title: 'Failed to load policy',
-              description: 'Please check your connection and try again.',
+              message: 'Please check your connection and try again.',
+              onRetry: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (_) => const PrivacyAndPolicyViewBody(),
+                  ),
+                );
+              },
             ),
           );
         }

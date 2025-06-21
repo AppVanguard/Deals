@@ -58,7 +58,12 @@ class _DeleteAccountViewBodyState extends State<DeleteAccountViewBody> {
           return Center(
             child: ErrorMessageCard(
               title: S.of(context).UnexpectedError,
-              description: 'Unable to load reasons.',
+              message: 'Unable to load reasons.',
+              onRetry: () {
+                setState(() {
+                  _reasonsFuture = JsonDeleteAccountRepository().loadReasons();
+                });
+              },
             ),
           );
         }
@@ -74,7 +79,7 @@ class _DeleteAccountViewBodyState extends State<DeleteAccountViewBody> {
                   if (widget.errorMessage != null)
                     ErrorMessageCard(
                       title: widget.errorMessage!,
-                      description: 'Please try again later.',
+                      message: 'Please try again later.',
                     ),
                   ...reasons.map((text) => Padding(
                         padding: const EdgeInsets.only(bottom: 16),

@@ -52,7 +52,7 @@ class CustomErrorScreen extends StatelessWidget {
     this.footer,
     this.gradientColors = const [Color(0xFF2196F3), Color(0xFF64B5F6)],
     this.backgroundColor = Colors.white,
-    this.fullScreen = false,
+    this.fullScreen = true,
   });
 
   @override

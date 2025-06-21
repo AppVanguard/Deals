@@ -77,7 +77,7 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
           if (widget.errorMessage != null)
             ErrorMessageCard(
               title: widget.errorMessage!,
-              description: 'Please double check your input.',
+              message: 'Please double check your input.',
             ),
           // Old-password row
           Row(

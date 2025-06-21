@@ -32,7 +32,12 @@ class _FAQViewBodyState extends State<FAQViewBody> {
           return Center(
             child: ErrorMessageCard(
               title: 'Failed to load FAQs',
-              description: 'Please check your connection and try again.',
+              message: 'Please check your connection and try again.',
+              onRetry: () {
+                setState(() {
+                  _faqsFuture = JsonFaqRepository().loadFaqs();
+                });
+              },
             ),
           );
         }

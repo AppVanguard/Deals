@@ -6,18 +6,26 @@ class ErrorMessageCard extends StatelessWidget {
   const ErrorMessageCard({
     super.key,
     required this.title,
-    this.description,
+    required this.message,
     this.details,
+    this.onRetry,
+    this.retryButtonText = 'Retry',
   });
 
   /// Short error title.
   final String title;
 
-  /// Optional description providing more context.
-  final String? description;
+  /// Main descriptive message.
+  final String message;
 
   /// Optional error details shown below the description.
   final String? details;
+
+  /// Called when the retry button is tapped.
+  final VoidCallback? onRetry;
+
+  /// Text for the retry button.
+  final String retryButtonText;
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +60,15 @@ class ErrorMessageCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  if (description != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
-                      child: Text(
-                        description!,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: Colors.white70,
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Text(
+                      message,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.white70,
                       ),
                     ),
+                  ),
                   if (details != null)
                     Padding(
                       padding: const EdgeInsets.only(top: 4.0),
@@ -70,6 +77,21 @@ class ErrorMessageCard extends StatelessWidget {
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: Colors.white.withOpacity(0.9),
                         ),
+                      ),
+                    ),
+                  if (onRetry != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12.0),
+                      child: ElevatedButton(
+                        onPressed: onRetry,
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.red.shade700,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(retryButtonText),
                       ),
                     ),
                 ],

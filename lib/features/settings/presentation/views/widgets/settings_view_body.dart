@@ -34,7 +34,8 @@ class SettingsViewBody extends StatelessWidget {
             if (errorMessage != null)
               ErrorMessageCard(
                 title: errorMessage!,
-                description: 'Failed to update settings.',
+                message: 'Failed to update settings.',
+                onRetry: () => onTogglePush(!pushEnabled),
               ),
             // Push toggle
             Row(

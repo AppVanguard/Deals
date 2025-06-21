@@ -131,7 +131,10 @@ class PersonalDataView extends StatelessWidget {
               return Center(
                 child: ErrorMessageCard(
                   title: state.message,
-                  description: 'Unable to load your data.',
+                  message: 'Unable to load your data.',
+                  onRetry: () {
+                    context.read<PersonalDataCubit>().fetchPersonalData();
+                  },
                 ),
               );
             }
