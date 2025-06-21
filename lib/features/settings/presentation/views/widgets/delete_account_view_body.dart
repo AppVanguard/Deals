@@ -57,7 +57,8 @@ class _DeleteAccountViewBodyState extends State<DeleteAccountViewBody> {
         if (snap.hasError) {
           return Center(
             child: ErrorMessageCard(
-              message: S.of(context).UnexpectedError,
+              title: S.of(context).UnexpectedError,
+              description: 'Unable to load reasons.',
             ),
           );
         }
@@ -71,7 +72,10 @@ class _DeleteAccountViewBodyState extends State<DeleteAccountViewBody> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (widget.errorMessage != null)
-                    ErrorMessageCard(message: widget.errorMessage!),
+                    ErrorMessageCard(
+                      title: widget.errorMessage!,
+                      description: 'Please try again later.',
+                    ),
                   ...reasons.map((text) => Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: _BulletItem(text: text),

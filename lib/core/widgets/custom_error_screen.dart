@@ -36,6 +36,9 @@ class CustomErrorScreen extends StatelessWidget {
   /// Optional background color if gradient is not desired.
   final Color backgroundColor;
 
+  /// Whether to wrap the widget in a Scaffold to take up the whole screen.
+  final bool fullScreen;
+
   const CustomErrorScreen({
     super.key,
     this.retryAnimation = true,
@@ -49,6 +52,7 @@ class CustomErrorScreen extends StatelessWidget {
     this.footer,
     this.gradientColors = const [Color(0xFF2196F3), Color(0xFF64B5F6)],
     this.backgroundColor = Colors.white,
+    this.fullScreen = false,
   });
 
   @override
@@ -71,7 +75,7 @@ class CustomErrorScreen extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
 
-    return Container(
+    final content = Container(
       width: size.width,
       height: size.height,
       decoration: BoxDecoration(
@@ -131,5 +135,14 @@ class CustomErrorScreen extends StatelessWidget {
         ),
       ),
     );
+
+    if (fullScreen) {
+      return Scaffold(
+        backgroundColor: backgroundColor,
+        body: content,
+      );
+    }
+
+    return content;
   }
 }

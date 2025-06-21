@@ -128,7 +128,12 @@ class PersonalDataView extends StatelessWidget {
 
             // Show load error
             if (state is PersonalDataLoadFailure) {
-              return Center(child: ErrorMessageCard(message: state.message));
+              return Center(
+                child: ErrorMessageCard(
+                  title: state.message,
+                  description: 'Unable to load your data.',
+                ),
+              );
             }
 
             // On load success or after update success, show form

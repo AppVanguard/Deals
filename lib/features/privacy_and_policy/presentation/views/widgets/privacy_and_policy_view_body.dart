@@ -19,7 +19,10 @@ class PrivacyAndPolicyViewBody extends StatelessWidget {
         }
         if (snapshot.hasError) {
           return Center(
-            child: ErrorMessageCard(message: 'Failed to load policy'),
+            child: ErrorMessageCard(
+              title: 'Failed to load policy',
+              description: 'Please check your connection and try again.',
+            ),
           );
         }
         final terms = snapshot.data ?? [];

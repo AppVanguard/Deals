@@ -75,7 +75,10 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (widget.errorMessage != null)
-            ErrorMessageCard(message: widget.errorMessage!),
+            ErrorMessageCard(
+              title: widget.errorMessage!,
+              description: 'Please double check your input.',
+            ),
           // Old-password row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -11,6 +11,7 @@ CustomErrorScreen buildCustomErrorScreen({
   String? errorMessage,
 }) {
   return CustomErrorScreen(
+    fullScreen: true,
     retryAnimation: false,
     title: Text(
       S.of(context).SomethingWentWrongError,

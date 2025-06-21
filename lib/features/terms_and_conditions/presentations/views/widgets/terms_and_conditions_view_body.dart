@@ -19,7 +19,10 @@ class TermsAndConditionsViewBody extends StatelessWidget {
         }
         if (snapshot.hasError) {
           return Center(
-            child: ErrorMessageCard(message: 'Failed to load terms'),
+            child: ErrorMessageCard(
+              title: 'Failed to load terms',
+              description: 'Please check your connection and try again.',
+            ),
           );
         }
         final terms = snapshot.data ?? [];

@@ -90,6 +90,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
                 return const SliverFillRemaining(child: SizedBox());
               }
               return SliverFillRemaining(
+                hasScrollBody: false,
                 child: buildCustomErrorScreen(
                   context: context,
                   onRetry: () {

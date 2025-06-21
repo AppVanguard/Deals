@@ -32,7 +32,10 @@ class SettingsViewBody extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           children: [
             if (errorMessage != null)
-              ErrorMessageCard(message: errorMessage!),
+              ErrorMessageCard(
+                title: errorMessage!,
+                description: 'Failed to update settings.',
+              ),
             // Push toggle
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

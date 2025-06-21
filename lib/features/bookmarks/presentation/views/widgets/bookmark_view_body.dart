@@ -65,15 +65,10 @@ class _BookmarkViewBodyState extends State<BookmarkViewBody> {
             if (state.message.contains('Invalid token')) {
               return const SizedBox.shrink();
             }
-            return ListView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              children: [
-                buildCustomErrorScreen(
-                  context: context,
-                  onRetry: _refresh,
-                  errorMessage: state.message,
-                ),
-              ],
+            return buildCustomErrorScreen(
+              context: context,
+              onRetry: _refresh,
+              errorMessage: state.message,
             );
           }
           if (state is BookmarkSuccess) {

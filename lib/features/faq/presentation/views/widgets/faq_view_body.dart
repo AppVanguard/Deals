@@ -31,7 +31,8 @@ class _FAQViewBodyState extends State<FAQViewBody> {
         if (snapshot.hasError) {
           return Center(
             child: ErrorMessageCard(
-              message: 'Failed to load FAQs',
+              title: 'Failed to load FAQs',
+              description: 'Please check your connection and try again.',
             ),
           );
         }
