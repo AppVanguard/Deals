@@ -99,28 +99,29 @@ class CustomErrorScreen extends StatelessWidget {
                 vertical: 32.0,
               ),
               child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                illustration,
-                const SizedBox(height: 24),
-                title,
-                const SizedBox(height: 12),
-                message,
-                if (errorDetails != null) ...[
-                  const SizedBox(height: 8),
-                  errorDetails!,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  illustration,
+                  const SizedBox(height: 24),
+                  title,
+                  const SizedBox(height: 12),
+                  message,
+                  if (errorDetails != null) ...[
+                    const SizedBox(height: 8),
+                    errorDetails!,
+                  ],
+                  const SizedBox(height: 24),
+                  CustomButton(
+                    width: double.infinity,
+                    text: retryButtonText,
+                    onPressed: onRetry,
+                  ),
+                  if (footer != null) ...[
+                    const SizedBox(height: 16),
+                    footer!,
+                  ],
                 ],
-                const SizedBox(height: 24),
-                CustomButton(
-                  width: double.infinity,
-                  text: retryButtonText,
-                  onPressed: onRetry,
-                ),
-                if (footer != null) ...[
-                  const SizedBox(height: 16),
-                  footer!,
-                ],
-              ],
+              ),
             ),
           ),
         ),
