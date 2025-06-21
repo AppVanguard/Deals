@@ -33,16 +33,15 @@ class DeleteAccountView extends StatelessWidget {
         listener: (ctx, state) {
           if (state is SettingsDeleteAccountSuccess) {
             context.goNamed(DeletedSuccessScreen.routeName);
-          } else if (state is SettingsDeleteAccountFailure) {
-            ScaffoldMessenger.of(ctx).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
           }
         },
         builder: (ctx, state) {
           final isLoading = state is SettingsLoading;
+          final errorMessage =
+              state is SettingsDeleteAccountFailure ? state.message : null;
           return DeleteAccountViewBody(
             isLoading: isLoading,
+            errorMessage: errorMessage,
             onDelete: () {
               // show the clean dialog:
               showDialog(

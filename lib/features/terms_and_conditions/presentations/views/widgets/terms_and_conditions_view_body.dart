@@ -2,6 +2,7 @@ import 'package:deals/features/terms_and_conditions/data/terms_and_conditions_re
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:deals/core/utils/app_images.dart';
+import 'package:deals/core/widgets/error_message_card.dart';
 
 class TermsAndConditionsViewBody extends StatelessWidget {
   const TermsAndConditionsViewBody({super.key});
@@ -15,6 +16,11 @@ class TermsAndConditionsViewBody extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(
+            child: ErrorMessageCard(message: 'Failed to load terms'),
+          );
         }
         final terms = snapshot.data ?? [];
 
