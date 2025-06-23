@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/widgets/error_message_card.dart';
-import 'package:deals/features/terms_and_conditions/presentation/manager/cubits/terms_cubit/terms_cubit.dart';
+import 'package:deals/features/terms_and_conditions/presentations/manager/cubits/terms_cubit/terms_cubit.dart';
 
 class TermsAndConditionsViewBody extends StatelessWidget {
   const TermsAndConditionsViewBody({super.key});
@@ -14,8 +14,7 @@ class TermsAndConditionsViewBody extends StatelessWidget {
       builder: (context, state) {
         if (state is TermsLoading || state is TermsInitial) {
           return const Center(child: CircularProgressIndicator());
-        }
-        if (state is TermsFailure) {
+        } else if (state is TermsFailure) {
           return Center(
             child: ErrorMessageCard(
               title: 'Failed to load terms',
@@ -23,8 +22,7 @@ class TermsAndConditionsViewBody extends StatelessWidget {
               onRetry: () => context.read<TermsCubit>().loadTerms(),
             ),
           );
-        }
-        if (state is TermsSuccess) {
+        } else if (state is TermsSuccess) {
           final terms = state.terms;
           return SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
@@ -36,8 +34,9 @@ class TermsAndConditionsViewBody extends StatelessWidget {
               ],
             ),
           );
+        } else {
+          return const SizedBox.shrink();
         }
-        return const SizedBox.shrink();
       },
     );
   }

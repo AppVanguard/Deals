@@ -1,49 +1,42 @@
 import 'package:deals/core/utils/app_images.dart';
-import 'package:deals/features/privacy_and_policy/data/privacy_policy_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/widgets/error_message_card.dart';
+import 'package:deals/features/privacy_and_policy/presentation/manager/cubits/privacy_policy_cubit/privacy_policy_cubit.dart';
 
 class PrivacyAndPolicyViewBody extends StatelessWidget {
   const PrivacyAndPolicyViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final repo = JsonPrivacyRepository();
-
-    return FutureBuilder<List<String>>(
-      future: repo.loadTerms(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
+    return BlocBuilder<PrivacyPolicyCubit, PrivacyPolicyState>(
+      builder: (context, state) {
+        if (state is PrivacyPolicyLoading || state is PrivacyPolicyInitial) {
           return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
+        } else if (state is PrivacyPolicyFailure) {
           return Center(
             child: ErrorMessageCard(
               title: 'Failed to load policy',
               message: 'Please check your connection and try again.',
-              onRetry: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (_) => const PrivacyAndPolicyViewBody(),
-                  ),
-                );
-              },
+              onRetry: () => context.read<PrivacyPolicyCubit>().loadPolicy(),
             ),
           );
+        } else if (state is PrivacyPolicySuccess) {
+          final terms = state.terms;
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+            child: Column(
+              children: [
+                SvgPicture.asset(AppImages.assetsImagesPrivacy),
+                const SizedBox(height: 24),
+                ...terms.map((t) => _BulletItem(text: t)),
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
         }
-        final terms = snapshot.data ?? [];
-
-        return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-          child: Column(
-            children: [
-              SvgPicture.asset(AppImages.assetsImagesPrivacy),
-              const SizedBox(height: 24),
-              ...terms.map((t) => _BulletItem(text: t)),
-            ],
-          ),
-        );
       },
     );
   }
