@@ -52,52 +52,132 @@ import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   static final router = GoRouter(
     navigatorKey: navigatorKey,
     initialLocation: SplashView.routeName,
     routes: [
-      // Splash Route
-      GoRoute(
-        path: SplashView.routeName,
-        name: SplashView.routeName,
-        builder: (context, state) => const SplashView(),
-      ),
-      // OnBoarding Route
-      GoRoute(
-        path: OnBoardingView.routeName,
-        name: OnBoardingView.routeName,
-        builder: (context, state) => const OnBoardingView(),
-      ),
-      // Signin Route
-      GoRoute(
-        path: SigninView.routeName,
-        name: SigninView.routeName,
-        builder: (context, state) {
-          return BlocProvider(
-            create: (_) => SigninCubit(
-              getIt.get<AuthRepo>(),
-              getIt.get<NotificationsPermissionRepo>(),
-            ),
-            child: const SigninView(),
-          );
-        },
-      ),
-      // Signup Route
-      GoRoute(
-        path: SignupView.routeName,
-        name: SignupView.routeName,
-        builder: (context, state) {
-          return BlocProvider(
-            create: (_) => SignupCubit(getIt.get<AuthRepo>()),
-            child: const SignupView(),
-          );
-        },
-      ),
-      GoRoute(
-        path: MainView.routeName,
-        name: MainView.routeName,
+      ..._coreRoutes,
+      ..._authRoutes,
+      ..._mainRoutes,
+      ..._storeRoutes,
+      ..._couponRoutes,
+      ..._notificationsRoutes,
+      ..._settingsRoutes,
+    ],
+  );
+
+  static List<GoRoute> get _coreRoutes => [
+        GoRoute(
+          path: SplashView.routeName,
+          name: SplashView.routeName,
+          builder: (context, state) => const SplashView(),
+        ),
+        GoRoute(
+          path: OnBoardingView.routeName,
+          name: OnBoardingView.routeName,
+          builder: (context, state) => const OnBoardingView(),
+        ),
+      ];
+
+  static List<GoRoute> get _authRoutes => [
+        GoRoute(
+          path: SigninView.routeName,
+          name: SigninView.routeName,
+          builder: (context, state) {
+            return BlocProvider(
+              create: (_) => SigninCubit(
+                getIt.get<AuthRepo>(),
+                getIt.get<NotificationsPermissionRepo>(),
+              ),
+              child: const SigninView(),
+            );
+          },
+        ),
+        GoRoute(
+          path: SignupView.routeName,
+          name: SignupView.routeName,
+          builder: (context, state) {
+            return BlocProvider(
+              create: (_) => SignupCubit(getIt.get<AuthRepo>()),
+              child: const SignupView(),
+            );
+          },
+        ),
+        GoRoute(
+          path: OtpVerficationView.routeName,
+          name: OtpVerficationView.routeName,
+          builder: (context, state) {
+            final args = state.extra as Map<String, dynamic>?;
+
+            if (args == null) {
+              return const Scaffold(
+                body: Center(child: Text('Missing route arguments')),
+              );
+            }
+
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider<OtpVerifyCubit>(
+                  create: (_) => OtpVerifyCubit(getIt.get<AuthRepo>()),
+                ),
+                BlocProvider<OtpResendTimerCubit>(
+                  create: (_) => OtpResendTimerCubit(),
+                ),
+              ],
+              child: OtpVerficationView(
+                email: args[kEmail] as String,
+                image: args[kImage] as String?,
+                nextRoute: args[kNextRoute] as String,
+                finalRoute: args[kFinalRoute] as String? ??
+                    SigninView.routeName,
+                id: args[kId] as String,
+                isRegister: args[kIsRegister] as bool,
+              ),
+            );
+          },
+        ),
+        GoRoute(
+          path: ForgetPasswordView.routeName,
+          name: ForgetPasswordView.routeName,
+          builder: (context, state) => BlocProvider(
+            create: (_) => ResetPasswordCubit(getIt.get<AuthRepo>()),
+            child: const ForgetPasswordView(),
+          ),
+        ),
+        GoRoute(
+          path: ResetPasswordView.routeName,
+          name: ResetPasswordView.routeName,
+          builder: (context, state) {
+            final args = state.extra as Map<String, dynamic>?;
+            if (args == null) {
+              return const Scaffold(body: Center(child: Text('Missing args')));
+            }
+            return BlocProvider(
+              create: (_) => ResetPasswordCubit(getIt.get<AuthRepo>()),
+              child: ResetPasswordView(
+                email: args[kEmail] as String,
+                otp: args[kOtp] as String,
+              ),
+            );
+          },
+        ),
+        GoRoute(
+          path: UserUpdateView.routeName,
+          name: UserUpdateView.routeName,
+          builder: (context, state) {
+            final id = state.extra as String?;
+            return UserUpdateView(id: id ?? '', token: '');
+          },
+        ),
+      ];
+
+  static List<GoRoute> get _mainRoutes => [
+        GoRoute(
+          path: MainView.routeName,
+          name: MainView.routeName,
         builder: (context, state) {
           final userEntity = state.extra as UserEntity?;
           if (userEntity == null) {
@@ -117,263 +197,178 @@ class AppRouter {
             child: MainView(userData: userEntity),
           );
         },
-      ),
-      // OTP Verification Route
-      GoRoute(
-        path: OtpVerficationView.routeName,
-        name: OtpVerficationView.routeName,
-        builder: (context, state) {
-          final args = state.extra as Map<String, dynamic>?;
+      ];
 
-          if (args == null) {
-            return const Scaffold(
-              body: Center(child: Text('Missing route arguments')),
+  static List<GoRoute> get _storeRoutes => [
+        GoRoute(
+          path: StoreDetailView.routeName,
+          name: StoreDetailView.routeName,
+          builder: (context, state) {
+            final id = state.extra as String?;
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (_) => StoreDetailCubit(
+                    storesRepo: getIt<StoresRepo>(),
+                    couponsRepo: getIt<CouponsRepo>(),
+                  ),
+                ),
+                BlocProvider(
+                  create: (_) => BookmarkCubit(repo: getIt<BookmarkRepo>()),
+                ),
+              ],
+              child: StoreDetailView(storeId: id ?? ''),
             );
-          }
-
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider<OtpVerifyCubit>(
-                create: (_) => OtpVerifyCubit(getIt.get<AuthRepo>()),
-              ),
-              BlocProvider<OtpResendTimerCubit>(
-                create: (_) => OtpResendTimerCubit(),
-              ),
-            ],
-            child: OtpVerficationView(
-              email: args[kEmail] as String,
-              image: args[kImage] as String?,
-              nextRoute: args[kNextRoute] as String,
-              finalRoute: args[kFinalRoute] as String? /* nullable */
-                  ??
-                  SigninView.routeName, // sensible default
-              id: args[kId] as String,
-              isRegister: args[kIsRegister] as bool,
-            ),
-          );
-        },
-      ),
-
-      // Forget Password Route
-      GoRoute(
-        path: ForgetPasswordView.routeName,
-        name: ForgetPasswordView.routeName,
-        builder: (context, state) => BlocProvider(
-          create: (_) => ResetPasswordCubit(getIt.get<AuthRepo>()),
-          child: const ForgetPasswordView(), // <- no extras needed
+          },
         ),
-      ),
-
-      // Reset Password Route
-      GoRoute(
-        path: ResetPasswordView.routeName,
-        name: ResetPasswordView.routeName,
-        builder: (context, state) {
-          final args = state.extra as Map<String, dynamic>?;
-          if (args == null) {
-            return const Scaffold(body: Center(child: Text('Missing args')));
-          }
-          return BlocProvider(
-            create: (_) => ResetPasswordCubit(getIt.get<AuthRepo>()),
-            child: ResetPasswordView(
-              email: args[kEmail] as String,
-              otp: args[kOtp] as String,
-            ),
-          );
-        },
-      ),
-      // Personal Data Route
-      GoRoute(
-        path: UserUpdateView.routeName,
-        name: UserUpdateView.routeName,
-        builder: (context, state) {
-          final id = state.extra as String?;
-          return UserUpdateView(id: id ?? '', token: '');
-        },
-      ),
-      // Store Details Route
-      GoRoute(
-        path: StoreDetailView.routeName,
-        name: StoreDetailView.routeName,
-        builder: (context, state) {
-          final id = state.extra as String?;
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (_) => StoreDetailCubit(
-                  storesRepo: getIt<StoresRepo>(),
-                  couponsRepo: getIt<CouponsRepo>(),
+        GoRoute(
+          path: SearchView.routeName,
+          name: SearchView.routeName,
+          builder: (context, state) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
                 ),
-              ),
-              BlocProvider(
-                create: (context) => BookmarkCubit(
-                  repo: getIt<BookmarkRepo>(),
+                BlocProvider(
+                  create: (_) => CategoriesCubit(
+                      categoriesRepo: getIt.get<CategoriesRepo>()),
                 ),
-              ),
-            ],
-            child: StoreDetailView(storeId: id ?? ''),
-          );
-        },
-      ),
-      // Search Route
-      GoRoute(
-        path: SearchView.routeName,
-        name: SearchView.routeName,
-        builder: (context, state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
-              ),
-              BlocProvider(
-                create: (_) => CategoriesCubit(
-                    categoriesRepo: getIt.get<CategoriesRepo>()),
-              ),
-            ],
-            child: const SearchView(),
-          );
-        },
-      ),
-      GoRoute(
-        path: StoresView.routeName,
-        name: StoresView.routeName,
-        builder: (context, state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
-              ),
-              BlocProvider(
-                create: (_) => CategoriesCubit(
-                    categoriesRepo: getIt.get<CategoriesRepo>()),
-              ),
-            ],
-            child: const StoresView(),
-          );
-        },
-      ),
-      GoRoute(
-        path: CouponView.routeName,
-        name: CouponView.routeName,
-        builder: (context, state) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (_) => CouponsCubit(couponsRepo: getIt<CouponsRepo>()),
-              ),
-              BlocProvider(
-                create: (_) => CategoriesCubit(
-                    categoriesRepo: getIt.get<CategoriesRepo>()),
-              ),
-            ],
-            child: const CouponView(),
-          );
-        },
-      ),
-      // Coupon Details Route
-      GoRoute(
-        path: CouponDetailsView.routeName,
-        name: CouponDetailsView.routeName,
-        builder: (context, state) {
-          final id = state.extra as String?;
-          return BlocProvider(
-            create: (_) => CouponDetailCubit(couponsRepo: getIt<CouponsRepo>()),
-            child: CouponDetailsView(couponId: id ?? ''),
-          );
-        },
-      ),
-      // NotificationsView Route: Use the existing NotificationsCubit.
-      GoRoute(
-        path: NotificationsView.routeName,
-        name: NotificationsView.routeName,
-        builder: (context, state) {
-          final args = state.extra as Map<String, String>? ?? {};
-          final userId = args['userId'] ?? 'defaultUserId';
-          final token = args['token'] ?? '';
-          // If not registered, fallback registration.
-          if (!getIt.isRegistered<NotificationsCubit>()) {
-            registerNotificationsCubitSingleton(userId);
-          }
-          return BlocProvider.value(
-            value: getIt<NotificationsCubit>(),
-            child: NotificationsView(userId: userId, token: token),
-          );
-        },
-      ),
-      GoRoute(
-        path: TermsAndConditionsView.routeName,
-        name: TermsAndConditionsView.routeName,
-        builder: (context, state) {
-          return const TermsAndConditionsView();
-        },
-      ),
-      GoRoute(
-        path: PrivacyAndPolicyView.routeName,
-        name: PrivacyAndPolicyView.routeName,
-        builder: (context, state) {
-          return const PrivacyAndPolicyView();
-        },
-      ),
-      GoRoute(
-        path: FAQView.routeName,
-        name: FAQView.routeName,
-        builder: (context, state) {
-          return const FAQView();
-        },
-      ),
-      // Personal Data Route
-      GoRoute(
-        path: PersonalDataView.routeName,
-        name: PersonalDataView.routeName,
-        builder: (context, state) {
-          // Pass the current user's id in `state.extra` when
-          // pushing this route. If you don't, fallback to empty.
-          final id = state.extra as String? ?? '';
+              ],
+              child: const SearchView(),
+            );
+          },
+        ),
+        GoRoute(
+          path: StoresView.routeName,
+          name: StoresView.routeName,
+          builder: (context, state) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
+                ),
+                BlocProvider(
+                  create: (_) => CategoriesCubit(
+                      categoriesRepo: getIt.get<CategoriesRepo>()),
+                ),
+              ],
+              child: const StoresView(),
+            );
+          },
+        ),
+      ];
 
-          return BlocProvider<PersonalDataCubit>(
-            create: (_) => PersonalDataCubit(
-              repo: PersonalDataRepoImpl(userService: getIt()),
-              userId: id,
-            ),
-            child: PersonalDataView(
-              id: id,
-            ),
-          );
-        },
-      ),
-      GoRoute(
-        path: SettingsView.routeName,
-        name: SettingsView.routeName,
-        builder: (context, state) {
-          return BlocProvider(
-            create: (_) => SettingsCubit(
-              repo: getIt<SettingsRepo>(),
-            ),
-            child: const SettingsView(),
-          );
-        },
-      ),
-      GoRoute(
-        path: DeleteAccountView.routeName,
-        name: DeleteAccountView.routeName,
-        builder: (context, state) => BlocProvider(
-          create: (_) => SettingsCubit(repo: getIt<SettingsRepo>()),
-          child: const DeleteAccountView(),
+  static List<GoRoute> get _couponRoutes => [
+        GoRoute(
+          path: CouponView.routeName,
+          name: CouponView.routeName,
+          builder: (context, state) {
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (_) => CouponsCubit(couponsRepo: getIt<CouponsRepo>()),
+                ),
+                BlocProvider(
+                  create: (_) => CategoriesCubit(
+                      categoriesRepo: getIt.get<CategoriesRepo>()),
+                ),
+              ],
+              child: const CouponView(),
+            );
+          },
         ),
-      ),
-      GoRoute(
-        path: DeletedSuccessScreen.routeName,
-        name: DeletedSuccessScreen.routeName,
-        builder: (context, state) => const DeletedSuccessScreen(),
-      ),
-      GoRoute(
-        path: ChangePasswordView.routeName,
-        name: ChangePasswordView.routeName,
-        builder: (context, state) => BlocProvider(
-          create: (_) => SettingsCubit(repo: getIt<SettingsRepo>()),
-          child: const ChangePasswordView(),
+        GoRoute(
+          path: CouponDetailsView.routeName,
+          name: CouponDetailsView.routeName,
+          builder: (context, state) {
+            final id = state.extra as String?;
+            return BlocProvider(
+              create: (_) =>
+                  CouponDetailCubit(couponsRepo: getIt<CouponsRepo>()),
+              child: CouponDetailsView(couponId: id ?? ''),
+            );
+          },
         ),
-      ),
-    ],
-  );
+      ];
+
+  static List<GoRoute> get _notificationsRoutes => [
+        GoRoute(
+          path: NotificationsView.routeName,
+          name: NotificationsView.routeName,
+          builder: (context, state) {
+            final args = state.extra as Map<String, String>? ?? {};
+            final userId = args['userId'] ?? 'defaultUserId';
+            final token = args['token'] ?? '';
+            if (!getIt.isRegistered<NotificationsCubit>()) {
+              registerNotificationsCubitSingleton(userId);
+            }
+            return BlocProvider.value(
+              value: getIt<NotificationsCubit>(),
+              child: NotificationsView(userId: userId, token: token),
+            );
+          },
+        ),
+      ];
+
+  static List<GoRoute> get _settingsRoutes => [
+        GoRoute(
+          path: TermsAndConditionsView.routeName,
+          name: TermsAndConditionsView.routeName,
+          builder: (context, state) => const TermsAndConditionsView(),
+        ),
+        GoRoute(
+          path: PrivacyAndPolicyView.routeName,
+          name: PrivacyAndPolicyView.routeName,
+          builder: (context, state) => const PrivacyAndPolicyView(),
+        ),
+        GoRoute(
+          path: FAQView.routeName,
+          name: FAQView.routeName,
+          builder: (context, state) => const FAQView(),
+        ),
+        GoRoute(
+          path: PersonalDataView.routeName,
+          name: PersonalDataView.routeName,
+          builder: (context, state) {
+            final id = state.extra as String? ?? '';
+            return BlocProvider<PersonalDataCubit>(
+              create: (_) =>
+                  PersonalDataCubit(repo: PersonalDataRepoImpl(userService: getIt()), userId: id),
+              child: PersonalDataView(id: id),
+            );
+          },
+        ),
+        GoRoute(
+          path: SettingsView.routeName,
+          name: SettingsView.routeName,
+          builder: (context, state) {
+            return BlocProvider(
+              create: (_) => SettingsCubit(repo: getIt<SettingsRepo>()),
+              child: const SettingsView(),
+            );
+          },
+        ),
+        GoRoute(
+          path: DeleteAccountView.routeName,
+          name: DeleteAccountView.routeName,
+          builder: (context, state) => BlocProvider(
+            create: (_) => SettingsCubit(repo: getIt<SettingsRepo>()),
+            child: const DeleteAccountView(),
+          ),
+        ),
+        GoRoute(
+          path: DeletedSuccessScreen.routeName,
+          name: DeletedSuccessScreen.routeName,
+          builder: (context, state) => const DeletedSuccessScreen(),
+        ),
+        GoRoute(
+          path: ChangePasswordView.routeName,
+          name: ChangePasswordView.routeName,
+          builder: (context, state) => BlocProvider(
+            create: (_) => SettingsCubit(repo: getIt<SettingsRepo>()),
+            child: const ChangePasswordView(),
+          ),
+        ),
+      ];
 }
