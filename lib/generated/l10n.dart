@@ -1960,6 +1960,16 @@ class S {
     );
   }
 
+  /// `Unable to load your data.`
+  String get UnableToLoadData {
+    return Intl.message(
+      'Unable to load your data.',
+      name: 'UnableToLoadData',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Data saved`
   String get DataSaved {
     return Intl.message(

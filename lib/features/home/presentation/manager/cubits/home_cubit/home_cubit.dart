@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:meta/meta.dart';
@@ -11,7 +12,7 @@ import 'package:deals/features/home/domain/repos/home_repo.dart';
 
 part 'home_state.dart';
 
-class HomeCubit extends Cubit<HomeState> {
+class HomeCubit extends SafeCubit<HomeState> {
   HomeCubit({
     required this.homeRepo,
     required this.jwt,

@@ -1,5 +1,6 @@
 import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
@@ -7,7 +8,7 @@ import 'package:deals/core/entities/category_entity.dart';
 
 part 'categories_state.dart';
 
-class CategoriesCubit extends Cubit<CategoriesState>
+class CategoriesCubit extends SafeCubit<CategoriesState>
     with RequiresUser<CategoriesState> {
   final CategoriesRepo categoriesRepo;
   // Local tracking for pagination parameters.

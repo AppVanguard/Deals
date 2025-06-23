@@ -1,3 +1,4 @@
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/constants.dart';
@@ -6,7 +7,7 @@ import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 part 'signup_state.dart';
 
-class SignupCubit extends Cubit<SignupState> {
+class SignupCubit extends SafeCubit<SignupState> {
   SignupCubit(this.authRepo) : super(SignupInitial());
   final AuthRepo authRepo;
 

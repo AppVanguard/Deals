@@ -1,11 +1,12 @@
 import 'dart:developer';
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 import 'package:meta/meta.dart';
 
 part 'reset_password_state.dart';
 
-class ResetPasswordCubit extends Cubit<ResetPasswordState> {
+class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
   final AuthRepo authRepo;
 
   ResetPasswordCubit(this.authRepo) : super(ResetPasswordInitial());

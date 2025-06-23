@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meta/meta.dart';
@@ -7,7 +8,7 @@ import 'package:deals/features/notifications/domain/repos/notifications_repo.dar
 
 part 'notifications_state.dart';
 
-class NotificationsCubit extends Cubit<NotificationsState> {
+class NotificationsCubit extends SafeCubit<NotificationsState> {
   final NotificationsRepo notificationsRepo;
   final String userId;
 

@@ -190,6 +190,7 @@
       "PhoneNumberValidator": "Please enter your phone number.",
       "CityHint": "City",
       "PersonalData": "Personal data",
+      "UnableToLoadData": "Unable to load your data.",
       "DataSaved": "Data saved",
       "OK": "OK",
       "pushNotifications": "Push notifications",

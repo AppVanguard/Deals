@@ -71,6 +71,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "SignUp": MessageLookupByLibrary.simpleMessage("التسجيل"),
         "SomethingWentWrong":
             MessageLookupByLibrary.simpleMessage("حدث خطأ ما"),
+        "UnableToLoadData":
+            MessageLookupByLibrary.simpleMessage("تعذر تحميل بياناتك."),
         "UnknowError": MessageLookupByLibrary.simpleMessage("خطأ غير معروف"),
         "accountExistsWithDifferentCredential":
             MessageLookupByLibrary.simpleMessage(

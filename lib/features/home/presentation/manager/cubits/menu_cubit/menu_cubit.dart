@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -11,7 +12,7 @@ import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 
 part 'menu_state.dart';
 
-class MenuCubit extends Cubit<MenuState> {
+class MenuCubit extends SafeCubit<MenuState> {
   final MenuRepo menuRepo;
   final NotificationsPermissionRepo notificationsPermissionRepo;
 

@@ -1,3 +1,4 @@
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/core/entities/user_entity.dart';
@@ -5,7 +6,7 @@ import 'package:deals/features/auth/domain/repos/user_repo.dart';
 
 part 'user_update_state.dart';
 
-class UserUpdateCubit extends Cubit<UserUpdateState> {
+class UserUpdateCubit extends SafeCubit<UserUpdateState> {
   final UserRepo userRepo;
   UserUpdateCubit({required this.userRepo}) : super(UserUpdateInitial());
 

@@ -38,14 +38,20 @@ class ErrorMessageCard extends StatelessWidget {
     final theme = Theme.of(context);
     return Material(
       elevation: 6,
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.red.shade50,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.redAccent),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.error_outline, color: Colors.red, size: 36),
+            const Icon(Icons.error, color: Colors.redAccent, size: 48),
             const SizedBox(height: 12),
             Text(
               title,

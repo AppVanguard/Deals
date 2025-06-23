@@ -1,4 +1,5 @@
 import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
@@ -6,7 +7,7 @@ import 'package:meta/meta.dart';
 
 part 'coupon_detail_state.dart';
 
-class CouponDetailCubit extends Cubit<CouponDetailState>
+class CouponDetailCubit extends SafeCubit<CouponDetailState>
     with RequiresUser<CouponDetailState> {
   final CouponsRepo couponsRepo;
   CouponDetailCubit({required this.couponsRepo}) : super(CouponDetailInitial());

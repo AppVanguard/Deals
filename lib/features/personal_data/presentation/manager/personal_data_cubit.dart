@@ -1,3 +1,4 @@
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:dartz/dartz.dart';
@@ -9,7 +10,7 @@ import 'package:deals/features/personal_data/domain/repos/personal_data_repo.dar
 
 part 'personal_data_state.dart';
 
-class PersonalDataCubit extends Cubit<PersonalDataState>
+class PersonalDataCubit extends SafeCubit<PersonalDataState>
     with RequiresUser<PersonalDataState> {
   final PersonalDataRepo _repo;
   final String userId;

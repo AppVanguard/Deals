@@ -204,6 +204,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Top_coupons": MessageLookupByLibrary.simpleMessage("Top coupons"),
         "Top_deals": MessageLookupByLibrary.simpleMessage("Top deals"),
         "Top_stores": MessageLookupByLibrary.simpleMessage("Top stores"),
+        "UnableToLoadData":
+            MessageLookupByLibrary.simpleMessage("Unable to load your data."),
         "UnexpectedError": MessageLookupByLibrary.simpleMessage(
             "We encountered an unexpected error while processing your request."),
         "UnexpectedErrorRetry": MessageLookupByLibrary.simpleMessage(

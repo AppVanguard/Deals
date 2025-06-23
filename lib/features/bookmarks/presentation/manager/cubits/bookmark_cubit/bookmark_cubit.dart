@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -11,7 +12,7 @@ import 'package:deals/features/bookmarks/domain/entity/bookmark_pagination_entit
 
 part 'bookmark_state.dart';
 
-class BookmarkCubit extends Cubit<BookmarkState> with RequiresUser<BookmarkState> {
+class BookmarkCubit extends SafeCubit<BookmarkState> with RequiresUser<BookmarkState> {
   final BookmarkRepo _repo;
 
   BookmarkCubit({required BookmarkRepo repo})

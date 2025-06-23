@@ -7,13 +7,14 @@ import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/generated/l10n.dart';
 
 part 'signin_state.dart';
 
-class SigninCubit extends Cubit<SigninState> {
+class SigninCubit extends SafeCubit<SigninState> {
   SigninCubit(this._authRepo, this._notificationsPermissionRepo)
       : super(SigninInitial());
 

@@ -1,4 +1,5 @@
 import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
@@ -9,7 +10,7 @@ import 'package:meta/meta.dart';
 
 part 'store_details_state.dart';
 
-class StoreDetailCubit extends Cubit<StoreDetailsState>
+class StoreDetailCubit extends SafeCubit<StoreDetailsState>
     with RequiresUser<StoreDetailsState> {
   final StoresRepo storesRepo;
   final CouponsRepo couponsRepo;

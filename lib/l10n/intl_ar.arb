@@ -48,6 +48,7 @@
       "networkRequestFailed": "لا يوجد اتصال بالإنترنت.",
       "tooManyRequests": "تم إرسال العديد من الطلبات.",
       "userDisabled": "تم تعطيل الحساب.",
+      "UnableToLoadData": "تعذر تحميل بياناتك.",
       "userNotFound": "الحساب غير موجود.",
       "wrongPassword": "كلمة المرور غير صحيحة.",
       "internalError": "حدث خطأ داخلي.",

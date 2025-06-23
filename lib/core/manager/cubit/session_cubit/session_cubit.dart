@@ -4,12 +4,13 @@ import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/features/auth/presentation/views/signin/signin_view.dart';
 import 'package:flutter/material.dart';
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 part 'session_state.dart';
 
-class SessionCubit extends Cubit<SessionState> {
+class SessionCubit extends SafeCubit<SessionState> {
   SessionCubit() : super(SessionInitial());
 
   Future<void> signOutAndRedirect(BuildContext context) async {

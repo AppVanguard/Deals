@@ -1,4 +1,5 @@
 import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
+import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
@@ -7,7 +8,7 @@ import 'package:deals/features/coupons/domain/repos/coupons_repo.dart';
 
 part 'coupons_state.dart';
 
-class CouponsCubit extends Cubit<CouponsState> with RequiresUser<CouponsState> {
+class CouponsCubit extends SafeCubit<CouponsState> with RequiresUser<CouponsState> {
   final CouponsRepo couponsRepo;
   // Internal parameters for filtering, sorting, and pagination.
   int _currentPage = 1;
