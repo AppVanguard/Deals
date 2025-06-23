@@ -1,11 +1,12 @@
 import 'package:deals/features/auth/presentation/views/widgets/custom_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/core/widgets/custom_button.dart';
-import 'package:deals/features/settings/data/repos/delete_account_repository.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:deals/core/widgets/error_message_card.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:deals/features/settings/presentation/manager/cubits/delete_reasons_cubit/delete_reasons_cubit.dart';
 
 class DeleteAccountViewBody extends StatefulWidget {
   final bool isLoading;
@@ -27,15 +28,12 @@ class _DeleteAccountViewBodyState extends State<DeleteAccountViewBody> {
   // 1) ScrollController to persist scroll position
   final ScrollController _scrollController = ScrollController();
 
-  // 2) Load reasons exactly once
-  late final Future<List<String>> _reasonsFuture;
 
   bool _agreed = false;
 
   @override
   void initState() {
     super.initState();
-    _reasonsFuture = JsonDeleteAccountRepository().loadReasons();
   }
 
   @override
@@ -48,26 +46,23 @@ class _DeleteAccountViewBodyState extends State<DeleteAccountViewBody> {
   Widget build(BuildContext context) {
     final s = S.of(context);
 
-    return FutureBuilder<List<String>>(
-      future: _reasonsFuture,
-      builder: (context, snap) {
-        if (snap.connectionState != ConnectionState.done) {
+    return BlocBuilder<DeleteReasonsCubit, DeleteReasonsState>(
+      builder: (context, state) {
+        if (state is DeleteReasonsLoading || state is DeleteReasonsInitial) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (snap.hasError) {
+        if (state is DeleteReasonsFailure) {
           return Center(
             child: ErrorMessageCard(
               title: S.of(context).UnexpectedError,
               message: 'Unable to load reasons.',
-              onRetry: () {
-                setState(() {
-                  _reasonsFuture = JsonDeleteAccountRepository().loadReasons();
-                });
-              },
+              onRetry: () =>
+                  context.read<DeleteReasonsCubit>().loadReasons(),
             ),
           );
         }
-        final reasons = snap.data ?? [];
+        final reasons =
+            state is DeleteReasonsSuccess ? state.reasons : <String>[];
         return Stack(
           children: [
             SingleChildScrollView(
