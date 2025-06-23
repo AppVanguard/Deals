@@ -3,6 +3,7 @@ import 'package:deals/core/helper_functions/app_router.dart';
 import 'package:deals/features/notifications/data/data_source/notification_local.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
+import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 import 'package:deals/firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,8 @@ import 'package:deals/core/manager/cubit/session_cubit/session_cubit.dart';
 import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 
 // 1) Local notifications plugin
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 // 2) Global guard to ensure we only attach the onMessage listener once
 bool _didAttachFcmListener = false;
@@ -39,10 +41,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 /// Initialize local notifications
 Future<void> initializeLocalNotifications() async {
   // Android settings:
-  const AndroidInitializationSettings androidInitSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+  const AndroidInitializationSettings androidInitSettings =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
 
   // iOS / Darwin settings (v10+ uses DarwinInitializationSettings):
-  const DarwinInitializationSettings iosInitSettings = DarwinInitializationSettings(
+  const DarwinInitializationSettings
+  iosInitSettings = DarwinInitializationSettings(
     requestAlertPermission: true,
     requestBadgePermission: true,
     requestSoundPermission: true,
@@ -69,7 +73,8 @@ Future<void> showLocalNotification(RemoteMessage message) async {
   const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
     'high_importance_channel',
     'High Importance Notifications',
-    channelDescription: 'This channel is used for notifications that require immediate attention',
+    channelDescription:
+        'This channel is used for notifications that require immediate attention',
     importance: Importance.max,
     priority: Priority.high,
   );
@@ -126,19 +131,17 @@ Future<void> main() async {
   // 9) Attach the SINGLE onMessage listener if not attached
   if (!_didAttachFcmListener) {
     _didAttachFcmListener = true;
-    FirebaseMessaging.onMessage.listen(
-      (RemoteMessage message) async {
-        log("Foreground message received: ${message.messageId}");
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      log("Foreground message received: ${message.messageId}");
 
-        // Show local heads-up or tray notification
-        await showLocalNotification(message);
+      // Show local heads-up or tray notification
+      await showLocalNotification(message);
 
-        // If we have a NotificationsCubit, pass the message to it
-        if (getIt.isRegistered<NotificationsCubit>()) {
-          getIt<NotificationsCubit>().handleIncomingForegroundMessage(message);
-        }
-      },
-    );
+      // If we have a NotificationsCubit, pass the message to it
+      if (getIt.isRegistered<NotificationsCubit>()) {
+        getIt<NotificationsCubit>().handleIncomingForegroundMessage(message);
+      }
+    });
   }
 
   // 10) If user taps a notification that opens the app
