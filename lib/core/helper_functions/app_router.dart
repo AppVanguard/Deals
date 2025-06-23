@@ -41,7 +41,6 @@ import 'package:deals/features/faq/domain/faq_repository.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
-import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
 import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:deals/features/stores/presentation/views/stores_view.dart';
@@ -180,9 +179,7 @@ class AppRouter {
           registerNotificationsCubitSingleton(userEntity.uId);
         }
         return MultiBlocProvider(
-          providers: [
-            BlocProvider.value(value: getIt<NotificationsCubit>()),
-          ],
+          providers: [BlocProvider.value(value: getIt<NotificationsCubit>())],
           child: MainView(userData: userEntity),
         );
       },
@@ -228,10 +225,9 @@ class AppRouter {
             BlocProvider(
               create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
             ),
-            BlocProvider(create: (_) => SearchCubit()),
             BlocProvider(
-              create: (_) => CategoriesCubit(
-                  categoriesRepo: getIt.get<CategoriesRepo>()),
+              create: (_) =>
+                  CategoriesCubit(categoriesRepo: getIt.get<CategoriesRepo>()),
             ),
           ],
           child: const SearchView(),
@@ -247,10 +243,9 @@ class AppRouter {
             BlocProvider(
               create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
             ),
-            BlocProvider(create: (_) => SearchCubit()),
             BlocProvider(
-              create: (_) => CategoriesCubit(
-                  categoriesRepo: getIt.get<CategoriesRepo>()),
+              create: (_) =>
+                  CategoriesCubit(categoriesRepo: getIt.get<CategoriesRepo>()),
             ),
           ],
           child: const StoresView(),
@@ -269,10 +264,9 @@ class AppRouter {
             BlocProvider(
               create: (_) => CouponsCubit(couponsRepo: getIt<CouponsRepo>()),
             ),
-            BlocProvider(create: (_) => SearchCubit()),
             BlocProvider(
-              create: (_) => CategoriesCubit(
-                  categoriesRepo: getIt.get<CategoriesRepo>()),
+              create: (_) =>
+                  CategoriesCubit(categoriesRepo: getIt.get<CategoriesRepo>()),
             ),
           ],
           child: const CouponView(),
@@ -285,8 +279,7 @@ class AppRouter {
       builder: (context, state) {
         final id = state.extra as String?;
         return BlocProvider(
-          create: (_) =>
-              CouponDetailCubit(couponsRepo: getIt<CouponsRepo>()),
+          create: (_) => CouponDetailCubit(couponsRepo: getIt<CouponsRepo>()),
           child: CouponDetailsView(couponId: id ?? ''),
         );
       },
@@ -349,9 +342,7 @@ class AppRouter {
       name: SettingsView.routeName,
       builder: (context, state) {
         return BlocProvider(
-          create: (_) => SettingsCubit(
-            repo: getIt<SettingsRepo>(),
-          ),
+          create: (_) => SettingsCubit(repo: getIt<SettingsRepo>()),
           child: const SettingsView(),
         );
       },

@@ -63,12 +63,10 @@ class _MainViewState extends State<MainView> {
             BlocProvider(
               create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
             ),
-            BlocProvider(create: (_) => SearchCubit()),
             BlocProvider(
-              create: (_) => CategoriesCubit(
-                categoriesRepo: getIt<CategoriesRepo>(),
-              ),
-            )
+              create: (_) =>
+                  CategoriesCubit(categoriesRepo: getIt<CategoriesRepo>()),
+            ),
           ],
           child: const StoresView(),
         ),
@@ -78,16 +76,12 @@ class _MainViewState extends State<MainView> {
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (_) => CouponsCubit(
-                couponsRepo: getIt<CouponsRepo>(),
-              ),
+              create: (_) => CouponsCubit(couponsRepo: getIt<CouponsRepo>()),
             ),
-            BlocProvider(create: (_) => SearchCubit()),
             BlocProvider(
-              create: (_) => CategoriesCubit(
-                categoriesRepo: getIt<CategoriesRepo>(),
-              ),
-            )
+              create: (_) =>
+                  CategoriesCubit(categoriesRepo: getIt<CategoriesRepo>()),
+            ),
           ],
           child: const CouponView(),
         ),
@@ -99,19 +93,14 @@ class _MainViewState extends State<MainView> {
           child: MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => BookmarkCubit(
-                  repo: getIt<BookmarkRepo>(),
-                ),
+                create: (context) => BookmarkCubit(repo: getIt<BookmarkRepo>()),
               ),
-              BlocProvider(create: (_) => SearchCubit()),
               BlocProvider(
                 create: (context) =>
                     CategoriesCubit(categoriesRepo: getIt<CategoriesRepo>()),
               ),
             ],
-            child: BookmarkView(
-              user: widget.userData,
-            ),
+            child: BookmarkView(user: widget.userData),
           ),
         ),
       ),
