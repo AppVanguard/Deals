@@ -44,7 +44,7 @@ import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/s
 import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
 import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:deals/features/stores/presentation/views/stores_view.dart';
-import 'package:deals/features/terms_and_conditions/presentations/views/terms_and_conditions_view.dart';
+import 'package:deals/features/terms_and_conditions/presentation/views/terms_and_conditions_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

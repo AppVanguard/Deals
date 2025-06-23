@@ -7,7 +7,7 @@ part 'terms_state.dart';
 
 class TermsCubit extends SafeCubit<TermsState> {
   final TermsRepo repo;
-  TermsCubit({required this.repo}) : super(TermsInitial()) {
+  TermsCubit({required this.repo, required repository}) : super(TermsInitial()) {
     loadTerms();
   }
 

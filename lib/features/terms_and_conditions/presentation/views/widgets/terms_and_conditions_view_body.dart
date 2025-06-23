@@ -1,9 +1,9 @@
+import 'package:deals/features/terms_and_conditions/presentation/manager/cubits/terms_cubit/terms_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/widgets/error_message_card.dart';
-import 'package:deals/features/terms_and_conditions/presentations/manager/cubits/terms_cubit/terms_cubit.dart';
 
 class TermsAndConditionsViewBody extends StatelessWidget {
   const TermsAndConditionsViewBody({super.key});

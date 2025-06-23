@@ -16,7 +16,7 @@ import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/presentation/views/signin/signin_view.dart';
 import 'package:deals/features/home/presentation/manager/cubits/menu_cubit/menu_cubit.dart';
 import 'package:deals/features/personal_data/presentation/views/personal_data_view.dart';
-import 'package:deals/features/terms_and_conditions/presentations/views/terms_and_conditions_view.dart';
+import 'package:deals/features/terms_and_conditions/presentation/views/terms_and_conditions_view.dart';
 import 'package:deals/features/privacy_and_policy/presentation/views/privacy_and_policy_view.dart';
 import 'package:deals/features/faq/presentation/views/faq_view.dart';
 

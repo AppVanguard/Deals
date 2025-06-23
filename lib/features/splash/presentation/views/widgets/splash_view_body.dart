@@ -1,12 +1,13 @@
+import 'package:deals/features/auth/presentation/views/signin/signin_view.dart';
+import 'package:deals/features/main/presentation/views/main_view.dart';
+import 'package:deals/features/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import '../../manager/cubits/splash_cubit.dart';
-import '../../../auth/presentation/views/signin/signin_view.dart';
-import '../../../on_boarding/presentation/views/on_boarding_view.dart';
-import '../../../main/presentation/views/main_view.dart';
+
 
 class SplashViewBody extends StatelessWidget {
   const SplashViewBody({super.key});
