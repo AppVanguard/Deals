@@ -8,6 +8,7 @@ import 'package:deals/core/widgets/custom_text_form_field.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:deals/features/auth/presentation/views/forget_password/forget_password_view.dart';
+import 'package:deals/core/widgets/error_message_card.dart';
 
 /// Pure-UI form; report (oldPw,newPw) through [onSubmit].
 class ChangePasswordViewBody extends StatefulWidget {
@@ -15,10 +16,12 @@ class ChangePasswordViewBody extends StatefulWidget {
     super.key,
     required this.isLoading,
     required this.onSubmit,
+    this.errorMessage,
   });
 
   final bool isLoading;
   final Future<void> Function(String oldPw, String newPw) onSubmit;
+  final String? errorMessage;
 
   @override
   State<ChangePasswordViewBody> createState() => _ChangePasswordViewBodyState();
@@ -71,6 +74,11 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (widget.errorMessage != null)
+            ErrorMessageCard(
+              title: widget.errorMessage!,
+              message: 'Please double check your input.',
+            ),
           // Old-password row
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

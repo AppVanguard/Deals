@@ -40,6 +40,7 @@ class CouponsTabSliver extends StatelessWidget {
     // 2) If we have no data (and not loading), show an error/fallback screen.
     if (!isLoading && storeEntity == null && coupons.isEmpty) {
       return SliverFillRemaining(
+        hasScrollBody: false,
         child: buildCustomErrorScreen(
           context: context,
           onRetry: () {

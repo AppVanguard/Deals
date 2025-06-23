@@ -106,6 +106,7 @@ class _CouponViewBodyState extends State<CouponViewBody> {
                 return const SliverFillRemaining(child: SizedBox());
               }
               return SliverFillRemaining(
+                hasScrollBody: false,
                 child: buildCustomErrorScreen(
                   context: context,
                   onRetry: () {

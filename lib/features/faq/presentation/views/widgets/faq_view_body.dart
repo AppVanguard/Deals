@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:deals/features/faq/data/faq_item.dart';
 import 'package:deals/features/faq/domain/faq_repository.dart';
 import 'faq_card.dart';
+import 'package:deals/core/widgets/error_message_card.dart';
 
 class FAQViewBody extends StatefulWidget {
   const FAQViewBody({super.key});
@@ -26,6 +27,19 @@ class _FAQViewBodyState extends State<FAQViewBody> {
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(
+            child: ErrorMessageCard(
+              title: 'Failed to load FAQs',
+              message: 'Please check your connection and try again.',
+              onRetry: () {
+                setState(() {
+                  _faqsFuture = JsonFaqRepository().loadFaqs();
+                });
+              },
+            ),
+          );
         }
         final faqs = snapshot.data ?? [];
         return ListView.separated(

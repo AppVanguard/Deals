@@ -12,7 +12,7 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/entities/user_entity.dart';
-import 'package:deals/core/widgets/error_banner.dart';
+import 'package:deals/core/widgets/error_message_card.dart';
 
 import 'package:deals/features/personal_data/presentation/views/widgets/personal_data_view_body.dart';
 
@@ -128,7 +128,15 @@ class PersonalDataView extends StatelessWidget {
 
             // Show load error
             if (state is PersonalDataLoadFailure) {
-              return Center(child: ErrorBanner(message: state.message));
+              return Center(
+                child: ErrorMessageCard(
+                  title: state.message,
+                  message: 'Unable to load your data.',
+                  onRetry: () {
+                    context.read<PersonalDataCubit>().fetchPersonalData();
+                  },
+                ),
+              );
             }
 
             // On load success or after update success, show form

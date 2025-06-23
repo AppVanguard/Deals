@@ -2,6 +2,7 @@ import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/features/privacy_and_policy/data/privacy_policy_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:deals/core/widgets/error_message_card.dart';
 
 class PrivacyAndPolicyViewBody extends StatelessWidget {
   const PrivacyAndPolicyViewBody({super.key});
@@ -15,6 +16,21 @@ class PrivacyAndPolicyViewBody extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(
+            child: ErrorMessageCard(
+              title: 'Failed to load policy',
+              message: 'Please check your connection and try again.',
+              onRetry: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (_) => const PrivacyAndPolicyViewBody(),
+                  ),
+                );
+              },
+            ),
+          );
         }
         final terms = snapshot.data ?? [];
 

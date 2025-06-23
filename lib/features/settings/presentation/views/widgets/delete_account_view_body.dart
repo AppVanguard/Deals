@@ -5,15 +5,18 @@ import 'package:deals/features/settings/data/repos/delete_account_repository.dar
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:deals/core/widgets/error_message_card.dart';
 
 class DeleteAccountViewBody extends StatefulWidget {
   final bool isLoading;
   final VoidCallback onDelete;
+  final String? errorMessage;
 
   const DeleteAccountViewBody({
     super.key,
     required this.isLoading,
     required this.onDelete,
+    this.errorMessage,
   });
 
   @override
@@ -51,6 +54,19 @@ class _DeleteAccountViewBodyState extends State<DeleteAccountViewBody> {
         if (snap.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());
         }
+        if (snap.hasError) {
+          return Center(
+            child: ErrorMessageCard(
+              title: S.of(context).UnexpectedError,
+              message: 'Unable to load reasons.',
+              onRetry: () {
+                setState(() {
+                  _reasonsFuture = JsonDeleteAccountRepository().loadReasons();
+                });
+              },
+            ),
+          );
+        }
         final reasons = snap.data ?? [];
         return Stack(
           children: [
@@ -60,6 +76,11 @@ class _DeleteAccountViewBodyState extends State<DeleteAccountViewBody> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  if (widget.errorMessage != null)
+                    ErrorMessageCard(
+                      title: widget.errorMessage!,
+                      message: 'Please try again later.',
+                    ),
                   ...reasons.map((text) => Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: _BulletItem(text: text),

@@ -11,6 +11,7 @@ CustomErrorScreen buildCustomErrorScreen({
   String? errorMessage,
 }) {
   return CustomErrorScreen(
+    fullScreen: true,
     retryAnimation: false,
     title: Text(
       S.of(context).SomethingWentWrongError,
@@ -40,7 +41,7 @@ CustomErrorScreen buildCustomErrorScreen({
     // Optionally provide a Lottie animation (this overrides errorIllustration if provided)
     lottieAnimationAsset: kErrorAnimation,
     // Customize the background gradient
-    gradientColors: const [AppColors.background, AppColors.background],
+    gradientColors: const [AppColors.primary, AppColors.darkPrimary],
     backgroundColor: AppColors.primary,
     // Optional footer widget
     footer: Text(

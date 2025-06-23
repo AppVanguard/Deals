@@ -41,17 +41,12 @@ class HomeViewBody extends StatelessWidget {
       if (state.errorMessage.contains('Invalid token')) {
         return const SizedBox.shrink();
       }
-      return ListView(
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          buildCustomErrorScreen(
-            context: context,
-            onRetry: () {
-              context.read<HomeCubit>().refresh();
-            },
-            errorMessage: state.errorMessage,
-          ),
-        ],
+      return buildCustomErrorScreen(
+        context: context,
+        onRetry: () {
+          context.read<HomeCubit>().refresh();
+        },
+        errorMessage: state.errorMessage,
       );
     } else if (state is HomeSuccess) {
       return HomeContent(

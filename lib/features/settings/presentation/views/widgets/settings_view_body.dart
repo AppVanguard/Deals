@@ -3,6 +3,7 @@ import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/features/settings/presentation/views/change_password_view.dart';
 import 'package:deals/features/settings/presentation/views/delete_account_view.dart';
 import 'package:flutter/material.dart';
+import 'package:deals/core/widgets/error_banner.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -11,12 +12,14 @@ class SettingsViewBody extends StatelessWidget {
   final bool pushEnabled;
   final bool isLoading;
   final ValueChanged<bool> onTogglePush;
+  final String? errorMessage;
 
   const SettingsViewBody({
     super.key,
     required this.pushEnabled,
     required this.isLoading,
     required this.onTogglePush,
+    this.errorMessage,
   });
 
   @override
@@ -28,6 +31,8 @@ class SettingsViewBody extends StatelessWidget {
         ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            if (errorMessage != null)
+              ErrorBanner(message: errorMessage!),
             // Push toggle
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

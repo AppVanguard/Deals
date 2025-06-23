@@ -74,21 +74,18 @@ class ChangePasswordBlocConsumer extends StatelessWidget {
           });
         }
 
-        // On failure: hide banner and show a SnackBar
+        // On failure just hide any banner
         if (state is SettingsChangePasswordFailure) {
           messenger.hideCurrentMaterialBanner();
-          messenger.showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.red,
-            ),
-          );
         }
       },
       builder: (ctx, state) {
         final isLoading = state is SettingsLoading;
+        final errorMessage =
+            state is SettingsChangePasswordFailure ? state.message : null;
         return ChangePasswordViewBody(
           isLoading: isLoading,
+          errorMessage: errorMessage,
           onSubmit: (oldPwd, newPwd) async {
             // fetch stored user
             final user = await SecureStorageService.getCurrentUser();

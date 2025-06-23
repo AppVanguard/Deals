@@ -28,6 +28,11 @@ class SettingsView extends StatelessWidget {
         builder: (ctx, state) {
           final isLoading = state is SettingsLoading;
 
+          String? pushError;
+          if (state is SettingsPushFailure) {
+            pushError = state.message;
+          }
+
           // Determine current toggle value:
           bool pushEnabled;
           if (state is SettingsPushSuccess) {
@@ -41,6 +46,7 @@ class SettingsView extends StatelessWidget {
             pushEnabled: pushEnabled,
             isLoading: isLoading,
             onTogglePush: (val) => ctx.read<SettingsCubit>().togglePush(val),
+            errorMessage: pushError,
           );
         },
       ),
