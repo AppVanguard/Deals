@@ -4,6 +4,7 @@ import 'package:deals/features/stores/presentation/views/widgets/build_stores_ap
 import 'package:deals/features/stores/presentation/views/widgets/stores_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 
 class StoresView extends StatefulWidget {
   const StoresView({super.key});
@@ -19,8 +20,6 @@ class _StoresViewState extends State<StoresView> {
 
   // Holds the currently selected category id (empty means "All")
   String _selectedCategoryId = '';
-  // Holds the current search query entered by the user
-  String _searchQuery = '';
   // Holds the applied sort order from the filter dialog.
   String _selectedSortOrder = '';
 
@@ -40,15 +39,13 @@ class _StoresViewState extends State<StoresView> {
 
   void _onSearchChanged(String query) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    setState(() {
-      _searchQuery = query;
-    });
     _debounce = Timer(const Duration(milliseconds: 400), () {
+      context.read<SearchCubit>().updateQuery(query);
       context.read<StoresCubit>().updateFilters(
-            search: _searchQuery,
-            categoryId: _selectedCategoryId,
-            sortOrder: _selectedSortOrder,
-          );
+        search: query,
+        categoryId: _selectedCategoryId,
+        sortOrder: _selectedSortOrder,
+      );
     });
   }
 
@@ -58,10 +55,10 @@ class _StoresViewState extends State<StoresView> {
       _selectedCategoryId = categoryId;
     });
     context.read<StoresCubit>().updateFilters(
-          search: _searchQuery,
-          categoryId: _selectedCategoryId,
-          sortOrder: _selectedSortOrder,
-        );
+      search: context.read<SearchCubit>().state.query,
+      categoryId: _selectedCategoryId,
+      sortOrder: _selectedSortOrder,
+    );
   }
 
   // Callback when new filter options (sort order) are applied from the app bar.
@@ -70,27 +67,31 @@ class _StoresViewState extends State<StoresView> {
       _selectedSortOrder = sortOrder;
     });
     context.read<StoresCubit>().updateFilters(
-          search: _searchQuery,
-          categoryId: _selectedCategoryId,
-          sortOrder: _selectedSortOrder,
-        );
+      search: context.read<SearchCubit>().state.query,
+      categoryId: _selectedCategoryId,
+      sortOrder: _selectedSortOrder,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildStoresAppBar(
-        context,
-        searchController,
-        onSearchChanged: _onSearchChanged,
-        onFilterChanged: _onFilterChanged,
-      ),
-      body: StoresViewBody(
-        selectedCategoryId: _selectedCategoryId,
-        currentSearchQuery: _searchQuery,
-        selectedSortOrder: _selectedSortOrder,
-        onCategoryChanged: _onCategoryChanged,
-      ),
+    return BlocBuilder<SearchCubit, SearchState>(
+      builder: (context, searchState) {
+        return Scaffold(
+          appBar: buildStoresAppBar(
+            context,
+            searchController,
+            onSearchChanged: _onSearchChanged,
+            onFilterChanged: _onFilterChanged,
+          ),
+          body: StoresViewBody(
+            selectedCategoryId: _selectedCategoryId,
+            currentSearchQuery: searchState.query,
+            selectedSortOrder: _selectedSortOrder,
+            onCategoryChanged: _onCategoryChanged,
+          ),
+        );
+      },
     );
   }
 }
