@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:deals/core/widgets/custom_button.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/generated/l10n.dart';
-import 'package:deals/features/auth/presentation/views/signin/signin_view.dart';
+import 'package:deals/core/manager/cubit/session_cubit/session_cubit.dart';
 
 /// Dialog shown when the auth token is invalid/expired.
 class SessionExpiredDialog extends StatelessWidget {
@@ -44,26 +44,11 @@ class SessionExpiredDialog extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                context.goNamed(SigninView.routeName);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.accent,
-                minimumSize: const Size.fromHeight(48),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: Text(
-                s.Login,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
+            CustomButton(
+              width: double.infinity,
+              text: s.Login,
+              buttonColor: AppColors.accent,
+              onPressed: () => context.read<SessionCubit>().signOutAndRedirect(context),
             ),
           ],
         ),
