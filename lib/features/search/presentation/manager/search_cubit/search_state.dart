@@ -11,6 +11,7 @@ final class SearchInitial extends SearchState {
 }
 
 final class SearchUpdated extends SearchState {
+  @override
   final String query;
   const SearchUpdated({required this.query});
 }

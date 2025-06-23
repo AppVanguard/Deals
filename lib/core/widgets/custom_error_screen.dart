@@ -90,7 +90,6 @@ class CustomErrorScreen extends StatelessWidget {
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Align(
-          alignment: Alignment.center,
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.95),
