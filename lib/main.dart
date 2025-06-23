@@ -21,6 +21,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:deals/core/manager/simple_bloc_observer.dart';
 import 'package:deals/core/widgets/app_error_widget.dart';
 import 'package:deals/core/manager/cubit/session_cubit/session_cubit.dart';
+import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 
 // 1) Local notifications plugin
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -158,6 +159,7 @@ Future<void> main() async {
           providers: [
             BlocProvider(create: (_) => LocaleCubit()),
             BlocProvider(create: (_) => SessionCubit()),
+            BlocProvider(create: (_) => SearchCubit()),
           ],
           child: const Deals(),
         ),
@@ -169,6 +171,7 @@ Future<void> main() async {
         providers: [
           BlocProvider(create: (_) => LocaleCubit()),
           BlocProvider(create: (_) => SessionCubit()),
+          BlocProvider(create: (_) => SearchCubit()),
         ],
         child: const Deals(),
       ),

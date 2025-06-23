@@ -3,7 +3,6 @@ import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
-import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 import 'package:deals/features/stores/presentation/views/stores_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +19,6 @@ class SearchView extends StatelessWidget {
         BlocProvider(
           create: (context) => StoresCubit(storesRepo: getIt<StoresRepo>()),
         ),
-        BlocProvider(create: (context) => SearchCubit()),
         BlocProvider(
           create: (context) =>
               CategoriesCubit(categoriesRepo: getIt<CategoriesRepo>()),
