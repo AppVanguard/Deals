@@ -1,7 +1,10 @@
 import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/features/terms_and_conditions/presentation/manager/cubits/terms_cubit/terms_cubit.dart';
+import 'package:deals/features/terms_and_conditions/data/terms_repo_impl.dart';
 import 'package:deals/features/terms_and_conditions/presentations/views/widgets/terms_and_conditions_view_body.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TermsAndConditionsView extends StatelessWidget {
   const TermsAndConditionsView({super.key});
@@ -17,7 +20,10 @@ class TermsAndConditionsView extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: const TermsAndConditionsViewBody(),
+      body: BlocProvider(
+        create: (_) => TermsCubit(repo: const TermsRepoImpl()),
+        child: const TermsAndConditionsViewBody(),
+      ),
     );
   }
 }
