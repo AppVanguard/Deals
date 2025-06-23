@@ -20,10 +20,10 @@ import 'package:deals/generated/l10n.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:deals/core/manager/simple_bloc_observer.dart';
 import 'package:deals/core/widgets/app_error_widget.dart';
+import 'package:deals/core/manager/cubit/session_cubit/session_cubit.dart';
 
 // 1) Local notifications plugin
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 // 2) Global guard to ensure we only attach the onMessage listener once
 bool _didAttachFcmListener = false;
@@ -38,12 +38,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 /// Initialize local notifications
 Future<void> initializeLocalNotifications() async {
   // Android settings:
-  const AndroidInitializationSettings androidInitSettings =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const AndroidInitializationSettings androidInitSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
 
   // iOS / Darwin settings (v10+ uses DarwinInitializationSettings):
-  const DarwinInitializationSettings iosInitSettings =
-      DarwinInitializationSettings(
+  const DarwinInitializationSettings iosInitSettings = DarwinInitializationSettings(
     requestAlertPermission: true,
     requestBadgePermission: true,
     requestSoundPermission: true,
@@ -70,8 +68,7 @@ Future<void> showLocalNotification(RemoteMessage message) async {
   const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
     'high_importance_channel',
     'High Importance Notifications',
-    channelDescription:
-        'This channel is used for notifications that require immediate attention',
+    channelDescription: 'This channel is used for notifications that require immediate attention',
     importance: Importance.max,
     priority: Priority.high,
   );
@@ -157,16 +154,22 @@ Future<void> main() async {
         options.sendDefaultPii = true;
       },
       appRunner: () => runApp(
-        BlocProvider(
-          create: (_) => LocaleCubit(),
+        MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => LocaleCubit()),
+            BlocProvider(create: (_) => SessionCubit()),
+          ],
           child: const Deals(),
         ),
       ),
     );
   } else {
     runApp(
-      BlocProvider(
-        create: (_) => LocaleCubit(),
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => LocaleCubit()),
+          BlocProvider(create: (_) => SessionCubit()),
+        ],
         child: const Deals(),
       ),
     );
