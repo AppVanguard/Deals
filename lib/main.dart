@@ -3,7 +3,6 @@ import 'package:deals/core/helper_functions/app_router.dart';
 import 'package:deals/features/notifications/data/data_source/notification_local.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
-import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 import 'package:deals/firebase_options.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,6 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:deals/core/manager/simple_bloc_observer.dart';
 import 'package:deals/core/widgets/app_error_widget.dart';
 import 'package:deals/core/manager/cubit/session_cubit/session_cubit.dart';
-import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 
 // 1) Local notifications plugin
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -162,7 +160,6 @@ Future<void> main() async {
           providers: [
             BlocProvider(create: (_) => LocaleCubit()),
             BlocProvider(create: (_) => SessionCubit()),
-            BlocProvider(create: (_) => SearchCubit()),
           ],
           child: const Deals(),
         ),
@@ -174,7 +171,6 @@ Future<void> main() async {
         providers: [
           BlocProvider(create: (_) => LocaleCubit()),
           BlocProvider(create: (_) => SessionCubit()),
-          BlocProvider(create: (_) => SearchCubit()),
         ],
         child: const Deals(),
       ),

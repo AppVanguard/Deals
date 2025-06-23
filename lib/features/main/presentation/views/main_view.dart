@@ -67,6 +67,7 @@ class _MainViewState extends State<MainView> {
               create: (_) =>
                   CategoriesCubit(categoriesRepo: getIt<CategoriesRepo>()),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
           ],
           child: const StoresView(),
         ),
@@ -82,6 +83,7 @@ class _MainViewState extends State<MainView> {
               create: (_) =>
                   CategoriesCubit(categoriesRepo: getIt<CategoriesRepo>()),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
           ],
           child: const CouponView(),
         ),
@@ -99,6 +101,7 @@ class _MainViewState extends State<MainView> {
                 create: (context) =>
                     CategoriesCubit(categoriesRepo: getIt<CategoriesRepo>()),
               ),
+              BlocProvider(create: (_) => SearchCubit()),
             ],
             child: BookmarkView(user: widget.userData),
           ),
