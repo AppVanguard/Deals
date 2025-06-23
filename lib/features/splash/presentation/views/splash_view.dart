@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/features/splash/presentation/views/widgets/splash_view_body.dart';
+import '../manager/cubits/splash_cubit.dart';
+import 'widgets/splash_view_body.dart';
 
 class SplashView extends StatelessWidget {
   const SplashView({super.key});
@@ -8,9 +10,12 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppColors.primary,
-      body: SplashViewBody(),
+    return BlocProvider(
+      create: (_) => SplashCubit()..checkNavigation(),
+      child: const Scaffold(
+        backgroundColor: AppColors.primary,
+        body: SplashViewBody(),
+      ),
     );
   }
 }
