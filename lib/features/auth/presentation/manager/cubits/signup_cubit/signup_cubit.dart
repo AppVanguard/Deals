@@ -5,9 +5,12 @@ import 'package:deals/constants.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
+import '../helpers/social_signin_helper.dart';
+import 'package:dartz/dartz.dart';
+import 'package:deals/core/errors/failure.dart';
 part 'signup_state.dart';
 
-class SignupCubit extends SafeCubit<SignupState> {
+class SignupCubit extends SafeCubit<SignupState> with SocialSigninHelper {
   SignupCubit(this.authRepo) : super(SignupInitial());
   final AuthRepo authRepo;
 
@@ -39,60 +42,34 @@ class SignupCubit extends SafeCubit<SignupState> {
   }
 
   // ───────────────────────────────── Social logins ────────────────────────────
-  Future<void> signInWithGoogle({required bool rememberMe}) async {
-    emit(SignupLoading());
-
-    final result = await authRepo.signInWithGoogle();
-    result.fold(
-      (failure) => emit(SignupFailure(message: failure.message)),
-      (user) {
-        Prefs.setBool(kRememberMe, rememberMe);
-        emit(
-          SignupSuccess(
-            userEntity: user,
-            message: 'تم تسجيل الدخول بنجاح',
-            requiresOtp: false, // <— READY for MainView
-          ),
-        );
-      },
+  Future<void> _socialSignIn(
+    Future<Either<Failure, UserEntity>> Function() signInCall,
+    bool rememberMe,
+  ) {
+    return handleSocialSignIn(
+      signInCall: signInCall,
+      rememberMe: rememberMe,
+      emitLoading: () => emit(SignupLoading()),
+      emitFailure: (msg) => emit(SignupFailure(message: msg)),
+      emitSuccess: (user) => emit(
+        SignupSuccess(
+          userEntity: user,
+          message: 'تم تسجيل الدخول بنجاح',
+          requiresOtp: false,
+        ),
+      ),
     );
+  }
+
+  Future<void> signInWithGoogle({required bool rememberMe}) async {
+    await _socialSignIn(() => authRepo.signInWithGoogle(), rememberMe);
   }
 
   Future<void> signInWithFacebook({required bool rememberMe}) async {
-    emit(SignupLoading());
-
-    final result = await authRepo.signInWithFacebook();
-    result.fold(
-      (failure) => emit(SignupFailure(message: failure.message)),
-      (user) {
-        Prefs.setBool(kRememberMe, rememberMe);
-        emit(
-          SignupSuccess(
-            userEntity: user,
-            message: 'تم تسجيل الدخول بنجاح',
-            requiresOtp: false,
-          ),
-        );
-      },
-    );
+    await _socialSignIn(() => authRepo.signInWithFacebook(), rememberMe);
   }
 
   Future<void> signInWithApple({required bool rememberMe}) async {
-    emit(SignupLoading());
-
-    final result = await authRepo.signInWithApple();
-    result.fold(
-      (failure) => emit(SignupFailure(message: failure.message)),
-      (user) {
-        Prefs.setBool(kRememberMe, rememberMe);
-        emit(
-          SignupSuccess(
-            userEntity: user,
-            message: 'تم تسجيل الدخول بنجاح',
-            requiresOtp: false,
-          ),
-        );
-      },
-    );
+    await _socialSignIn(() => authRepo.signInWithApple(), rememberMe);
   }
 }

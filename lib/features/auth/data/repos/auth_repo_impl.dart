@@ -15,8 +15,9 @@ import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/generated/l10n.dart';
 
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
+import 'package:deals/core/repos/repo_helper.dart';
 
-class AuthRepoImpl extends AuthRepo {
+class AuthRepoImpl extends AuthRepo with RepoHelper {
   AuthRepoImpl({
     required this.firebaseAuthService,
     required this.authApiService,
