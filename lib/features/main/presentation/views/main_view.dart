@@ -10,6 +10,7 @@ import 'package:deals/features/home/presentation/manager/cubits/home_cubit/home_
 import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
+import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/home/presentation/views/home_view.dart';
@@ -62,6 +63,7 @@ class _MainViewState extends State<MainView> {
             BlocProvider(
               create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
             BlocProvider(
               create: (_) => CategoriesCubit(
                 categoriesRepo: getIt<CategoriesRepo>(),
@@ -80,6 +82,7 @@ class _MainViewState extends State<MainView> {
                 couponsRepo: getIt<CouponsRepo>(),
               ),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
             BlocProvider(
               create: (_) => CategoriesCubit(
                 categoriesRepo: getIt<CategoriesRepo>(),
@@ -100,6 +103,7 @@ class _MainViewState extends State<MainView> {
                   repo: getIt<BookmarkRepo>(),
                 ),
               ),
+              BlocProvider(create: (_) => SearchCubit()),
               BlocProvider(
                 create: (context) =>
                     CategoriesCubit(categoriesRepo: getIt<CategoriesRepo>()),

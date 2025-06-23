@@ -41,6 +41,7 @@ import 'package:deals/features/faq/domain/faq_repository.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
+import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
 import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:deals/features/stores/presentation/views/stores_view.dart';
@@ -227,6 +228,7 @@ class AppRouter {
             BlocProvider(
               create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
             BlocProvider(
               create: (_) => CategoriesCubit(
                   categoriesRepo: getIt.get<CategoriesRepo>()),
@@ -245,6 +247,7 @@ class AppRouter {
             BlocProvider(
               create: (_) => StoresCubit(storesRepo: getIt<StoresRepo>()),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
             BlocProvider(
               create: (_) => CategoriesCubit(
                   categoriesRepo: getIt.get<CategoriesRepo>()),
@@ -266,6 +269,7 @@ class AppRouter {
             BlocProvider(
               create: (_) => CouponsCubit(couponsRepo: getIt<CouponsRepo>()),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
             BlocProvider(
               create: (_) => CategoriesCubit(
                   categoriesRepo: getIt.get<CategoriesRepo>()),
