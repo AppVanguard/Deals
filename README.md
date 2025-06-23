@@ -60,6 +60,10 @@ lib/
 ```
 Other platform folders (`android`, `ios`, `linux`, `macos`, `web`, `windows`) are the standard Flutter targets. The `assets/` directory contains images, fonts and JSON files used across the app.
 
+### iOS Optimization
+
+To reduce startup times on iOS, the `Podfile` links CocoaPods frameworks statically.
+
 ## Contributing
 
 1. Fork the repository and create your feature branch.
