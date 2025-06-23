@@ -44,6 +44,7 @@ import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/s
 import 'package:deals/features/stores/presentation/views/store_detail_view.dart';
 import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:deals/features/stores/presentation/views/stores_view.dart';
+import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 import 'package:deals/features/terms_and_conditions/presentation/views/terms_and_conditions_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -229,6 +230,7 @@ class AppRouter {
               create: (_) =>
                   CategoriesCubit(categoriesRepo: getIt.get<CategoriesRepo>()),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
           ],
           child: const SearchView(),
         );
@@ -247,6 +249,7 @@ class AppRouter {
               create: (_) =>
                   CategoriesCubit(categoriesRepo: getIt.get<CategoriesRepo>()),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
           ],
           child: const StoresView(),
         );
@@ -268,6 +271,7 @@ class AppRouter {
               create: (_) =>
                   CategoriesCubit(categoriesRepo: getIt.get<CategoriesRepo>()),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
           ],
           child: const CouponView(),
         );
