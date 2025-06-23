@@ -3,7 +3,7 @@ import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/features/settings/presentation/views/change_password_view.dart';
 import 'package:deals/features/settings/presentation/views/delete_account_view.dart';
 import 'package:flutter/material.dart';
-import 'package:deals/core/widgets/error_message_card.dart';
+import 'package:deals/core/widgets/error_banner.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -32,11 +32,7 @@ class SettingsViewBody extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           children: [
             if (errorMessage != null)
-              ErrorMessageCard(
-                title: errorMessage!,
-                message: 'Failed to update settings.',
-                onRetry: () => onTogglePush(!pushEnabled),
-              ),
+              ErrorBanner(message: errorMessage!),
             // Push toggle
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
