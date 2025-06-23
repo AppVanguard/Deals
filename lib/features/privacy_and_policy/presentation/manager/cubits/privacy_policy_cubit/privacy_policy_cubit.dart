@@ -1,6 +1,5 @@
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:deals/features/privacy_and_policy/data/privacy_policy_repository.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'privacy_policy_state.dart';
