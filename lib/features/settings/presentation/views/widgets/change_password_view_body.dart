@@ -1,11 +1,9 @@
-import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/core/widgets/custom_button.dart';
 import 'package:deals/core/widgets/custom_text_form_field.dart';
-import 'package:deals/constants.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:deals/features/auth/presentation/views/forget_password/forget_password_view.dart';
 import 'package:deals/core/widgets/error_message_card.dart';
@@ -181,7 +179,7 @@ class _ChangePasswordViewBodyState extends State<ChangePasswordViewBody> {
             isLoading: widget.isLoading,
             buttonColor: _canSubmit
                 ? AppColors.primary
-                : AppColors.primary.withOpacity(.4),
+                : AppColors.primary.withValues(alpha: 0.4),
             textColor: Colors.white,
             onPressed: _canSubmit
                 ? () => widget.onSubmit(_oldPw.trim(), _newPw.trim())

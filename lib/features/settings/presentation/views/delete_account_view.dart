@@ -6,7 +6,6 @@ import 'package:deals/generated/l10n.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
-import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/settings/presentation/views/widgets/delete_account_view_body.dart';
 import 'package:deals/features/settings/presentation/views/widgets/delete_account_dialog.dart';
 import 'package:deals/features/settings/presentation/manager/cubits/delete_reasons_cubit/delete_reasons_cubit.dart';
@@ -42,33 +41,33 @@ class DeleteAccountView extends StatelessWidget {
             }
           },
           builder: (ctx, state) {
-          final isLoading = state is SettingsLoading;
-          final errorMessage =
-              state is SettingsDeleteAccountFailure ? state.message : null;
-          return DeleteAccountViewBody(
-            isLoading: isLoading,
-            errorMessage: errorMessage,
-            onDelete: () {
-              // show the clean dialog:
-              showDialog(
-                context: context,
-                builder: (_) => DeleteAccountDialog(
-                  onConfirm: () async {
-                    final user = await SecureStorageService.getCurrentUser();
-                    if (user == null) return;
-                    if (!context.mounted) return;
-                    ctx.read<SettingsCubit>().deleteAccount(
-                          firebaseUid: user.uId,
-                          authToken: user.token,
-                        );
-                  },
-                ),
-              );
-            },
-          );
-        },
+            final isLoading = state is SettingsLoading;
+            final errorMessage =
+                state is SettingsDeleteAccountFailure ? state.message : null;
+            return DeleteAccountViewBody(
+              isLoading: isLoading,
+              errorMessage: errorMessage,
+              onDelete: () {
+                // show the clean dialog:
+                showDialog(
+                  context: context,
+                  builder: (_) => DeleteAccountDialog(
+                    onConfirm: () async {
+                      final user = await SecureStorageService.getCurrentUser();
+                      if (user == null) return;
+                      if (!context.mounted) return;
+                      ctx.read<SettingsCubit>().deleteAccount(
+                            firebaseUid: user.uId,
+                            authToken: user.token,
+                          );
+                    },
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
-    ),
-  );
+    );
   }
 }
