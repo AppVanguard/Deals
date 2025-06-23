@@ -37,6 +37,7 @@ import 'package:deals/features/settings/presentation/views/delete_account_view.d
 import 'package:deals/features/settings/presentation/views/settings_view.dart';
 import 'package:deals/features/settings/presentation/views/widgets/deleted_success_screen.dart';
 import 'package:deals/features/splash/presentation/views/splash_view.dart';
+import 'package:deals/features/faq/domain/faq_repository.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
@@ -49,7 +50,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
-import 'package:flutter/material.dart';
 
 class AppRouter {
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -318,7 +318,7 @@ class AppRouter {
         path: FAQView.routeName,
         name: FAQView.routeName,
         builder: (context, state) {
-          return const FAQView();
+          return FAQView(repository: JsonFaqRepository());
         },
       ),
       // Personal Data Route
