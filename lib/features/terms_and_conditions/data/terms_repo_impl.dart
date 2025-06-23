@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 
-abstract class TermsRepository {
-  Future<List<String>> loadTerms();
-}
+import 'package:deals/features/terms_and_conditions/domain/repos/terms_repo.dart';
 
-class JsonTermsRepository implements TermsRepository {
+class TermsRepoImpl implements TermsRepo {
+  const TermsRepoImpl();
+
   @override
   Future<List<String>> loadTerms() async {
     final jsonStr = await rootBundle.loadString(

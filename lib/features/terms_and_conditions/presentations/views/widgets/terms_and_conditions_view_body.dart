@@ -1,49 +1,43 @@
-import 'package:deals/features/terms_and_conditions/data/terms_and_conditions_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/core/widgets/error_message_card.dart';
+import 'package:deals/features/terms_and_conditions/presentation/manager/cubits/terms_cubit/terms_cubit.dart';
 
 class TermsAndConditionsViewBody extends StatelessWidget {
   const TermsAndConditionsViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final repo = JsonTermsRepository();
-
-    return FutureBuilder<List<String>>(
-      future: repo.loadTerms(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
+    return BlocBuilder<TermsCubit, TermsState>(
+      builder: (context, state) {
+        if (state is TermsLoading || state is TermsInitial) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (snapshot.hasError) {
+        if (state is TermsFailure) {
           return Center(
             child: ErrorMessageCard(
               title: 'Failed to load terms',
               message: 'Please check your connection and try again.',
-              onRetry: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (_) => const TermsAndConditionsViewBody(),
-                  ),
-                );
-              },
+              onRetry: () => context.read<TermsCubit>().loadTerms(),
             ),
           );
         }
-        final terms = snapshot.data ?? [];
-
-        return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-          child: Column(
-            children: [
-              SvgPicture.asset(AppImages.assetsImagesTermsAndConditions),
-              const SizedBox(height: 24),
-              ...terms.map((t) => _BulletItem(text: t)),
-            ],
-          ),
-        );
+        if (state is TermsSuccess) {
+          final terms = state.terms;
+          return SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+            child: Column(
+              children: [
+                SvgPicture.asset(AppImages.assetsImagesTermsAndConditions),
+                const SizedBox(height: 24),
+                ...terms.map((t) => _BulletItem(text: t)),
+              ],
+            ),
+          );
+        }
+        return const SizedBox.shrink();
       },
     );
   }
