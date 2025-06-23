@@ -26,7 +26,8 @@ class SessionExpiredDialog extends StatelessWidget {
           shadows: const [
             BoxShadow(color: Color(0x3F000000), blurRadius: 6),
           ],
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
         clipBehavior: Clip.antiAlias,
         child: Column(
@@ -48,7 +49,8 @@ class SessionExpiredDialog extends StatelessWidget {
               width: double.infinity,
               text: s.Login,
               buttonColor: AppColors.accent,
-              onPressed: () => context.read<SessionCubit>().signOutAndRedirect(context),
+              onPressed: () =>
+                  context.read<SessionCubit>().signOutAndRedirect(context),
             ),
           ],
         ),
