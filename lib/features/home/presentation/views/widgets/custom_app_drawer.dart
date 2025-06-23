@@ -2,7 +2,6 @@ import 'package:deals/core/widgets/coming_soon_toast.dart';
 import 'package:deals/features/settings/presentation/views/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:deals/generated/l10n.dart';
@@ -21,7 +20,9 @@ import 'package:deals/features/terms_and_conditions/presentations/views/terms_an
 import 'package:deals/features/privacy_and_policy/presentation/views/privacy_and_policy_view.dart';
 import 'package:deals/features/faq/presentation/views/faq_view.dart';
 
-import 'logout_confirmation_dialog.dart';
+import 'drawer_divider.dart';
+import 'drawer_tile.dart';
+import 'logout_helper.dart';
 
 class CustomAppDrawer extends StatelessWidget {
   const CustomAppDrawer({super.key, required this.userData});
@@ -31,20 +32,6 @@ class CustomAppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = S.of(context);
     final size = MediaQuery.of(context).size;
-
-    Future<void> confirmAndLogout(UserEntity user) async {
-      final approved = await showDialog<bool>(
-        context: context,
-        builder: (_) => LogoutConfirmationDialog(s: s),
-      );
-      if (approved == true) {
-        if (!context.mounted) return;
-        context.read<MenuCubit>().logout(
-              firebaseUid: user.uId,
-              authToken: user.token,
-            );
-      }
-    }
 
     return Align(
       alignment: Alignment.topLeft,
@@ -102,13 +89,13 @@ class CustomAppDrawer extends StatelessWidget {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          _tile(
+                          DrawerTile(
                             icon: AppImages.assetsImagesEarning,
                             text: s.earnings,
                             onTap: () =>
                                 showComingSoonToast(context, s.earnings),
                           ),
-                          _tile(
+                          DrawerTile(
                             icon: AppImages.assetsImagesPersonalData,
                             text: s.personalData,
                             onTap: () => context.pushNamed(
@@ -116,34 +103,34 @@ class CustomAppDrawer extends StatelessWidget {
                               extra: user.uId,
                             ),
                           ),
-                          _divider(),
-                          _tile(
+                          const DrawerDivider(),
+                          DrawerTile(
                             icon: AppImages.assetsImagesTermsConditions,
                             text: s.termsAndConditions,
                             onTap: () => context.pushNamed(
                               TermsAndConditionsView.routeName,
                             ),
                           ),
-                          _tile(
+                          DrawerTile(
                             icon: AppImages.assetsImagesPrivacyIcon,
                             text: s.privacyPolicy,
                             onTap: () => context.pushNamed(
                               PrivacyAndPolicyView.routeName,
                             ),
                           ),
-                          _tile(
+                          DrawerTile(
                             icon: AppImages.assetsImagesSettings,
                             text: s.settings,
                             onTap: () =>
                                 context.pushNamed(SettingsView.routeName),
                           ),
-                          _divider(),
-                          _tile(
+                          const DrawerDivider(),
+                          DrawerTile(
                             icon: AppImages.assetsImagesHelp,
                             text: s.help,
                             onTap: () => context.pushNamed(FAQView.routeName),
                           ),
-                          _tile(
+                          DrawerTile(
                             icon: AppImages.assetsImagesContact,
                             text: s.contactUs,
                             onTap: () =>
@@ -166,12 +153,13 @@ class CustomAppDrawer extends StatelessWidget {
                         ctx.goNamed(SigninView.routeName);
                       }
                     },
-                    child: _tile(
+                    child: DrawerTile(
                       icon: AppImages.assetsImagesLogOut,
                       text: s.logOut,
-                      textStyle: AppTextStyles.bold14
-                          .copyWith(color: AppColors.accent),
-                      onTap: () => confirmAndLogout(user),
+                      textStyle:
+                          AppTextStyles.bold14.copyWith(color: AppColors.accent),
+                      onTap: () =>
+                          confirmAndLogout(context: context, user: user),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -188,21 +176,4 @@ class CustomAppDrawer extends StatelessWidget {
     );
   }
 
-  // ────────────────────────────────────────────────────────────────────────────
-  Widget _tile({
-    required String icon,
-    required String text,
-    TextStyle? textStyle,
-    VoidCallback? onTap,
-  }) =>
-      ListTile(
-        leading: SvgPicture.asset(icon, height: 24, width: 24),
-        title: Text(text, style: textStyle),
-        onTap: onTap,
-      );
-
-  Widget _divider() => const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Divider(),
-      );
 }
