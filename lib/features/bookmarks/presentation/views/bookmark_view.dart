@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
+import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 import 'package:deals/features/bookmarks/presentation/views/widgets/bookmark_view_body.dart';
 import 'package:deals/features/bookmarks/presentation/views/widgets/build_bookmark_app_bar.dart';
 
@@ -27,7 +28,6 @@ class _BookmarkViewState extends State<BookmarkView> {
   String _sortOrder = 'asc';
   bool _hasCoupons = false;
   bool _hasCashback = false;
-  String _searchQuery = '';
 
   @override
   void initState() {
@@ -50,10 +50,10 @@ class _BookmarkViewState extends State<BookmarkView> {
 
   void _onSearchChanged(String q) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    _searchQuery = q;
+    context.read<SearchCubit>().updateQuery(q);
     _debounce = Timer(const Duration(milliseconds: 400), () {
       context.read<BookmarkCubit>().updateFilters(
-            search: _searchQuery,
+            search: context.read<SearchCubit>().state.query,
             categories: _selectedCats,
             hasCoupons: _hasCoupons,
             hasCashback: _hasCashback,
@@ -76,7 +76,7 @@ class _BookmarkViewState extends State<BookmarkView> {
     });
 
     context.read<BookmarkCubit>().updateFilters(
-          search: _searchQuery,
+          search: context.read<SearchCubit>().state.query,
           categories: _selectedCats,
           hasCoupons: _hasCoupons,
           hasCashback: _hasCashback,

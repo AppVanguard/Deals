@@ -4,6 +4,7 @@ import 'package:deals/features/coupons/presentation/views/widgets/build_coupons_
 import 'package:deals/features/coupons/presentation/views/widgets/coupon_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 
 class CouponView extends StatefulWidget {
   const CouponView({super.key});
@@ -19,7 +20,6 @@ class _CouponViewState extends State<CouponView> {
 
   // State variables to hold the applied filters.
   String _selectedCategory = '';
-  String _searchQuery = '';
   String _selectedSortOrder = '';
   String _selectedDiscountType = '';
 
@@ -39,12 +39,10 @@ class _CouponViewState extends State<CouponView> {
 
   void _onSearchChanged(String query) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    setState(() {
-      _searchQuery = query;
-    });
+    context.read<SearchCubit>().updateQuery(query);
     _debounce = Timer(const Duration(milliseconds: 400), () {
       context.read<CouponsCubit>().updateFilters(
-            search: _searchQuery,
+            search: context.read<SearchCubit>().state.query,
             category: _selectedCategory,
             sortOrder: _selectedSortOrder,
             discountType: _selectedDiscountType,
@@ -58,7 +56,7 @@ class _CouponViewState extends State<CouponView> {
       _selectedCategory = categoryId;
     });
     context.read<CouponsCubit>().updateFilters(
-          search: _searchQuery,
+          search: context.read<SearchCubit>().state.query,
           category: _selectedCategory,
           sortOrder: _selectedSortOrder,
           discountType: _selectedDiscountType,
@@ -72,7 +70,7 @@ class _CouponViewState extends State<CouponView> {
       _selectedDiscountType = discountType;
     });
     context.read<CouponsCubit>().updateFilters(
-          search: _searchQuery,
+          search: context.read<SearchCubit>().state.query,
           category: _selectedCategory,
           sortOrder: _selectedSortOrder,
           discountType: _selectedDiscountType,
@@ -90,7 +88,7 @@ class _CouponViewState extends State<CouponView> {
       ),
       body: CouponViewBody(
         selectedCategory: _selectedCategory,
-        currentSearchQuery: _searchQuery,
+        currentSearchQuery: context.read<SearchCubit>().state.query,
         onCategoryChanged: _onCategoryChanged,
       ),
     );
