@@ -247,6 +247,7 @@ class AppRouter {
               create: (_) =>
                   CategoriesCubit(categoriesRepo: getIt.get<CategoriesRepo>()),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
           ],
           child: const StoresView(),
         );
@@ -268,6 +269,7 @@ class AppRouter {
               create: (_) =>
                   CategoriesCubit(categoriesRepo: getIt.get<CategoriesRepo>()),
             ),
+            BlocProvider(create: (_) => SearchCubit()),
           ],
           child: const CouponView(),
         );

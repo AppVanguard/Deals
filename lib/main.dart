@@ -162,7 +162,6 @@ Future<void> main() async {
           providers: [
             BlocProvider(create: (_) => LocaleCubit()),
             BlocProvider(create: (_) => SessionCubit()),
-            BlocProvider(create: (_) => SearchCubit()),
           ],
           child: const Deals(),
         ),
@@ -174,7 +173,6 @@ Future<void> main() async {
         providers: [
           BlocProvider(create: (_) => LocaleCubit()),
           BlocProvider(create: (_) => SessionCubit()),
-          BlocProvider(create: (_) => SearchCubit()),
         ],
         child: const Deals(),
       ),
