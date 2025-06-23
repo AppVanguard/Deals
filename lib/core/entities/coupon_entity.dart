@@ -10,6 +10,7 @@ class CouponEntity {
   final String? description;
   final num? cashBak;
   final bool? active;
+  final String? storeUrl;
 
   // etc. Add discountValue, usageCount, successRate, etc. if needed
 
@@ -19,6 +20,7 @@ class CouponEntity {
     this.description,
     this.termsAndConditions,
     this.image,
+    this.storeUrl,
     this.discountValue,
     required this.id,
     required this.code,

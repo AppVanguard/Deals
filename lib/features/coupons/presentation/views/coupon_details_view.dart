@@ -6,6 +6,7 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/features/coupons/presentation/views/widgets/single_coupon_ticket.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CouponDetailsView extends StatelessWidget {
   const CouponDetailsView({super.key, required this.couponId});
@@ -74,8 +75,13 @@ class CouponDetailsView extends StatelessWidget {
                     ctaButtonColor: Colors.green,
                     // Example image
                     imageUrl: coupon?.image,
-                    onCtaPressed: () {
-                      // TODO: navigate or show some action
+                    onCtaPressed: () async {
+                      final urlString = coupon?.storeUrl;
+                      if (urlString == null || urlString.isEmpty) return;
+                      final uri = Uri.parse(urlString);
+                      if (await canLaunchUrl(uri)) {
+                        await launchUrl(uri, mode: LaunchMode.externalApplication);
+                      }
                     },
                   ),
                 ),
