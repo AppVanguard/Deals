@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 
 import 'package:deals/features/terms_and_conditions/domain/repos/terms_repo.dart';
 
-class TermsRepoImpl implements TermsRepo {
-  const TermsRepoImpl();
+/// Loads the terms from a bundled JSON file.
+class JsonTermsRepository implements TermsRepo {
+  const JsonTermsRepository();
 
   @override
   Future<List<String>> loadTerms() async {
