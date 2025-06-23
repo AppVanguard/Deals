@@ -1,11 +1,8 @@
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:deals/features/auth/presentation/manager/helpers/social_signin_helper.dart';
 import 'package:meta/meta.dart';
-import 'package:deals/constants.dart';
-import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
-import '../helpers/social_signin_helper.dart';
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/errors/failure.dart';
 part 'signup_state.dart';
