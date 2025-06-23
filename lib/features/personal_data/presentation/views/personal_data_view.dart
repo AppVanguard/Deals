@@ -22,7 +22,7 @@ class PersonalDataView extends StatelessWidget {
   final String id;
 
   // Placeholder for skeleton mode
-  static final _placeholderUser = UserEntity(
+  static final _placeholderUser = const UserEntity(
     id: '',
     token: '',
     uId: '',
