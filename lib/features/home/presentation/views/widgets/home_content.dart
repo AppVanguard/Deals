@@ -9,6 +9,7 @@ import 'package:deals/features/home/presentation/views/widgets/top_coupons.dart'
 import 'package:deals/features/home/presentation/views/widgets/top_stores.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../../core/widgets/sliver_section_header.dart';
 
 class HomeContent extends StatelessWidget {
   final HomeEntity? homeEntity;
@@ -50,60 +51,22 @@ class HomeContent extends StatelessWidget {
           ),
         ),
         // Top Stores section
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  S.of(context).Top_stores,
-                  style: AppTextStyles.bold18,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    context.pushNamed(StoresView.routeName);
-                  },
-                  child: Text(
-                    S.of(context).See_All,
-                    style: AppTextStyles.regular14.copyWith(
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+        SliverSectionHeader(
+          title: S.of(context).Top_stores,
+          titleStyle: AppTextStyles.bold18,
+          seeAllText: S.of(context).See_All,
+          onSeeAll: () => context.pushNamed(StoresView.routeName),
         ),
         TopStores(
           stores: stores,
           isLoading: isLoading,
         ),
         // Top Coupons section
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  S.of(context).Top_coupons,
-                  style: AppTextStyles.bold18,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    context.pushNamed(CouponView.routeName);
-                  },
-                  child: Text(
-                    S.of(context).See_All,
-                    style: AppTextStyles.regular14.copyWith(
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+        SliverSectionHeader(
+          title: S.of(context).Top_coupons,
+          titleStyle: AppTextStyles.bold18,
+          seeAllText: S.of(context).See_All,
+          onSeeAll: () => context.pushNamed(CouponView.routeName),
         ),
         TopCoupons(
           coupons: coupons,
