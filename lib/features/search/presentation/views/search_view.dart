@@ -24,9 +24,7 @@ class SearchView extends StatelessWidget {
           create: (context) =>
               CategoriesCubit(categoriesRepo: getIt<CategoriesRepo>()),
         ),
-        BlocProvider(
-          create: (_) => SearchCubit(),
-        ),
+        BlocProvider(create: (_) => SearchCubit()),
       ],
       child: Builder(builder: (context) => const StoresView()),
     );
