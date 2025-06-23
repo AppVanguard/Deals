@@ -88,7 +88,7 @@ class _CouponViewState extends State<CouponView> {
       ),
       body: CouponViewBody(
         selectedCategory: _selectedCategory,
-        currentSearchQuery: context.read<SearchCubit>().state.query,
+        currentSearchQuery: context.watch<SearchCubit>().state.query,
         onCategoryChanged: _onCategoryChanged,
       ),
     );
