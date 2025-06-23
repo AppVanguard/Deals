@@ -15,44 +15,47 @@ class SessionExpiredDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = S.of(context);
 
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Container(
-        width: 298,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        decoration: ShapeDecoration(
-          color: AppColors.background,
-          shadows: const [
-            BoxShadow(color: Color(0x3F000000), blurRadius: 6),
-          ],
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(AppImages.assetsImagesWarning),
-            const SizedBox(height: 16),
-            Text(
-              s.sessionExpired,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF1D241F),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Container(
+          width: 298,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          decoration: ShapeDecoration(
+            color: AppColors.background,
+            shadows: const [
+              BoxShadow(color: Color(0x3F000000), blurRadius: 6),
+            ],
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(AppImages.assetsImagesWarning),
+              const SizedBox(height: 16),
+              Text(
+                s.sessionExpired,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF1D241F),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            CustomButton(
-              width: double.infinity,
-              text: s.Login,
-              buttonColor: AppColors.accent,
-              onPressed: () =>
-                  context.read<SessionCubit>().signOutAndRedirect(context),
-            ),
-          ],
+              const SizedBox(height: 16),
+              CustomButton(
+                width: double.infinity,
+                text: s.Login,
+                buttonColor: AppColors.accent,
+                onPressed: () =>
+                    context.read<SessionCubit>().signOutAndRedirect(context),
+              ),
+            ],
+          ),
         ),
       ),
     );
