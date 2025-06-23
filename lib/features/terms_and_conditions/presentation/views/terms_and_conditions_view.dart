@@ -12,7 +12,8 @@ class TermsAndConditionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TermsCubit(repository: JsonTermsRepository())..loadTerms(),
+      create: (_) =>
+          TermsCubit(repository: const JsonTermsRepository())..loadTerms(),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
