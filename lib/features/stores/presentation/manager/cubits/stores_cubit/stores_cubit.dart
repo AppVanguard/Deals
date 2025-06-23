@@ -1,6 +1,5 @@
 import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
 import 'package:deals/core/entities/store_entity.dart';
@@ -8,7 +7,8 @@ import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 
 part 'stores_state.dart';
 
-class StoresCubit extends SafeCubit<StoresState> with RequiresUser<StoresState> {
+class StoresCubit extends SafeCubit<StoresState>
+    with RequiresUser<StoresState> {
   final StoresRepo storesRepo;
 
   // Internal parameters for filtering, sorting, and pagination.
