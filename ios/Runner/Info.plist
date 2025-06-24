@@ -84,7 +84,7 @@
                         <string>fetch</string>
                         <string>remote-notification</string>
                 </array>
-                <key>NSUserNotificationsUsageDescription</key>
-                <string>This app would like to send you notifications.</string>
+                <key>NSUserNotificationUsageDescription</key>
+                <string>We use notifications to inform you about new deals.</string>
         </dict>
 </plist>

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -59,11 +59,8 @@ Future<void> initializeLocalNotifications() async {
       AndroidInitializationSettings('@mipmap/ic_launcher');
 
   // iOS / Darwin settings (v10+ uses DarwinInitializationSettings):
-  const DarwinInitializationSettings iosInitSettings = DarwinInitializationSettings(
-    requestAlertPermission: false,
-    requestBadgePermission: false,
-    requestSoundPermission: false,
-  );
+  const DarwinInitializationSettings iosInitSettings =
+      DarwinInitializationSettings();
 
   // Combine them:
   const InitializationSettings initSettings = InitializationSettings(
@@ -103,11 +100,8 @@ Future<void> showLocalNotification(RemoteMessage message) async {
   );
 }
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Global Bloc and error handlers
-  initBlocObserver();
+Future<void> _setupBlocAndErrors() async {
+  Bloc.observer = SimpleBlocObserver();
   FlutterError.onError = (details) {
     Sentry.captureException(details.exception, stackTrace: details.stack);
     FlutterError.presentError(details);
@@ -115,76 +109,66 @@ Future<void> main() async {
   ErrorWidget.builder = (details) => AppErrorWidget(details: details);
 }
 
-Future<void> runWithSentry(Widget app) async {
+Future<void> _initHive() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(NotificationLocalAdapter());
+  await Hive.openBox<NotificationLocal>('notificationsBox');
+}
+
+Future<void> _parallelInitialization() async {
+  await Future.wait([
+    dotenv.load(),
+    _initHive(),
+    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    Prefs.init(),
+  ]);
+
+  setupGetit();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await initializeLocalNotifications();
+}
+
+void _attachFcmListeners() {
+  if (_didAttachFcmListener) return;
+  _didAttachFcmListener = true;
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    log('Foreground message received: ${message.messageId}');
+    await showLocalNotification(message);
+    if (getIt.isRegistered<NotificationsCubit>()) {
+      getIt<NotificationsCubit>().handleIncomingForegroundMessage(message);
+    }
+  });
+
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    log('Notification caused app to open: ${message.messageId}');
+  });
+}
+
+Future<void> _runWithSentry(Widget app) async {
   if (kReleaseMode) {
     await SentryFlutter.init(
       (options) {
         options.dsn = dotenv.env['SENTRY_DSN'] ?? '';
         options.sendDefaultPii = true;
       },
-      appRunner: () => runApp(app),
+      appRunner: () async {
+        await _setupBlocAndErrors();
+        runApp(app);
+      },
     );
   } else {
+    await _setupBlocAndErrors();
     runApp(app);
   }
-}
-
-Widget buildRootApp() {
-  return MultiBlocProvider(
-    providers: [
-      BlocProvider(create: (_) => LocaleCubit()),
-      BlocProvider(create: (_) => SessionCubit()),
-    ],
-    child: const Deals(),
-  );
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  setupBloc();
+  await _parallelInitialization();
+  _attachFcmListeners();
 
-  // 2-4) Initialize core services in parallel
-  await Future.wait([
-    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
-    Hive.initFlutter(),
-    Prefs.init(),
-  ]);
-  Hive.registerAdapter(NotificationLocalAdapter());
-  await Hive.openBox<NotificationLocal>('notificationsBox');
-
-  // 5) Setup GetIt
-  setupGetit();
-
-  // 3) Setup background messages
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  // 4) Init local notifications plugin
-  await initializeLocalNotifications();
-
-  // 9) Attach the SINGLE onMessage listener if not attached
-  if (!_didAttachFcmListener) {
-    _didAttachFcmListener = true;
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      log("Foreground message received: ${message.messageId}");
-
-      // Show local heads-up or tray notification
-      await showLocalNotification(message);
-
-      // If we have a NotificationsCubit, pass the message to it
-      if (getIt.isRegistered<NotificationsCubit>()) {
-        getIt<NotificationsCubit>().handleIncomingForegroundMessage(message);
-      }
-    });
-  }
-
-  // 6) If user taps a notification that opens the app
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    log("Notification caused app to open: ${message.messageId}");
-    // Optionally do navigation or logic
-  });
-
-  // 11) Finally run the app
   final app = MultiBlocProvider(
     providers: [
       BlocProvider(create: (_) => LocaleCubit()),
@@ -193,11 +177,7 @@ Future<void> main() async {
     child: const DealsApp(),
   );
 
-  if (kReleaseMode) {
-    await runWithSentry(() => runApp(app));
-  } else {
-    runApp(app);
-  }
+  await _runWithSentry(app);
 }
 
 class DealsApp extends StatelessWidget {
