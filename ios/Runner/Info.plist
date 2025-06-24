@@ -82,5 +82,7 @@
                         <string>fetch</string>
                         <string>remote-notification</string>
                 </array>
+                <key>NSUserNotificationUsageDescription</key>
+                <string>We use notifications to inform you about new deals.</string>
         </dict>
 </plist>
