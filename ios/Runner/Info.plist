@@ -21,13 +21,17 @@
 		<key>FacebookDisplayName</key>
 		<string>deals</string>
 
-		<key>LSApplicationQueriesSchemes</key>
-		<array>
-			<string>fbapi</string>
-			<string>fb-messenger-api</string>
-			<string>fbauth2</string>
-			<string>fbshareextension</string>
-		</array>
+                <key>LSApplicationQueriesSchemes</key>
+                <array>
+                        <string>fbapi</string>
+                        <string>fb-messenger-api</string>
+                        <string>fbauth2</string>
+                        <string>fbshareextension</string>
+                </array>
+
+                <!-- iOS  notification permission message -->
+                <key>NSUserNotificationUsageDescription</key>
+                <string>This app would like to send you notifications</string>
 
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
