@@ -157,7 +157,7 @@ Future<void> requestNotificationPermissions() async {
     final androidImpl = flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>();
-    await androidImpl?.requestPermission();
+    await androidImpl?.requestNotificationsPermission();
   }
 }
 
@@ -189,11 +189,13 @@ Future<void> main() async {
   await requestNotificationPermissions();
   _attachFcmListener();
 
-  runner() => runApp(_buildApp());
+  Future<void> runner() async {
+    runApp(_buildApp());
+  }
   if (kReleaseMode) {
     await _initSentry(runner);
   } else {
-    runner();
+    await runner();
   }
 }
 
