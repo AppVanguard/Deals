@@ -86,5 +86,18 @@
                 <!-- iOS notification permission message -->
                 <key>NSUserNotificationUsageDescription</key>
                 <string>We use notifications to inform you about new deals.</string>
+		    <key>GIDClientID</key>
+		    <string>198164528317-mbpponvojm6dn33nse5q4dd1kp2jj3c0.apps.googleusercontent.com</string>
+		    <key>CFBundleURLTypes</key>
+			<array>
+				<dict>
+					<key>CFBundleTypeRole</key>
+					<string>Editor</string>
+					<key>CFBundleURLSchemes</key>
+					<array>
+						<string>com.googleusercontent.apps.198164528317-mbpponvojm6dn33nse5q4dd1kp2jj3c0</string>
+					</array>
+				</dict>
+			</array>
         </dict>
 </plist>

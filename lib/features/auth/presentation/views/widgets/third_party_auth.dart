@@ -24,14 +24,14 @@ class ThirdPartyAuth extends StatelessWidget {
             height: 40,
           ),
         ),
-        GestureDetector(
-          onTap: facebookOnTap,
-          child: SvgPicture.asset(
-            AppImages.assetsImagesFacebookIcon,
-            width: 40,
-            height: 40,
-          ),
-        ),
+        // GestureDetector(
+        //   onTap: facebookOnTap,
+        //   child: SvgPicture.asset(
+        //     AppImages.assetsImagesFacebookIcon,
+        //     width: 40,
+        //     height: 40,
+        //   ),
+        // ),
         Platform.isIOS
             ? GestureDetector(
                 onTap: appleOnTap,

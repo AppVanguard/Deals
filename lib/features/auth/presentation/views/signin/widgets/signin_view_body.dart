@@ -98,9 +98,9 @@ class _SigninViewBodyState extends State<SigninViewBody> {
                 googleOnTap: () => context
                     .read<SigninCubit>()
                     .signInWithGoogle(rememberMe: rememberMe),
-                facebookOnTap: () => context
-                    .read<SigninCubit>()
-                    .signInWithFacebook(rememberMe: rememberMe),
+                // facebookOnTap: () => context
+                //     .read<SigninCubit>()
+                //     .signInWithFacebook(rememberMe: rememberMe),
                 appleOnTap: () => context
                     .read<SigninCubit>()
                     .signInWithApple(rememberMe: rememberMe),
