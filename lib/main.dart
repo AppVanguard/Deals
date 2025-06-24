@@ -2,27 +2,27 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-import 'core/helper_functions/app_router.dart';
-import 'core/manager/cubit/local_cubit/local_cubit.dart';
-import 'core/manager/cubit/session_cubit/session_cubit.dart';
-import 'core/manager/simple_bloc_observer.dart';
-import 'core/service/get_it_service.dart';
-import 'core/service/shared_prefrences_singleton.dart';
-import 'core/utils/app_colors.dart';
-import 'core/widgets/app_error_widget.dart';
-import 'features/notifications/data/data_source/notification_local.dart';
-import 'features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
-import 'firebase_options.dart';
-import 'generated/l10n.dart';
+import 'package:deals/core/helper_functions/app_router.dart';
+import 'package:deals/core/manager/cubit/local_cubit/local_cubit.dart';
+import 'package:deals/core/manager/cubit/session_cubit/session_cubit.dart';
+import 'package:deals/core/manager/simple_bloc_observer.dart';
+import 'package:deals/core/service/get_it_service.dart';
+import 'package:deals/core/service/shared_prefrences_singleton.dart';
+import 'package:deals/core/utils/app_colors.dart';
+import 'package:deals/core/widgets/app_error_widget.dart';
+import 'package:deals/features/notifications/data/data_source/notification_local.dart';
+import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
+import 'package:deals/firebase_options.dart';
+import 'package:deals/generated/l10n.dart';
 
 // 1) Local notifications plugin
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -30,6 +30,20 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 // 2) Global guard to ensure we only attach the onMessage listener once
 bool _didAttachFcmListener = false;
+
+void initBlocObserver() {
+  Bloc.observer = SimpleBlocObserver();
+}
+
+Future<void> runWithSentry(VoidCallback appRunner) async {
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = dotenv.env['SENTRY_DSN'] ?? '';
+      options.sendDefaultPii = true;
+    },
+    appRunner: appRunner,
+  );
+}
 
 /// Background message handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -89,8 +103,11 @@ Future<void> showLocalNotification(RemoteMessage message) async {
   );
 }
 
-void setupBloc() {
-  Bloc.observer = SimpleBlocObserver();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Global Bloc and error handlers
+  initBlocObserver();
   FlutterError.onError = (details) {
     Sentry.captureException(details.exception, stackTrace: details.stack);
     FlutterError.presentError(details);
@@ -127,19 +144,16 @@ Future<void> main() async {
 
   setupBloc();
 
-  // 1) Batch async initializers in parallel
-  final envFuture = dotenv.load();
-  final hiveFuture = Hive.initFlutter().then((_) async {
-    Hive.registerAdapter(NotificationLocalAdapter());
-    await Hive.openBox<NotificationLocal>('notificationsBox');
-  });
-  final firebaseFuture =
-      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  final prefsFuture = Prefs.init();
+  // 2-4) Initialize core services in parallel
+  await Future.wait([
+    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    Hive.initFlutter(),
+    Prefs.init(),
+  ]);
+  Hive.registerAdapter(NotificationLocalAdapter());
+  await Hive.openBox<NotificationLocal>('notificationsBox');
 
-  await Future.wait([envFuture, hiveFuture, firebaseFuture, prefsFuture]);
-
-  // 2) Setup GetIt
+  // 5) Setup GetIt
   setupGetit();
 
   // 3) Setup background messages
@@ -148,7 +162,7 @@ Future<void> main() async {
   // 4) Init local notifications plugin
   await initializeLocalNotifications();
 
-  // 5) Attach the SINGLE onMessage listener if not attached
+  // 9) Attach the SINGLE onMessage listener if not attached
   if (!_didAttachFcmListener) {
     _didAttachFcmListener = true;
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
@@ -170,12 +184,24 @@ Future<void> main() async {
     // Optionally do navigation or logic
   });
 
-  // 7) Finally run the app with Sentry in release mode
-  await runWithSentry(buildRootApp());
+  // 11) Finally run the app
+  final app = MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (_) => LocaleCubit()),
+      BlocProvider(create: (_) => SessionCubit()),
+    ],
+    child: const DealsApp(),
+  );
+
+  if (kReleaseMode) {
+    await runWithSentry(() => runApp(app));
+  } else {
+    runApp(app);
+  }
 }
 
-class Deals extends StatelessWidget {
-  const Deals({super.key});
+class DealsApp extends StatelessWidget {
+  const DealsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
