@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -146,6 +146,21 @@ void _attachFcmListener() {
   });
 }
 
+Future<void> requestNotificationPermissions() async {
+  if (Platform.isIOS || Platform.isMacOS) {
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  } else if (Platform.isAndroid) {
+    final androidImpl = flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>();
+    await androidImpl?.requestNotificationsPermission();
+  }
+}
+
 Widget _buildApp() {
   return MultiBlocProvider(
     providers: [
@@ -171,13 +186,16 @@ Future<void> main() async {
   setupGetit();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await initializeLocalNotifications();
+  await requestNotificationPermissions();
   _attachFcmListener();
 
-  runner() => runApp(_buildApp());
+  Future<void> runner() async {
+    runApp(_buildApp());
+  }
   if (kReleaseMode) {
     await _initSentry(runner);
   } else {
-    runner();
+    await runner();
   }
 }
 
