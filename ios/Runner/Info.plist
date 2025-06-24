@@ -29,9 +29,6 @@
                         <string>fbshareextension</string>
                 </array>
 
-                <!-- iOS  notification permission message -->
-                <key>NSUserNotificationUsageDescription</key>
-                <string>This app would like to send you notifications</string>
 
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
@@ -81,13 +78,12 @@
                         <string>en</string>
                         <string>ar</string>
                 </array>
-                <key>NSUserNotificationUsageDescription</key>
-                <string>This app would like to send you notifications.</string>
                 <key>UIBackgroundModes</key>
                 <array>
                         <string>fetch</string>
                         <string>remote-notification</string>
                 </array>
+                <!-- iOS notification permission message -->
                 <key>NSUserNotificationUsageDescription</key>
                 <string>We use notifications to inform you about new deals.</string>
         </dict>
