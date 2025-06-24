@@ -1,26 +1,28 @@
 import 'dart:developer';
-import 'package:deals/core/helper_functions/app_router.dart';
-import 'package:deals/features/notifications/data/data_source/notification_local.dart';
-import 'package:deals/core/service/get_it_service.dart';
-import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
-import 'package:deals/firebase_options.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
+import 'package:deals/core/helper_functions/app_router.dart';
 import 'package:deals/core/manager/cubit/local_cubit/local_cubit.dart';
+import 'package:deals/core/manager/cubit/session_cubit/session_cubit.dart';
+import 'package:deals/core/manager/simple_bloc_observer.dart';
+import 'package:deals/core/service/get_it_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/utils/app_colors.dart';
-import 'package:deals/generated/l10n.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:deals/core/manager/simple_bloc_observer.dart';
 import 'package:deals/core/widgets/app_error_widget.dart';
-import 'package:deals/core/manager/cubit/session_cubit/session_cubit.dart';
+import 'package:deals/features/notifications/data/data_source/notification_local.dart';
+import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
+import 'package:deals/firebase_options.dart';
+import 'package:deals/generated/l10n.dart';
 
 // 1) Local notifications plugin
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -28,6 +30,20 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 // 2) Global guard to ensure we only attach the onMessage listener once
 bool _didAttachFcmListener = false;
+
+void initBlocObserver() {
+  Bloc.observer = SimpleBlocObserver();
+}
+
+Future<void> runWithSentry(VoidCallback appRunner) async {
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = dotenv.env['SENTRY_DSN'] ?? '';
+      options.sendDefaultPii = true;
+    },
+    appRunner: appRunner,
+  );
+}
 
 /// Background message handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -93,7 +109,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Global Bloc and error handlers
-  Bloc.observer = SimpleBlocObserver();
+  initBlocObserver();
   FlutterError.onError = (details) {
     Sentry.captureException(details.exception, stackTrace: details.stack);
     FlutterError.presentError(details);
@@ -103,16 +119,14 @@ Future<void> main() async {
   // 1) Load env variables
   await dotenv.load();
 
-  // 2) Initialize Hive
-  await Hive.initFlutter();
+  // 2-4) Initialize core services in parallel
+  await Future.wait([
+    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    Hive.initFlutter(),
+    Prefs.init(),
+  ]);
   Hive.registerAdapter(NotificationLocalAdapter());
   await Hive.openBox<NotificationLocal>('notificationsBox');
-
-  // 3) Firebase initialize
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  // 4) SharedPreferences
-  await Prefs.init();
 
   // 5) Setup GetIt
   setupGetit();
@@ -122,9 +136,6 @@ Future<void> main() async {
 
   // 7) Init local notifications plugin
   await initializeLocalNotifications();
-
-  // 8) Ask for permissions (iOS)
-  await FirebaseMessaging.instance.requestPermission();
 
   // 9) Attach the SINGLE onMessage listener if not attached
   if (!_didAttachFcmListener) {
@@ -149,37 +160,23 @@ Future<void> main() async {
   });
 
   // 11) Finally run the app
+  final app = MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (_) => LocaleCubit()),
+      BlocProvider(create: (_) => SessionCubit()),
+    ],
+    child: const DealsApp(),
+  );
+
   if (kReleaseMode) {
-    await SentryFlutter.init(
-      (options) {
-        options.dsn = dotenv.env['SENTRY_DSN'] ?? '';
-        options.sendDefaultPii = true;
-      },
-      appRunner: () => runApp(
-        MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => LocaleCubit()),
-            BlocProvider(create: (_) => SessionCubit()),
-          ],
-          child: const Deals(),
-        ),
-      ),
-    );
+    await runWithSentry(() => runApp(app));
   } else {
-    runApp(
-      MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (_) => LocaleCubit()),
-          BlocProvider(create: (_) => SessionCubit()),
-        ],
-        child: const Deals(),
-      ),
-    );
+    runApp(app);
   }
 }
 
-class Deals extends StatelessWidget {
-  const Deals({super.key});
+class DealsApp extends StatelessWidget {
+  const DealsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
