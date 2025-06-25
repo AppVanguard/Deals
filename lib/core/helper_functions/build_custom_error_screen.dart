@@ -5,6 +5,12 @@ import 'package:deals/core/widgets/custom_error_screen.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
+/// Convenience helper to create a standard full-screen [CustomErrorScreen].
+///
+/// Shows a localized error title and optional [errorMessage]. When the
+/// user presses the retry button, the provided [onRetry] callback executes.
+
+/// Builds a ready-to-use [CustomErrorScreen] widget.
 CustomErrorScreen buildCustomErrorScreen({
   required BuildContext context,
   required void Function() onRetry,

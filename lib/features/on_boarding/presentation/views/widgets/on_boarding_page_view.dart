@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:deals/core/utils/app_images.dart';
 import 'page_view_item.dart';
 
+/// PageView widget that hosts the onboarding slides and reports page changes.
+
 class OnBoardingPageView extends StatelessWidget {
   const OnBoardingPageView({
     super.key,

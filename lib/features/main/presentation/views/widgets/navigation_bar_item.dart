@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:deals/core/entities/bottom_navigation_bar_entity.dart';
 import 'package:deals/features/main/presentation/views/widgets/active_item.dart';
 import 'package:deals/features/main/presentation/views/widgets/in_active_item.dart';
+/// Wrapper that chooses between [ActiveItem] and [InActiveItem] based on
+/// the current selection state.
 
 class NavigationBarItem extends StatelessWidget {
+
   const NavigationBarItem(
       {super.key,
       required this.isSelected,
