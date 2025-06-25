@@ -1,25 +1,10 @@
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:deals/main.dart'; // for flutterLocalNotificationsPlugin
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'logger.dart';
-
-/// Safely fetches the current FCM token.
-///
-/// If the APNS token has not been set yet on iOS, this will attempt to
-/// retrieve it before retrying to obtain the FCM token.
-Future<String?> fetchFcmTokenSafely({
-  int attempts = 3,
-  Duration retryDelay = const Duration(seconds: 1),
-}) async {
-  // Delegate to the more robust initialization helper. This keeps existing
-  // callers working while ensuring APNS handling and permission requests
-  // are properly executed on all platforms.
-  return initFirebaseMessaging(
-    attempts: attempts,
-    retryDelay: retryDelay,
-  );
-}
 
 /// Initializes Firebase Messaging by requesting the user's permission and
 /// ensuring the APNS token is available on iOS before fetching the FCM token.
@@ -29,7 +14,24 @@ Future<String?> initFirebaseMessaging({
   int attempts = 3,
   Duration retryDelay = const Duration(seconds: 1),
 }) async {
-  await FirebaseMessaging.instance.requestPermission();
+  try {
+    if (Platform.isIOS || Platform.isMacOS) {
+      await FirebaseMessaging.instance.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    } else if (Platform.isAndroid) {
+      final androidImpl = flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
+      await androidImpl?.requestNotificationsPermission();
+    } else {
+      await FirebaseMessaging.instance.requestPermission();
+    }
+  } catch (e) {
+    appLog('Error requesting notification permissions: $e');
+  }
 
   if (Platform.isIOS || Platform.isMacOS) {
     for (var i = 0; i < attempts; i++) {
