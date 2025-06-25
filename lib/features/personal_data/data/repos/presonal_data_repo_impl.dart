@@ -1,6 +1,6 @@
 // lib/features/personal_data/data/repos/presonal_data_repo_impl.dart
 
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/errors/failure.dart';
@@ -24,7 +24,7 @@ class PersonalDataRepoImpl implements PersonalDataRepo {
       final model = await _userService.getUserById(id, token);
       return Right(UserMapper.mapToEntity(model));
     } catch (e) {
-      log('getPersonalData error: $e');
+      appLog('getPersonalData error: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -53,7 +53,7 @@ class PersonalDataRepoImpl implements PersonalDataRepo {
       );
       return Right(UserMapper.mapToEntity(model));
     } catch (e) {
-      log('updatePersonalData error: $e');
+      appLog('updatePersonalData error: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }

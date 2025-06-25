@@ -1,5 +1,5 @@
 // home_mapper.dart
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/features/home/data/models/home_model/announcement.dart';
 import 'package:deals/features/home/data/models/home_model/coupon.dart';
@@ -58,7 +58,7 @@ class HomeMapper {
   }
 
   static CouponEntity _mapCoupon(Coupon couponModel) {
-    log('Mapping coupon: $couponModel');
+    appLog('Mapping coupon: $couponModel');
     return CouponEntity(
       id: couponModel.id ?? '',
       code: couponModel.code ?? '',

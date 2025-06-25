@@ -1,6 +1,6 @@
 // lib/features/stores/data/repos/stores_repo_impl.dart
 
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
@@ -67,7 +67,7 @@ class StoresRepoImpl implements StoresRepo {
 
       return Right(result);
     } catch (e) {
-      log('Error in StoresRepoImpl.getAllStores: $e');
+      appLog('Error in StoresRepoImpl.getAllStores: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -86,7 +86,7 @@ class StoresRepoImpl implements StoresRepo {
         throw Exception('Store not found');
       }
     } catch (e) {
-      log('Error in StoresRepoImpl.getStoreById: $e');
+      appLog('Error in StoresRepoImpl.getStoreById: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }

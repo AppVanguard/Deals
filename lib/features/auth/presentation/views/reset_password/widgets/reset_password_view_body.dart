@@ -1,5 +1,5 @@
 // lib/features/auth/presentation/views/reset_password/widgets/reset_password_view_body.dart
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -86,7 +86,7 @@ class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
                       : () {
                           if (_form.currentState!.validate()) {
                             _form.currentState!.save();
-                            log("Resetting pw for ${widget.email}");
+                            appLog("Resetting pw for ${widget.email}");
                             context.read<ResetPasswordCubit>().resetPassword(
                                   email: widget.email,
                                   otp: widget.otp,

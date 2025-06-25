@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
@@ -30,7 +30,7 @@ class HomeCubit extends SafeCubit<HomeState> {
   // ─── Internal orchestration ──────────────────────────────────────────────
   Future<void> _fetchHomeData({required bool isRefresh}) async {
     if (isRefresh) {
-      log('[HomeCubit] Manual refresh requested → clearing cache');
+      appLog('[HomeCubit] Manual refresh requested → clearing cache');
       emit(HomeLoading());
       await DefaultCacheManager().emptyCache();
     }
@@ -41,17 +41,17 @@ class HomeCubit extends SafeCubit<HomeState> {
 
     cacheResult.fold(
       (_) {
-        log('[HomeCubit] No cached data available');
+        appLog('[HomeCubit] No cached data available');
         if (!isRefresh) emit(HomeLoading());
       },
       (cachedEntity) {
-        log('[HomeCubit] Cached data found → emitting immediately');
+        appLog('[HomeCubit] Cached data found → emitting immediately');
         if (!isRefresh) emit(HomeSuccess(homeEntity: cachedEntity));
       },
     );
 
     // 2) — Always call backend
-    log('[HomeCubit] Fetching fresh data from backend');
+    appLog('[HomeCubit] Fetching fresh data from backend');
     final Either<Failure, HomeEntity> remoteResult =
         await homeRepo.getFreshData(
       token: jwt,
@@ -65,14 +65,14 @@ class HomeCubit extends SafeCubit<HomeState> {
 
     remoteResult.fold(
       (failure) {
-        log('[HomeCubit] Remote fetch FAILED → ${failure.message}');
+        appLog('[HomeCubit] Remote fetch FAILED → ${failure.message}');
         // If nothing visible yet, surface the error
         if (state is HomeInitial || state is HomeLoading) {
           emit(HomeFailure(errorMessage: failure.message));
         }
       },
       (freshEntity) {
-        log('[HomeCubit] Remote fetch SUCCESS → emitting fresh data');
+        appLog('[HomeCubit] Remote fetch SUCCESS → emitting fresh data');
         emit(HomeSuccess(homeEntity: freshEntity));
       },
     );

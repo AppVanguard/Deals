@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'dart:math' as math;
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,13 +30,13 @@ class FirebaseAuthService {
         email: email,
         password: password,
       );
-      log('FirebaseAuthService: Created user -> ${credential.user?.uid}');
+      appLog('FirebaseAuthService: Created user -> ${credential.user?.uid}');
       return credential.user!;
     } on FirebaseAuthException catch (e) {
-      log('Error in FirebaseAuthService.createUserWithEmailAndPassword: ${e.code}');
+      appLog('Error in FirebaseAuthService.createUserWithEmailAndPassword: ${e.code}');
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
-      log('Unknown error in createUserWithEmailAndPassword: $e');
+      appLog('Unknown error in createUserWithEmailAndPassword: $e');
       throw CustomException(S.current.SomethingWentWrong);
     }
   }
@@ -53,10 +53,10 @@ class FirebaseAuthService {
       );
       return credential.user!;
     } on FirebaseAuthException catch (e) {
-      log('Error in FirebaseAuthService.signInWithEmailAndPassword: ${e.code}');
+      appLog('Error in FirebaseAuthService.signInWithEmailAndPassword: ${e.code}');
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
-      log('Unknown error in signInWithEmailAndPassword: $e');
+      appLog('Unknown error in signInWithEmailAndPassword: $e');
       throw CustomException(S.current.SomethingWentWrong);
     }
   }
@@ -83,10 +83,10 @@ class FirebaseAuthService {
       return (await FirebaseAuth.instance.signInWithCredential(credential))
           .user!;
     } on FirebaseAuthException catch (e) {
-      log('Error in FirebaseAuthService.signInWithGoogle: ${e.code}');
+      appLog('Error in FirebaseAuthService.signInWithGoogle: ${e.code}');
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
-      log('Error in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
+      appLog('Error in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
       throw CustomException(S.current.SomethingWentWrong);
     }
   }
@@ -136,10 +136,10 @@ class FirebaseAuthService {
           .signInWithCredential(facebookAuthCredential);
       return userCred.user!;
     } on FirebaseAuthException catch (e) {
-      log('Error in FirebaseAuthService.signInWithFacebook: ${e.code}');
+      appLog('Error in FirebaseAuthService.signInWithFacebook: ${e.code}');
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
-      log('Unknown error in signInWithFacebook: $e');
+      appLog('Unknown error in signInWithFacebook: $e');
       throw CustomException(S.current.SomethingWentWrong);
     }
   }
@@ -167,10 +167,10 @@ class FirebaseAuthService {
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
       return userCred.user!;
     } on FirebaseAuthException catch (e) {
-      log('Error in FirebaseAuthService.signInWithApple: ${e.code}');
+      appLog('Error in FirebaseAuthService.signInWithApple: ${e.code}');
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
-      log('Unknown error in signInWithApple: $e');
+      appLog('Unknown error in signInWithApple: $e');
       throw CustomException(S.current.SomethingWentWrong);
     }
   }
@@ -200,9 +200,9 @@ class FirebaseAuthService {
   bool isSignedIn() {
     // Check the rememberMe preference and FirebaseAuth current user
     bool rememberMe = Prefs.getBool(kRememberMe);
-    log('Remember me: $rememberMe');
+    appLog('Remember me: $rememberMe');
     var x = FirebaseAuth.instance.currentUser != null && rememberMe;
-    log('isSignedIn: $x');
+    appLog('isSignedIn: $x');
     return x;
   }
 }

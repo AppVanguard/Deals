@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:deals/core/errors/exception.dart';
@@ -8,7 +8,7 @@ abstract class CustomFirebaseException extends FirebaseAuthException {
   CustomFirebaseException({required super.code});
 
   static CustomException getFirebaseAuthException(String code) {
-    log("Exception code: $code");
+    appLog("Exception code: $code");
     switch (code) {
       case 'email-already-in-use':
         return CustomException(S.current.emailAlreadyInUse);

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';
 import 'http_client_service.dart';
 
@@ -26,7 +26,7 @@ class NotificationsPermissionService {
       BackendEndpoints.kToken: deviceToken,
     });
     try {
-      log('Allowing notifications for user: $firebaseUid with token: $deviceToken');
+      appLog('Allowing notifications for user: $firebaseUid with token: $deviceToken');
       final response = await _http.post(
         url,
         headers: {
@@ -35,13 +35,13 @@ class NotificationsPermissionService {
         body: body,
       );
       if (response.statusCode == 200) {
-        log('Notifications allowed successfully for user: $firebaseUid');
+        appLog('Notifications allowed successfully for user: $firebaseUid');
       } else {
-        log('Failed to allow notifications: ${response.statusCode} ${response.body}');
+        appLog('Failed to allow notifications: ${response.statusCode} ${response.body}');
         throw Exception('Failed to allow notifications');
       }
     } catch (e) {
-      log('Exception in allowNotifications: $e');
+      appLog('Exception in allowNotifications: $e');
       rethrow;
     }
   }
@@ -68,13 +68,13 @@ class NotificationsPermissionService {
         body: body,
       );
       if (response.statusCode == 200) {
-        log('Notifications prevented successfully for user: $firebaseUid');
+        appLog('Notifications prevented successfully for user: $firebaseUid');
       } else {
-        log('Failed to prevent notifications: ${response.statusCode} ${response.body}');
+        appLog('Failed to prevent notifications: ${response.statusCode} ${response.body}');
         throw Exception('Failed to prevent notifications');
       }
     } catch (e) {
-      log('Exception in preventNotifications: $e');
+      appLog('Exception in preventNotifications: $e');
       rethrow;
     }
   }

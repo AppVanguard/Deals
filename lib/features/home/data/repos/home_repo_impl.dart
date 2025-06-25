@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/errors/failure.dart';
 import 'package:deals/features/home/data/models/home_model/home_model.dart';
@@ -29,7 +29,7 @@ class HomeRepoImpl implements HomeRepo {
         return Left(ServerFailure(message: 'No cached home data found'));
       }
     } catch (e) {
-      log('Error reading cache: $e');
+      appLog('Error reading cache: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -61,7 +61,7 @@ class HomeRepoImpl implements HomeRepo {
       final homeEntity = HomeMapper.mapToEntity(remoteModel);
       return Right(homeEntity);
     } catch (e) {
-      log('Error fetching remote: $e');
+      appLog('Error fetching remote: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }

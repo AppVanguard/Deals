@@ -1,5 +1,5 @@
 // lib/features/bookmarks/presentation/views/widgets/bookmark_view_body.dart
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +44,7 @@ class _BookmarkViewBodyState extends State<BookmarkViewBody> {
         !st.isLoadingMore &&
         st.pagination.currentPage < st.pagination.totalPages &&
         _scroll.position.pixels >= _scroll.position.maxScrollExtent - 200) {
-      log('[BookmarkViewBody] scroll → loadNextPage');
+      appLog('[BookmarkViewBody] scroll → loadNextPage');
       cubit.loadNextPage();
     }
   }

@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
@@ -51,7 +51,7 @@ class _CouponViewBodyState extends State<CouponViewBody> {
         currentState.pagination.hasNextPage &&
         _scrollController.position.pixels >=
             _scrollController.position.maxScrollExtent - 200) {
-      log("Fetching next page of coupons");
+      appLog("Fetching next page of coupons");
       cubit.loadNextPage();
     }
   }

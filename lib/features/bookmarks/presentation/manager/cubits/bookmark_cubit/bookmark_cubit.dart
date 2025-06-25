@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:meta/meta.dart';
@@ -34,14 +34,14 @@ class BookmarkCubit extends SafeCubit<BookmarkState> with RequiresUser<BookmarkS
   /*════════════════════ public api ════════════════════*/
 
   Future<void> loadBookmarks({bool isRefresh = false}) async {
-    log('[BookmarkCubit] loadBookmarks() — page=$_page refresh=$isRefresh');
+    appLog('[BookmarkCubit] loadBookmarks() — page=$_page refresh=$isRefresh');
 
     if (isRefresh) _page = 1;
 
     if (state is BookmarkSuccess && !isRefresh) {
       final s = state as BookmarkSuccess;
       if (s.pagination.currentPage >= s.pagination.totalPages) {
-        log('[BookmarkCubit] reached last page, aborting load');
+        appLog('[BookmarkCubit] reached last page, aborting load');
         return;
       }
       emit(s.copyWith(isLoadingMore: true));
@@ -68,11 +68,11 @@ class BookmarkCubit extends SafeCubit<BookmarkState> with RequiresUser<BookmarkS
 
       res.fold(
         (Failure f) {
-          log('[BookmarkCubit] loadBookmarks failure: ${f.message}');
+          appLog('[BookmarkCubit] loadBookmarks failure: ${f.message}');
           emit(BookmarkFailure(message: f.message));
         },
         (success) {
-          log('[BookmarkCubit] loadBookmarks success '
+          appLog('[BookmarkCubit] loadBookmarks success '
               'items=${success.bookmarks.length} '
               'page=${success.pagination.currentPage}/${success.pagination.totalPages}');
 
@@ -92,7 +92,7 @@ class BookmarkCubit extends SafeCubit<BookmarkState> with RequiresUser<BookmarkS
         },
       );
     } catch (e, st) {
-      log('[BookmarkCubit] loadBookmarks exception', error: e, stackTrace: st);
+      appLog('[BookmarkCubit] loadBookmarks exception', error: e, stackTrace: st);
       emit(BookmarkFailure(message: e.toString()));
     }
   }
@@ -112,7 +112,7 @@ class BookmarkCubit extends SafeCubit<BookmarkState> with RequiresUser<BookmarkS
     _hasCashback = hasCashback ?? _hasCashback;
     _sortOrder = sortOrder ?? _sortOrder;
 
-    log('[BookmarkCubit] updateFilters '
+    appLog('[BookmarkCubit] updateFilters '
         'search=$_search catIds=$_catIds coupons=$_hasCoupons cashback=$_hasCashback sort=$_sortOrder');
 
     loadBookmarks(isRefresh: true);
@@ -130,7 +130,7 @@ class BookmarkCubit extends SafeCubit<BookmarkState> with RequiresUser<BookmarkS
   Future<void> toggleBookmark(String storeId) async {
     if (state is! BookmarkSuccess) return;
 
-    log('[BookmarkCubit] toggleBookmark store=$storeId '
+    appLog('[BookmarkCubit] toggleBookmark store=$storeId '
         'currentlySaved=${isBookmarked(storeId)}');
 
     if (isBookmarked(storeId)) {
@@ -148,7 +148,7 @@ class BookmarkCubit extends SafeCubit<BookmarkState> with RequiresUser<BookmarkS
     final user = await requireUser((msg) => BookmarkFailure(message: msg));
     if (user == null) return;
 
-    log('[BookmarkCubit] _addBookmark POST store=$storeId');
+    appLog('[BookmarkCubit] _addBookmark POST store=$storeId');
 
     final res = await _repo.createBookmark(
       firebaseUid: user.uId,
@@ -157,8 +157,8 @@ class BookmarkCubit extends SafeCubit<BookmarkState> with RequiresUser<BookmarkS
     );
 
     res.fold(
-      (f) => log('[BookmarkCubit] _addBookmark failed: ${f.message}'),
-      (_) => log('[BookmarkCubit] _addBookmark success'),
+      (f) => appLog('[BookmarkCubit] _addBookmark failed: ${f.message}'),
+      (_) => appLog('[BookmarkCubit] _addBookmark success'),
     );
 
     // Refresh list to get full bookmark object
@@ -169,7 +169,7 @@ class BookmarkCubit extends SafeCubit<BookmarkState> with RequiresUser<BookmarkS
     final user = await requireUser((msg) => BookmarkFailure(message: msg));
     if (user == null) return;
 
-    log('[BookmarkCubit] _removeBookmark DELETE id=$bookmarkId');
+    appLog('[BookmarkCubit] _removeBookmark DELETE id=$bookmarkId');
 
     final res = await _repo.deleteBookmark(
       bookmarkId: bookmarkId,
@@ -177,8 +177,8 @@ class BookmarkCubit extends SafeCubit<BookmarkState> with RequiresUser<BookmarkS
     );
 
     res.fold(
-      (f) => log('[BookmarkCubit] _removeBookmark failed: ${f.message}'),
-      (_) => log('[BookmarkCubit] _removeBookmark success'),
+      (f) => appLog('[BookmarkCubit] _removeBookmark failed: ${f.message}'),
+      (_) => appLog('[BookmarkCubit] _removeBookmark success'),
     );
 
     await loadBookmarks(isRefresh: true);

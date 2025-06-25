@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/core/utils/backend_endpoints.dart';
 import 'http_client_service.dart';
@@ -21,11 +21,11 @@ class UserService {
       if (res.statusCode == 200) {
         return UserModel.fromJson(jsonDecode(res.body));
       } else {
-        log('Error fetching user by id: ${res.statusCode} ${res.body}');
+        appLog('Error fetching user by id: ${res.statusCode} ${res.body}');
         throw Exception('Failed to fetch user: ${res.body}');
       }
     } catch (e) {
-      log('Exception in getUserById: $e');
+      appLog('Exception in getUserById: $e');
       rethrow;
     }
   }
@@ -60,11 +60,11 @@ class UserService {
       if (res.statusCode == 200 || res.statusCode == 201) {
         return UserModel.fromJson(jsonDecode(res.body));
       } else {
-        log('Error updating user: ${res.statusCode} ${res.body}');
+        appLog('Error updating user: ${res.statusCode} ${res.body}');
         throw Exception('Failed to update user: ${res.body}');
       }
     } catch (e) {
-      log('Exception in updateUserData: $e');
+      appLog('Exception in updateUserData: $e');
       rethrow;
     }
   }
@@ -99,11 +99,11 @@ class UserService {
       if (res.statusCode == 200 || res.statusCode == 201) {
         return UserModel.fromJson(jsonDecode(res.body));
       } else {
-        log('Error updateAfterRegister: ${res.statusCode} ${res.body}');
+        appLog('Error updateAfterRegister: ${res.statusCode} ${res.body}');
         throw Exception('Failed to update user after register: ${res.body}');
       }
     } catch (e) {
-      log('Exception in updateUserAfterRegister: $e');
+      appLog('Exception in updateUserAfterRegister: $e');
       rethrow;
     }
   }
@@ -120,11 +120,11 @@ class UserService {
       if (res.statusCode == 200) {
         return (jsonDecode(res.body) as Map<String, dynamic>)['message'];
       } else {
-        log('Error deleting user: ${res.statusCode} ${res.body}');
+        appLog('Error deleting user: ${res.statusCode} ${res.body}');
         throw Exception('Failed to delete user: ${res.body}');
       }
     } catch (e) {
-      log('Exception in deleteUserByFirebaseUid: $e');
+      appLog('Exception in deleteUserByFirebaseUid: $e');
       rethrow;
     }
   }

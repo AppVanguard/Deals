@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';
 import 'http_client_service.dart';
 import 'package:deals/features/bookmarks/data/bookmark_model/bookmark_model.dart';
@@ -43,7 +43,7 @@ class BookmarkService {
     );
 
     if (res.statusCode != 200) {
-      log('Error fetching bookmarks ${res.statusCode}: ${res.body}');
+      appLog('Error fetching bookmarks ${res.statusCode}: ${res.body}');
       throw Exception('Failed to load bookmarks');
     }
 
@@ -69,7 +69,7 @@ class BookmarkService {
     );
 
     if (res.statusCode != 201) {
-      log('Error creating bookmark ${res.statusCode}: ${res.body}');
+      appLog('Error creating bookmark ${res.statusCode}: ${res.body}');
       throw Exception('Failed to create bookmark');
     }
 
@@ -105,7 +105,7 @@ class BookmarkService {
     );
 
     if (res.statusCode != 204) {
-      log('Error deleting bookmark ${res.statusCode}: ${res.body}');
+      appLog('Error deleting bookmark ${res.statusCode}: ${res.body}');
       throw Exception('Failed to delete bookmark');
     }
   }

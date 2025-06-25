@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,7 +69,7 @@ class _StoreDetailViewState extends State<StoreDetailView>
         if (state is StoreDetailsSuccess &&
             !state.isLoadingMore &&
             state.pagination.hasNextPage) {
-          log("Loading next page of coupons...");
+          appLog("Loading next page of coupons...");
           cubit.loadNextPage();
         }
       }

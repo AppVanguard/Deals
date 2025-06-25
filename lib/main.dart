@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -49,7 +49,7 @@ Future<void> runWithSentry(VoidCallback appRunner) async {
 /// Background message handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  log('Handling a background message: ${message.messageId}');
+  appLog('Handling a background message: ${message.messageId}');
   // Optionally do local DB or schedule local notification here
 }
 
@@ -78,7 +78,7 @@ Future<void> initializeLocalNotifications() async {
     initSettings,
     onDidReceiveNotificationResponse: (NotificationResponse response) {
       // Handle user tapping on a notification
-      log('Tapped notification payload: ${response.payload}');
+      appLog('Tapped notification payload: ${response.payload}');
     },
   );
 }
@@ -135,14 +135,14 @@ void _attachFcmListener() {
   if (_didAttachFcmListener) return;
   _didAttachFcmListener = true;
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    log('Foreground message received: ${message.messageId}');
+    appLog('Foreground message received: ${message.messageId}');
     await showLocalNotification(message);
     if (getIt.isRegistered<NotificationsCubit>()) {
       getIt<NotificationsCubit>().handleIncomingForegroundMessage(message);
     }
   });
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    log('Notification caused app to open: ${message.messageId}');
+    appLog('Notification caused app to open: ${message.messageId}');
   });
 }
 

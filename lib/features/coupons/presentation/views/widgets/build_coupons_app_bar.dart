@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:flutter/material.dart';
 
@@ -22,8 +22,8 @@ PreferredSizeWidget buildCouponsAppBar(
         context: context,
         builder: (c) => FilterDialog(
           onApplyFilter: (selectedOrder, selectedFilter) {
-            log('selectedOrder: ${selectedOrder.value}');
-            log('selectedFilter: ${selectedFilter.value}');
+            appLog('selectedOrder: ${selectedOrder.value}');
+            appLog('selectedFilter: ${selectedFilter.value}');
             onFilterChanged(
               selectedOrder.value,
               selectedFilter.value,

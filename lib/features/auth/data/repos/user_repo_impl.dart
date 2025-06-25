@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/core/errors/failure.dart';
@@ -17,7 +17,7 @@ class UserRepoImpl extends UserRepo {
       final model = await _userService.getUserById(id, token);
       return Right(UserMapper.mapToEntity(model));
     } catch (e) {
-      log('Error in getUserById: $e');
+      appLog('Error in getUserById: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -42,7 +42,7 @@ class UserRepoImpl extends UserRepo {
       );
       return Right(UserMapper.mapToEntity(model));
     } catch (e) {
-      log('Error in updateUserAfterRegister: $e');
+      appLog('Error in updateUserAfterRegister: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -67,7 +67,7 @@ class UserRepoImpl extends UserRepo {
       );
       return Right(UserMapper.mapToEntity(model));
     } catch (e) {
-      log('Error in updateUserData: $e');
+      appLog('Error in updateUserData: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }

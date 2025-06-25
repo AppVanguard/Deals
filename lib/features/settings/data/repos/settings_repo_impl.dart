@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/user_entity.dart';
@@ -41,7 +41,7 @@ class SettingsRepoImpl implements SettingsRepo {
       );
       return res.map((_) => unit);
     } catch (e) {
-      log('Error allowing push server-side: $e');
+      appLog('Error allowing push server-side: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -58,7 +58,7 @@ class SettingsRepoImpl implements SettingsRepo {
       );
       return res.map((_) => unit);
     } catch (e) {
-      log('Error disabling push server-side: $e');
+      appLog('Error disabling push server-side: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -74,7 +74,7 @@ class SettingsRepoImpl implements SettingsRepo {
       await flutterLocalNotificationsPlugin.cancelAll();
       return const Right(unit);
     } catch (e) {
-      log('Error disabling push locally: $e');
+      appLog('Error disabling push locally: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -84,11 +84,11 @@ class SettingsRepoImpl implements SettingsRepo {
     try {
       await FirebaseMessaging.instance.setAutoInitEnabled(true);
       final token = await FirebaseMessaging.instance.getToken();
-      log('New FCM token: $token');
+      appLog('New FCM token: $token');
       await initializeLocalNotifications();
       return const Right(unit);
     } catch (e) {
-      log('Error enabling push locally: $e');
+      appLog('Error enabling push locally: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -112,7 +112,7 @@ class SettingsRepoImpl implements SettingsRepo {
       );
       return Right(msg);
     } catch (e) {
-      log('Error in changePassword: $e');
+      appLog('Error in changePassword: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -127,7 +127,7 @@ class SettingsRepoImpl implements SettingsRepo {
           await _userService.deleteUserByFirebaseUid(firebaseUid, authToken);
       return Right(msg);
     } catch (e) {
-      log('Error deleting account: $e');
+      appLog('Error deleting account: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -155,7 +155,7 @@ class SettingsRepoImpl implements SettingsRepo {
       );
       return Right(UserMapper.mapToEntity(model));
     } catch (e) {
-      log('Error updating user (settings): $e');
+      appLog('Error updating user (settings): $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }

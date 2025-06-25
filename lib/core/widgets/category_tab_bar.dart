@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
@@ -75,7 +75,7 @@ class _CategoryTabBarState extends State<CategoryTabBar> {
                       final String categoryId = currentIndex == 0
                           ? ''
                           : categories[currentIndex - 1].id;
-                      log("Selected tab: $categoryId");
+                      appLog("Selected tab: $categoryId");
                       widget.onTabSelected!(categoryId);
                     } else {
                       widget.onTabSelected!(currentIndex.toString());

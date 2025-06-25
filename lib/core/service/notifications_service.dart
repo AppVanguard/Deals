@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/features/notifications/data/models/notifications_model.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';
 import 'http_client_service.dart';
@@ -34,11 +34,11 @@ class NotificationsService {
         final jsonMap = jsonDecode(response.body) as Map<String, dynamic>;
         return NotificationsModel.fromJson(jsonMap);
       } else {
-        log('Error fetching notifications: ${response.statusCode} ${response.body}');
+        appLog('Error fetching notifications: ${response.statusCode} ${response.body}');
         throw Exception('Failed to fetch notifications');
       }
     } catch (e) {
-      log('getNotifications exception: $e');
+      appLog('getNotifications exception: $e');
       rethrow;
     }
   }
@@ -50,8 +50,8 @@ class NotificationsService {
     required List<String> notificationIds,
     required String token,
   }) async {
-    log("userId in markAsRead: $firebaseUid");
-    log("notificationIds in markAsRead: $notificationIds");
+    appLog("userId in markAsRead: $firebaseUid");
+    appLog("notificationIds in markAsRead: $notificationIds");
     final url = Uri.parse(BackendEndpoints.notificationsRead);
     try {
       final body = jsonEncode({
@@ -66,13 +66,13 @@ class NotificationsService {
       );
 
       if (response.statusCode == 200) {
-        log('Notifications marked as read successfully');
+        appLog('Notifications marked as read successfully');
       } else {
-        log('Error marking notifications as read: ${response.statusCode} ${response.body}');
+        appLog('Error marking notifications as read: ${response.statusCode} ${response.body}');
         throw Exception('Failed to mark notifications as read');
       }
     } catch (e) {
-      log('markAsRead exception: $e');
+      appLog('markAsRead exception: $e');
       rethrow;
     }
   }

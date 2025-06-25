@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:dartz/dartz.dart';
 
 import 'package:deals/core/errors/failure.dart';
@@ -48,7 +48,7 @@ class BookmarkRepoImpl implements BookmarkRepo {
             : BookmarkPaginationMapper.mapToEntity(model.pagination!),
       ));
     } catch (e, st) {
-      log('BookmarkRepoImpl.getUserBookmarks', error: e, stackTrace: st);
+      appLog('BookmarkRepoImpl.getUserBookmarks', error: e, stackTrace: st);
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -67,7 +67,7 @@ class BookmarkRepoImpl implements BookmarkRepo {
       );
       return Right(BookmarksMapper.mapToEntity(data));
     } catch (e, st) {
-      log('BookmarkRepoImpl.createBookmark', error: e, stackTrace: st);
+      appLog('BookmarkRepoImpl.createBookmark', error: e, stackTrace: st);
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -81,7 +81,7 @@ class BookmarkRepoImpl implements BookmarkRepo {
       await service.deleteBookmark(bookmarkId: bookmarkId, token: token);
       return const Right(null);
     } catch (e, st) {
-      log('BookmarkRepoImpl.deleteBookmark', error: e, stackTrace: st);
+      appLog('BookmarkRepoImpl.deleteBookmark', error: e, stackTrace: st);
       return Left(ServerFailure(message: e.toString()));
     }
   }

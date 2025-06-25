@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/coupon_entity.dart';
@@ -55,7 +55,7 @@ class CouponsRepoImpl implements CouponsRepo {
           coupons: couponEntities, pagination: paginationEntity);
       return Right(result);
     } catch (e) {
-      log('Error in couponsRepoImpl: ${e.toString()}');
+      appLog('Error in couponsRepoImpl: ${e.toString()}');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -74,7 +74,7 @@ class CouponsRepoImpl implements CouponsRepo {
         throw Exception('Coupon not found');
       }
     } catch (e) {
-      log('Error in couponsRepoImpl: ${e.toString()}');
+      appLog('Error in couponsRepoImpl: ${e.toString()}');
       return Left(ServerFailure(message: e.toString()));
     }
   }

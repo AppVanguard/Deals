@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/core/models/category_model/category_model.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';
 import 'http_client_service.dart';
@@ -34,11 +34,11 @@ class CategoriesService {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return CategoryModel.fromJson(jsonMap);
       } else {
-        log('Error fetching categories: ${response.statusCode} ${response.body}');
+        appLog('Error fetching categories: ${response.statusCode} ${response.body}');
         throw Exception('Failed to fetch categories: ${response.body}');
       }
     } catch (e) {
-      log('Exception in getAllCategories: ${e.toString()}');
+      appLog('Exception in getAllCategories: ${e.toString()}');
       rethrow;
     }
   }
@@ -53,11 +53,11 @@ class CategoriesService {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return CategoryModel.fromJson(jsonMap);
       } else {
-        log('Error fetching category by id: ${response.statusCode} ${response.body}');
+        appLog('Error fetching category by id: ${response.statusCode} ${response.body}');
         throw Exception('Failed to fetch category by id: ${response.body}');
       }
     } catch (e) {
-      log('Exception in getCategoryById: ${e.toString()}');
+      appLog('Exception in getCategoryById: ${e.toString()}');
       rethrow;
     }
   }
