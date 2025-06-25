@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/core/service/get_it_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:deals/core/utils/firebase_utils.dart';
 
 import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
@@ -36,7 +37,7 @@ class SettingsCubit extends SafeCubit<SettingsState>
     if (user == null) return;
 
     // get FCM token
-    final deviceToken = await FirebaseMessaging.instance.getToken();
+    final deviceToken = await fetchFcmTokenSafely();
     if (deviceToken == null) {
       emit(SettingsPushFailure(message: 'FCM token not available'));
       return;
