@@ -1,7 +1,6 @@
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:deals/features/faq/domain/models/faq_document.dart';
 import 'package:deals/features/faq/domain/repos/faq_repository.dart';
-import 'package:meta/meta.dart';
 
 part 'faq_state.dart';
 

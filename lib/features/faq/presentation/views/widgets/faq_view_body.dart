@@ -3,7 +3,6 @@ import 'package:deals/features/faq/presentation/manager/cubits/faq_cubit/faq_cub
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'faq_card.dart';
 
