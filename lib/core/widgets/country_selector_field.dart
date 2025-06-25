@@ -4,10 +4,23 @@ import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
+/// Dropdown-like field allowing the user to pick a country.
+///
+/// Uses the [country_picker] package and provides validation along with an
+/// optional pre-selected [initialCountry]. The selected value is returned via
+/// [onCountrySelected].
+
 class CountrySelectorField extends StatefulWidget {
+  /// Initially selected country.
   final Country? initialCountry; // ← NEW
+
+  /// Called when the user selects a country.
   final ValueChanged<Country> onCountrySelected;
+
+  /// Label displayed above the field.
   final String label;
+
+  /// Optional validation callback for the chosen country.
   final String? Function(Country?)? validator;
 
   const CountrySelectorField({

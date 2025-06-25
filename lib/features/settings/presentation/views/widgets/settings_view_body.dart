@@ -8,6 +8,7 @@ import 'package:deals/generated/l10n.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+/// Settings screen containing push toggle and navigation links.
 class SettingsViewBody extends StatelessWidget {
   final bool pushEnabled;
   final bool isLoading;

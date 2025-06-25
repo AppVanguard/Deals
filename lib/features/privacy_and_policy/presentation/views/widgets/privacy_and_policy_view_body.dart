@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+/// Shows the privacy policy content or an error message when loading fails.
 class PrivacyAndPolicyViewBody extends StatelessWidget {
   const PrivacyAndPolicyViewBody({super.key});
 

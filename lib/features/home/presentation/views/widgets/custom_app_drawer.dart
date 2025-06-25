@@ -23,9 +23,14 @@ import 'package:deals/features/faq/presentation/views/faq_view.dart';
 import 'drawer_divider.dart';
 import 'drawer_tile.dart';
 import 'logout_helper.dart';
+/// Side navigation drawer used on the home screen.
+///
+/// Displays user information at the top along with navigation links and a
+/// version label at the bottom.
 
 class CustomAppDrawer extends StatelessWidget {
   const CustomAppDrawer({super.key, required this.userData});
+  /// Currently authenticated user.
   final UserEntity userData;
 
   @override

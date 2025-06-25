@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+/// Bar shown after cashback activation with store image and a button.
 class ActivatedBar extends StatelessWidget {
   const ActivatedBar({
     super.key,

@@ -7,6 +7,7 @@ import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+/// Modal used on the coupons screen to select sort and filter options.
 class FilterDialog extends StatefulWidget {
   const FilterDialog({super.key, required this.onApplyFilter});
   final void Function(OrderOption selectedOrder, FilterOption selectedFilter)

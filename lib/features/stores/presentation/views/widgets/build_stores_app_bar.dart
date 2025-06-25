@@ -7,6 +7,7 @@ import 'package:deals/core/widgets/search_filter_app_bar.dart';
 import 'package:deals/features/stores/presentation/views/widgets/filter_dialog.dart';
 import 'package:deals/generated/l10n.dart';
 
+/// App bar used on the stores list screen with search and filter actions.
 PreferredSizeWidget buildStoresAppBar(
   BuildContext context,
   TextEditingController searchController, {

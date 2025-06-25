@@ -2,6 +2,13 @@ import 'package:deals/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
+/// Full-screen error view with retry button and optional illustration.
+///
+/// Used when a page fails to load data. It shows an error message,
+/// an optional Lottie animation, and a retry button that triggers
+/// [onRetry]. The widget can also display additional [errorDetails]
+/// if provided.
+
 class CustomErrorScreen extends StatelessWidget {
   /// Main title to display. Defaults to "Something Went Wrong".
   final Widget title;

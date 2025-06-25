@@ -8,8 +8,13 @@ import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:cached_network_image/cached_network_image.dart'; // <-- new
 
+/// Horizontal list of the most popular stores.
+
 class TopStores extends StatefulWidget {
+  /// Store items to display.
   final List<StoreEntity> stores;
+
+  /// Whether to show skeleton placeholders.
   final bool isLoading;
 
   const TopStores({

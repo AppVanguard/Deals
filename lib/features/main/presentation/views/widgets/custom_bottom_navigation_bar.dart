@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/entities/bottom_navigation_bar_entity.dart';
 import 'package:deals/features/main/presentation/views/widgets/navigation_bar_item.dart';
+/// Bottom navigation bar with rounded corners and animated items.
+///
+/// Takes the [selectedIndex] and notifies [onTap] when the user selects a
+/// different tab. Each tab is built using [NavigationBarItem].
+
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int selectedIndex;

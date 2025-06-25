@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 
+/// Simple radio-based selector used for choosing a gender value.
+
 enum Gender { male, female, other }
 
 class GenderSelector extends StatefulWidget {
+  /// Prefills the selector with this gender string if provided.
   final String? initialGender; // ← NEW
+
+  /// Callback returning the chosen gender as a string.
   final ValueChanged<String> onGenderSelected;
+
+  /// Label displayed above the radio buttons.
   final String label;
+
+  /// Optional validator for form integration.
   final String? Function(Gender?)? validator;
 
   const GenderSelector({

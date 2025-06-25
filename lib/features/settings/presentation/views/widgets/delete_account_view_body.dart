@@ -8,6 +8,7 @@ import 'package:deals/core/widgets/error_message_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/features/settings/presentation/manager/cubits/delete_reasons_cubit/delete_reasons_cubit.dart';
 
+/// Screen body for confirming account deletion with reason checkboxes.
 class DeleteAccountViewBody extends StatefulWidget {
   final bool isLoading;
   final VoidCallback onDelete;

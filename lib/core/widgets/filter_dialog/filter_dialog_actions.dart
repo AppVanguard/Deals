@@ -5,8 +5,13 @@ import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
+/// Footer buttons for the filter dialog with "Reset" and "Show Results".
+
 class FilterDialogActions extends StatelessWidget {
+  /// Called when the user taps the "Reset" button.
   final VoidCallback onReset;
+
+  /// Called when the user taps the "Show Results" button.
   final VoidCallback onShowResults;
 
   const FilterDialogActions({

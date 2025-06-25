@@ -10,6 +10,7 @@ import 'package:deals/features/auth/presentation/views/otp_verification/otp_verf
 import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:go_router/go_router.dart';
 
+/// Wraps [SigninViewBody] with state management and navigation logic.
 class SigninViewBlocConsumer extends StatelessWidget {
   const SigninViewBlocConsumer({super.key});
 

@@ -5,6 +5,8 @@ import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
+/// Wrapper around [IntlPhoneField] with consistent styling and callbacks.
+
 class CustomPhoneField extends StatelessWidget {
   const CustomPhoneField({
     super.key,
@@ -18,13 +20,28 @@ class CustomPhoneField extends StatelessWidget {
     this.autovalidateMode,
   });
 
+  /// Field label displayed above the input.
   final String label;
+
+  /// Two-letter country code used as the initial value.
   final String initialCountryCode; // NEW
+
+  /// Prefilled phone number string.
   final String? initialValue; // NEW
+
+  /// Called whenever the number changes.
   final void Function(PhoneNumber)? onChanged;
+
+  /// Called when the form is saved.
   final void Function(PhoneNumber?)? onSaved;
+
+  /// Callback on submitting via the keyboard.
   final void Function(String)? onSubmitted;
+
+  /// Validation callback for the phone value.
   final FutureOr<String?> Function(PhoneNumber?)? validator;
+
+  /// Autovalidate mode passed to [IntlPhoneField].
   final AutovalidateMode? autovalidateMode;
 
   @override

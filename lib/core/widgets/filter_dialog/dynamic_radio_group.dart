@@ -4,12 +4,28 @@ import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'custom_radio_option.dart';
 
+/// Generic list of radio options with a configurable label builder.
+///
+/// [T] is the value type of each option. The widget displays each item using
+/// [labelBuilder] and notifies [onChanged] when the selection updates.
+
 class DynamicRadioGroup<T> extends StatelessWidget {
+  /// Heading text above the options list.
   final String title;
+
+  /// Available values to choose from.
   final List<T> options;
+
+  /// Currently selected value.
   final T selected;
+
+  /// Callback when the user selects a new option.
   final ValueChanged<T> onChanged;
+
+  /// Builds a string label from each option item.
   final String Function(T) labelBuilder;
+
+  /// Vertical spacing between options.
   final double optionSpacing;
 
   const DynamicRadioGroup({

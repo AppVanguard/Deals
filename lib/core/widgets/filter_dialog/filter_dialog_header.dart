@@ -4,6 +4,9 @@ import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
+/// Simple top section used in filter dialogs.
+/// Displays the localized "Filters" label.
+
 class FilterDialogHeader extends StatelessWidget {
   const FilterDialogHeader({super.key});
 

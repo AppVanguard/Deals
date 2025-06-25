@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:deals/features/settings/presentation/views/widgets/change_password_view_body.dart';
 
+/// Provides state handling for the change password form.
 class ChangePasswordBlocConsumer extends StatelessWidget {
   const ChangePasswordBlocConsumer({super.key});
 

@@ -3,8 +3,13 @@ import 'package:deals/constants.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 
+/// Horizontal divider with optional text for auth screens.
+
 class AuthDivider extends StatelessWidget {
+  /// Divider label displayed between the two horizontal lines.
   const AuthDivider({super.key, required this.text});
+
+  /// Text placed in the middle of the divider.
   final String text;
   @override
   Widget build(BuildContext context) {

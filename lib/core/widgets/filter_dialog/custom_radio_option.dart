@@ -2,9 +2,16 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
+/// Individual radio option with animated check mark used by filter dialogs.
+
 class CustomRadioOption extends StatelessWidget {
+  /// Text label for the option.
   final String label;
+
+  /// Whether this option is currently selected.
   final bool selected;
+
+  /// Called when the option is tapped.
   final VoidCallback onTap;
 
   const CustomRadioOption({

@@ -2,7 +2,9 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
+/// A single slide in the onboarding carousel showing an image and descriptive text.
 class PageViewItem extends StatelessWidget {
+
   const PageViewItem({
     super.key,
     required this.image,

@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+/// Small widget that asynchronously retrieves and displays the app version.
+///
+/// It queries [PackageInfo] on init and shows a "Loading..." placeholder until
+/// the version is available. Useful in settings or about pages.
+
+/// Displays "vX.X.X+build" when the information is ready.
+
 class AppVersionText extends StatefulWidget {
   const AppVersionText({super.key});
 

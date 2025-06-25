@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Simple persistent header delegate that pins a [TabBar] at a fixed height.
 class TabBarHeaderDelegate extends SliverPersistentHeaderDelegate {
+  /// Widget to display as the tab bar.
   TabBarHeaderDelegate({required this.child});
 
   final Widget child;

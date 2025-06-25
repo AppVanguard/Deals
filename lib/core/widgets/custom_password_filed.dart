@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:deals/core/widgets/custom_text_form_field.dart';
 
+/// A password text field that exposes a toggle to show or hide the value.
+///
+/// This widget reuses [CustomTextFormField] but adds an eye icon suffix that
+/// allows the user to reveal or obscure the entered password.
+
 class CustomPasswordField extends StatefulWidget {
   const CustomPasswordField({
     super.key,
@@ -12,11 +17,22 @@ class CustomPasswordField extends StatefulWidget {
     this.borderColor, // NEW
   });
 
+  /// Label and hint text for the password field.
   final String label;
+
+  /// Validation callback returning an error message if invalid.
   final String? Function(String?) validator;
+
+  /// Called when the form is saved.
   final void Function(String?)? onSaved;
+
+  /// Called on every value change.
   final void Function(String)? onChanged;
+
+  /// Called when the user submits from the keyboard.
   final void Function(String)? onFieldSubmitted;
+
+  /// Border color for the inner [CustomTextFormField].
   final Color? borderColor; // NEW
 
   @override

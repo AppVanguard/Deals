@@ -4,6 +4,8 @@ import 'package:deals/core/widgets/custom_button.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:flutter/material.dart';
 
+/// CTA bar displayed at the bottom of store pages.
+/// Shows a shop button and optional cashback text.
 class ShopNowBar extends StatelessWidget {
   const ShopNowBar({
     super.key,

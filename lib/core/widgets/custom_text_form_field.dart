@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 
+/// A text form field with consistent styling used across the app.
+///
+/// [CustomTextFormField] wraps [TextFormField] and exposes common properties for
+/// validation, appearance and event callbacks. It supports optional borders,
+/// custom colors and disabled styling, making it suitable for multiple forms.
+
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
@@ -27,23 +33,58 @@ class CustomTextFormField extends StatelessWidget {
     this.disabledTextColor, // ← NEW
   });
 
+  /// Hint text shown when the field is empty.
   final String hintText;
+
+  /// Label displayed above the field.
   final String label;
+
+  /// Keyboard input type for the field.
   final TextInputType textInputType;
+
+  /// Validation callback returning an error message if invalid.
   final String? Function(String?) validator;
+
+  /// Optional suffix widget, e.g. an icon.
   final Widget? suffixIcon;
+
+  /// Called when the form is saved.
   final void Function(String?)? onSaved;
+
+  /// Whether the text should be obscured (for passwords).
   final bool obscureText;
+
+  /// Called whenever the field value changes.
   final void Function(String)? onChanged;
+
+  /// Called when the user submits from the keyboard.
   final void Function(String)? onFieldSubmitted;
+
+  /// Border color when enabled/focused.
   final Color? borderColor;
+
+  /// Initial text value.
   final String? initialValue;
+
+  /// Whether the field is enabled.
   final bool enabled;
+
+  /// Background color when enabled.
   final Color? fillColor;
+
+  /// Text color when enabled.
   final Color? textColor;
+
+  /// Custom text style (overrides [textColor]).
   final TextStyle? textStyle;
+
+  /// Background color when disabled.
   final Color? disabledFillColor; // ← NEW
+
+  /// Text color when disabled.
   final Color? disabledTextColor; // ← NEW
+
+  /// Whether to draw an outline border.
   final bool hasBorder;
 
   @override

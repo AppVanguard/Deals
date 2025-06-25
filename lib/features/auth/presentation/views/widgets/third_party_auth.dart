@@ -4,11 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:deals/core/utils/app_images.dart';
 
+/// Row of social auth icon buttons for Google/Facebook/Apple.
+
 class ThirdPartyAuth extends StatelessWidget {
-  const ThirdPartyAuth(
-      {super.key, this.googleOnTap, this.facebookOnTap, this.appleOnTap});
+  /// Creates a row of clickable icons for third-party authentication.
+  const ThirdPartyAuth({
+    super.key,
+    this.googleOnTap,
+    this.facebookOnTap,
+    this.appleOnTap,
+  });
+
+  /// Handler for Google sign-in.
   final void Function()? googleOnTap;
+
+  /// Handler for Facebook sign-in.
   final void Function()? facebookOnTap;
+
+  /// Handler for Apple sign-in.
   final void Function()? appleOnTap;
   @override
   Widget build(BuildContext context) {

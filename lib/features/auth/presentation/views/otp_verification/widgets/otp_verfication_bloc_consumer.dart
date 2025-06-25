@@ -11,6 +11,7 @@ import 'package:deals/core/utils/app_images.dart';
 import 'package:deals/features/auth/presentation/views/reset_password/reset_password_view.dart';
 import 'package:go_router/go_router.dart';
 
+/// Handles OTP verification states and navigation logic.
 class OTPVeficationBlocConsumer extends StatelessWidget {
   final String email;
   final String? image;

@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 
+/// Shows an animated top snack bar styled as an error.
+///
+/// [message] is displayed inside the banner. Duration parameters control how
+/// long the snackbar remains visible and how quickly it animates.
 void customErrorTopSnackBar({
   required BuildContext context,
   required String message,
@@ -20,6 +24,9 @@ void customErrorTopSnackBar({
   );
 }
 
+/// Shows an animated top snack bar styled as success.
+///
+/// Shares the same parameters as [customErrorTopSnackBar].
 void customSuccessTopSnackBar({
   required BuildContext context,
   required String message,
