@@ -4,10 +4,22 @@ import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+/// A simple card showing an image, title and subtitle with a trailing arrow.
+///
+/// Used for list items throughout the app. Provides a skeleton placeholder and
+/// triggers [onTap] when tapped.
+
 class GenericCard extends StatelessWidget {
+  /// Title shown prominently in the card.
   final String title;
+
+  /// Subtitle text displayed below the title.
   final String subtitle;
+
+  /// URL or asset path to the leading image.
   final String imagePath;
+
+  /// Callback when the card is tapped.
   final VoidCallback? onTap;
 
   const GenericCard({

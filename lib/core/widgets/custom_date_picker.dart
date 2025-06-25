@@ -3,9 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/date_picker.dart';
 import 'package:intl/intl.dart';
 
+/// A lightweight wrapper around [DatePicker] that displays the selected date
+/// and handles validation.
+///
+/// The picker initially shows [initialDate] if provided and notifies
+/// [onDateSelected] whenever the user chooses a new date.
+
 class CustomDatePicker extends StatefulWidget {
+  /// Initially selected date in the picker.
   final DateTime? initialDate; // ← NEW
+
+  /// Called when the user selects a date.
   final ValueChanged<DateTime> onDateSelected;
+
+  /// Optional validation logic for the chosen date.
   final String? Function(DateTime?)? validator;
 
   const CustomDatePicker({

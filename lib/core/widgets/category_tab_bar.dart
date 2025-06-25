@@ -8,6 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+/// Tab bar that displays a list of store categories fetched from the backend.
+///
+/// Shows a shimmering skeleton while loading and notifies [onTabSelected] when
+/// the user switches tabs.
+
 class CategoryTabBar extends StatefulWidget {
   /// Optional: Provide a callback if you want to respond when a tab is tapped.
   final ValueChanged<String>? onTabSelected;
