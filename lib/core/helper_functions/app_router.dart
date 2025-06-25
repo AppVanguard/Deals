@@ -37,7 +37,7 @@ import 'package:deals/features/settings/presentation/views/delete_account_view.d
 import 'package:deals/features/settings/presentation/views/settings_view.dart';
 import 'package:deals/features/settings/presentation/views/widgets/deleted_success_screen.dart';
 import 'package:deals/features/splash/presentation/views/splash_view.dart';
-import 'package:deals/features/faq/domain/faq_repository.dart';
+import 'package:deals/features/faq/domain/repos/faq_repository.dart';
 import 'package:deals/features/stores/domain/repos/stores_repo.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/stores_cubit/stores_cubit.dart';
@@ -321,10 +321,10 @@ class AppRouter {
       builder: (context, state) => const PrivacyAndPolicyView(),
     ),
     GoRoute(
-      path: FAQView.routeName,
-      name: FAQView.routeName,
+      path: FaqView.routeName,
+      name: FaqView.routeName,
       builder: (context, state) {
-        return FAQView(repository: JsonFaqRepository());
+        return const FaqView();
       },
     ),
     GoRoute(

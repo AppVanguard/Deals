@@ -2229,6 +2229,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Failed to load terms`
+  String get FailedToLoadTerms {
+    return Intl.message(
+      'Failed to load terms',
+      name: 'FailedToLoadTerms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please check your connection and try again.`
+  String get CheckConnectionError {
+    return Intl.message(
+      'Please check your connection and try again.',
+      name: 'CheckConnectionError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Failed to load privacy and policy`
+  String get FaildToLoadPrivaceAndPolicy {
+    return Intl.message(
+      ' Failed to load privacy and policy',
+      name: 'FaildToLoadPrivaceAndPolicy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load FAQ`
+  String get FailToLoadFAQ {
+    return Intl.message(
+      'Failed to load FAQ',
+      name: 'FailToLoadFAQ',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `FAQ`
+  String get FAQ {
+    return Intl.message(
+      'FAQ',
+      name: 'FAQ',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

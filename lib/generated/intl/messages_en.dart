@@ -33,6 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "CashbackC": MessageLookupByLibrary.simpleMessage("Cashback"),
         "Categories": MessageLookupByLibrary.simpleMessage("Categories"),
         "Category": MessageLookupByLibrary.simpleMessage("Category"),
+        "CheckConnectionError": MessageLookupByLibrary.simpleMessage(
+            "Please check your connection and try again."),
         "City": MessageLookupByLibrary.simpleMessage("City/Town"),
         "CityHint": MessageLookupByLibrary.simpleMessage("City"),
         "CityValidator":
@@ -74,10 +76,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "ExpiresIn": MessageLookupByLibrary.simpleMessage("Expires in"),
         "ExtraDiscountTo":
             MessageLookupByLibrary.simpleMessage("Extra discount to"),
+        "FAQ": MessageLookupByLibrary.simpleMessage("FAQ"),
         "FNValidator": MessageLookupByLibrary.simpleMessage(
             "Please enter your full name."),
         "FacebookError": MessageLookupByLibrary.simpleMessage(
             "Facebook login failed or was cancelled"),
+        "FailToLoadFAQ":
+            MessageLookupByLibrary.simpleMessage("Failed to load FAQ"),
+        "FaildToLoadPrivaceAndPolicy": MessageLookupByLibrary.simpleMessage(
+            " Failed to load privacy and policy"),
+        "FailedToLoadTerms":
+            MessageLookupByLibrary.simpleMessage("Failed to load terms"),
         "Female": MessageLookupByLibrary.simpleMessage("Female"),
         "FieldRequired":
             MessageLookupByLibrary.simpleMessage("This field is required"),

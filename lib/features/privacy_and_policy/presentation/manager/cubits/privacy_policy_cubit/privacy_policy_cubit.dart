@@ -1,23 +1,22 @@
-import 'package:deals/core/manager/cubit/safe_cubit.dart';
-import 'package:deals/features/privacy_and_policy/data/privacy_policy_repository.dart';
-import 'package:meta/meta.dart';
+import 'package:deals/features/privacy_and_policy/domain/models/privacy_policy_document.dart';
+import 'package:deals/features/privacy_and_policy/domain/repos/privacy_policy_repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'privacy_policy_state.dart';
 
-/// Cubit responsible for loading privacy policy terms.
-class PrivacyPolicyCubit extends SafeCubit<PrivacyPolicyState> {
-  PrivacyPolicyCubit({required this.repository}) : super(PrivacyPolicyInitial());
+class PrivacyPolicyCubit extends Cubit<PrivacyPolicyState> {
+  final PrivacyPolicyRepo repository;
 
-  final PrivacyPolicyRepository repository;
+  PrivacyPolicyCubit({required this.repository})
+      : super(PrivacyPolicyInitial());
 
-  /// Loads the terms from the repository and emits corresponding states.
   Future<void> loadPolicy() async {
     emit(PrivacyPolicyLoading());
     try {
-      final terms = await repository.loadTerms();
-      emit(PrivacyPolicySuccess(terms));
+      final doc = await repository.loadPolicy();
+      emit(PrivacyPolicySuccess(doc));
     } catch (e) {
-      emit(PrivacyPolicyFailure(message: e.toString()));
+      emit(PrivacyPolicyFailure(e.toString()));
     }
   }
 }

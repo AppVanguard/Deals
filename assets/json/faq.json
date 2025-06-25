@@ -1,53 +1,41 @@
 {
-      "faqs": [
+      "sections": [
             {
-                  "question": "How to withdraw ?",
-                  "answer": [
-                        "Your cashback will be added to your wallet within 3 days after your completed purchases.",
-                        "Waffur must be the last link you clicked in order to get cashback.",
-                        "You might not receive cashback for taxes, delivery charges, returns, exchanges, cancellations, reselling or fraud activities."
+                  "title": "What is “Deals”?",
+                  "bullets": [
+                        "Deals is a free mobile app that helps users find and use discount codes and promotional offers from top brands and stores."
                   ]
             },
             {
-                  "question": "How to edit my personal data ?",
-                  "answer": [
-                        "Go to the Profile tab, tap Edit, then update your name, email or phone.",
-                        "Don’t forget to save at the bottom!"
+                  "title": "How do I use a promo code?",
+                  "bullets": [
+                        "Simply tap the promo code, and you'll be redirected to the merchant's site or app.",
+                        "Paste the code during checkout to receive your discount."
                   ]
             },
             {
-                  "question": "How to activate cashback ?",
-                  "answer": [
-                        "Tap on any participating merchant link in Waffur before you shop.",
-                        "Make sure your order goes through that same session."
+                  "title": "Are all promo codes valid?",
+                  "bullets": [
+                        "We strive to keep our promo codes updated, but some codes may expire or be withdrawn by merchants at any time."
                   ]
             },
             {
-                  "question": "What is pending money ?",
-                  "answer": [
-                        "Pending money is the cashback that you have earned but not yet received.",
-                        "It will be added to your wallet within 3 days after your completed purchases."
+                  "title": "Is there a cost to use this app?",
+                  "bullets": [
+                        "No. “Deals” is 100% free to download and use."
                   ]
             },
             {
-                  "question": "What are cashback terms ?",
-                  "answer": [
-                        "Cashback is only available for new users.",
-                        "Cashback is not available for taxes, delivery charges, returns, exchanges, cancellations, reselling or fraud activities.",
-                        "Cashback is only available for purchases made through Waffur."
+                  "title": "Do I need to create an account?",
+                  "bullets": [
+                        "Creating an account is optional, but recommended to save your favorite deals and get alerts for new promotions."
                   ]
             },
             {
-                  "question": "How to delete my account ?",
-                  "answer": [
-                        "Go to the Profile tab, tap Edit, then tap Delete Account.",
-                        "You will be asked to confirm your decision."
-                  ]
-            },
-            {
-                  "question": "How to change my password ?",
-                  "answer": [
-                        "Go to the Profile tab, tap Edit, then tap Change Password."
+                  "title": "Do you share my data with anyone?",
+                  "bullets": [
+                        "We only share limited data with trusted third-party services for analytics and offer tracking.",
+                        "We never sell your personal information."
                   ]
             }
       ]

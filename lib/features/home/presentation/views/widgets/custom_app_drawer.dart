@@ -127,8 +127,8 @@ class CustomAppDrawer extends StatelessWidget {
                           const DrawerDivider(),
                           DrawerTile(
                             icon: AppImages.assetsImagesHelp,
-                            text: s.help,
-                            onTap: () => context.pushNamed(FAQView.routeName),
+                            text: s.FAQ,
+                            onTap: () => context.pushNamed(FaqView.routeName),
                           ),
                           DrawerTile(
                             icon: AppImages.assetsImagesContact,
@@ -156,8 +156,8 @@ class CustomAppDrawer extends StatelessWidget {
                     child: DrawerTile(
                       icon: AppImages.assetsImagesLogOut,
                       text: s.logOut,
-                      textStyle:
-                          AppTextStyles.bold14.copyWith(color: AppColors.accent),
+                      textStyle: AppTextStyles.bold14
+                          .copyWith(color: AppColors.accent),
                       onTap: () =>
                           confirmAndLogout(context: context, user: user),
                     ),
@@ -175,5 +175,4 @@ class CustomAppDrawer extends StatelessWidget {
       ),
     );
   }
-
 }

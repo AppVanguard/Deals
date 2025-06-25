@@ -1,6 +1,5 @@
 part of 'terms_cubit.dart';
 
-@immutable
 abstract class TermsState {}
 
 class TermsInitial extends TermsState {}
@@ -8,11 +7,11 @@ class TermsInitial extends TermsState {}
 class TermsLoading extends TermsState {}
 
 class TermsSuccess extends TermsState {
-  final List<String> terms;
-  TermsSuccess({required this.terms});
+  final TermsDocument document;
+  TermsSuccess(this.document);
 }
 
 class TermsFailure extends TermsState {
   final String message;
-  TermsFailure({required this.message});
+  TermsFailure(this.message);
 }

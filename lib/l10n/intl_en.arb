@@ -216,5 +216,10 @@
       "noOffers": "No offers",
       "comingSoon": "is coming soon!",
       "refer": "Refer",
-      "sessionExpired": "Your session has expired. Please log in again."
+      "sessionExpired": "Your session has expired. Please log in again.",
+      "FailedToLoadTerms": "Failed to load terms",
+      "CheckConnectionError": "Please check your connection and try again.",
+      "FaildToLoadPrivaceAndPolicy": " Failed to load privacy and policy",
+      "FailToLoadFAQ": "Failed to load FAQ",
+      "FAQ": "FAQ"
 }

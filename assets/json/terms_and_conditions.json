@@ -1,16 +1,83 @@
 {
-      "terms": [
-            "Lorem ipsum dolor sit amet consectetur. Tristique elit risus proin diam tempus tincidunt etiam.",
-            "Varius neque eu hendrerit eleifend orci neque cursus vitae. Lectus velit maecenas sem ut quam leo faucibus.",
-            "Dignissim tempus nibh lectus sagittis orci ut convallis id cras. Sit mattis egestas quam gravida. Aliquet sollicitudin justo massa purus nulla non congue sed felis. Id cursus a amet a.",
-            "Varius odio amet ut amet dolor. Cras et molestie dapibus eget sapien et est egestas. Dis mi convallis urna massa malesuada. Amet nullam id interdum id nunc diam iaculis.",
-            "Tempor et varius quam consectetur sollicitudin tincidunt praesent sit curabitur. Massa rhoncus id facilisis et.",
-            "Sed ridiculus dui netus vulputate risus viverra dui. Egestas placerat dui ornare us. Ut pharetra non urna bibendum eget tincidunt tellus. Tempor porta dapibus orci imperdiet mauris in tincidunt egestas senectus.",
-            "Tempus sed quisque pretium rhoncus at et rhoncus. Eget pulvinar scelerisque ac massa accumsan. Quis malesuada magnis faucibus fusce.",
-            "Tellus rhoncus rhoncus mauris quis. Id enim fames auctor aliquam massa.",
-            "Tincidunt non ipsum euismod est tincidunt sociis. Felis ultrices nisi ac sit egestas et tellus cursus elementum.",
-            "Netus gravida convallis volutpat praesent posuere eget mollis justo magnis. Faucibus morbi non nulla magna neque. In pellentesque imperdiet non urna a.",
-            "Nibh convallis euismod at metus vestibulum. Tellus morbi arcu pretium sed sed natoque aliquam turpis. Eu diam et eget aliquet. Ipsum aliquam quis tellus tempor. Eget odio dui amet nulla mauris amet ut risus.",
-            "Morbi at faucibus bibendum eu amet sed proin et lectus. Tristique sit ornare nibh morbi leo volutpat ridiculus non. Diam viverra massa lectus enim."
+      "sections": [
+            {
+                  "title": "Welcome to Deals!",
+                  "paragraphs": [
+                        "By downloading or using the Deals mobile application, you agree to be bound by the following terms and conditions. Please read them carefully."
+                  ]
+            },
+            {
+                  "title": "1. Purpose",
+                  "paragraphs": [
+                        "Deals offers access to promotional offers and discount codes (“Promo Codes”) from third-party merchants in the UAE and internationally."
+                  ]
+            },
+            {
+                  "title": "2. User Eligibility",
+                  "paragraphs": [
+                        "You must be at least 18 years old to use this app or have parental consent."
+                  ]
+            },
+            {
+                  "title": "3. Use of Promo Codes",
+                  "bullets": [
+                        "Promo codes are provided for personal, non-commercial use only.",
+                        "We do not guarantee the accuracy, availability, or effectiveness of any promo code.",
+                        "Codes may expire or change at the discretion of the merchant."
+                  ]
+            },
+            {
+                  "title": "4. User Accounts",
+                  "bullets": [
+                        "You may need to register an account to use certain features.",
+                        "You are responsible for maintaining the confidentiality of your account information."
+                  ]
+            },
+            {
+                  "title": "5. Intellectual Property",
+                  "paragraphs": [
+                        "All content within the App, including logos, design, and text, are the property of Deals or its partners and protected by law."
+                  ]
+            },
+            {
+                  "title": "6. Prohibited Uses",
+                  "paragraphs": [
+                        "Users agree not to:"
+                  ],
+                  "bullets": [
+                        "Use the App for unlawful purposes.",
+                        "Attempt to gain unauthorized access to the App or its servers.",
+                        "Reverse engineer or copy the App’s source code."
+                  ]
+            },
+            {
+                  "title": "7. Limitation of Liability",
+                  "paragraphs": [
+                        "We are not liable for:"
+                  ],
+                  "bullets": [
+                        "Inaccurate or expired promo codes.",
+                        "Damages arising from reliance on third-party offers or services.",
+                        "Any technical issues or loss of data."
+                  ]
+            },
+            {
+                  "title": "8. Modification and Termination",
+                  "paragraphs": [
+                        "We reserve the right to modify or terminate the App or these terms at any time. Continued use after updates means you accept the changes."
+                  ]
+            },
+            {
+                  "title": "9. Governing Law",
+                  "paragraphs": [
+                        "These terms are governed by the laws of the United Arab Emirates."
+                  ]
+            },
+            {
+                  "title": "10. Contact",
+                  "paragraphs": [
+                        "For questions, contact us at: support@appname.com."
+                  ]
+            }
       ]
 }

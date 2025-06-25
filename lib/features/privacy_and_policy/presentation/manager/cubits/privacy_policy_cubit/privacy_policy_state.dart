@@ -1,18 +1,17 @@
 part of 'privacy_policy_cubit.dart';
 
-@immutable
-sealed class PrivacyPolicyState {}
+abstract class PrivacyPolicyState {}
 
-final class PrivacyPolicyInitial extends PrivacyPolicyState {}
+class PrivacyPolicyInitial extends PrivacyPolicyState {}
 
-final class PrivacyPolicyLoading extends PrivacyPolicyState {}
+class PrivacyPolicyLoading extends PrivacyPolicyState {}
 
-final class PrivacyPolicySuccess extends PrivacyPolicyState {
-  PrivacyPolicySuccess(this.terms);
-  final List<String> terms;
+class PrivacyPolicySuccess extends PrivacyPolicyState {
+  final PrivacyPolicyDocument document;
+  PrivacyPolicySuccess(this.document);
 }
 
-final class PrivacyPolicyFailure extends PrivacyPolicyState {
-  PrivacyPolicyFailure({required this.message});
+class PrivacyPolicyFailure extends PrivacyPolicyState {
   final String message;
+  PrivacyPolicyFailure(this.message);
 }

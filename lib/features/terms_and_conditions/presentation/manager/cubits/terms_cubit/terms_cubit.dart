@@ -1,10 +1,10 @@
-import 'package:deals/core/manager/cubit/safe_cubit.dart';
+import 'package:deals/features/terms_and_conditions/domain/models/terms_document.dart';
 import 'package:deals/features/terms_and_conditions/domain/repos/terms_repo.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'terms_state.dart';
 
-class TermsCubit extends SafeCubit<TermsState> {
+class TermsCubit extends Cubit<TermsState> {
   final TermsRepo repository;
 
   TermsCubit({required this.repository}) : super(TermsInitial());
@@ -12,10 +12,10 @@ class TermsCubit extends SafeCubit<TermsState> {
   Future<void> loadTerms() async {
     emit(TermsLoading());
     try {
-      final terms = await repository.loadTerms();
-      emit(TermsSuccess(terms: terms));
+      final doc = await repository.loadTerms();
+      emit(TermsSuccess(doc));
     } catch (e) {
-      emit(TermsFailure(message: e.toString()));
+      emit(TermsFailure(e.toString()));
     }
   }
 }

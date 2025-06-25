@@ -1,16 +1,77 @@
 {
-      "privacy": [
-            "Lorem ipsum dolor sit amet consectetur. Tristique elit risus proin diam tempus tincidunt etiam.",
-            "Varius neque eu hendrerit eleifend orci neque cursus vitae. Lectus velit maecenas sem ut quam leo faucibus.",
-            "Dignissim tempus nibh lectus sagittis orci ut convallis id cras. Sit mattis egestas quam gravida. Aliquet sollicitudin justo massa purus nulla non congue sed felis. Id cursus a amet a.",
-            "Varius odio amet ut amet dolor. Cras et molestie dapibus eget sapien et est egestas. Dis mi convallis urna massa malesuada. Amet nullam id interdum id nunc diam iaculis.",
-            "Tempor et varius quam consectetur sollicitudin tincidunt praesent sit curabitur. Massa rhoncus id facilisis et.",
-            "Sed ridiculus dui netus vulputate risus viverra dui. Egestas placerat dui ornare us. Ut pharetra non urna bibendum eget tincidunt tellus. Tempor porta dapibus orci imperdiet mauris in tincidunt egestas senectus.",
-            "Tempus sed quisque pretium rhoncus at et rhoncus. Eget pulvinar scelerisque ac massa accumsan. Quis malesuada magnis faucibus fusce.",
-            "Tellus rhoncus rhoncus mauris quis. Id enim fames auctor aliquam massa.",
-            "Tincidunt non ipsum euismod est tincidunt sociis. Felis ultrices nisi ac sit egestas et tellus cursus elementum.",
-            "Netus gravida convallis volutpat praesent posuere eget mollis justo magnis. Faucibus morbi non nulla magna neque. In pellentesque imperdiet non urna a.",
-            "Nibh convallis euismod at metus vestibulum. Tellus morbi arcu pretium sed sed natoque aliquam turpis. Eu diam et eget aliquet. Ipsum aliquam quis tellus tempor. Eget odio dui amet nulla mauris amet ut risus.",
-            "Morbi at faucibus bibendum eu amet sed proin et lectus. Tristique sit ornare nibh morbi leo volutpat ridiculus non. Diam viverra massa lectus enim."
+      "sections": [
+            {
+                  "title": "Privacy Policy",
+                  "paragraphs": [
+                        "“Deals” respects your privacy. This Privacy Policy describes how we collect, use, and share your personal data."
+                  ]
+            },
+            {
+                  "title": "1. Information We Collect",
+                  "bullets": [
+                        "Account Information: Name, email, and phone number (if you register).",
+                        "Usage Data: App interaction, preferences, and clicks.",
+                        "Device Data: IP address, device model, OS version, language, and location."
+                  ]
+            },
+            {
+                  "title": "2. How We Use Your Information",
+                  "bullets": [
+                        "To provide and personalize the app experience.",
+                        "To analyze usage and improve the app.",
+                        "To communicate promo updates, if you opt-in."
+                  ]
+            },
+            {
+                  "title": "3. Sharing Your Data",
+                  "paragraphs": [
+                        "We may share your data with:"
+                  ],
+                  "bullets": [
+                        "Third-party services like analytics (e.g., Google Firebase).",
+                        "Affiliate partners for tracking redeemed promo codes.",
+                        "Law enforcement if legally required."
+                  ]
+            },
+            {
+                  "title": "4. Data Retention",
+                  "paragraphs": [
+                        "We keep your data only as long as necessary for the purposes listed above."
+                  ]
+            },
+            {
+                  "title": "5. Your Rights",
+                  "paragraphs": [
+                        "You have the right to:"
+                  ],
+                  "bullets": [
+                        "Request access to or deletion of your data.",
+                        "Opt-out of marketing communications."
+                  ]
+            },
+            {
+                  "title": "6. Data Security",
+                  "paragraphs": [
+                        "We implement secure methods to protect your data from unauthorized access."
+                  ]
+            },
+            {
+                  "title": "7. International Data Transfers",
+                  "paragraphs": [
+                        "Data may be processed in or transferred to countries outside the UAE, including the US and EU, in compliance with applicable laws."
+                  ]
+            },
+            {
+                  "title": "8. Children’s Privacy",
+                  "paragraphs": [
+                        "Our app is not intended for users under the age of 13."
+                  ]
+            },
+            {
+                  "title": "9. Contact Us",
+                  "paragraphs": [
+                        "If you have any concerns, email us at: privacy@appname.com."
+                  ]
+            }
       ]
 }
