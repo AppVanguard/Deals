@@ -8,6 +8,7 @@ import 'package:deals/features/notifications/presentation/views/widgets/notifica
 import 'package:deals/generated/l10n.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+/// Displays a paginated list of user notifications.
 class NotificationsViewBody extends StatefulWidget {
   final String userId;
   final String token;

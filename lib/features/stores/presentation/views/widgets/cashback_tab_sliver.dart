@@ -4,6 +4,7 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/generated/l10n.dart';
 
+/// Tab describing cashback details and rates for a store.
 class CashbackTabSliver extends StatefulWidget {
   const CashbackTabSliver({
     super.key,

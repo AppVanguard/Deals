@@ -7,6 +7,7 @@ import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 import 'package:deals/features/stores/presentation/manager/cubits/store_details_cubit/store_details_cubit.dart';
 
+/// Returns the app bar for the store details page with bookmark actions.
 AppBar buildStoreDetailsAppBar(BuildContext context, StoreDetailsState state) {
   final bookmarkCubit = context.watch<BookmarkCubit>();
 

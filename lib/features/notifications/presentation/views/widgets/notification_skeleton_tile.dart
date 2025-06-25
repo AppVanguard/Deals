@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+/// Placeholder widget shown while notifications are loading.
 Widget buildNotificationSkeletonItem() {
   return Skeletonizer(
     child: Container(

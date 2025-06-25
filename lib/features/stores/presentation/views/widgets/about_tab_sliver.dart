@@ -3,6 +3,7 @@ import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_text_styles.dart';
 
+/// “About” tab displaying store description and extra info.
 class AboutTabSliver extends StatelessWidget {
   const AboutTabSliver({
     super.key,

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'faq_card.dart';
 
+/// Displays a list of frequently asked questions fetched from the server.
 class FaqViewBody extends StatelessWidget {
   const FaqViewBody({super.key});
 

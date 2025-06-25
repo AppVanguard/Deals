@@ -3,6 +3,7 @@ import 'package:deals/features/notifications/domain/entities/notification_entity
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+/// Tile showing a notification title, body and timestamp.
 class NotificationTile extends StatelessWidget {
   final NotificationEntity notification;
   final VoidCallback onTap;

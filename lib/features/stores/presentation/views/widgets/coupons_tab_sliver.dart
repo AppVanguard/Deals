@@ -9,6 +9,7 @@ import 'package:deals/core/entities/coupon_entity.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
 
+/// Tab listing store coupons with pagination support.
 class CouponsTabSliver extends StatelessWidget {
   const CouponsTabSliver({
     super.key,

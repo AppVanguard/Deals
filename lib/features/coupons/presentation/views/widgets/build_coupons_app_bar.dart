@@ -7,6 +7,7 @@ import 'package:deals/core/widgets/search_filter_app_bar.dart';
 import 'package:deals/features/coupons/presentation/views/widgets/filter_dialog.dart';
 import 'package:deals/generated/l10n.dart';
 
+/// App bar for the coupons list with search and filter callbacks.
 PreferredSizeWidget buildCouponsAppBar(
   BuildContext context,
   TextEditingController searchController, {

@@ -1,6 +1,7 @@
 import 'package:deals/core/widgets/collapsible_card.dart';
 import 'package:flutter/material.dart';
 
+/// A single FAQ question and expandable answer section.
 class FaqCard extends StatelessWidget {
   final String question;
   final List<String> answer;

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
+/// Confirmation page shown after deleting the user account.
 class DeletedSuccessScreen extends StatelessWidget {
   const DeletedSuccessScreen({super.key});
   static const String routeName = '/deleted-success';

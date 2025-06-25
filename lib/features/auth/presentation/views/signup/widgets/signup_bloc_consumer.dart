@@ -14,6 +14,7 @@ import 'package:deals/features/auth/presentation/views/signup/widgets/signup_vie
 import 'package:deals/features/main/presentation/views/main_view.dart';
 import 'package:go_router/go_router.dart';
 
+/// Handles signup flow states and subsequent navigation.
 class SignupBlocConsumer extends StatelessWidget {
   const SignupBlocConsumer({super.key});
 
