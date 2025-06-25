@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'logger.dart';
 
@@ -10,20 +12,49 @@ Future<String?> fetchFcmTokenSafely({
   int attempts = 3,
   Duration retryDelay = const Duration(seconds: 1),
 }) async {
+  // Delegate to the more robust initialization helper. This keeps existing
+  // callers working while ensuring APNS handling and permission requests
+  // are properly executed on all platforms.
+  return initFirebaseMessaging(
+    attempts: attempts,
+    retryDelay: retryDelay,
+  );
+}
+
+/// Initializes Firebase Messaging by requesting the user's permission and
+/// ensuring the APNS token is available on iOS before fetching the FCM token.
+///
+/// Returns the FCM token if available, or `null` if it could not be retrieved.
+Future<String?> initFirebaseMessaging({
+  int attempts = 3,
+  Duration retryDelay = const Duration(seconds: 1),
+}) async {
+  await FirebaseMessaging.instance.requestPermission();
+
+  if (Platform.isIOS || Platform.isMacOS) {
+    for (var i = 0; i < attempts; i++) {
+      try {
+        final apns = await FirebaseMessaging.instance.getAPNSToken();
+        if (apns != null) break;
+      } on FirebaseException catch (e) {
+        if (e.code != 'apns-token-not-set') {
+          appLog('Error fetching APNS token: $e');
+          break;
+        }
+      } catch (e) {
+        appLog('Unexpected error getting APNS token: $e');
+        break;
+      }
+      await Future.delayed(retryDelay);
+    }
+  }
+
   for (var i = 0; i < attempts; i++) {
     try {
       final token = await FirebaseMessaging.instance.getToken();
       if (token != null) return token;
     } on FirebaseException catch (e) {
-      // If the APNS token hasn't been set yet on iOS, try fetching it and
-      // retry after a short delay.
       if (e.code == 'apns-token-not-set') {
-        appLog('APNS token not set, retrying...');
-        try {
-          await FirebaseMessaging.instance.getAPNSToken();
-        } catch (e) {
-          appLog('Fetching APNS token failed: $e');
-        }
         await Future.delayed(retryDelay);
         continue;
       }
@@ -34,5 +65,6 @@ Future<String?> fetchFcmTokenSafely({
       return null;
     }
   }
+
   return null;
 }
