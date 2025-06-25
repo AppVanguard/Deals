@@ -6,20 +6,33 @@ import 'logger.dart';
 ///
 /// If the APNS token has not been set yet on iOS, this will attempt to
 /// retrieve it before retrying to obtain the FCM token.
-Future<String?> fetchFcmTokenSafely() async {
-  try {
-    return await FirebaseMessaging.instance.getToken();
-  } on FirebaseException catch (e) {
-    appLog('Error getting FCM token: $e');
+Future<String?> fetchFcmTokenSafely({
+  int attempts = 3,
+  Duration retryDelay = const Duration(seconds: 1),
+}) async {
+  for (var i = 0; i < attempts; i++) {
     try {
-      await FirebaseMessaging.instance.getAPNSToken();
-      return await FirebaseMessaging.instance.getToken();
+      final token = await FirebaseMessaging.instance.getToken();
+      if (token != null) return token;
+    } on FirebaseException catch (e) {
+      // If the APNS token hasn't been set yet on iOS, try fetching it and
+      // retry after a short delay.
+      if (e.code == 'apns-token-not-set') {
+        appLog('APNS token not set, retrying...');
+        try {
+          await FirebaseMessaging.instance.getAPNSToken();
+        } catch (e) {
+          appLog('Fetching APNS token failed: $e');
+        }
+        await Future.delayed(retryDelay);
+        continue;
+      }
+      appLog('Error getting FCM token: $e');
+      return null;
     } catch (e) {
-      appLog('Retrying FCM token failed: $e');
+      appLog('Unexpected error getting FCM token: $e');
       return null;
     }
-  } catch (e) {
-    appLog('Unexpected error getting FCM token: $e');
-    return null;
   }
+  return null;
 }
