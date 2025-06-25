@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meta/meta.dart';
@@ -26,7 +26,7 @@ class NotificationsCubit extends SafeCubit<NotificationsState> {
   // Called from main.dart's single FCM listener when a new push arrives
   void handleIncomingForegroundMessage(RemoteMessage message) {
     final data = message.data;
-    log("handleIncomingForegroundMessage: $data");
+    appLog("handleIncomingForegroundMessage: $data");
 
     if (data['_id'] != null && data['_id'].toString().isNotEmpty) {
       if (state is NotificationsSuccess) {
@@ -108,11 +108,11 @@ class NotificationsCubit extends SafeCubit<NotificationsState> {
 
   Future<void> loadMoreNotifications() async {
     if (!_hasMore) {
-      log("No more notifications to load.");
+      appLog("No more notifications to load.");
       return;
     }
     if (_cachedToken == null) {
-      log("No token. Can't load more yet.");
+      appLog("No token. Can't load more yet.");
       return;
     }
     if (state is NotificationsSuccess) {

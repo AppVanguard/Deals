@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/features/stores/data/models/stores_data.dart';
 import 'package:deals/features/stores/data/models/stores_model.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';
@@ -39,11 +39,11 @@ class StoresService {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return StoresModel.fromJson(jsonMap);
       } else {
-        log('Error fetching stores: ${response.statusCode} ${response.body}');
+        appLog('Error fetching stores: ${response.statusCode} ${response.body}');
         throw Exception('Failed to fetch stores: ${response.body}');
       }
     } catch (e) {
-      log('Exception in getAllStores: ${e.toString()}');
+      appLog('Exception in getAllStores: ${e.toString()}');
       rethrow;
     }
   }
@@ -65,11 +65,11 @@ class StoresService {
           data: [singleStore],
         );
       } else {
-        log('Error fetching store by id: ${response.statusCode} ${response.body}');
+        appLog('Error fetching store by id: ${response.statusCode} ${response.body}');
         throw Exception('Failed to fetch store by id: ${response.body}');
       }
     } catch (e) {
-      log('Exception in getStoreById: ${e.toString()}');
+      appLog('Exception in getStoreById: ${e.toString()}');
       rethrow;
     }
   }

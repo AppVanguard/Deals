@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/core/entities/store_entity.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
@@ -54,7 +54,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
       final currentState = cubit.state;
       if (currentState is StoresSuccess && !currentState.isLoadingMore) {
         if (currentState.stores.length < currentState.pagination.totalStores!) {
-          log("Scrolling => load next page");
+          appLog("Scrolling => load next page");
           cubit.loadNextPage();
         }
       }
@@ -70,7 +70,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
         SliverToBoxAdapter(
           child: CategoryTabBar(
             onTabSelected: (categoryId) {
-              log("Category selected: $categoryId");
+              appLog("Category selected: $categoryId");
               // Notify the parent about the new category selection.
               widget.onCategoryChanged(categoryId);
               // Update the filters with the current search and sort order.
@@ -124,7 +124,7 @@ class _StoresViewBodyState extends State<StoresViewBody> {
                     final storeIndex = index - 1;
                     if (storeIndex < stores.length) {
                       final store = stores[storeIndex];
-                      log("Building storeIndex $storeIndex => ${store.title}");
+                      appLog("Building storeIndex $storeIndex => ${store.title}");
                       return _buildStoreCard(isLoading: false, store: store);
                     }
                     if (showLoadingIndicator) {

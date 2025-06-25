@@ -1,6 +1,6 @@
 // lib/features/home/presentation/views/home_view.dart
 
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/home/presentation/views/widgets/build_home_app_bar.dart';
@@ -15,7 +15,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("User Data: ${userData.uId}");
+    appLog("User Data: ${userData.uId}");
     return Scaffold(
       appBar: buildHomeAppBar(context: context, userData: userData),
       drawer: CustomAppDrawerBlocProvider(userData: userData),

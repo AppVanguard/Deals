@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';
@@ -99,7 +99,7 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
 
     if (!hasEmptyFields) {
       final otpCode = _controllers.map((e) => e.text).join();
-      log('Entered OTP: $otpCode');
+      appLog('Entered OTP: $otpCode');
 
       final cubit = context.read<OtpVerifyCubit>();
       if (widget.isRegister) {

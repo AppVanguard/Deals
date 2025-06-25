@@ -1,6 +1,6 @@
 // home_service.dart
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/features/home/data/models/home_model/home_model.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';
 import 'http_client_service.dart';
@@ -39,11 +39,11 @@ class HomeService {
         final homeModel = HomeModel.fromJson(jsonMap);
         return homeModel;
       } else {
-        log('Error fetching home data: ${response.statusCode} ${response.body}');
+        appLog('Error fetching home data: ${response.statusCode} ${response.body}');
         throw Exception('Failed to fetch home data: ${response.body}');
       }
     } catch (e) {
-      log('Exception in getHomeData: ${e.toString()}');
+      appLog('Exception in getHomeData: ${e.toString()}');
       rethrow;
     }
   }

@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:dartz/dartz.dart';
 
@@ -42,7 +42,7 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
         phone: phone,
         password: password,
       );
-      log('createUserWithEmailAndPassword → $data');
+      appLog('createUserWithEmailAndPassword → $data');
       final entity = UserEntity(
         id: '',
         token: '',
@@ -56,7 +56,7 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
     } on CustomException catch (e) {
       return left(ServerFailure(message: e.message));
     } catch (e) {
-      log('createUserWithEmailAndPassword EXCEPTION → $e');
+      appLog('createUserWithEmailAndPassword EXCEPTION → $e');
       return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
@@ -74,17 +74,17 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
       );
 
       final firebaseToken = await firebaseUser.getIdToken();
-      log('Firebase ID token (email/password): $firebaseToken');
+      appLog('Firebase ID token (email/password): $firebaseToken');
 
       final UserModel userModel =
           await authApiService.sendOAuthToken(token: firebaseToken!);
-      log('Backend JWT token: ${userModel.token}');
+      appLog('Backend JWT token: ${userModel.token}');
 
       return right(UserMapper.mapToEntity(userModel));
     } on CustomException catch (e) {
       return left(ServerFailure(message: e.message));
     } catch (e) {
-      log('signInWithEmailAndPassword EXCEPTION → $e');
+      appLog('signInWithEmailAndPassword EXCEPTION → $e');
       return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
@@ -95,17 +95,17 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
     try {
       final firebaseUser = await firebaseAuthService.signInWithGoogle();
       final firebaseToken = await firebaseUser.getIdToken();
-      log('Firebase ID token (Google): $firebaseToken');
+      appLog('Firebase ID token (Google): $firebaseToken');
 
       final UserModel userModel =
           await authApiService.sendOAuthToken(token: firebaseToken!);
-      log('Backend JWT token: ${userModel.token}');
+      appLog('Backend JWT token: ${userModel.token}');
 
       return right(UserMapper.mapToEntity(userModel));
     } on CustomException catch (e) {
       return left(ServerFailure(message: e.message));
     } catch (e) {
-      log('signInWithGoogle EXCEPTION → $e');
+      appLog('signInWithGoogle EXCEPTION → $e');
       return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
@@ -116,17 +116,17 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
     try {
       final firebaseUser = await firebaseAuthService.signInWithFacebook();
       final firebaseToken = await firebaseUser.getIdToken();
-      log('Firebase ID token (Facebook): $firebaseToken');
+      appLog('Firebase ID token (Facebook): $firebaseToken');
 
       final UserModel userModel =
           await authApiService.sendOAuthToken(token: firebaseToken!);
-      log('Backend JWT token: ${userModel.token}');
+      appLog('Backend JWT token: ${userModel.token}');
 
       return right(UserMapper.mapToEntity(userModel));
     } on CustomException catch (e) {
       return left(ServerFailure(message: e.message));
     } catch (e) {
-      log('signInWithFacebook EXCEPTION → $e');
+      appLog('signInWithFacebook EXCEPTION → $e');
       return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
@@ -137,17 +137,17 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
     try {
       final firebaseUser = await firebaseAuthService.signInWithApple();
       final firebaseToken = await firebaseUser.getIdToken();
-      log('Firebase ID token (Apple): $firebaseToken');
+      appLog('Firebase ID token (Apple): $firebaseToken');
 
       final UserModel userModel =
           await authApiService.sendOAuthToken(token: firebaseToken!);
-      log('Backend JWT token: ${userModel.token}');
+      appLog('Backend JWT token: ${userModel.token}');
 
       return right(UserMapper.mapToEntity(userModel));
     } on CustomException catch (e) {
       return left(ServerFailure(message: e.message));
     } catch (e) {
-      log('signInWithApple EXCEPTION → $e');
+      appLog('signInWithApple EXCEPTION → $e');
       return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
@@ -164,7 +164,7 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
     } on CustomException catch (e) {
       return left(ServerFailure(message: e.message));
     } catch (e) {
-      log('sendOtp EXCEPTION → $e');
+      appLog('sendOtp EXCEPTION → $e');
       return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
@@ -180,7 +180,7 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
     } on CustomException catch (e) {
       return left(ServerFailure(message: e.message));
     } catch (e) {
-      log('verifyOtp EXCEPTION → $e');
+      appLog('verifyOtp EXCEPTION → $e');
       return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
@@ -193,7 +193,7 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
     } on CustomException catch (e) {
       return left(ServerFailure(message: e.message));
     } catch (e) {
-      log('resendOtp EXCEPTION → $e');
+      appLog('resendOtp EXCEPTION → $e');
       return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
@@ -208,7 +208,7 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
     } on CustomException catch (e) {
       return left(ServerFailure(message: e.message));
     } catch (e) {
-      log('forgotPassword EXCEPTION → $e');
+      appLog('forgotPassword EXCEPTION → $e');
       return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
@@ -229,7 +229,7 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
     } on CustomException catch (e) {
       return left(ServerFailure(message: e.message));
     } catch (e) {
-      log('resetPassword EXCEPTION → $e');
+      appLog('resetPassword EXCEPTION → $e');
       return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }
@@ -243,7 +243,7 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
     } on CustomException catch (e) {
       return left(ServerFailure(message: e.message));
     } catch (e) {
-      log('logout EXCEPTION → $e');
+      appLog('logout EXCEPTION → $e');
       return left(ServerFailure(message: S.current.SomethingWentWrong));
     }
   }

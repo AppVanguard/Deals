@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/constants.dart';
 import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
@@ -123,14 +123,14 @@ class SigninCubit extends SafeCubit<SigninState> with SocialSigninHelper {
 
     res.fold(
       (f) {
-        log('Notification error: ${f.message}');
+        appLog('Notification error: ${f.message}');
         // if you like, you could also mark pushEnabled=false here:
         Prefs.setBool(kPushEnabled, false);
       },
       (_) {
         Prefs.setBool(key, true); // your existing guard
         Prefs.setBool(kPushEnabled, true); // <— mark push ON
-        log('Notifications registered for ${user.uId}');
+        appLog('Notifications registered for ${user.uId}');
       },
     );
   }

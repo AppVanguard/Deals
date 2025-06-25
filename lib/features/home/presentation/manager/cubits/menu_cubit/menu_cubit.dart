@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:meta/meta.dart';
@@ -38,8 +38,8 @@ class MenuCubit extends SafeCubit<MenuState> {
           authToken: authToken,
         );
         preventResult.fold(
-          (f) => log("Error preventing notifications: ${f.message}"),
-          (_) => log("Notifications prevented for user: $firebaseUid"),
+          (f) => appLog("Error preventing notifications: ${f.message}"),
+          (_) => appLog("Notifications prevented for user: $firebaseUid"),
         );
 
         // 2) Remove local “registered” flag so next login can register again

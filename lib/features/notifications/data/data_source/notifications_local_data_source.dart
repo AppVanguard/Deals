@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/features/notifications/data/models/notification.dart';
 import 'package:hive/hive.dart';
 import 'notification_local.dart';
@@ -48,7 +48,7 @@ class NotificationsLocalDataSource {
         notif.createdAt = local.createdAt;
         result.add(notif);
       } catch (e) {
-        log('Error decoding notification: $e');
+        appLog('Error decoding notification: $e');
       }
     }
     result.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));

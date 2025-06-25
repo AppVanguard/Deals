@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/helper_functions/build_custom_error_screen.dart';
@@ -37,7 +37,7 @@ class _NotificationsViewBodyState extends State<NotificationsViewBody> {
         currentState.hasMore &&
         _scrollController.position.pixels >=
             _scrollController.position.maxScrollExtent - 200) {
-      log("Scrolling near bottom => load more notifications...");
+      appLog("Scrolling near bottom => load more notifications...");
       cubit.loadMoreNotifications();
     }
   }

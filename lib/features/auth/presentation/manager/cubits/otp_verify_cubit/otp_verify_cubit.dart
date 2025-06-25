@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'otp_verify_state.dart';
@@ -12,7 +12,7 @@ class OtpVerifyCubit extends SafeCubit<OtpVerifyState> {
   /// For the registration flow: uses sendOtp.
   Future<void> verifyOtpForRegister(
       {required String email, required String otp}) async {
-    log("in reg otp verify $email, $otp");
+    appLog("in reg otp verify $email, $otp");
     emit(OtpVerifyLoading());
     final result = await authRepo.sendOtp(email: email, otp: otp);
     result.fold(
@@ -31,7 +31,7 @@ class OtpVerifyCubit extends SafeCubit<OtpVerifyState> {
   Future<void> verifyOtpForReset(
       {required String email, required String otp}) async {
     emit(OtpVerifyLoading());
-    log("here $otp, $email");
+    appLog("here $otp, $email");
     final result = await authRepo.verifyOtp(email: email, otp: otp);
     result.fold(
       (failure) => emit(OtpVerifyFailure(message: failure.message)),

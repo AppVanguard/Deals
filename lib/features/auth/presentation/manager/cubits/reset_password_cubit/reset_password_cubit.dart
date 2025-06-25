@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 import 'package:meta/meta.dart';
@@ -26,7 +26,7 @@ class ResetPasswordCubit extends SafeCubit<ResetPasswordState> {
     required String otp,
     required String newPassword,
   }) async {
-    log("In Cubit: email: $email, otp: $otp, newPassword: $newPassword");
+    appLog("In Cubit: email: $email, otp: $otp, newPassword: $newPassword");
     emit(ResetPasswordLoading());
     final result = await authRepo.resetPassword(
       email: email,

@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/category_entity.dart';
@@ -62,7 +62,7 @@ class CategoriesRepoImpl implements CategoriesRepo {
 
       return Right(result);
     } catch (e) {
-      log('Error in CategoriesRepoImpl.getAllCategories: $e');
+      appLog('Error in CategoriesRepoImpl.getAllCategories: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -82,7 +82,7 @@ class CategoriesRepoImpl implements CategoriesRepo {
         throw Exception('Category not found');
       }
     } catch (e) {
-      log('Error in CategoriesRepoImpl.getCategoryById: $e');
+      appLog('Error in CategoriesRepoImpl.getCategoryById: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }

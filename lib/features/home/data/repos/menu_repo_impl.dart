@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/constants.dart';
@@ -15,16 +15,16 @@ class MenuRepoImpl implements MenuRepo {
   @override
   Future<Either<Failure, String>> logOut({required String firebaseUid}) async {
     try {
-      log("try to logout");
+      appLog("try to logout");
       authApiService.logout(firebaseUid: firebaseUid);
 
       // 1) Turn off "remember me"
       Prefs.setBool(kRememberMe, false);
 
-      log('Logout completed successfully.');
+      appLog('Logout completed successfully.');
       return const Right('Logout completed successfully.');
     } catch (e) {
-      log('Logout failed: $e');
+      appLog('Logout failed: $e');
       return Left(ServerFailure(message: 'Logout failed.'));
     }
   }

@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:flutter/material.dart';
 
@@ -23,7 +23,7 @@ PreferredSizeWidget buildStoresAppBar(
         context: context,
         builder: (c) => FilterDialog(
           onApplyFilter: (selectedFilter) {
-            log('Filter selected: ${selectedFilter.value}');
+            appLog('Filter selected: ${selectedFilter.value}');
             onFilterChanged(selectedFilter.value);
           },
         ),

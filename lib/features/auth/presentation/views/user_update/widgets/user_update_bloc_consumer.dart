@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/core/helper_functions/custom_top_snack_bar.dart';
@@ -15,7 +15,7 @@ class UserUpdateBlocConsumer extends StatelessWidget {
   final String token;
   @override
   Widget build(BuildContext context) {
-    log(id);
+    appLog(id);
     return BlocConsumer<UserUpdateCubit, UserUpdateState>(
       listener: (context, state) {
         if (state is UserUpdateFailure) {

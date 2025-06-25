@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/core/utils/backend_endpoints.dart';
 import 'package:deals/features/coupons/data/models/coupons_data.dart';
@@ -41,11 +41,11 @@ class CouponsService {
         final Map<String, dynamic> jsonMap = jsonDecode(response.body);
         return CouponsModel.fromJson(jsonMap);
       } else {
-        log('Error fetching coupons: ${response.statusCode} ${response.body}');
+        appLog('Error fetching coupons: ${response.statusCode} ${response.body}');
         throw Exception('Failed to load data');
       }
     } catch (e) {
-      log('Exception in getAllCoupons: ${e.toString()}');
+      appLog('Exception in getAllCoupons: ${e.toString()}');
       rethrow;
     }
   }
@@ -62,11 +62,11 @@ class CouponsService {
           data: [singleCoupon],
         );
       } else {
-        log('Error fetching coupon by id: ${response.statusCode} ${response.body}');
+        appLog('Error fetching coupon by id: ${response.statusCode} ${response.body}');
         throw Exception('Failed to fetch coupon by id: ${response.body}');
       }
     } catch (e) {
-      log('Exception in getCouponById: ${e.toString()}');
+      appLog('Exception in getCouponById: ${e.toString()}');
       rethrow;
     }
   }

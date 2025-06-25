@@ -1,5 +1,5 @@
 // lib/features/auth/presentation/views/signup/widgets/signup_bloc_consumer.dart
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +28,7 @@ class SignupBlocConsumer extends StatelessWidget {
         if (state is SignupSuccess) {
           if (state.requiresOtp) {
             // New account → OTP verification
-            log('Navigate to OTP for ${state.userEntity.email}');
+            appLog('Navigate to OTP for ${state.userEntity.email}');
             context.pushNamed(
               OtpVerficationView.routeName,
               extra: {

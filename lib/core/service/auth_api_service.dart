@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/core/errors/exception.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';
@@ -36,16 +36,16 @@ class AuthApiService {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        log('registerUser ✅  (${response.statusCode}) → ${response.body}');
+        appLog('registerUser ✅  (${response.statusCode}) → ${response.body}');
         return jsonDecode(response.body) as Map<String, dynamic>;
       }
 
-      log('registerUser ❌  (${response.statusCode}) → ${response.body}');
+      appLog('registerUser ❌  (${response.statusCode}) → ${response.body}');
       throw CustomException(
         'Error registering user: ${response.statusCode} ${response.body}',
       );
     } catch (e) {
-      log('registerUser EXCEPTION → $e');
+      appLog('registerUser EXCEPTION → $e');
       rethrow;
     }
   }
@@ -68,14 +68,14 @@ class AuthApiService {
       );
 
       if (response.statusCode != 200) {
-        log('sendOtp ❌  (${response.statusCode}) → ${response.body}');
+        appLog('sendOtp ❌  (${response.statusCode}) → ${response.body}');
         throw CustomException(
           'Error sending OTP: ${response.statusCode} ${response.body}',
         );
       }
 
       final data = jsonDecode(response.body);
-      log('sendOtp ✅  → $data');
+      appLog('sendOtp ✅  → $data');
 
       return UserEntity(
         id: data[BackendEndpoints.kId],
@@ -86,7 +86,7 @@ class AuthApiService {
         phone: data[BackendEndpoints.keyPhone],
       );
     } catch (e) {
-      log('sendOtp EXCEPTION → $e');
+      appLog('sendOtp EXCEPTION → $e');
       rethrow;
     }
   }
@@ -108,17 +108,17 @@ class AuthApiService {
       );
 
       if (response.statusCode != 200) {
-        log('verifyOtp ❌  (${response.statusCode}) → ${response.body}');
+        appLog('verifyOtp ❌  (${response.statusCode}) → ${response.body}');
         throw CustomException(
           'Error verifying OTP: ${response.statusCode} ${response.body}',
         );
       }
 
       final data = jsonDecode(response.body);
-      log('verifyOtp ✅  → $data');
+      appLog('verifyOtp ✅  → $data');
       return data['message'] as String;
     } catch (e) {
-      log('verifyOtp EXCEPTION → $e');
+      appLog('verifyOtp EXCEPTION → $e');
       rethrow;
     }
   }
@@ -143,7 +143,7 @@ class AuthApiService {
       );
 
       if (response.statusCode != 200) {
-        log('sendOAuthToken ❌  (${response.statusCode}) → ${response.body}');
+        appLog('sendOAuthToken ❌  (${response.statusCode}) → ${response.body}');
         throw CustomException(
           'Error sending OAuth token: ${response.statusCode} ${response.body}',
         );
@@ -159,10 +159,10 @@ class AuthApiService {
       userJson['token'] = body['Jwttoken'] as String;
 
       // — step 3: parse & return
-      log('sendOAuthToken ✅  → user: $userJson');
+      appLog('sendOAuthToken ✅  → user: $userJson');
       return UserModel.fromJson(userJson);
     } catch (e) {
-      log('sendOAuthToken EXCEPTION → $e');
+      appLog('sendOAuthToken EXCEPTION → $e');
       rethrow;
     }
   }
@@ -187,7 +187,7 @@ class AuthApiService {
       );
 
       if (response.statusCode == 200) {
-        log('loginUser ✅  → ${response.body}');
+        appLog('loginUser ✅  → ${response.body}');
         return jsonDecode(response.body) as Map<String, dynamic>;
       }
 
@@ -195,18 +195,18 @@ class AuthApiService {
       if (response.statusCode == 401) {
         final data = jsonDecode(response.body);
         if (data[BackendEndpoints.kMessage] == 'Email not verified') {
-          log('loginUser: email not verified – resending OTP');
+          appLog('loginUser: email not verified – resending OTP');
           await resendOtp(email: email);
           throw CustomException('Email not verified. OTP has been resent.');
         }
       }
 
-      log('loginUser ❌  (${response.statusCode}) → ${response.body}');
+      appLog('loginUser ❌  (${response.statusCode}) → ${response.body}');
       throw CustomException(
         'Error logging in: ${response.statusCode} ${response.body}',
       );
     } catch (e) {
-      log('loginUser EXCEPTION → $e');
+      appLog('loginUser EXCEPTION → $e');
       rethrow;
     }
   }
@@ -227,14 +227,14 @@ class AuthApiService {
       final data = jsonDecode(response.body);
 
       if (response.statusCode != 200) {
-        log('resendOtp ❌  (${response.statusCode}) → ${response.body}');
+        appLog('resendOtp ❌  (${response.statusCode}) → ${response.body}');
         throw CustomException(data['message'] as String? ?? 'Resend failed');
       }
 
-      log('resendOtp ✅  → ${data['message']}');
+      appLog('resendOtp ✅  → ${data['message']}');
       return data['message'] as String;
     } catch (e) {
-      log('resendOtp EXCEPTION → $e');
+      appLog('resendOtp EXCEPTION → $e');
       rethrow;
     }
   }
@@ -255,16 +255,16 @@ class AuthApiService {
       final data = jsonDecode(response.body);
 
       if (response.statusCode != 200) {
-        log('forgotPassword ❌  (${response.statusCode}) → ${response.body}');
+        appLog('forgotPassword ❌  (${response.statusCode}) → ${response.body}');
         throw CustomException(
           'Error in forgotPassword: ${response.statusCode} ${response.body}',
         );
       }
 
-      log('forgotPassword ✅  → ${data['message']}');
+      appLog('forgotPassword ✅  → ${data['message']}');
       return data['message'] as String;
     } catch (e) {
-      log('forgotPassword EXCEPTION → $e');
+      appLog('forgotPassword EXCEPTION → $e');
       rethrow;
     }
   }
@@ -290,16 +290,16 @@ class AuthApiService {
       final data = jsonDecode(response.body);
 
       if (response.statusCode != 200) {
-        log('resetPassword ❌  (${response.statusCode}) → ${response.body}');
+        appLog('resetPassword ❌  (${response.statusCode}) → ${response.body}');
         throw CustomException(
           'Error in resetPassword: ${response.statusCode} ${response.body}',
         );
       }
 
-      log('resetPassword ✅  → ${data['message']}');
+      appLog('resetPassword ✅  → ${data['message']}');
       return data['message'] as String;
     } catch (e) {
-      log('resetPassword EXCEPTION → $e');
+      appLog('resetPassword EXCEPTION → $e');
       rethrow;
     }
   }
@@ -318,15 +318,15 @@ class AuthApiService {
       );
 
       if (response.statusCode != 200) {
-        log('logout ❌  (${response.statusCode}) → ${response.body}');
+        appLog('logout ❌  (${response.statusCode}) → ${response.body}');
         throw CustomException(
           'Error in logout: ${response.statusCode} ${response.body}',
         );
       }
 
-      log('logout ✅  → ${response.body}');
+      appLog('logout ✅  → ${response.body}');
     } catch (e) {
-      log('logout EXCEPTION → $e');
+      appLog('logout EXCEPTION → $e');
       rethrow;
     }
   }
@@ -356,17 +356,17 @@ class AuthApiService {
       final data = jsonDecode(response.body);
 
       if (response.statusCode != 200) {
-        log('changePassword ❌  (${response.statusCode}) → ${response.body}');
+        appLog('changePassword ❌  (${response.statusCode}) → ${response.body}');
         throw CustomException(
           data['message'] as String? ??
               'Error changing password: ${response.statusCode}',
         );
       }
 
-      log('changePassword ✅  → ${data['message']}');
+      appLog('changePassword ✅  → ${data['message']}');
       return data['message'] as String? ?? 'Password updated';
     } catch (e) {
-      log('changePassword EXCEPTION → $e');
+      appLog('changePassword EXCEPTION → $e');
       rethrow;
     }
   }

@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/logger.dart';
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/service/notifications_service.dart';
@@ -57,7 +57,7 @@ class NotificationsRepoImpl implements NotificationsRepo {
 
       return Right(domainList);
     } catch (e) {
-      log('Remote fetch failed: $e');
+      appLog('Remote fetch failed: $e');
       // fallback to local
       final localList = await localDataSource.getCachedNotifications(userId);
       if (localList.isNotEmpty) {
@@ -89,7 +89,7 @@ class NotificationsRepoImpl implements NotificationsRepo {
       );
       return const Right(null);
     } catch (e) {
-      log('Error marking notifications as read: $e');
+      appLog('Error marking notifications as read: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -103,7 +103,7 @@ class NotificationsRepoImpl implements NotificationsRepo {
       await localDataSource.deleteNotification(userId, notificationId);
       return const Right(null);
     } catch (e) {
-      log('Error deleting notification: $e');
+      appLog('Error deleting notification: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
