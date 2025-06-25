@@ -1,6 +1,6 @@
 // lib/features/personal_data/data/repos/presonal_data_repo_impl.dart
 
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/errors/failure.dart';

@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';

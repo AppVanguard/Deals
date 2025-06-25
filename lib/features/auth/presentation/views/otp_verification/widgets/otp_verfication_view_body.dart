@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 
 import 'package:deals/core/utils/app_colors.dart';
 import 'package:deals/core/utils/app_images.dart';

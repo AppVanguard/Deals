@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 import 'package:deals/features/stores/data/models/stores_data.dart';
 import 'package:deals/features/stores/data/models/stores_model.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';

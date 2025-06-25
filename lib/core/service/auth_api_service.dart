@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 
 import 'package:deals/core/errors/exception.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';

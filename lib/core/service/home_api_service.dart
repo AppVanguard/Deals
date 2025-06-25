@@ -1,6 +1,6 @@
 // home_service.dart
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 import 'package:deals/features/home/data/models/home_model/home_model.dart';
 import 'package:deals/core/utils/backend_endpoints.dart';
 import 'http_client_service.dart';

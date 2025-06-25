@@ -1,6 +1,6 @@
 // lib/features/stores/data/repos/stores_repo_impl.dart
 
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/entities/pagination_entity.dart';

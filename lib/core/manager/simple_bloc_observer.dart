@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Global observer that logs every Bloc event, transition, and error.

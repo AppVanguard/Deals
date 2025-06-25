@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 
 import 'package:deals/constants.dart';
 import 'package:deals/core/repos/interface/notifications_permission_repo.dart';

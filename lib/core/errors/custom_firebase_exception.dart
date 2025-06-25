@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:deals/core/errors/exception.dart';

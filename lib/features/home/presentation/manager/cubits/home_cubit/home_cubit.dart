@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 
 import 'package:dartz/dartz.dart';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';

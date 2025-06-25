@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:deals/core/utils/dev_log.dart';
 import 'package:deals/features/notifications/data/models/notification.dart';
 import 'package:hive/hive.dart';
 import 'notification_local.dart';
