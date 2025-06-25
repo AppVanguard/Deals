@@ -7,12 +7,15 @@ import 'package:deals/features/home/domain/repos/menu_repo.dart';
 import 'package:deals/features/home/presentation/manager/cubits/menu_cubit/menu_cubit.dart';
 import 'package:deals/features/home/presentation/views/widgets/custom_app_drawer.dart';
 
+/// Wraps [CustomAppDrawer] with a [BlocProvider] for [MenuCubit].
+
 class CustomAppDrawerBlocProvider extends StatelessWidget {
   const CustomAppDrawerBlocProvider({
     super.key,
     required this.userData,
   });
 
+  /// Data about the current user to pass down to the drawer.
   final UserEntity userData;
 
   @override

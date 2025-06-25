@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
+/// Short red banner used to display non-critical errors inline.
+
 class ErrorBanner extends StatelessWidget {
+  /// Message text to display inside the banner.
   const ErrorBanner({super.key, required this.message});
 
+  /// Error message shown to the user.
   final String message;
 
   @override

@@ -6,8 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/features/home/presentation/manager/cubits/home_cubit/home_cubit.dart';
 import 'package:deals/features/home/presentation/views/widgets/home_content.dart';
 
+/// Handles home data loading and pull-to-refresh logic.
+
 class HomeViewBody extends StatelessWidget {
+  /// Displays the refreshable home content for [user].
   const HomeViewBody({super.key, required this.user});
+
+  /// Currently signed-in user.
   final UserEntity user;
   @override
   Widget build(BuildContext context) {

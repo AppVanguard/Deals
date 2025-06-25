@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 
+/// Card with an [ExpansionTile] that can be toggled open or closed.
+///
+/// Displays a [title] widget and a list of [children] when expanded. Useful
+/// for settings or FAQ sections where content is hidden by default.
+
 class CollapsibleCard extends StatelessWidget {
+  /// Header widget displayed in the collapsed state.
   final Widget title;
+
+  /// Items shown when the card is expanded.
   final List<Widget> children;
+
+  /// Whether the tile starts expanded.
   final bool initiallyExpanded;
 
   const CollapsibleCard({

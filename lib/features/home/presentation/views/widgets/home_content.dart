@@ -10,8 +10,13 @@ import 'package:deals/features/home/presentation/views/widgets/top_stores.dart';
 import 'package:deals/generated/l10n.dart';
 import 'package:go_router/go_router.dart';
 
+/// Core content of the home view containing carousels and top lists.
+
 class HomeContent extends StatelessWidget {
+  /// Data for the home sections. May be null while loading.
   final HomeEntity? homeEntity;
+
+  /// Whether the content is currently loading.
   final bool isLoading;
 
   const HomeContent({

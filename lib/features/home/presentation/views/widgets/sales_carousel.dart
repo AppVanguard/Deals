@@ -7,8 +7,13 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:deals/core/entities/announcement_entity.dart';
 import 'package:cached_network_image/cached_network_image.dart'; // <-- new
 
+/// Auto-playing carousel of promotional images with page indicator.
+
 class SalesCarousel extends StatefulWidget {
+  /// Announcements to display in the carousel.
   final List<AnnouncementEntity> announcements;
+
+  /// Whether to show loading placeholders instead of real images.
   final bool isLoading;
 
   const SalesCarousel({

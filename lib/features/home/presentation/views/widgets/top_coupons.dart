@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+/// Horizontal list of the most popular coupons.
+
 class TopCoupons extends StatefulWidget {
+  /// Coupon items to display.
   final List<dynamic> coupons;
+
+  /// Indicates whether skeleton placeholders should be shown.
   final bool isLoading;
 
   const TopCoupons({

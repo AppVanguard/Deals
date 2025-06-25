@@ -3,19 +3,49 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:deals/core/widgets/custom_button.dart';
 import 'package:go_router/go_router.dart';
 
+/// Helper widget and static [show] method for displaying a styled modal sheet.
+///
+/// Provides an icon (or SVG), a message, and an action button. Use the static
+/// [show] convenience method to present it from anywhere.
+
 class CustomModalSheet extends StatelessWidget {
+  /// Main message displayed inside the sheet.
   final String message;
+
+  /// Label for the action button.
   final String buttonText;
+
+  /// Callback executed when the user taps the action button.
   final VoidCallback onTap;
+
+  /// Whether the sheet can be dismissed by tapping outside of it.
   final bool isDismissible;
+
+  /// Rounded corner radius of the top of the sheet.
   final double borderRadius;
+
+  /// Height of the sheet.
   final double height;
+
+  /// Optional icon displayed above the message when no [svgPicture] is given.
   final IconData? icon;
+
+  /// Color for the [icon].
   final Color iconColor;
+
+  /// Size of the [icon].
   final double iconSize;
+
+  /// Alternative to [icon] for vector assets.
   final SvgPicture? svgPicture; // Add SVG support
+
+  /// Text style applied to the message.
   final TextStyle? messageStyle;
+
+  /// Background color of the sheet container.
   final Color backgroundColor;
+
+  /// Whether dragging down can dismiss the sheet.
   final bool? enableDrag;
   const CustomModalSheet({
     super.key,
