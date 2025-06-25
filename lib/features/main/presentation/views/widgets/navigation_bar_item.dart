@@ -17,6 +17,9 @@ class NavigationBarItem extends StatelessWidget {
             image: bottomNavigationBarEntity.activeImage,
             title: bottomNavigationBarEntity.name,
           )
-        : InActiveItem(image: bottomNavigationBarEntity.inActiveImage);
+        : InActiveItem(
+            image: bottomNavigationBarEntity.inActiveImage,
+            title: bottomNavigationBarEntity.name,
+          );
   }
 }
