@@ -8,6 +8,7 @@ import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 import 'package:deals/features/auth/presentation/manager/helpers/social_signin_helper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:deals/core/utils/firebase_utils.dart';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/generated/l10n.dart';
@@ -112,7 +113,7 @@ class SigninCubit extends SafeCubit<SigninState> with SocialSigninHelper {
     final key = 'notificationsRegistered_${user.uId}';
     if (Prefs.getBool(key)) return;
 
-    final token = await FirebaseMessaging.instance.getToken();
+    final token = await fetchFcmTokenSafely();
     if (token == null || token.isEmpty) return;
 
     final res = await _notificationsPermissionRepo.allowNotifications(

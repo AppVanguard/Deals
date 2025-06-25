@@ -9,6 +9,7 @@ import 'package:deals/core/service/auth_api_service.dart';
 import 'package:deals/core/service/user_service.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:deals/core/utils/firebase_utils.dart';
 import 'package:deals/main.dart'; // for flutterLocalNotificationsPlugin & initializeLocalNotifications()
 
 class SettingsRepoImpl implements SettingsRepo {
@@ -83,7 +84,7 @@ class SettingsRepoImpl implements SettingsRepo {
   Future<Either<Failure, Unit>> enablePushNotificationsLocal() async {
     try {
       await FirebaseMessaging.instance.setAutoInitEnabled(true);
-      final token = await FirebaseMessaging.instance.getToken();
+      final token = await fetchFcmTokenSafely();
       appLog('New FCM token: $token');
       await initializeLocalNotifications();
       return const Right(unit);
