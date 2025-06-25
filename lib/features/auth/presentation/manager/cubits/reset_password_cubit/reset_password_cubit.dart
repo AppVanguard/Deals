@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 import 'package:meta/meta.dart';
 

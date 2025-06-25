@@ -55,7 +55,7 @@ class StoresCubit extends SafeCubit<StoresState>
         limit: _limit,
         sortOrder: _sortOrder,
         categoryId: _categoryId,
-        token: user!.token,
+        token: user.token,
       );
 
       result.fold(

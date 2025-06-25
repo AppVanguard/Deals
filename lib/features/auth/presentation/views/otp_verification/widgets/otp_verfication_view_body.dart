@@ -115,24 +115,6 @@ class _OTPVerificationViewBodyState extends State<OTPVerificationViewBody> {
     context.read<OtpResendTimerCubit>().startTimer();
   }
 
-  OutlineInputBorder _border(int index, {bool focused = false}) {
-    Color color;
-    if (widget.errorMessage != null) {
-      color = Colors.red;
-    } else if (_isError[index]) {
-      color = Colors.red;
-    } else if (_hasValue[index]) {
-      color = AppColors.primary;
-    } else {
-      color = Colors.grey.shade400;
-    }
-
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: color, width: 2),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final timerState = context.watch<OtpResendTimerCubit>().state;

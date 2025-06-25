@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'otp_resend_timer_state.dart';
 
 class OtpResendTimerCubit extends SafeCubit<OtpResendTimerState> {

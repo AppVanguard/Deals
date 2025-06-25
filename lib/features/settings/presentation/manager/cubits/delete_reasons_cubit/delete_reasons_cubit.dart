@@ -1,6 +1,5 @@
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:deals/features/settings/data/repos/delete_account_repository.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'delete_reasons_state.dart';

@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'local_state.dart';

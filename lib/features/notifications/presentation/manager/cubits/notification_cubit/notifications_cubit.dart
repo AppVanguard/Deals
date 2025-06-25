@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/features/notifications/domain/entities/notification_entity.dart';
@@ -100,9 +99,6 @@ class NotificationsCubit extends SafeCubit<NotificationsState> {
 
         emit(NotificationsSuccess(
           notifications: mergedList,
-          isRefreshing: false,
-          isLoadingMore: false,
-          newLoadCount: 0,
           hasMore: _hasMore,
           offset: _offset,
         ));

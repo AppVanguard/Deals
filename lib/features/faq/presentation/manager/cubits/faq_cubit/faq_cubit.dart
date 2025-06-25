@@ -1,7 +1,6 @@
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:deals/features/faq/data/faq_item.dart';
 import 'package:deals/features/faq/domain/faq_repository.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'faq_state.dart';

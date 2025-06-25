@@ -1,7 +1,6 @@
 import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
 import 'package:deals/core/repos/interface/categories_repo.dart';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/core/entities/pagination_entity.dart';
 import 'package:deals/core/entities/category_entity.dart';

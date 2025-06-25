@@ -1,4 +1,3 @@
-// lib/features/bookmarks/presentation/views/bookmark_view.dart
 import 'dart:async';
 import 'package:deals/features/bookmarks/presentation/manager/cubits/bookmark_cubit/bookmark_cubit.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:deals/features/search/presentation/manager/search_cubit/search_c
 
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/core/manager/cubit/category_cubit/categories_cubit.dart';
-import 'package:deals/features/search/presentation/manager/search_cubit/search_cubit.dart';
 import 'package:deals/features/bookmarks/presentation/views/widgets/bookmark_view_body.dart';
 import 'package:deals/features/bookmarks/presentation/views/widgets/build_bookmark_app_bar.dart';
 

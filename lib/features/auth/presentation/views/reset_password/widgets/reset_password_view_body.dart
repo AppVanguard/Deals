@@ -26,6 +26,7 @@ class ResetPasswordViewBody extends StatefulWidget {
 
 class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  // ignore: unused_field
   String _pw = '', _confirm = '';
   AutovalidateMode _mode = AutovalidateMode.disabled;
 
