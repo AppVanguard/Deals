@@ -42,17 +42,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyBR8wNL9Cak9dC7R2Iaj4gKCfMj4g_QcLc',
-    appId: '1:198164528317:web:cccd45fdb2463c33648bd4',
+    appId: '1:198164528317:web:cfac9193b57c65d2648bd4',
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     authDomain: 'inpocket-bb64c.firebaseapp.com',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
-    measurementId: 'G-T2V3DVM43F',
+    measurementId: 'G-48D6TQ35Z0',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCm_EJmnu_0EEoo4vSVufVt--q1ApZX0PE',
-    appId: '1:198164528317:android:6b53f572c26aeada648bd4',
+    appId: '1:198164528317:android:53ea6acd9d3e5acb648bd4',
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
@@ -60,7 +60,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAIR5KSAkbNfMb832_JXgN9k9azvwmL6MI',
-    appId: '1:198164528317:ios:fdf5c74baf6a8bbe648bd4',
+    appId: '1:198164528317:ios:cfdc10a21caedce4648bd4',
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
@@ -71,7 +71,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyAIR5KSAkbNfMb832_JXgN9k9azvwmL6MI',
-    appId: '1:198164528317:ios:fdf5c74baf6a8bbe648bd4',
+    appId: '1:198164528317:ios:cfdc10a21caedce4648bd4',
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
@@ -82,11 +82,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions windows = FirebaseOptions(
     apiKey: 'AIzaSyBR8wNL9Cak9dC7R2Iaj4gKCfMj4g_QcLc',
-    appId: '1:198164528317:web:262dbbc381243c62648bd4',
+    appId: '1:198164528317:web:48121b0384ae1217648bd4',
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     authDomain: 'inpocket-bb64c.firebaseapp.com',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
-    measurementId: 'G-4Z8VKHDPTZ',
+    measurementId: 'G-6YMSJSZB9V',
   );
 }
