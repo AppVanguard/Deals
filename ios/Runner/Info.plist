@@ -91,12 +91,9 @@
 		<key>CFBundleURLTypes</key>
 		<array>
 			<dict>
-				<key>CFBundleTypeRole</key>
-				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>
-						com.googleusercontent.apps.198164528317-epko5vg5mc67328nca196sjaaeotji42</string>
+					<string>com.googleusercontent.apps.198164528317-epko5vg5mc67328nca196sjaaeotji42</string>
 				</array>
 			</dict>
 		</array>
