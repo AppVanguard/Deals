@@ -64,8 +64,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
-    androidClientId: '198164528317-4engdcgjrikpububrlfqds2uet53ed4r.apps.googleusercontent.com',
-    iosClientId: '198164528317-mbpponvojm6dn33nse5q4dd1kp2jj3c0.apps.googleusercontent.com',
+    androidClientId: '198164528317-04vlq2usv7qrlipc98bok1j76a982mip.apps.googleusercontent.com',
+    iosClientId: '198164528317-epko5vg5mc67328nca196sjaaeotji42.apps.googleusercontent.com',
     iosBundleId: 'com.official.deals',
   );
 
@@ -75,8 +75,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '198164528317',
     projectId: 'inpocket-bb64c',
     storageBucket: 'inpocket-bb64c.firebasestorage.app',
-    androidClientId: '198164528317-4engdcgjrikpububrlfqds2uet53ed4r.apps.googleusercontent.com',
-    iosClientId: '198164528317-mbpponvojm6dn33nse5q4dd1kp2jj3c0.apps.googleusercontent.com',
+    androidClientId: '198164528317-04vlq2usv7qrlipc98bok1j76a982mip.apps.googleusercontent.com',
+    iosClientId: '198164528317-epko5vg5mc67328nca196sjaaeotji42.apps.googleusercontent.com',
     iosBundleId: 'com.official.deals',
   );
 
