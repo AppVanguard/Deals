@@ -84,7 +84,7 @@ class SettingsRepoImpl implements SettingsRepo {
   Future<Either<Failure, Unit>> enablePushNotificationsLocal() async {
     try {
       await FirebaseMessaging.instance.setAutoInitEnabled(true);
-      final token = await fetchFcmTokenSafely();
+      final token = await initFirebaseMessaging();
       appLog('New FCM token: $token');
       await initializeLocalNotifications();
       return const Right(unit);
