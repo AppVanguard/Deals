@@ -33,7 +33,8 @@ class FirebaseAuthService {
       appLog('FirebaseAuthService: Created user -> ${credential.user?.uid}');
       return credential.user!;
     } on FirebaseAuthException catch (e) {
-      appLog('Error in FirebaseAuthService.createUserWithEmailAndPassword: ${e.code}');
+      appLog(
+          'Error in FirebaseAuthService.createUserWithEmailAndPassword: ${e.code}');
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
       appLog('Unknown error in createUserWithEmailAndPassword: $e');
@@ -53,7 +54,8 @@ class FirebaseAuthService {
       );
       return credential.user!;
     } on FirebaseAuthException catch (e) {
-      appLog('Error in FirebaseAuthService.signInWithEmailAndPassword: ${e.code}');
+      appLog(
+          'Error in FirebaseAuthService.signInWithEmailAndPassword: ${e.code}');
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
       appLog('Unknown error in signInWithEmailAndPassword: $e');
@@ -157,6 +159,10 @@ class FirebaseAuthService {
         ],
         nonce: nonce,
       );
+      appLog(
+        'Apple credential received: user=${appleCredential.userIdentifier}, '
+        'email=${appleCredential.email}, state=${appleCredential.state}',
+      );
 
       final oauthCredential = OAuthProvider("apple.com").credential(
         idToken: appleCredential.identityToken,
@@ -167,10 +173,12 @@ class FirebaseAuthService {
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
       return userCred.user!;
     } on FirebaseAuthException catch (e) {
-      appLog('Error in FirebaseAuthService.signInWithApple: ${e.code}');
+      appLog(
+        'Error in FirebaseAuthService.signInWithApple: ${e.code} ${e.message}',
+      );
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
-    } catch (e) {
-      appLog('Unknown error in signInWithApple: $e');
+    } catch (e, s) {
+      appLog('Unknown error in signInWithApple: $e', stackTrace: s);
       throw CustomException(S.current.SomethingWentWrong);
     }
   }
