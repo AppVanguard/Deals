@@ -7,6 +7,7 @@ import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 
