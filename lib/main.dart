@@ -24,6 +24,7 @@ import 'package:deals/features/notifications/data/data_source/notification_local
 import 'package:deals/features/notifications/presentation/manager/cubits/notification_cubit/notifications_cubit.dart';
 import 'package:deals/firebase_options.dart';
 import 'package:deals/generated/l10n.dart';
+import 'package:deals/core/utils/firebase_utils.dart';
 
 // 1) Local notifications plugin
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -60,8 +61,8 @@ Future<void> initializeLocalNotifications() async {
       AndroidInitializationSettings('@mipmap/ic_launcher');
 
   // iOS / Darwin settings (v10+ uses DarwinInitializationSettings):
-  const DarwinInitializationSettings
-  iosInitSettings = DarwinInitializationSettings(
+  const DarwinInitializationSettings iosInitSettings =
+      DarwinInitializationSettings(
     requestAlertPermission: false,
     requestBadgePermission: false,
     requestSoundPermission: false,
@@ -154,8 +155,8 @@ Future<void> requestNotificationPermissions() async {
       sound: true,
     );
   } else if (Platform.isAndroid) {
-    final androidImpl = flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
+    final androidImpl =
+        flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>();
     await androidImpl?.requestNotificationsPermission();
   }
@@ -188,10 +189,15 @@ Future<void> main() async {
   await initializeLocalNotifications();
   await requestNotificationPermissions();
   _attachFcmListener();
+  if (!kReleaseMode) {
+    final token = await initFirebaseMessaging();
+    appLog('Initial FCM token: $token');
+  }
 
   Future<void> runner() async {
     runApp(_buildApp());
   }
+
   if (kReleaseMode) {
     await _initSentry(runner);
   } else {

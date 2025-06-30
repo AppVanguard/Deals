@@ -22,8 +22,8 @@ Future<String?> initFirebaseMessaging({
         sound: true,
       );
     } else if (Platform.isAndroid) {
-      final androidImpl = flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
+      final androidImpl =
+          flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>();
       await androidImpl?.requestNotificationsPermission();
     } else {
@@ -37,7 +37,10 @@ Future<String?> initFirebaseMessaging({
     for (var i = 0; i < attempts; i++) {
       try {
         final apns = await FirebaseMessaging.instance.getAPNSToken();
-        if (apns != null) break;
+        if (apns != null) {
+          appLog('APNS token retrieved: $apns');
+          break;
+        }
       } on FirebaseException catch (e) {
         if (e.code != 'apns-token-not-set') {
           appLog('Error fetching APNS token: $e');
@@ -54,7 +57,10 @@ Future<String?> initFirebaseMessaging({
   for (var i = 0; i < attempts; i++) {
     try {
       final token = await FirebaseMessaging.instance.getToken();
-      if (token != null) return token;
+      if (token != null) {
+        appLog('FCM token retrieved: $token');
+        return token;
+      }
     } on FirebaseException catch (e) {
       if (e.code == 'apns-token-not-set') {
         await Future.delayed(retryDelay);
@@ -67,6 +73,6 @@ Future<String?> initFirebaseMessaging({
       return null;
     }
   }
-
+  appLog('Failed to obtain FCM token after $attempts attempts');
   return null;
 }
