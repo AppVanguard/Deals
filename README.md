@@ -95,6 +95,7 @@ Each feature under `lib/features` is isolated with its own data, domain and pres
 - Dart SDK 3.6 or later
 - The bundled `flutter/` directory or any Flutter SDK >= 3.32
 - Firebase project configured for Android, iOS and Web
+- Xcode with an iOS 14.0+ toolchain (the project deployment target is 14.0)
 
 ### Configuration
 Create a `.env` file in the project root with:
