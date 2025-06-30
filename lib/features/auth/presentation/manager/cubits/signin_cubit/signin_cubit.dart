@@ -112,9 +112,15 @@ class SigninCubit extends SafeCubit<SigninState> with SocialSigninHelper {
     final key = 'notificationsRegistered_${user.uId}';
     if (Prefs.getBool(key)) return;
 
+    appLog('SigninCubit._registerNotifications: requesting FCM token');
     final token = await initFirebaseMessaging();
-    if (token == null || token.isEmpty) return;
+    if (token == null || token.isEmpty) {
+      appLog('SigninCubit._registerNotifications: token unavailable');
+      return;
+    }
+    appLog('SigninCubit._registerNotifications: token -> $token');
 
+    appLog('SigninCubit._registerNotifications: sending allowNotifications');
     final res = await _notificationsPermissionRepo.allowNotifications(
       firebaseUid: user.uId,
       deviceToken: token,
@@ -130,7 +136,8 @@ class SigninCubit extends SafeCubit<SigninState> with SocialSigninHelper {
       (_) {
         Prefs.setBool(key, true); // your existing guard
         Prefs.setBool(kPushEnabled, true); // <— mark push ON
-        appLog('Notifications registered for ${user.uId}');
+        appLog(
+            'SigninCubit._registerNotifications: registration complete for ${user.uId}');
       },
     );
   }

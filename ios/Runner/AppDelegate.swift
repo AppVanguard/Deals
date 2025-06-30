@@ -10,6 +10,7 @@ import FirebaseMessaging
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     FirebaseApp.configure()
+    NSLog("AppDelegate: Firebase configured")
     UNUserNotificationCenter.current().delegate = self
     Messaging.messaging().delegate = self
     GeneratedPluginRegistrant.register(with: self)
@@ -22,12 +23,13 @@ import FirebaseMessaging
     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
   ) {
     Messaging.messaging().apnsToken = deviceToken
+    NSLog("AppDelegate: APNS token registered")
     super.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
   }
 
   func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
     if let token = fcmToken {
-      NSLog("FCM registration token: \(token)")
+      NSLog("AppDelegate: FCM registration token \(token)")
     }
   }
 
@@ -35,6 +37,7 @@ import FirebaseMessaging
     _ center: UNUserNotificationCenter,
     willPresent notification: UNNotification
   ) async -> UNNotificationPresentationOptions {
+    NSLog("AppDelegate: notification willPresent")
     return [.badge, .sound, .banner]
   }
 }
