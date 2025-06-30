@@ -54,7 +54,7 @@ class AppDelegate: FlutterAppDelegate, MessagingDelegate {
 
     // You can customize these options however you like:
     var opts: UNNotificationPresentationOptions = [.badge, .sound]
-    if #available(iOS 13.0, *) {
+    if #available(iOS 14.0, *) {
       opts.formUnion([.banner, .list])
     } else {
       opts.formUnion([.alert])
