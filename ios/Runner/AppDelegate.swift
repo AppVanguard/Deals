@@ -2,6 +2,7 @@ import UIKit
 import Flutter
 import Firebase
 import FirebaseMessaging
+import UserNotifications
 
 @main
 @objc
