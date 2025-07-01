@@ -152,6 +152,8 @@ class FirebaseAuthService {
     final nonce = sha256ofString(rawNonce);
 
     try {
+      // Clear any existing session to avoid stale credentials
+      await FirebaseAuth.instance.signOut();
       final appleCredential = await SignInWithApple.getAppleIDCredential(
         scopes: [
           AppleIDAuthorizationScopes.email,
@@ -163,6 +165,11 @@ class FirebaseAuthService {
         'Apple credential received: user=${appleCredential.userIdentifier}, '
         'email=${appleCredential.email}, state=${appleCredential.state}',
       );
+
+      if (appleCredential.identityToken == null) {
+        appLog('Apple credential missing identityToken');
+        throw CustomException(S.current.invalidCredential);
+      }
 
       final oauthCredential = OAuthProvider("apple.com").credential(
         idToken: appleCredential.identityToken,
