@@ -189,6 +189,11 @@ Future<void> main() async {
   await initializeLocalNotifications();
   await requestNotificationPermissions();
   _attachFcmListener();
+  final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+  if (initialMessage != null) {
+    appLog('Notification opened app from terminated state: '
+        '${initialMessage.messageId}');
+  }
   if (!kReleaseMode) {
     final token = await initFirebaseMessaging();
     appLog('Initial FCM token: $token');
