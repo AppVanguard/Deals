@@ -147,6 +147,12 @@ void _attachFcmListener() {
   });
 }
 
+void _listenFcmTokenRefresh() {
+  FirebaseMessaging.instance.onTokenRefresh.listen(
+    (newToken) => appLog('FCM token refreshed: $newToken'),
+  );
+}
+
 Future<void> requestNotificationPermissions() async {
   if (Platform.isIOS || Platform.isMacOS) {
     await FirebaseMessaging.instance.requestPermission(
@@ -188,7 +194,13 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await initializeLocalNotifications();
   await requestNotificationPermissions();
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
   _attachFcmListener();
+  _listenFcmTokenRefresh();
   final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
   if (initialMessage != null) {
     appLog('Notification opened app from terminated state: '
