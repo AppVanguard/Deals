@@ -14,6 +14,7 @@ Future<String?> initFirebaseMessaging({
   int attempts = 3,
   Duration retryDelay = const Duration(seconds: 1),
 }) async {
+  appLog('initFirebaseMessaging: requesting notification permissions');
   try {
     if (Platform.isIOS || Platform.isMacOS) {
       await FirebaseMessaging.instance.requestPermission(
@@ -21,13 +22,16 @@ Future<String?> initFirebaseMessaging({
         badge: true,
         sound: true,
       );
+      appLog('initFirebaseMessaging: permission request sent for iOS/macOS');
     } else if (Platform.isAndroid) {
       final androidImpl =
           flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>();
       await androidImpl?.requestNotificationsPermission();
+      appLog('initFirebaseMessaging: permission request sent for Android');
     } else {
       await FirebaseMessaging.instance.requestPermission();
+      appLog('initFirebaseMessaging: generic permission request sent');
     }
   } catch (e) {
     appLog('Error requesting notification permissions: $e');
@@ -36,6 +40,7 @@ Future<String?> initFirebaseMessaging({
   if (Platform.isIOS || Platform.isMacOS) {
     for (var i = 0; i < attempts; i++) {
       try {
+        appLog('initFirebaseMessaging: fetching APNS token (attempt $i)');
         final apns = await FirebaseMessaging.instance.getAPNSToken();
         if (apns != null) {
           appLog('APNS token retrieved: $apns');
@@ -56,6 +61,7 @@ Future<String?> initFirebaseMessaging({
 
   for (var i = 0; i < attempts; i++) {
     try {
+      appLog('initFirebaseMessaging: fetching FCM token (attempt $i)');
       final token = await FirebaseMessaging.instance.getToken();
       if (token != null) {
         appLog('FCM token retrieved: $token');

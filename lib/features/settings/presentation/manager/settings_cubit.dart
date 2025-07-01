@@ -7,6 +7,7 @@ import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
+import 'package:deals/core/utils/logger.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 
@@ -29,27 +30,32 @@ class SettingsCubit extends SafeCubit<SettingsState>
 
   /// Toggle server‐side allow/prevent notifications.
   Future<void> togglePush(bool enabled) async {
+    appLog('SettingsCubit.togglePush: toggling push to $enabled');
     emit(SettingsLoading());
 
     // load current user
     final user = await requireUser((msg) => SettingsPushFailure(message: msg));
     if (user == null) return;
 
-    // get FCM token
+    appLog('SettingsCubit.togglePush: requesting FCM token');
     final deviceToken = await initFirebaseMessaging();
     if (deviceToken == null) {
+      appLog('SettingsCubit.togglePush: FCM token not available');
       emit(SettingsPushFailure(message: 'FCM token not available'));
       return;
     }
+    appLog('SettingsCubit.togglePush: FCM token -> $deviceToken');
 
     Either<Failure, Unit> res;
     if (enabled) {
+      appLog('SettingsCubit.togglePush: sending allowPush to server');
       res = await _repo.allowPushNotifications(
         firebaseUid: user.uId,
         deviceToken: deviceToken,
         authToken: user.token,
       );
     } else {
+      appLog('SettingsCubit.togglePush: sending disablePush to server');
       res = await _repo.disablePushNotifications(
         firebaseUid: user.uId,
         authToken: user.token,
@@ -57,9 +63,14 @@ class SettingsCubit extends SafeCubit<SettingsState>
     }
 
     res.fold(
-      (f) => emit(SettingsPushFailure(message: f.message)),
+      (f) {
+        appLog(
+            'SettingsCubit.togglePush: server returned failure ${f.message}');
+        emit(SettingsPushFailure(message: f.message));
+      },
       (_) {
         Prefs.setBool('pushEnabled', enabled);
+        appLog('SettingsCubit.togglePush: success, pushEnabled saved');
         emit(SettingsPushSuccess(isEnabled: enabled));
       },
     );

@@ -70,6 +70,8 @@ class SettingsRepoImpl implements SettingsRepo {
   @override
   Future<Either<Failure, Unit>> disablePushNotificationsLocal() async {
     try {
+      appLog(
+          'SettingsRepoImpl.disablePushNotificationsLocal: disabling locally');
       await FirebaseMessaging.instance.setAutoInitEnabled(false);
       await FirebaseMessaging.instance.deleteToken();
       await flutterLocalNotificationsPlugin.cancelAll();
@@ -83,6 +85,7 @@ class SettingsRepoImpl implements SettingsRepo {
   @override
   Future<Either<Failure, Unit>> enablePushNotificationsLocal() async {
     try {
+      appLog('SettingsRepoImpl.enablePushNotificationsLocal: enabling locally');
       await FirebaseMessaging.instance.setAutoInitEnabled(true);
       final token = await initFirebaseMessaging();
       appLog('New FCM token: $token');
