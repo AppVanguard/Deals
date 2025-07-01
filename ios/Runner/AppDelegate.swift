@@ -45,7 +45,7 @@ class AppDelegate: FlutterAppDelegate, MessagingDelegate {
 
   // MARK: - Foreground notification display (classic method)
   // This is the old signature—no async—so it works on iOS 13+
-  func userNotificationCenter(
+  override func userNotificationCenter(
     _ center: UNUserNotificationCenter,
     willPresent notification: UNNotification,
     withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
