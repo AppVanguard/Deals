@@ -154,17 +154,25 @@ void _listenFcmTokenRefresh() {
 }
 
 Future<void> requestNotificationPermissions() async {
-  if (Platform.isIOS || Platform.isMacOS) {
-    await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-  } else if (Platform.isAndroid) {
-    final androidImpl =
-        flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>();
-    await androidImpl?.requestNotificationsPermission();
+  final messaging = FirebaseMessaging.instance;
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+  switch (settings.authorizationStatus) {
+    case AuthorizationStatus.authorized:
+      appLog('User granted notification permission');
+      break;
+    case AuthorizationStatus.provisional:
+      appLog('User granted provisional notification permission');
+      break;
+    default:
+      appLog('User declined or has not accepted notification permission');
   }
 }
 
