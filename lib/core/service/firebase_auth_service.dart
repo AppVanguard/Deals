@@ -146,7 +146,7 @@ class FirebaseAuthService {
     }
   }
 
-  /// Sign in with Apple using [SignInWithApple].
+  /// Sign in with Apple using the official Firebase recommended approach.
   Future<User> signInWithApple() async {
     final rawNonce = generateNonce();
     final nonce = sha256ofString(rawNonce);
@@ -159,12 +159,8 @@ class FirebaseAuthService {
         ],
         nonce: nonce,
       );
-      appLog(
-        'Apple credential received: user=${appleCredential.userIdentifier}, '
-        'email=${appleCredential.email}, state=${appleCredential.state}',
-      );
 
-      final oauthCredential = OAuthProvider("apple.com").credential(
+      final oauthCredential = OAuthProvider('apple.com').credential(
         idToken: appleCredential.identityToken,
         rawNonce: rawNonce,
       );
