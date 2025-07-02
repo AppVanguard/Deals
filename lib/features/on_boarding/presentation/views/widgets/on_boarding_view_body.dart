@@ -20,14 +20,14 @@ class OnBoardingViewBody extends StatefulWidget {
 
 class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
   late final PageController _pageController;
-  int _currentPage = 0;
+  double _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController()
       ..addListener(() => setState(() {
-            _currentPage = _pageController.page!.round();
+            _currentPage = _pageController.page!;
           }));
   }
 
@@ -53,7 +53,8 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: OnBoardingPageView(
                     pageController: _pageController,
-                    onPageChanged: (i) => setState(() => _currentPage = i),
+                    onPageChanged: (i) =>
+                        setState(() => _currentPage = i.toDouble()),
                   ),
                 ),
               ),

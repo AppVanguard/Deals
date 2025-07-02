@@ -67,4 +67,4 @@ class SignupCubit extends SafeCubit<SignupState> with SocialSigninHelper {
   }
 
   }
-}
+

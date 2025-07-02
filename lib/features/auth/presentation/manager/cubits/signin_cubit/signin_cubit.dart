@@ -1,3 +1,4 @@
+import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/constants.dart';
@@ -15,7 +16,7 @@ import 'package:deals/core/errors/failure.dart';
 part 'signin_state.dart';
 
 class SigninCubit extends SafeCubit<SigninState> with SocialSigninHelper {
-  SigninCubit(this._authRepo) : super(SigninInitial());
+  SigninCubit(this._authRepo, NotificationsPermissionRepo notificationsPermissionRepo) : super(SigninInitial());
 
   final AuthRepo _authRepo;
 
@@ -95,4 +96,4 @@ class SigninCubit extends SafeCubit<SigninState> with SocialSigninHelper {
   }
 
   }
-}
+

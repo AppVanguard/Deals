@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('Deals')),
-        body: Center(
+        body: const Center(
           child: ElevatedButton(
             onPressed: signInWithApple,
-            child: const Text('Sign in with Apple'),
+            child: Text('Sign in with Apple'),
           ),
         ),
       ),
