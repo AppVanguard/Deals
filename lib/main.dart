@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -27,8 +26,7 @@ import 'package:deals/generated/l10n.dart';
 import 'package:deals/core/utils/firebase_utils.dart';
 
 // 1) Local notifications plugin
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+// The notifications plugin instance is provided from firebase_utils.dart
 
 // 2) Global guard to ensure we only attach the onMessage listener once
 bool _didAttachFcmListener = false;
@@ -55,57 +53,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 /// Initialize local notifications
-Future<void> initializeLocalNotifications() async {
-  // Android settings:
-  const AndroidInitializationSettings androidInitSettings =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-
-  // iOS / Darwin settings (v10+ uses DarwinInitializationSettings):
-  const DarwinInitializationSettings iosInitSettings =
-      DarwinInitializationSettings(
-    requestAlertPermission: false,
-    requestBadgePermission: false,
-    requestSoundPermission: false,
-    // onDidReceiveLocalNotification: (id, title, body, payload) { /* iOS < 10 callback */ },
-  );
-
-  // Combine them:
-  const InitializationSettings initSettings = InitializationSettings(
-    android: androidInitSettings,
-    iOS: iosInitSettings, // ← important for iOS
-  );
-
-  await flutterLocalNotificationsPlugin.initialize(
-    initSettings,
-    onDidReceiveNotificationResponse: (NotificationResponse response) {
-      // Handle user tapping on a notification
-      appLog('Tapped notification payload: ${response.payload}');
-    },
-  );
-}
-
-/// Show local notification in the system tray
-Future<void> showLocalNotification(RemoteMessage message) async {
-  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-    'high_importance_channel',
-    'High Importance Notifications',
-    channelDescription:
-        'This channel is used for notifications that require immediate attention',
-    importance: Importance.max,
-    priority: Priority.high,
-  );
-  const NotificationDetails notifDetails = NotificationDetails(
-    android: androidDetails,
-    // You can also add `darwin: DarwinNotificationDetails(...)` here
-    // if you want to customize the iOS side of the notification.
-  );
-  await flutterLocalNotificationsPlugin.show(
-    message.hashCode,
-    message.notification?.title,
-    message.notification?.body,
-    notifDetails,
-  );
-}
 
 Future<void> _initHive() async {
   await Hive.initFlutter();
@@ -137,7 +84,7 @@ void _attachFcmListener() {
   _didAttachFcmListener = true;
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     appLog('Foreground message received: ${message.messageId}');
-    await showLocalNotification(message);
+    await showFlutterNotification(message);
     if (getIt.isRegistered<NotificationsCubit>()) {
       getIt<NotificationsCubit>().handleIncomingForegroundMessage(message);
     }
@@ -147,18 +94,23 @@ void _attachFcmListener() {
   });
 }
 
+void _listenFcmTokenRefresh() {
+  FirebaseMessaging.instance.onTokenRefresh.listen(
+    (newToken) => appLog('FCM token refreshed: $newToken'),
+  );
+}
+
 Future<void> requestNotificationPermissions() async {
-  if (Platform.isIOS || Platform.isMacOS) {
-    await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-  } else if (Platform.isAndroid) {
-    final androidImpl =
-        flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>();
-    await androidImpl?.requestNotificationsPermission();
+  final settings = await requestPushPermission();
+  switch (settings.authorizationStatus) {
+    case AuthorizationStatus.authorized:
+      appLog('User granted notification permission');
+      break;
+    case AuthorizationStatus.provisional:
+      appLog('User granted provisional notification permission');
+      break;
+    default:
+      appLog('User declined or has not accepted notification permission');
   }
 }
 
@@ -186,11 +138,17 @@ Future<void> main() async {
 
   setupGetit();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await initializeLocalNotifications();
+  await initializeNotifications();
   await requestNotificationPermissions();
   _attachFcmListener();
+  _listenFcmTokenRefresh();
+  final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+  if (initialMessage != null) {
+    appLog('Notification opened app from terminated state: '
+        '${initialMessage.messageId}');
+  }
   if (!kReleaseMode) {
-    final token = await initFirebaseMessaging();
+    final token = await getFcmToken();
     appLog('Initial FCM token: $token');
   }
 

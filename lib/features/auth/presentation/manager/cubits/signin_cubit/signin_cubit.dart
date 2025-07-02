@@ -113,7 +113,7 @@ class SigninCubit extends SafeCubit<SigninState> with SocialSigninHelper {
     if (Prefs.getBool(key)) return;
 
     appLog('SigninCubit._registerNotifications: requesting FCM token');
-    final token = await initFirebaseMessaging();
+    final token = await getFcmToken();
     if (token == null || token.isEmpty) {
       appLog('SigninCubit._registerNotifications: token unavailable');
       return;

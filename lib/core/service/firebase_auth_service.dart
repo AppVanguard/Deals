@@ -63,27 +63,21 @@ class FirebaseAuthService {
     }
   }
 
-  /// Sign in with Google using [GoogleSignIn].
+  /// Sign in with Google following the official Firebase example.
   Future<User> signInWithGoogle() async {
     try {
-      final googleSignIn = GoogleSignIn();
-
-      // Force a full sign-out to guarantee the account chooser shows up:
-      await googleSignIn.signOut();
-
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      final googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
-        // The user canceled the sign-in flow
         throw CustomException(S.current.SomethingWentWrong);
       }
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      return (await FirebaseAuth.instance.signInWithCredential(credential))
-          .user!;
+      final userCred =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      return userCred.user!;
     } on FirebaseAuthException catch (e) {
       appLog('Error in FirebaseAuthService.signInWithGoogle: ${e.code}');
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
@@ -146,7 +140,7 @@ class FirebaseAuthService {
     }
   }
 
-  /// Sign in with Apple using [SignInWithApple].
+  /// Sign in with Apple using the official Firebase recommended approach.
   Future<User> signInWithApple() async {
     final rawNonce = generateNonce();
     final nonce = sha256ofString(rawNonce);
@@ -159,12 +153,12 @@ class FirebaseAuthService {
         ],
         nonce: nonce,
       );
-      appLog(
-        'Apple credential received: user=${appleCredential.userIdentifier}, '
-        'email=${appleCredential.email}, state=${appleCredential.state}',
-      );
 
-      final oauthCredential = OAuthProvider("apple.com").credential(
+      if (appleCredential.identityToken == null) {
+        throw CustomException(S.current.SomethingWentWrong);
+      }
+
+      final oauthCredential = OAuthProvider('apple.com').credential(
         idToken: appleCredential.identityToken,
         rawNonce: rawNonce,
       );
