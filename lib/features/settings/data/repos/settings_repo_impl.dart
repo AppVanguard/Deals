@@ -10,7 +10,6 @@ import 'package:deals/core/service/user_service.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:deals/core/utils/firebase_utils.dart';
-import 'package:deals/main.dart'; // for flutterLocalNotificationsPlugin & initializeLocalNotifications()
 
 class SettingsRepoImpl implements SettingsRepo {
   final NotificationsPermissionRepo _notifPermRepo;
@@ -87,9 +86,9 @@ class SettingsRepoImpl implements SettingsRepo {
     try {
       appLog('SettingsRepoImpl.enablePushNotificationsLocal: enabling locally');
       await FirebaseMessaging.instance.setAutoInitEnabled(true);
-      final token = await initFirebaseMessaging();
+      final token = await getFcmToken();
       appLog('New FCM token: $token');
-      await initializeLocalNotifications();
+      await initializeNotifications();
       return const Right(unit);
     } catch (e) {
       appLog('Error enabling push locally: $e');
