@@ -28,26 +28,7 @@ class SettingsView extends StatelessWidget {
         builder: (ctx, state) {
           final isLoading = state is SettingsLoading;
 
-          String? pushError;
-          if (state is SettingsPushFailure) {
-            pushError = state.message;
-          }
-
-          // Determine current toggle value:
-          bool pushEnabled;
-          if (state is SettingsPushSuccess) {
-            pushEnabled = state.isEnabled;
-          } else {
-            // on first load, read saved preference (default true)
-            pushEnabled = Prefs.getBool(kPushEnabled);
-          }
-
-          return SettingsViewBody(
-            pushEnabled: pushEnabled,
-            isLoading: isLoading,
-            onTogglePush: (val) => ctx.read<SettingsCubit>().togglePush(val),
-            errorMessage: pushError,
-          );
+          return const SettingsViewBody();
         },
       ),
     );

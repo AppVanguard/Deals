@@ -1,13 +1,11 @@
 import 'package:deals/core/utils/logger.dart';
 
 import 'package:deals/constants.dart';
-import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:deals/core/service/secure_storage_service.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/core/entities/user_entity.dart';
 import 'package:deals/features/auth/domain/repos/auth_repo.dart';
 import 'package:deals/features/auth/presentation/manager/helpers/social_signin_helper.dart';
-import 'package:deals/core/utils/firebase_utils.dart';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/generated/l10n.dart';
@@ -17,11 +15,9 @@ import 'package:deals/core/errors/failure.dart';
 part 'signin_state.dart';
 
 class SigninCubit extends SafeCubit<SigninState> with SocialSigninHelper {
-  SigninCubit(this._authRepo, this._notificationsPermissionRepo)
-      : super(SigninInitial());
+  SigninCubit(this._authRepo) : super(SigninInitial());
 
   final AuthRepo _authRepo;
-  final NotificationsPermissionRepo _notificationsPermissionRepo;
 
   void clearError() => emit(SigninResetError());
 
@@ -66,8 +62,6 @@ class SigninCubit extends SafeCubit<SigninState> with SocialSigninHelper {
         emit(
           SigninSuccess(userEntity: user, message: S.current.SuccessSigningIn),
         );
-
-        await _registerNotifications(user);
       },
     );
   }
@@ -89,8 +83,7 @@ class SigninCubit extends SafeCubit<SigninState> with SocialSigninHelper {
         SigninSuccess(userEntity: user, message: S.current.SuccessSigningIn),
       ),
       persistUser: true,
-      afterSuccess: _registerNotifications,
-    );
+      );
   }
 
   Future<void> signInWithGoogle({required bool rememberMe}) async {
@@ -101,44 +94,5 @@ class SigninCubit extends SafeCubit<SigninState> with SocialSigninHelper {
     await _socialSignIn(() => _authRepo.signInWithFacebook(), rememberMe);
   }
 
-  Future<void> signInWithApple({required bool rememberMe}) async {
-    await _socialSignIn(() => _authRepo.signInWithApple(), rememberMe);
-  }
-
-  // ────────────────────────────────────────────────────────────────────────────
-  // Push-notification registration
-  // ────────────────────────────────────────────────────────────────────────────
-  Future<void> _registerNotifications(UserEntity user) async {
-    final key = 'notificationsRegistered_${user.uId}';
-    if (Prefs.getBool(key)) return;
-
-    appLog('SigninCubit._registerNotifications: requesting FCM token');
-    final token = await getFcmToken();
-    if (token == null || token.isEmpty) {
-      appLog('SigninCubit._registerNotifications: token unavailable');
-      return;
-    }
-    appLog('SigninCubit._registerNotifications: token -> $token');
-
-    appLog('SigninCubit._registerNotifications: sending allowNotifications');
-    final res = await _notificationsPermissionRepo.allowNotifications(
-      firebaseUid: user.uId,
-      deviceToken: token,
-      authToken: user.token,
-    );
-
-    res.fold(
-      (f) {
-        appLog('Notification error: ${f.message}');
-        // if you like, you could also mark pushEnabled=false here:
-        Prefs.setBool(kPushEnabled, false);
-      },
-      (_) {
-        Prefs.setBool(key, true); // your existing guard
-        Prefs.setBool(kPushEnabled, true); // <— mark push ON
-        appLog(
-            'SigninCubit._registerNotifications: registration complete for ${user.uId}');
-      },
-    );
   }
 }

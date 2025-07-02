@@ -1,6 +1,5 @@
 import 'package:deals/core/utils/logger.dart';
 import 'package:deals/core/manager/cubit/safe_cubit.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:meta/meta.dart';
 import 'package:deals/features/notifications/domain/entities/notification_entity.dart';
 import 'package:deals/features/notifications/domain/repos/notifications_repo.dart';
@@ -23,42 +22,6 @@ class NotificationsCubit extends SafeCubit<NotificationsState> {
     // NO onMessage.listen(...) here
   }
 
-  // Called from main.dart's single FCM listener when a new push arrives
-  void handleIncomingForegroundMessage(RemoteMessage message) {
-    final data = message.data;
-    appLog("handleIncomingForegroundMessage: $data");
-
-    if (data['_id'] != null && data['_id'].toString().isNotEmpty) {
-      if (state is NotificationsSuccess) {
-        final s = state as NotificationsSuccess;
-        final newEntity = NotificationEntity.fromRemoteMessage({
-          '_id': data['_id'],
-          'title': message.notification?.title ?? data['title'],
-          'body': message.notification?.body ?? data['body'],
-          'image': data['image'],
-        });
-        final currentList = List<NotificationEntity>.from(s.notifications);
-        if (!currentList.any((n) => n.id == newEntity.id)) {
-          currentList.insert(0, newEntity);
-          emit(s.copyWith(
-            notifications: currentList,
-            isLoadingMore: false,
-            newLoadCount: 0,
-          ));
-        }
-      } else {
-        // if not in success state, do a forced fetch if we have a token
-        if (_cachedToken != null) {
-          fetchNotifications(_cachedToken!, reset: true);
-        }
-      }
-    } else {
-      // data incomplete => forced fetch
-      if (_cachedToken != null) {
-        fetchNotifications(_cachedToken!, reset: true);
-      }
-    }
-  }
 
   Future<void> fetchNotifications(String token, {bool reset = false}) async {
     _cachedToken = token;

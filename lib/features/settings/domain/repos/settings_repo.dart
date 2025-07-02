@@ -15,9 +15,6 @@ abstract class SettingsRepo {
     required String authToken,
   });
 
-  // ───────────── Client-side Push Controls ───────────────
-  Future<Either<Failure, Unit>> disablePushNotificationsLocal();
-  Future<Either<Failure, Unit>> enablePushNotificationsLocal();
 
   // ───────────── Auth & Account ──────────────────────────
   Future<Either<Failure, String>> changePassword({

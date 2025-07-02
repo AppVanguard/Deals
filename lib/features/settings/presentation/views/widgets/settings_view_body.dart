@@ -10,16 +10,10 @@ import 'package:go_router/go_router.dart';
 
 /// Settings screen containing push toggle and navigation links.
 class SettingsViewBody extends StatelessWidget {
-  final bool pushEnabled;
-  final bool isLoading;
-  final ValueChanged<bool> onTogglePush;
   final String? errorMessage;
-
+  
   const SettingsViewBody({
     super.key,
-    required this.pushEnabled,
-    required this.isLoading,
-    required this.onTogglePush,
     this.errorMessage,
   });
 
@@ -34,18 +28,6 @@ class SettingsViewBody extends StatelessWidget {
           children: [
             if (errorMessage != null)
               ErrorBanner(message: errorMessage!),
-            // Push toggle
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(s.pushNotifications, style: const TextStyle(fontSize: 16)),
-                Switch(
-                  value: pushEnabled,
-                  onChanged: onTogglePush,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-              ],
-            ),
 
             // Buttons placeholders
             const SizedBox(height: 24),
@@ -82,10 +64,6 @@ class SettingsViewBody extends StatelessWidget {
             ),
           ],
         ),
-        if (isLoading)
-          Container(
-            color: Colors.black26,
-            child: const Center(child: CircularProgressIndicator()),
           ),
       ],
     );

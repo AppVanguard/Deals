@@ -133,24 +133,6 @@ class AuthRepoImpl extends AuthRepo with RepoHelper {
 
   // ─── APPLE LOGIN ─────────────────────────────────────────────────────────
   @override
-  Future<Either<Failure, UserEntity>> signInWithApple() async {
-    try {
-      final firebaseUser = await firebaseAuthService.signInWithApple();
-      final firebaseToken = await firebaseUser.getIdToken();
-      appLog('Firebase ID token (Apple): $firebaseToken');
-
-      final UserModel userModel =
-          await authApiService.sendOAuthToken(token: firebaseToken!);
-      appLog('Backend JWT token: ${userModel.token}');
-
-      return right(UserMapper.mapToEntity(userModel));
-    } on CustomException catch (e) {
-      return left(ServerFailure(message: e.message));
-    } catch (e) {
-      appLog('signInWithApple EXCEPTION → $e');
-      return left(ServerFailure(message: S.current.SomethingWentWrong));
-    }
-  }
 
   // ─── OTP HELPERS ─────────────────────────────────────────────────────────
   @override

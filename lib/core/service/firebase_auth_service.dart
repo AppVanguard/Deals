@@ -10,7 +10,6 @@ import 'package:deals/core/errors/custom_firebase_exception.dart';
 import 'package:deals/core/errors/exception.dart';
 import 'package:deals/core/service/shared_prefrences_singleton.dart';
 import 'package:deals/generated/l10n.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 /// A service class that wraps direct calls to Firebase Auth SDK:
@@ -140,42 +139,6 @@ class FirebaseAuthService {
     }
   }
 
-  /// Sign in with Apple using the official Firebase recommended approach.
-  Future<User> signInWithApple() async {
-    final rawNonce = generateNonce();
-    final nonce = sha256ofString(rawNonce);
-
-    try {
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-        nonce: nonce,
-      );
-
-      if (appleCredential.identityToken == null) {
-        throw CustomException(S.current.SomethingWentWrong);
-      }
-
-      final oauthCredential = OAuthProvider('apple.com').credential(
-        idToken: appleCredential.identityToken,
-        rawNonce: rawNonce,
-      );
-
-      final userCred =
-          await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-      return userCred.user!;
-    } on FirebaseAuthException catch (e) {
-      appLog(
-        'Error in FirebaseAuthService.signInWithApple: ${e.code} ${e.message}',
-      );
-      throw CustomFirebaseException.getFirebaseAuthException(e.code);
-    } catch (e, s) {
-      appLog('Unknown error in signInWithApple: $e', stackTrace: s);
-      throw CustomException(S.current.SomethingWentWrong);
-    }
-  }
 
   /// Deletes the currently signed in user from FirebaseAuth.
   Future<void> deleteUser() async {

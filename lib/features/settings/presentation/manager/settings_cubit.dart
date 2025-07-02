@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:deals/constants.dart';
 import 'package:deals/core/service/get_it_service.dart';
-import 'package:deals/core/utils/firebase_utils.dart';
 
 import 'package:deals/core/errors/failure.dart';
 import 'package:deals/core/manager/cubit/requires_user_mixin.dart';
@@ -28,53 +27,6 @@ class SettingsCubit extends SafeCubit<SettingsState>
     emit(SettingsPushSuccess(isEnabled: enabled));
   }
 
-  /// Toggle server‐side allow/prevent notifications.
-  Future<void> togglePush(bool enabled) async {
-    appLog('SettingsCubit.togglePush: toggling push to $enabled');
-    emit(SettingsLoading());
-
-    // load current user
-    final user = await requireUser((msg) => SettingsPushFailure(message: msg));
-    if (user == null) return;
-
-    appLog('SettingsCubit.togglePush: requesting FCM token');
-    final deviceToken = await getFcmToken();
-    if (deviceToken == null) {
-      appLog('SettingsCubit.togglePush: FCM token not available');
-      emit(SettingsPushFailure(message: 'FCM token not available'));
-      return;
-    }
-    appLog('SettingsCubit.togglePush: FCM token -> $deviceToken');
-
-    Either<Failure, Unit> res;
-    if (enabled) {
-      appLog('SettingsCubit.togglePush: sending allowPush to server');
-      res = await _repo.allowPushNotifications(
-        firebaseUid: user.uId,
-        deviceToken: deviceToken,
-        authToken: user.token,
-      );
-    } else {
-      appLog('SettingsCubit.togglePush: sending disablePush to server');
-      res = await _repo.disablePushNotifications(
-        firebaseUid: user.uId,
-        authToken: user.token,
-      );
-    }
-
-    res.fold(
-      (f) {
-        appLog(
-            'SettingsCubit.togglePush: server returned failure ${f.message}');
-        emit(SettingsPushFailure(message: f.message));
-      },
-      (_) {
-        Prefs.setBool('pushEnabled', enabled);
-        appLog('SettingsCubit.togglePush: success, pushEnabled saved');
-        emit(SettingsPushSuccess(isEnabled: enabled));
-      },
-    );
-  }
 
   /// Change the current user's password.
   Future<void> changePassword({

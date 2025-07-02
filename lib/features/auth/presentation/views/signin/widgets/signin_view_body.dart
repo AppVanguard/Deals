@@ -95,15 +95,8 @@ class _SigninViewBodyState extends State<SigninViewBody> {
             const SizedBox(height: 24),
             Center(
               child: ThirdPartyAuth(
-                googleOnTap: () => context
-                    .read<SigninCubit>()
-                    .signInWithGoogle(rememberMe: rememberMe),
-                // facebookOnTap: () => context
-                //     .read<SigninCubit>()
-                //     .signInWithFacebook(rememberMe: rememberMe),
-                appleOnTap: () => context
-                    .read<SigninCubit>()
-                    .signInWithApple(rememberMe: rememberMe),
+                googleOnTap: () =>
+                    context.read<SigninCubit>().signInWithGoogle(rememberMe: rememberMe),
               ),
             ),
             const SizedBox(height: 24),

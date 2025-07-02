@@ -16,14 +16,14 @@ dependencies:
   collection: ^1.19.1
   country_picker: ^2.0.27
   country_picker_flutter: ^1.1.1
-  crypto: ^3.0.6
+  crypto: ^3.0.0
   cupertino_icons: ^1.0.8
   dartz: ^0.10.1
   dots_indicator: ^3.0.0
   equatable: ^2.0.7
-  firebase_auth: ^5.4.1
-  firebase_core: ^3.10.1
-  firebase_messaging: ^15.2.4
+  firebase_auth: ^4.0.0
+  firebase_core: ^2.0.0
+  firebase_messaging: ^15.0.0
   flutter:
     sdk: flutter
   flutter_bloc: ^9.0.0
@@ -57,7 +57,7 @@ dependencies:
   sentry_flutter: ^8.13.3
   shared_preferences: ^2.4.0
   shimmer: ^3.0.0
-  sign_in_with_apple: ^6.1.4
+  sign_in_with_apple: ^6.0.0
   simple_date_picker: ^1.0.0
   skeletonizer: ^2.0.1
   smooth_page_indicator: ^1.2.0+3

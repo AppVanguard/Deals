@@ -66,7 +66,5 @@ class SignupCubit extends SafeCubit<SignupState> with SocialSigninHelper {
     await _socialSignIn(() => authRepo.signInWithFacebook(), rememberMe);
   }
 
-  Future<void> signInWithApple({required bool rememberMe}) async {
-    await _socialSignIn(() => authRepo.signInWithApple(), rememberMe);
   }
 }

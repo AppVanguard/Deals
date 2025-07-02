@@ -8,8 +8,6 @@ import 'package:deals/core/repos/interface/notifications_permission_repo.dart';
 import 'package:deals/core/service/auth_api_service.dart';
 import 'package:deals/core/service/user_service.dart';
 import 'package:deals/features/settings/domain/repos/settings_repo.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:deals/core/utils/firebase_utils.dart';
 
 class SettingsRepoImpl implements SettingsRepo {
   final NotificationsPermissionRepo _notifPermRepo;
@@ -63,38 +61,6 @@ class SettingsRepoImpl implements SettingsRepo {
     }
   }
 
-  // ───────────────────────────────────────────────────────
-  // Client-side Push Controls
-  // ───────────────────────────────────────────────────────
-  @override
-  Future<Either<Failure, Unit>> disablePushNotificationsLocal() async {
-    try {
-      appLog(
-          'SettingsRepoImpl.disablePushNotificationsLocal: disabling locally');
-      await FirebaseMessaging.instance.setAutoInitEnabled(false);
-      await FirebaseMessaging.instance.deleteToken();
-      await flutterLocalNotificationsPlugin.cancelAll();
-      return const Right(unit);
-    } catch (e) {
-      appLog('Error disabling push locally: $e');
-      return Left(ServerFailure(message: e.toString()));
-    }
-  }
-
-  @override
-  Future<Either<Failure, Unit>> enablePushNotificationsLocal() async {
-    try {
-      appLog('SettingsRepoImpl.enablePushNotificationsLocal: enabling locally');
-      await FirebaseMessaging.instance.setAutoInitEnabled(true);
-      final token = await getFcmToken();
-      appLog('New FCM token: $token');
-      await initializeNotifications();
-      return const Right(unit);
-    } catch (e) {
-      appLog('Error enabling push locally: $e');
-      return Left(ServerFailure(message: e.toString()));
-    }
-  }
 
   // ───────────────────────────────────────────────────────
   // Auth & Account
