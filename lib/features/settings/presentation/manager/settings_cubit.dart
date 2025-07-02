@@ -38,7 +38,7 @@ class SettingsCubit extends SafeCubit<SettingsState>
     if (user == null) return;
 
     appLog('SettingsCubit.togglePush: requesting FCM token');
-    final deviceToken = await initFirebaseMessaging();
+    final deviceToken = await getFcmToken();
     if (deviceToken == null) {
       appLog('SettingsCubit.togglePush: FCM token not available');
       emit(SettingsPushFailure(message: 'FCM token not available'));

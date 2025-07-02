@@ -63,27 +63,21 @@ class FirebaseAuthService {
     }
   }
 
-  /// Sign in with Google using [GoogleSignIn].
+  /// Sign in with Google following the official Firebase example.
   Future<User> signInWithGoogle() async {
     try {
-      final googleSignIn = GoogleSignIn();
-
-      // Force a full sign-out to guarantee the account chooser shows up:
-      await googleSignIn.signOut();
-
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      final googleUser = await GoogleSignIn().signIn();
       if (googleUser == null) {
-        // The user canceled the sign-in flow
         throw CustomException(S.current.SomethingWentWrong);
       }
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+      final googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      return (await FirebaseAuth.instance.signInWithCredential(credential))
-          .user!;
+      final userCred =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      return userCred.user!;
     } on FirebaseAuthException catch (e) {
       appLog('Error in FirebaseAuthService.signInWithGoogle: ${e.code}');
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
@@ -159,6 +153,10 @@ class FirebaseAuthService {
         ],
         nonce: nonce,
       );
+
+      if (appleCredential.identityToken == null) {
+        throw CustomException(S.current.SomethingWentWrong);
+      }
 
       final oauthCredential = OAuthProvider('apple.com').credential(
         idToken: appleCredential.identityToken,
