@@ -66,23 +66,36 @@ class FirebaseAuthService {
   /// Sign in with Google following the official Firebase example.
   Future<User> signInWithGoogle() async {
     try {
-      final googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) {
-        throw CustomException(S.current.SomethingWentWrong);
-      }
-      final googleAuth = await googleUser.authentication;
+      final googleSignIn = GoogleSignIn.instance;
+
+      // 1️⃣ initialize the plugin
+      await googleSignIn.initialize();
+
+      // 2️⃣ perform the new authenticate() flow
+      final googleAccount = await googleSignIn.authenticate(
+        scopeHint: ['email'],
+      );
+
+      // 3️⃣ get tokens
+      final googleAuth = googleAccount.authentication;
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
+        accessToken: googleAuth.idToken,
         idToken: googleAuth.idToken,
       );
+
+      // 4️⃣ sign into Firebase
       final userCred =
           await FirebaseAuth.instance.signInWithCredential(credential);
       return userCred.user!;
+    } on GoogleSignInException catch (e) {
+      // handle user cancellation, config errors, etc.
+      appLog('Google Sign-In failed: ${e.code} – ${e.description}');
+      throw CustomException(e.description ?? S.current.SomethingWentWrong);
     } on FirebaseAuthException catch (e) {
-      appLog('Error in FirebaseAuthService.signInWithGoogle: ${e.code}');
+      appLog('Firebase error: ${e.code}');
       throw CustomFirebaseException.getFirebaseAuthException(e.code);
     } catch (e) {
-      appLog('Error in FirebaseAuthService.signInWithGoogle: ${e.toString()}');
+      appLog('Unknown error in signInWithGoogle: $e');
       throw CustomException(S.current.SomethingWentWrong);
     }
   }

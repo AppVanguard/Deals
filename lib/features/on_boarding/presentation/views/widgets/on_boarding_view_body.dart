@@ -60,7 +60,7 @@ class _OnBoardingViewBodyState extends State<OnBoardingViewBody> {
               // ─── Dots ───
               DotsIndicator(
                 dotsCount: 3,
-                position: _currentPage,
+                position: _currentPage.toDouble(),
                 decorator: const DotsDecorator(
                   activeColor: AppColors.primary,
                   color: AppColors.lightPrimary,
