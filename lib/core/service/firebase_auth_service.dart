@@ -171,7 +171,7 @@ class FirebaseAuthService {
         throw CustomException(S.current.SomethingWentWrong);
       }
 
-      final oauthCredential = OAuthProvider('apple.com').credential(
+      final oauthCredential = OAuthProvider("apple.com").credential(
         idToken: appleCredential.identityToken,
         rawNonce: rawNonce,
       );
