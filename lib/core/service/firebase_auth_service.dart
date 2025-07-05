@@ -179,7 +179,22 @@ class FirebaseAuthService {
 
       final userCred =
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
-      return userCred.user!;
+
+      // Apple only returns the user's name on the very first sign in. When that
+      // happens we update the Firebase displayName so that the value is
+      // available in subsequent sign ins and included in the ID token sent to
+      // the backend.
+      final fullName = [
+        appleCredential.givenName,
+        appleCredential.familyName,
+      ].whereType<String>().join(' ').trim();
+
+      if (fullName.isNotEmpty) {
+        await userCred.user!.updateDisplayName(fullName);
+        await userCred.user!.reload();
+      }
+
+      return FirebaseAuth.instance.currentUser!;
     } on FirebaseAuthException catch (e) {
       appLog(
         'Error in FirebaseAuthService.signInWithApple: ${e.code} ${e.message}',
